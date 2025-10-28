@@ -1,0 +1,14 @@
+mode: deployment
+config:
+receivers:
+otlp:
+protocols: { grpc: {}, http: {} }
+exporters:
+azuremonitor: {}
+prometheusremotewrite:
+endpoint: http://prometheus-prometheus.monitoring:9090/api/v1/write
+processors: { batch: {} }
+service:
+pipelines:
+traces: { receivers: [otlp], processors: [batch], exporters: [azuremonitor] }
+metrics:{ receivers: [otlp], processors: [batch], exporters: [prometheusremotewrite] }

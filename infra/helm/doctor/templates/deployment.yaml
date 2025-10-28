@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doctor
+  labels: { app: doctor }
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector: { matchLabels: { app: doctor } }
+  template:
+    metadata:
+      labels: { app: doctor }
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "80"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: doctor-sa
+      containers:
+        - name: doctor
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports: [{ containerPort: 80 }]
+          env: {{- toYaml .Values.env | nindent 12 }}
+          volumeMounts: {{- toYaml .Values.volumeMounts | nindent 12 }}
+          resources: {{- toYaml .Values.resources | nindent 12 }}
+      volumes: {{- toYaml .Values.volumes | nindent 8 }}
+---
+apiVersion: v1
+kind: Service
+metadata: { name: doctor }
+spec:
+  selector: { app: doctor }
+  ports: [{ name: http, port: {{ .Values.service.port }}, targetPort: 80 }]
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata: { name: doctor-sa }

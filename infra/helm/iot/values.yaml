@@ -1,0 +1,43 @@
+image:
+  repository: ghcr.io/yourorg/iot
+  tag: v0.1.0
+
+replicaCount: 2
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: nginx
+  host: api.dev.digihealth.example
+  path: /iot
+  annotations: {}
+
+env:
+  - name: Kafka__BootstrapServers
+    valueFrom: { secretKeyRef: { name: iot-kafka, key: bootstrap } }
+  - name: Kafka__SaslPassword
+    valueFrom: { secretKeyRef: { name: iot-kafka, key: conn } }
+  - name: ASPNETCORE_URLS
+    value: http://+:80
+  - name: OTEL_EXPORTER_OTLP_ENDPOINT
+    value: http://otel-collector.otel:4317
+
+volumeMounts:
+  - name: secrets-store
+    mountPath: /mnt/secrets
+    readOnly: true
+
+volumes:
+  - name: secrets-store
+    csi:
+      driver: secrets-store.csi.k8s.io
+      readOnly: true
+      volumeAttributes:
+        secretProviderClass: kv-digihealth-iot
+
+resources:
+  requests: { cpu: 200m, memory: 256Mi }
+  limits:   { cpu: 500m, memory: 512Mi }

@@ -1,0 +1,44 @@
+image:
+  repository: ghcr.io/yourorg/ai-gateway
+  tag: v0.1.0
+
+replicaCount: 2
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  className: nginx
+  host: api.dev.digihealth.example
+  path: /ai
+  annotations: {}
+
+env:
+  - name: ASPNETCORE_URLS
+    value: http://+:80
+  - name: OTEL_EXPORTER_OTLP_ENDPOINT
+    value: http://otel-collector.otel:4317
+
+volumeMounts:
+  - name: secrets-store
+    mountPath: /mnt/secrets
+    readOnly: true
+
+volumes:
+  - name: secrets-store
+    csi:
+      driver: secrets-store.csi.k8s.io
+      readOnly: true
+      volumeAttributes:
+        secretProviderClass: kv-digihealth-ai-gateway
+
+resources:
+  requests: { cpu: 200m, memory: 256Mi }
+  limits:   { cpu: 500m, memory: 512Mi }
+
+persistence:
+  enabled: true
+  size: 10Gi
+  storageClassName: default

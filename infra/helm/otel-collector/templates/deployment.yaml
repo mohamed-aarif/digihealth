@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: otel-collector }
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: otel-collector } }
+  template:
+    metadata: { labels: { app: otel-collector } }
+    spec:
+      containers:
+        - name: collector
+          image: otel/opentelemetry-collector:latest
+          args: ["--config=/conf/config.yaml"]
+          volumeMounts: [{ name: conf, mountPath: /conf }]
+      volumes:
+        - name: conf
+          configMap:
+            name: otel-collector-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata: { name: otel-collector-config }
+data:
+  config.yaml: |
+{{ .Values | toYaml | indent 4 }}

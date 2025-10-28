@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consent
+  labels: { app: consent }
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector: { matchLabels: { app: consent } }
+  template:
+    metadata:
+      labels: { app: consent }
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "80"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: consent-sa
+      containers:
+        - name: consent
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports: [{ containerPort: 80 }]
+          env: {{- toYaml .Values.env | nindent 12 }}
+          volumeMounts: {{- toYaml .Values.volumeMounts | nindent 12 }}
+          resources: {{- toYaml .Values.resources | nindent 12 }}
+      volumes: {{- toYaml .Values.volumes | nindent 8 }}
+---
+apiVersion: v1
+kind: Service
+metadata: { name: consent }
+spec:
+  selector: { app: consent }
+  ports: [{ name: http, port: {{ .Values.service.port }}, targetPort: 80 }]
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata: { name: consent-sa }

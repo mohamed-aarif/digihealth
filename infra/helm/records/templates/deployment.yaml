@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: records
+  labels: { app: records }
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector: { matchLabels: { app: records } }
+  template:
+    metadata:
+      labels: { app: records }
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "80"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: records-sa
+      containers:
+        - name: records
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports: [{ containerPort: 80 }]
+          env: {{- toYaml .Values.env | nindent 12 }}
+          volumeMounts: {{- toYaml .Values.volumeMounts | nindent 12 }}
+          resources: {{- toYaml .Values.resources | nindent 12 }}
+      volumes: {{- toYaml .Values.volumes | nindent 8 }}
+---
+apiVersion: v1
+kind: Service
+metadata: { name: records }
+spec:
+  selector: { app: records }
+  ports: [{ name: http, port: {{ .Values.service.port }}, targetPort: 80 }]
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata: { name: records-sa }

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iot
+  labels: { app: iot }
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector: { matchLabels: { app: iot } }
+  template:
+    metadata:
+      labels: { app: iot }
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "80"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: iot-sa
+      containers:
+        - name: worker
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports: [{ containerPort: 80 }]
+          env: {{- toYaml .Values.env | nindent 12 }}
+          volumeMounts: {{- toYaml .Values.volumeMounts | nindent 12 }}
+          resources: {{- toYaml .Values.resources | nindent 12 }}
+      volumes: {{- toYaml .Values.volumes | nindent 8 }}
+---
+apiVersion: v1
+kind: Service
+metadata: { name: iot }
+spec:
+  selector: { app: iot }
+  ports: [{ name: http, port: {{ .Values.service.port }}, targetPort: 80 }]
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata: { name: iot-sa }

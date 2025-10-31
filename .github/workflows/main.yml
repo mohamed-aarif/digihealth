@@ -1,0 +1,62 @@
+name: Terraform (deploy)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write   # REQUIRED for OIDC
+
+    steps:
+      # 1) Checkout repo
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2) Login to Azure with OIDC (no secrets)
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id:        ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id:        ${{ vars.AZURE_TENANT_ID }}
+          subscription-id:  ${{ vars.AZURE_SUBSCRIPTION_ID }}
+          # NOTE: do NOT pass 'creds' or 'client-secret' when using OIDC
+
+      # 3) Setup Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.8.5
+          terraform_wrapper: false
+
+      # 4) Terraform Init (use OIDC token via ARM_* env vars)
+      - name: Terraform Init
+        working-directory: infra/envs/dev
+        env:
+          ARM_CLIENT_ID:        ${{ vars.AZURE_CLIENT_ID }}
+          ARM_TENANT_ID:        ${{ vars.AZURE_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID:  ${{ vars.AZURE_SUBSCRIPTION_ID }}
+          ARM_USE_OIDC:         "true"
+        run: terraform init -upgrade -backend-config=backend.hcl
+
+      # 5) Terraform Plan
+      - name: Terraform Plan
+        working-directory: infra/envs/dev
+        env:
+          ARM_CLIENT_ID:        ${{ vars.AZURE_CLIENT_ID }}
+          ARM_TENANT_ID:        ${{ vars.AZURE_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID:  ${{ vars.AZURE_SUBSCRIPTION_ID }}
+          ARM_USE_OIDC:         "true"
+        run: terraform plan -out=tfplan.bin
+
+      # 6) Terraform Apply
+      - name: Terraform Apply
+        working-directory: infra/envs/dev
+        env:
+          ARM_CLIENT_ID:        ${{ vars.AZURE_CLIENT_ID }}
+          ARM_TENANT_ID:        ${{ vars.AZURE_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID:  ${{ vars.AZURE_SUBSCRIPTION_ID }}
+          ARM_USE_OIDC:         "true"
+        run: terraform apply -auto-approve tfplan.bin

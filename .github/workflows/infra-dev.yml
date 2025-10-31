@@ -1,11 +1,12 @@
 name: Infra (dev)
 
 on:
-  pull_request:
-    paths:
-      - "infra/terraform-azure/**"
+  workflow_dispatch:            # 👈 allows manual trigger from Actions tab
   push:
     branches: [ "main" ]
+    paths:
+      - "infra/terraform-azure/**"
+  pull_request:
     paths:
       - "infra/terraform-azure/**"
 
@@ -20,7 +21,8 @@ env:
   ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
   TF_VAR_tenant_id: ${{ vars.TF_VAR_tenant_id }}
-  ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }} # optional if using key-based backend
+  # If you use key-based backend instead of AAD role for tfstate:
+  ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
 
 jobs:
   terraform:
@@ -46,13 +48,15 @@ jobs:
 
       - name: Terraform Init
         working-directory: ${{ env.TF_WORKDIR }}
+        # If you keep backend.hcl next to providers.tf, uncomment:
+        # run: terraform init -input=false -backend-config=backend.hcl
         run: terraform init -input=false
 
       - name: Terraform Validate
         working-directory: ${{ env.TF_WORKDIR }}
         run: terraform validate
 
-      - name: Terraform Plan
+      - name: Terraform Plan (PRs)
         if: github.event_name == 'pull_request'
         working-directory: ${{ env.TF_WORKDIR }}
         run: terraform plan -input=false

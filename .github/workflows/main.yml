@@ -33,7 +33,7 @@ jobs:
 
       # 4) Terraform Init (use OIDC token via ARM_* env vars)
       - name: Terraform Init
-        working-directory: infra/envs/dev
+        working-directory: infra/terraform-azure/envs/dev
         env:
           ARM_CLIENT_ID:        ${{ vars.AZURE_CLIENT_ID }}
           ARM_TENANT_ID:        ${{ vars.AZURE_TENANT_ID }}
@@ -43,7 +43,7 @@ jobs:
 
       # 5) Terraform Plan
       - name: Terraform Plan
-        working-directory: infra/envs/dev
+        working-directory: infra/terraform-azure/envs/dev
         env:
           ARM_CLIENT_ID:        ${{ vars.AZURE_CLIENT_ID }}
           ARM_TENANT_ID:        ${{ vars.AZURE_TENANT_ID }}
@@ -53,7 +53,7 @@ jobs:
 
       # 6) Terraform Apply
       - name: Terraform Apply
-        working-directory: infra/envs/dev
+        working-directory: infra/terraform-azure/envs/dev
         env:
           ARM_CLIENT_ID:        ${{ vars.AZURE_CLIENT_ID }}
           ARM_TENANT_ID:        ${{ vars.AZURE_TENANT_ID }}

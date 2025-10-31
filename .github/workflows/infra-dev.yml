@@ -1,14 +1,12 @@
 name: Infra (dev)
 
 on:
-  workflow_dispatch:            # 👈 allows manual trigger from Actions tab
+  workflow_dispatch:
   push:
     branches: [ "main" ]
-    paths:
-      - "infra/terraform-azure/**"
+    paths: [ "infra/terraform-azure/**" ]
   pull_request:
-    paths:
-      - "infra/terraform-azure/**"
+    paths: [ "infra/terraform-azure/**" ]
 
 permissions:
   id-token: write
@@ -16,30 +14,41 @@ permissions:
 
 env:
   TF_WORKDIR: infra/terraform-azure/envs/dev
+
+  # OIDC (using VARIABLES, not SECRETS)
   ARM_USE_OIDC: true
-  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  ARM_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+  ARM_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+  ARM_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+  # Terraform var (non-secret)
   TF_VAR_tenant_id: ${{ vars.TF_VAR_tenant_id }}
-  # If you use key-based backend instead of AAD role for tfstate:
-  ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }}
 
 jobs:
   terraform:
     name: Terraform Dev
     runs-on: ubuntu-latest
-    environment: dev
+    environment: dev   # if you don't use environments, remove this line
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Azure Login (OIDC)
+      # Preflight: ensure Variables are present
+      - name: Preflight – check Azure OIDC variables
+        shell: bash
+        run: |
+          test -n "${{ vars.AZURE_CLIENT_ID }}" || { echo "❌ Missing vars.AZURE_CLIENT_ID"; exit 1; }
+          test -n "${{ vars.AZURE_TENANT_ID }}" || { echo "❌ Missing vars.AZURE_TENANT_ID"; exit 1; }
+          test -n "${{ vars.AZURE_SUBSCRIPTION_ID }}" || { echo "❌ Missing vars.AZURE_SUBSCRIPTION_ID"; exit 1; }
+          echo "✅ OIDC variables present"
+
+      - name: Azure Login (OIDC, vars)
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -48,8 +57,6 @@ jobs:
 
       - name: Terraform Init
         working-directory: ${{ env.TF_WORKDIR }}
-        # If you keep backend.hcl next to providers.tf, uncomment:
-        # run: terraform init -input=false -backend-config=backend.hcl
         run: terraform init -input=false
 
       - name: Terraform Validate

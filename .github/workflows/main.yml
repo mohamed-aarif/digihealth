@@ -1,62 +1,63 @@
-name: Terraform (deploy)
+name: Infra (dev)
 
 on:
-  workflow_dispatch:
+  pull_request:
+    paths:
+      - "infra/terraform-azure/**"
+  push:
+    branches: [ "main" ]
+    paths:
+      - "infra/terraform-azure/**"
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  TF_WORKDIR: infra/terraform-azure/envs/dev
+  ARM_USE_OIDC: true
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  TF_VAR_tenant_id: ${{ vars.TF_VAR_tenant_id }}
+  ARM_ACCESS_KEY: ${{ secrets.ARM_ACCESS_KEY }} # optional if using key-based backend
 
 jobs:
-  deploy:
+  terraform:
+    name: Terraform Dev
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write   # REQUIRED for OIDC
+    environment: dev
 
     steps:
-      # 1) Checkout repo
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2) Login to Azure with OIDC (no secrets)
       - name: Azure Login (OIDC)
         uses: azure/login@v2
         with:
-          client-id:        ${{ vars.AZURE_CLIENT_ID }}
-          tenant-id:        ${{ vars.AZURE_TENANT_ID }}
-          subscription-id:  ${{ vars.AZURE_SUBSCRIPTION_ID }}
-          # NOTE: do NOT pass 'creds' or 'client-secret' when using OIDC
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      # 3) Setup Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.8.5
-          terraform_wrapper: false
+          terraform_version: 1.9.5
 
-      # 4) Terraform Init (use OIDC token via ARM_* env vars)
       - name: Terraform Init
-        working-directory: infra/terraform-azure/envs/dev
-        env:
-          ARM_CLIENT_ID:        ${{ vars.AZURE_CLIENT_ID }}
-          ARM_TENANT_ID:        ${{ vars.AZURE_TENANT_ID }}
-          ARM_SUBSCRIPTION_ID:  ${{ vars.AZURE_SUBSCRIPTION_ID }}
-          ARM_USE_OIDC:         "true"
-        run: terraform init -upgrade -backend-config=backend.hcl
+        working-directory: ${{ env.TF_WORKDIR }}
+        run: terraform init -input=false
 
-      # 5) Terraform Plan
+      - name: Terraform Validate
+        working-directory: ${{ env.TF_WORKDIR }}
+        run: terraform validate
+
       - name: Terraform Plan
-        working-directory: infra/terraform-azure/envs/dev
-        env:
-          ARM_CLIENT_ID:        ${{ vars.AZURE_CLIENT_ID }}
-          ARM_TENANT_ID:        ${{ vars.AZURE_TENANT_ID }}
-          ARM_SUBSCRIPTION_ID:  ${{ vars.AZURE_SUBSCRIPTION_ID }}
-          ARM_USE_OIDC:         "true"
-        run: terraform plan -out=tfplan.bin
+        if: github.event_name == 'pull_request'
+        working-directory: ${{ env.TF_WORKDIR }}
+        run: terraform plan -input=false
 
-      # 6) Terraform Apply
-      - name: Terraform Apply
-        working-directory: infra/terraform-azure/envs/dev
-        env:
-          ARM_CLIENT_ID:        ${{ vars.AZURE_CLIENT_ID }}
-          ARM_TENANT_ID:        ${{ vars.AZURE_TENANT_ID }}
-          ARM_SUBSCRIPTION_ID:  ${{ vars.AZURE_SUBSCRIPTION_ID }}
-          ARM_USE_OIDC:         "true"
-        run: terraform apply -auto-approve tfplan.bin
+      - name: Terraform Apply (main)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        working-directory: ${{ env.TF_WORKDIR }}
+        run: terraform apply -auto-approve

@@ -1,8 +1,8 @@
 module "network" {
-  source       = "../../modules/network"
-  name         = "digihealth-dev"
-  rg_name      = "rg-digihealth-dev"
-  location     = "eastus"
+  source   = "../../modules/network"
+  name     = "digihealth-dev"
+  rg_name  = "rg-digihealth-dev"
+  location = "eastus"
 }
 
 module "aks" {
@@ -75,12 +75,39 @@ module "monitor" {
   rg_name  = module.network.rg_name
 }
 
-output "kube_config"         { value = module.aks.kube_config sensitive = true }
-output "apim_name"           { value = module.apim.apim_name }
-output "acr_login_server"    { value = module.acr.acr_login_server }
-output "pg_fqdn"             { value = module.postgres.pg_fqdn }
-output "blob_endpoint"       { value = module.storage.primary_blob_endpoint }
-output "key_vault_uri"       { value = module.keyvault.key_vault_uri }
-output "iothub_hostname"     { value = module.iot.iothub_hostname }
-output "event_hubs_broker"   { value = module.event_hubs.kafka_broker }
-output "log_workspace_id"    { value = module.monitor.workspace_id }
+output "kube_config" {
+  value     = module.aks.kube_config
+  sensitive = true
+}
+
+output "apim_name" {
+  value = module.apim.apim_name
+}
+
+output "acr_login_server" {
+  value = module.acr.acr_login_server
+}
+
+output "pg_fqdn" {
+  value = module.postgres.pg_fqdn
+}
+
+output "blob_endpoint" {
+  value = module.storage.primary_blob_endpoint
+}
+
+output "key_vault_uri" {
+  value = module.keyvault.key_vault_uri
+}
+
+output "iothub_hostname" {
+  value = module.iot.iothub_hostname
+}
+
+output "event_hubs_broker" {
+  value = module.event_hubs.kafka_broker
+}
+
+output "log_workspace_id" {
+  value = module.monitor.workspace_id
+}

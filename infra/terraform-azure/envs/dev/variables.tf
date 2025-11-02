@@ -1,8 +1,6 @@
-<<<<<<< HEAD
 variable "tenant_id" {
   type        = string
   description = "Azure AD tenant ID used by Key Vault and OIDC auth."
-=======
 ########################################
 # Root (envs/dev) – Variables (DECLARED)
 ########################################
@@ -75,5 +73,4 @@ variable "postgres_sku" {
   description = "PostgreSQL SKU / size hint (used by module)"
   type        = string
   default     = "Standard_D4s_v3"
->>>>>>> d6b14bb (updated files for pipeline)
 }

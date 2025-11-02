@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 terraform {
   required_version = ">= 1.6.0"
   required_providers {
@@ -20,8 +19,7 @@ terraform {
 provider "azurerm" {
   features {}
 }
-=======
+
 provider "azurerm" {
   features {}
 }
->>>>>>> d6b14bb (updated files for pipeline)

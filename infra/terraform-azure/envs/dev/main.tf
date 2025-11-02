@@ -1,86 +1,122 @@
+########################################
+# Root (envs/dev) – Modules Wiring
+########################################
+
+# Networking (creates RG/VNet/Subnet)
 module "network" {
-  source       = "../../modules/network"
-  name         = "digihealth-dev"
-  rg_name      = "rg-digihealth-dev"
-  location     = "eastus"
+  source            = "../../modules/network"
+  name              = var.name
+  rg_name           = var.rg_name
+  location          = var.location
+  address_space     = var.address_space
+  aks_subnet_prefix = var.aks_subnet_prefix
 }
 
-module "aks" {
-  source     = "../../modules/aks"
-  name       = "digihealth-dev"
-  location   = module.network.location
-  rg_name    = module.network.rg_name
-  subnet_id  = module.network.subnet_aks_id
-  node_count = 3
-}
-
-module "apim" {
-  source          = "../../modules/apim"
-  name            = "digihealth-dev"
-  location        = module.network.location
-  rg_name         = module.network.rg_name
-  publisher_name  = "DigiHealth"
-  publisher_email = "ops@digi.health"
-  sku             = "Developer"
-}
-
+# Azure Container Registry
 module "acr" {
   source   = "../../modules/acr"
-  name     = "digihealthdev"
-  location = module.network.location
+  name     = var.name
   rg_name  = module.network.rg_name
-}
-
-module "postgres" {
-  source    = "../../modules/postgres"
-  name      = "digihealth-dev"
-  location  = module.network.location
-  rg_name   = module.network.rg_name
-  subnet_id = module.network.subnet_data_id
-}
-
-module "storage" {
-  source   = "../../modules/storage"
-  name     = "digihealthdev"
   location = module.network.location
-  rg_name  = module.network.rg_name
 }
 
-module "keyvault" {
-  source    = "../../modules/keyvault"
-  name      = "digihealth-dev"
-  location  = module.network.location
-  rg_name   = module.network.rg_name
-  tenant_id = var.tenant_id
+# AKS (placeholder unless resources added in module)
+module "aks" {
+  source       = "../../modules/aks"
+  name         = var.name
+  location     = module.network.location
+  rg_name      = module.network.rg_name
+  subnet_id    = module.network.subnet_aks_id
+  node_count   = var.aks_node_count
+  node_vm_size = var.aks_node_vm_size
 }
 
-module "iot" {
-  source   = "../../modules/iot_hub"
-  name     = "digihealth-dev"
-  location = module.network.location
-  rg_name  = module.network.rg_name
+# API Management
+module "apim" {
+  source          = "../../modules/apim"
+  name            = var.name
+  location        = module.network.location
+  rg_name         = module.network.rg_name
+  publisher_name  = var.apim_publisher_name
+  publisher_email = var.apim_publisher_email
+  sku             = var.apim_sku
 }
 
+# Event Hubs
 module "event_hubs" {
   source   = "../../modules/event_hubs"
-  name     = "digihealth-dev"
-  location = module.network.location
+  name     = var.name
   rg_name  = module.network.rg_name
+  location = module.network.location
 }
 
+# IoT Hub
+module "iot_hub" {
+  source   = "../../modules/iot_hub"
+  name     = var.name
+  rg_name  = module.network.rg_name
+  location = module.network.location
+}
+
+# Key Vault
+module "keyvault" {
+  source   = "../../modules/keyvault"
+  name     = var.name
+  rg_name  = module.network.rg_name
+  location = module.network.location
+}
+
+# Monitor / Log Analytics
 module "monitor" {
   source   = "../../modules/monitor"
-  name     = "digihealth-dev"
-  location = module.network.location
+  name     = var.name
   rg_name  = module.network.rg_name
+  location = module.network.location
 }
 
-output "kube_config"         { value = module.aks.kube_config sensitive = true }
-output "apim_name"           { value = module.apim.apim_name }
-output "acr_login_server"    { value = module.acr.acr_login_server }
-output "pg_fqdn"             { value = module.postgres.pg_fqdn }
-output "blob_endpoint"       { value = module.storage.primary_blob_endpoint }
-output "key_vault_uri"       { value = module.keyvault.key_vault_uri }
-output "iothub_hostname"     { value = module.iot.iothub_hostname }
-output "event_hubs_broker"   { value = module.event_hubs.kafka_broker }
-output "log_workspace_id"    { value = module.monitor.workspace_id }
+# PostgreSQL (Flexible Server)
+module "postgres" {
+  source   = "../../modules/postgres"
+  name     = var.name
+  rg_name  = module.network.rg_name
+  location = module.network.location
+  sku      = var.postgres_sku
+}
+
+# Storage
+module "storage" {
+  source   = "../../modules/storage"
+  name     = var.name
+  rg_name  = module.network.rg_name
+  location = module.network.location
+}
+
+############################
+# Outputs (multi-line, valid)
+############################
+output "rg_name" {
+  value = module.network.rg_name
+}
+
+output "location" {
+  value = module.network.location
+}
+
+output "acr_name" {
+  value = try(module.acr.acr_name, null)
+}
+
+output "acr_login_server" {
+  value = try(module.acr.acr_login_server, null)
+}
+
+# If AKS module exports these (placeholders exist), these are safe.
+output "kube_config" {
+  value     = try(module.aks.kube_config, null)
+  sensitive = true
+}
+
+output "kube_config_raw" {
+  value     = try(module.aks.kube_config_raw, null)
+  sensitive = true
+}

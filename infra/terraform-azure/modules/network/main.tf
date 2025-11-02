@@ -1,8 +1,5 @@
-terraform {
-  required_providers { azurerm = { source = "hashicorp/azurerm" version = "~> 3.112" } }
-}
-provider "azurerm" { features {} }
-
+# Module: Network
+# Creates RG, VNet, and an AKS subnet
 resource "azurerm_resource_group" "rg" {
   name     = var.rg_name
   location = var.location
@@ -10,27 +7,14 @@ resource "azurerm_resource_group" "rg" {
 
 resource "azurerm_virtual_network" "vnet" {
   name                = "${var.name}-vnet"
+  address_space       = var.address_space
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  address_space       = var.address_space
 }
 
 resource "azurerm_subnet" "aks" {
-  name                 = "aks-subnet"
+  name                 = "${var.name}-snet-aks"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = [var.subnet_aks]
+  address_prefixes     = [var.aks_subnet_prefix]
 }
-
-resource "azurerm_subnet" "data" {
-  name                 = "data-subnet"
-  resource_group_name  = azurerm_resource_group.rg.name
-  virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = [var.subnet_data]
-}
-
-output "rg_name"        { value = azurerm_resource_group.rg.name }
-output "vnet_id"        { value = azurerm_virtual_network.vnet.id }
-output "subnet_aks_id"  { value = azurerm_subnet.aks.id }
-output "subnet_data_id" { value = azurerm_subnet.data.id }
-output "location"       { value = azurerm_resource_group.rg.location }

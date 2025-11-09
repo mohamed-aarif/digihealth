@@ -4,7 +4,11 @@ using Volo.Abp.Uow;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
-using Volo.Abp.EntityFrameworkCore.SqlServer;
+
+//Aarif 8/11/25: Migrating to PostgreSQL from SQL Server
+//using Volo.Abp.EntityFrameworkCore.SqlServer;
+using Volo.Abp.EntityFrameworkCore.PostgreSql;
+
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.Modularity;
@@ -21,7 +25,11 @@ namespace digihealth.EntityFrameworkCore;
     typeof(AbpOpenIddictEntityFrameworkCoreModule),
     typeof(AbpPermissionManagementEntityFrameworkCoreModule),
     typeof(AbpSettingManagementEntityFrameworkCoreModule),
-    typeof(AbpEntityFrameworkCoreSqlServerModule),
+
+    //Aarif 8/11/25: Migrating to PostgreSQL from SQL Server
+    //typeof(AbpEntityFrameworkCoreSqlServerModule),
+    typeof(AbpEntityFrameworkCorePostgreSqlModule),
+
     typeof(AbpBackgroundJobsEntityFrameworkCoreModule),
     typeof(AbpAuditLoggingEntityFrameworkCoreModule),
     typeof(AbpTenantManagementEntityFrameworkCoreModule),
@@ -41,13 +49,19 @@ public class digihealthEntityFrameworkCoreModule : AbpModule
                 /* Remove "includeAllEntities: true" to create
                  * default repositories only for aggregate roots */
             options.AddDefaultRepositories(includeAllEntities: true);
+
+            // Important for PostgreSQL + Npgsql
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         });
 
         Configure<AbpDbContextOptions>(options =>
         {
-                /* The main point to change your DBMS.
-                 * See also digihealthMigrationsDbContextFactory for EF Core tooling. */
-            options.UseSqlServer();
+            /* The main point to change your DBMS.
+             * See also digihealthMigrationsDbContextFactory for EF Core tooling. */
+
+            //Aarif 8/11/25: Migrating to PostgreSQL from SQL Server
+            //options.UseSqlServer();
+            options.UseNpgsql();
         });
 
     }

@@ -1,4 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System;
+using System.Linq;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -27,17 +30,6 @@ public class digihealthDbContext :
 
     #region Entities from the modules
 
-    /* Notice: We only implemented IIdentityDbContext and ITenantManagementDbContext
-     * and replaced them for this DbContext. This allows you to perform JOIN
-     * queries for the entities of these modules over the repositories easily. You
-     * typically don't need that for other modules. But, if you need, you can
-     * implement the DbContext interface of the needed module and use ReplaceDbContext
-     * attribute just like IIdentityDbContext and ITenantManagementDbContext.
-     *
-     * More info: Replacing a DbContext of a module ensures that the related module
-     * uses this DbContext on runtime. Otherwise, it will use its own DbContext class.
-     */
-
     //Identity
     public DbSet<IdentityUser> Users { get; set; }
     public DbSet<IdentityRole> Roles { get; set; }
@@ -63,6 +55,9 @@ public class digihealthDbContext :
     {
         base.OnModelCreating(builder);
 
+        // Ensure all DateTime/DateTime? values are stored as UTC in Postgres
+        ApplyUtcDateTimeConverter(builder);
+
         /* Include modules to your migration db context */
 
         builder.ConfigurePermissionManagement();
@@ -75,12 +70,40 @@ public class digihealthDbContext :
         builder.ConfigureTenantManagement();
 
         /* Configure your own tables/entities inside here */
+    }
 
-        //builder.Entity<YourEntity>(b =>
-        //{
-        //    b.ToTable(digihealthConsts.DbTablePrefix + "YourEntities", digihealthConsts.DbSchema);
-        //    b.ConfigureByConvention(); //auto configure for the base class props
-        //    //...
-        //});
+    private static void ApplyUtcDateTimeConverter(ModelBuilder builder)
+    {
+        // Converters: write values as UTC; read values as UTC-kind
+        var dateTimeConverter = new ValueConverter<DateTime, DateTime>(
+            v => v.Kind == DateTimeKind.Utc ? v : v.ToUniversalTime(),
+            v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
+
+        var nullableDateTimeConverter = new ValueConverter<DateTime?, DateTime?>(
+            v => v.HasValue ? (v.Value.Kind == DateTimeKind.Utc ? v.Value : v.Value.ToUniversalTime()) : v,
+            v => v.HasValue ? DateTime.SpecifyKind(v.Value, DateTimeKind.Utc) : v);
+
+        var entityTypes = builder.Model.GetEntityTypes().ToList();
+        foreach (var entityType in entityTypes)
+        {
+            // Find CLR properties of type DateTime / DateTime?
+            var clrType = entityType.ClrType;
+            var properties = clrType.GetProperties()
+                .Where(p => p.PropertyType == typeof(DateTime) || p.PropertyType == typeof(DateTime?))
+                .ToList();
+
+            foreach (var prop in properties)
+            {
+                var propertyBuilder = builder.Entity(clrType).Property(prop.Name);
+                if (prop.PropertyType == typeof(DateTime))
+                {
+                    propertyBuilder.HasConversion(dateTimeConverter);
+                }
+                else
+                {
+                    propertyBuilder.HasConversion(nullableDateTimeConverter);
+                }
+            }
+        }
     }
 }

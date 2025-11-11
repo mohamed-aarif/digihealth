@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../../common.props" />
+  <PropertyGroup>
+    <RootNamespace>IdentityService</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="8.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../IdentityService.Domain.Shared/IdentityService.Domain.Shared.csproj" />
+  </ItemGroup>
+</Project>

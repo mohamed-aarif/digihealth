@@ -1,0 +1,16 @@
+{
+  "name": "DigiHealth Dev",
+  "image": "mcr.microsoft.com/dotnet/sdk:8.0", // or 7.0/6.0 depending on your project
+
+  // What to do after the container is created
+  "postCreateCommand": "dotnet restore digihealth.sln",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",      // C# support
+        "ms-azuretools.vscode-docker" // optional: Docker tools
+      ]
+    }
+  }
+}

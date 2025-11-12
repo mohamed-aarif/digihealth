@@ -2,8 +2,9 @@ namespace IdentityService.Patients;
 
 public static class PatientConsts
 {
-    public const int MaxMedicalRecordNumberLength = 64;
-    public const int MaxNameLength = 128;
-    public const int MaxPhoneLength = 32;
-    public const int MaxEmailLength = 256;
+    public const int MaxFullNameLength = 150;
+    public const int MaxGenderLength = 10;
+    public const int MaxCountryLength = 80;
+    public const int MaxMobileNumberLength = 32;
+    public const int MaxHealthVaultIdLength = 32;
 }

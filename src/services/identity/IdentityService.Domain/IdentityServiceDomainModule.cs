@@ -1,12 +1,8 @@
-using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
 
 namespace IdentityService;
 
-[DependsOn(
-    typeof(IdentityServiceDomainSharedModule),
-    typeof(AbpIdentityDomainModule)
-)]
+[DependsOn(typeof(IdentityServiceDomainSharedModule))]
 public class IdentityServiceDomainModule : AbpModule
 {
 }

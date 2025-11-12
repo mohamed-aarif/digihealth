@@ -14,34 +14,28 @@ public class PatientAppService : CrudAppService<Patient, PatientDto, Guid, Paged
         ObjectMapperContext = typeof(IdentityServiceApplicationModule);
     }
 
-    protected override void MapToEntity(CreateUpdatePatientDto updateInput, Patient entity)
-    {
-        entity.Update(
-            updateInput.IdentityUserId,
-            updateInput.MedicalRecordNumber,
-            updateInput.FirstName,
-            updateInput.LastName,
-            updateInput.DateOfBirth,
-            updateInput.Gender,
-            updateInput.PhoneNumber,
-            updateInput.Email,
-            updateInput.Address,
-            updateInput.PrimaryDoctorId);
-    }
-
     protected override Patient MapToEntity(CreateUpdatePatientDto createInput)
     {
         return new Patient(
             GuidGenerator.Create(),
-            createInput.IdentityUserId,
-            createInput.MedicalRecordNumber,
-            createInput.FirstName,
-            createInput.LastName,
+            createInput.UserId,
+            createInput.FullName,
             createInput.DateOfBirth,
             createInput.Gender,
-            createInput.PhoneNumber,
-            createInput.Email,
-            createInput.Address,
-            createInput.PrimaryDoctorId);
+            createInput.Country,
+            createInput.MobileNumber,
+            createInput.HealthVaultId);
+    }
+
+    protected override void MapToEntity(CreateUpdatePatientDto updateInput, Patient entity)
+    {
+        entity.Update(
+            updateInput.UserId,
+            updateInput.FullName,
+            updateInput.DateOfBirth,
+            updateInput.Gender,
+            updateInput.Country,
+            updateInput.MobileNumber,
+            updateInput.HealthVaultId);
     }
 }

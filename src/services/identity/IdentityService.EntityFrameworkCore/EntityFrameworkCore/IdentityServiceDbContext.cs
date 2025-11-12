@@ -1,16 +1,17 @@
 using IdentityService.Doctors;
 using IdentityService.FamilyLinks;
 using IdentityService.Patients;
+using IdentityService.Users;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
-using Volo.Abp.Identity.EntityFrameworkCore;
 
 namespace IdentityService.EntityFrameworkCore;
 
 [ConnectionStringName(IdentityServiceDbProperties.ConnectionStringName)]
 public class IdentityServiceDbContext : AbpDbContext<IdentityServiceDbContext>, IIdentityServiceDbContext
 {
+    public DbSet<IdentityUserAccount> IdentityUsers { get; set; } = default!;
     public DbSet<Patient> Patients { get; set; } = default!;
     public DbSet<Doctor> Doctors { get; set; } = default!;
     public DbSet<FamilyLink> FamilyLinks { get; set; } = default!;
@@ -25,8 +26,6 @@ public class IdentityServiceDbContext : AbpDbContext<IdentityServiceDbContext>, 
         builder.HasDefaultSchema(IdentityServiceDbProperties.DbSchema);
 
         base.OnModelCreating(builder);
-
-        builder.ConfigureIdentity();
 
         builder.ConfigureIdentityService();
     }

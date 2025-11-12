@@ -1,30 +1,35 @@
 using System;
 using Volo.Abp;
-using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.Domain.Entities;
 
 namespace IdentityService.FamilyLinks;
 
-public class FamilyLink : FullAuditedAggregateRoot<Guid>
+public class FamilyLink : AggregateRoot<Guid>
 {
     public Guid PatientId { get; private set; }
-    public Guid RelatedPatientId { get; private set; }
+    public Guid FamilyUserId { get; private set; }
     public string Relationship { get; private set; }
+    public bool IsGuardian { get; private set; }
+    public DateTime CreatedAt { get; private set; }
 
     private FamilyLink()
     {
         Relationship = string.Empty;
+        CreatedAt = DateTime.UtcNow;
     }
 
-    public FamilyLink(Guid id, Guid patientId, Guid relatedPatientId, string relationship) : base(id)
+    public FamilyLink(Guid id, Guid patientId, Guid familyUserId, string relationship, bool isGuardian) : base(id)
     {
-        SetPatients(patientId, relatedPatientId);
+        SetParticipants(patientId, familyUserId);
         SetRelationship(relationship);
+        IsGuardian = isGuardian;
+        CreatedAt = DateTime.UtcNow;
     }
 
-    public void SetPatients(Guid patientId, Guid relatedPatientId)
+    public void SetParticipants(Guid patientId, Guid familyUserId)
     {
         PatientId = patientId;
-        RelatedPatientId = relatedPatientId;
+        FamilyUserId = familyUserId;
     }
 
     public void SetRelationship(string relationship)
@@ -32,9 +37,10 @@ public class FamilyLink : FullAuditedAggregateRoot<Guid>
         Relationship = Check.NotNullOrWhiteSpace(relationship, nameof(relationship), FamilyLinkConsts.MaxRelationshipLength);
     }
 
-    public void Update(Guid patientId, Guid relatedPatientId, string relationship)
+    public void Update(Guid patientId, Guid familyUserId, string relationship, bool isGuardian)
     {
-        SetPatients(patientId, relatedPatientId);
+        SetParticipants(patientId, familyUserId);
         SetRelationship(relationship);
+        IsGuardian = isGuardian;
     }
 }

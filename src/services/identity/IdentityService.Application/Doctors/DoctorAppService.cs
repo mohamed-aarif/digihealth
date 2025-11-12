@@ -14,24 +14,24 @@ public class DoctorAppService : CrudAppService<Doctor, DoctorDto, Guid, PagedAnd
         ObjectMapperContext = typeof(IdentityServiceApplicationModule);
     }
 
-    protected override void MapToEntity(CreateUpdateDoctorDto updateInput, Doctor entity)
-    {
-        entity.Update(
-            updateInput.IdentityUserId,
-            updateInput.LicenseNumber,
-            updateInput.FirstName,
-            updateInput.LastName,
-            updateInput.Specialty);
-    }
-
     protected override Doctor MapToEntity(CreateUpdateDoctorDto createInput)
     {
         return new Doctor(
             GuidGenerator.Create(),
-            createInput.IdentityUserId,
-            createInput.LicenseNumber,
-            createInput.FirstName,
-            createInput.LastName,
-            createInput.Specialty);
+            createInput.UserId,
+            createInput.FullName,
+            createInput.Specialty,
+            createInput.RegistrationNumber,
+            createInput.ClinicName);
+    }
+
+    protected override void MapToEntity(CreateUpdateDoctorDto updateInput, Doctor entity)
+    {
+        entity.Update(
+            updateInput.UserId,
+            updateInput.FullName,
+            updateInput.Specialty,
+            updateInput.RegistrationNumber,
+            updateInput.ClinicName);
     }
 }

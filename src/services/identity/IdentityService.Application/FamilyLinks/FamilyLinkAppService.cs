@@ -14,17 +14,22 @@ public class FamilyLinkAppService : CrudAppService<FamilyLink, FamilyLinkDto, Gu
         ObjectMapperContext = typeof(IdentityServiceApplicationModule);
     }
 
-    protected override void MapToEntity(CreateUpdateFamilyLinkDto updateInput, FamilyLink entity)
-    {
-        entity.Update(updateInput.PatientId, updateInput.RelatedPatientId, updateInput.Relationship);
-    }
-
     protected override FamilyLink MapToEntity(CreateUpdateFamilyLinkDto createInput)
     {
         return new FamilyLink(
             GuidGenerator.Create(),
             createInput.PatientId,
-            createInput.RelatedPatientId,
-            createInput.Relationship);
+            createInput.FamilyUserId,
+            createInput.Relationship,
+            createInput.IsGuardian);
+    }
+
+    protected override void MapToEntity(CreateUpdateFamilyLinkDto updateInput, FamilyLink entity)
+    {
+        entity.Update(
+            updateInput.PatientId,
+            updateInput.FamilyUserId,
+            updateInput.Relationship,
+            updateInput.IsGuardian);
     }
 }

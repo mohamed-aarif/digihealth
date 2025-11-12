@@ -2,5 +2,5 @@ namespace IdentityService.FamilyLinks;
 
 public static class FamilyLinkConsts
 {
-    public const int MaxRelationshipLength = 64;
+    public const int MaxRelationshipLength = 50;
 }

@@ -1,64 +1,66 @@
 using System;
 using Volo.Abp;
-using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.Domain.Entities;
 
 namespace IdentityService.Doctors;
 
-public class Doctor : FullAuditedAggregateRoot<Guid>
+public class Doctor : AggregateRoot<Guid>
 {
-    public Guid IdentityUserId { get; private set; }
-    public string LicenseNumber { get; private set; }
-    public string FirstName { get; private set; }
-    public string LastName { get; private set; }
+    public Guid UserId { get; private set; }
+    public string FullName { get; private set; }
     public string? Specialty { get; private set; }
+    public string? RegistrationNumber { get; private set; }
+    public string? ClinicName { get; private set; }
+    public DateTime CreatedAt { get; private set; }
 
     private Doctor()
     {
-        LicenseNumber = string.Empty;
-        FirstName = string.Empty;
-        LastName = string.Empty;
+        FullName = string.Empty;
+        CreatedAt = DateTime.UtcNow;
     }
 
     public Doctor(
         Guid id,
-        Guid identityUserId,
-        string licenseNumber,
-        string firstName,
-        string lastName,
-        string? specialty) : base(id)
+        Guid userId,
+        string fullName,
+        string? specialty,
+        string? registrationNumber,
+        string? clinicName) : base(id)
     {
-        SetIdentityUser(identityUserId);
-        SetLicenseNumber(licenseNumber);
-        SetName(firstName, lastName);
-        Specialty = specialty;
+        SetUserId(userId);
+        SetFullName(fullName);
+        UpdateProfile(specialty, registrationNumber, clinicName);
+        CreatedAt = DateTime.UtcNow;
     }
 
-    public void SetIdentityUser(Guid identityUserId)
+    public void SetUserId(Guid userId)
     {
-        IdentityUserId = identityUserId;
+        UserId = userId;
     }
 
-    public void SetLicenseNumber(string licenseNumber)
+    public void SetFullName(string fullName)
     {
-        LicenseNumber = Check.NotNullOrWhiteSpace(licenseNumber, nameof(licenseNumber), DoctorConsts.MaxLicenseNumberLength);
+        FullName = Check.NotNullOrWhiteSpace(fullName, nameof(fullName), DoctorConsts.MaxFullNameLength);
     }
 
-    public void SetName(string firstName, string lastName)
+    public void UpdateProfile(string? specialty, string? registrationNumber, string? clinicName)
     {
-        FirstName = Check.NotNullOrWhiteSpace(firstName, nameof(firstName), DoctorConsts.MaxNameLength);
-        LastName = Check.NotNullOrWhiteSpace(lastName, nameof(lastName), DoctorConsts.MaxNameLength);
+        Specialty = specialty.IsNullOrWhiteSpace() ? null : Check.Length(specialty, nameof(specialty), DoctorConsts.MaxSpecialtyLength);
+        RegistrationNumber = registrationNumber.IsNullOrWhiteSpace()
+            ? null
+            : Check.Length(registrationNumber, nameof(registrationNumber), DoctorConsts.MaxRegistrationNumberLength);
+        ClinicName = clinicName.IsNullOrWhiteSpace() ? null : Check.Length(clinicName, nameof(clinicName), DoctorConsts.MaxClinicNameLength);
     }
 
     public void Update(
-        Guid identityUserId,
-        string licenseNumber,
-        string firstName,
-        string lastName,
-        string? specialty)
+        Guid userId,
+        string fullName,
+        string? specialty,
+        string? registrationNumber,
+        string? clinicName)
     {
-        SetIdentityUser(identityUserId);
-        SetLicenseNumber(licenseNumber);
-        SetName(firstName, lastName);
-        Specialty = specialty;
+        SetUserId(userId);
+        SetFullName(fullName);
+        UpdateProfile(specialty, registrationNumber, clinicName);
     }
 }

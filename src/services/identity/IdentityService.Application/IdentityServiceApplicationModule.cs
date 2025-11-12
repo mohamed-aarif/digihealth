@@ -1,6 +1,5 @@
 using Volo.Abp.Application;
 using Volo.Abp.AutoMapper;
-using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
 
 namespace IdentityService;
@@ -9,9 +8,7 @@ namespace IdentityService;
     typeof(IdentityServiceDomainModule),
     typeof(IdentityServiceApplicationContractsModule),
     typeof(AbpDddApplicationModule),
-    typeof(AbpAutoMapperModule),
-    typeof(AbpIdentityApplicationModule)
-)]
+    typeof(AbpAutoMapperModule))]
 public class IdentityServiceApplicationModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)

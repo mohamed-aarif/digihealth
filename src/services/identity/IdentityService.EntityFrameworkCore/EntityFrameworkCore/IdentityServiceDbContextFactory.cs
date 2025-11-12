@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.IO;
 
 namespace IdentityService.EntityFrameworkCore;
@@ -11,8 +12,13 @@ public class IdentityServiceDbContextFactory : IDesignTimeDbContextFactory<Ident
     {
         var configuration = BuildConfiguration();
 
+        var connectionString = configuration.GetConnectionString(IdentityServiceDbProperties.ConnectionStringName)
+            ?? configuration.GetConnectionString("IdentityService")
+            ?? throw new InvalidOperationException(
+                $"Connection string '{IdentityServiceDbProperties.ConnectionStringName}' was not found.");
+
         var builder = new DbContextOptionsBuilder<IdentityServiceDbContext>()
-            .UseNpgsql(configuration.GetConnectionString(IdentityServiceDbProperties.ConnectionStringName));
+            .UseNpgsql(connectionString);
 
         return new IdentityServiceDbContext(builder.Options);
     }

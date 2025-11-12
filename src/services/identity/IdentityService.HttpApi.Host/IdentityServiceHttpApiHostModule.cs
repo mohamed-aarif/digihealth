@@ -3,14 +3,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Serilog;
-using Serilog.Events;
-using Serilog.Formatting.Compact;
 using Volo.Abp;
-using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
 using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Volo.Abp.AspNetCore.Serilog;
 
 namespace IdentityService;
 
@@ -25,7 +23,7 @@ public class IdentityServiceHttpApiHostModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        Configure<AbpSwaggerGenOptions>(options =>
+        Configure<SwaggerGenOptions>(options =>
         {
             options.SwaggerDoc("v1", new OpenApiInfo { Title = "Identity Service API", Version = "v1" });
         });
@@ -49,13 +47,4 @@ public class IdentityServiceHttpApiHostModule : AbpModule
         app.UseConfiguredEndpoints();
     }
 
-    public override void OnPreApplicationInitialization(ApplicationInitializationContext context)
-    {
-        Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-            .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
-            .Enrich.FromLogContext()
-            .WriteTo.Console(new RenderedCompactJsonFormatter())
-            .CreateLogger();
-    }
 }

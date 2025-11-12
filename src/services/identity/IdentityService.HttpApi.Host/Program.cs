@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using Volo.Abp;
 using Volo.Abp.Autofac;
+using Volo.Abp.Serilog;
 
 namespace IdentityService;
 

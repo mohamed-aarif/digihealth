@@ -1,0 +1,51 @@
+name: .NET CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Install .NET SDK (adjust if you target a different version)
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+
+      # OPTIONAL: If your solution needs Node/Yarn (e.g., Blazor/SPA client libs)
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Yarn (optional)
+        run: npm i -g yarn
+
+      # OPTIONAL: If you rely on ABP client libs, install them once
+      # (requires the ABP CLI; skip if your build doesn't need web client libs)
+      - name: Install ABP CLI
+        run: dotnet tool install -g Volo.Abp.Cli
+
+      - name: Install ABP client libs (if needed)
+        run: abp install-libs
+        working-directory: ./   # set to repo root or the solution root
+
+      # Restore, build, test
+      - name: Restore
+        run: dotnet restore DigiHealth.sln
+
+      - name: Build
+        run: dotnet build DigiHealth.sln --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test DigiHealth.sln --configuration Release --no-build --verbosity normal

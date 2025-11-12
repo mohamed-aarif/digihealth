@@ -1,4 +1,5 @@
-name: .NET CI
+# .github/workflows/dotnet-ci.yml
+name: .NET CI (ABP Community)
 
 on:
   push:
@@ -10,42 +11,79 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    # Build each service solution independently.
+    # Add/remove items as you add more microservices.
+    strategy:
+      fail-fast: false
+      matrix:
+        sln:
+          - services/identity/aspnet-core/DigiHealth.IdentityService.sln
+          - services/patient/aspnet-core/DigiHealth.PatientService.sln
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Install .NET SDK (adjust if you target a different version)
-      - name: Setup .NET
+      - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
             8.0.x
             9.0.x
 
-      # OPTIONAL: If your solution needs Node/Yarn (e.g., Blazor/SPA client libs)
+      - name: Print .NET info
+        run: dotnet --info
+
+      # Use only nuget.org for Community edition
+      - name: Use nuget.org only
+        run: |
+          cat > ./nuget.config <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <configuration>
+            <packageSources>
+              <clear />
+              <add key="nuget" value="https://api.nuget.org/v3/index.json" />
+            </packageSources>
+          </configuration>
+          EOF
+
+      # Speed up NuGet with caching
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets', 'global.json', 'nuget.config') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      # Node/Yarn are needed for ABP client libs / SPA bits (Blazor, etc.)
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '18'
 
-      - name: Install Yarn (optional)
+      - name: Install Yarn
         run: npm i -g yarn
 
-      # OPTIONAL: If you rely on ABP client libs, install them once
-      # (requires the ABP CLI; skip if your build doesn't need web client libs)
+      # ABP CLI from nuget.org (Community). We pass our nuget.config explicitly.
       - name: Install ABP CLI
-        run: dotnet tool install -g Volo.Abp.Cli
+        run: dotnet tool install -g Volo.Abp.Cli --configfile ./nuget.config --ignore-failed-sources
 
-      - name: Install ABP client libs (if needed)
+      # Make sure the global tools path is on PATH (usually already is, but safe)
+      - name: Add dotnet tools to PATH
+        run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+
+      # Install ABP client libs for the current solution (matrix.sln)
+      # If your solution doesn't have a web UI, this is fast/no-op.
+      - name: Install ABP client libs
         run: abp install-libs
-        working-directory: ./   # set to repo root or the solution root
+        working-directory: ${{ github.workspace }}/$(dirname ${{ matrix.sln }})
 
-      # Restore, build, test
       - name: Restore
-        run: dotnet restore DigiHealth.sln
+        run: dotnet restore "${{ matrix.sln }}" --configfile ./nuget.config
 
       - name: Build
-        run: dotnet build DigiHealth.sln --configuration Release --no-restore
+        run: dotnet build "${{ matrix.sln }}" --configuration Release --no-restore --configfile ./nuget.config
 
       - name: Test
-        run: dotnet test DigiHealth.sln --configuration Release --no-build --verbosity normal
+        run: dotnet test "${{ matrix.sln }}" --configuration Release --no-build --verbosity normal --configfile ./nuget.config

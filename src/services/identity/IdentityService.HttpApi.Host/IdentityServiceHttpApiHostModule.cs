@@ -24,6 +24,8 @@ public class IdentityServiceHttpApiHostModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
+        context.Services.AddSwaggerGen();
+
         Configure<SwaggerGenOptions>(options =>
         {
             options.SwaggerDoc("v1", new OpenApiInfo { Title = "Identity Service API", Version = "v1" });

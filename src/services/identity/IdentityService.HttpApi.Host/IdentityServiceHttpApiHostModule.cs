@@ -17,7 +17,8 @@ namespace IdentityService;
     typeof(IdentityServiceApplicationModule),
     typeof(IdentityServiceEntityFrameworkCoreModule),
     typeof(AbpAutofacModule),
-    typeof(AbpSwashbuckleModule)
+    typeof(AbpSwashbuckleModule),
+    typeof(AbpAspNetCoreSerilogModule)
 )]
 public class IdentityServiceHttpApiHostModule : AbpModule
 {

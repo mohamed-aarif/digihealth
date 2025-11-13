@@ -26,6 +26,10 @@ public static class IdentityServiceDbContextModelCreatingExtensions
         b.ToTable("users", IdentityServiceDbProperties.DbSchema);
         b.ConfigureByConvention();
 
+        b.Property(x => x.Id)
+            .HasColumnName("id")
+            .ValueGeneratedOnAdd();
+
         b.Property(x => x.UserName)
             .HasColumnName("user_name")
             .IsRequired()
@@ -63,6 +67,10 @@ public static class IdentityServiceDbContextModelCreatingExtensions
     {
         b.ToTable("patients", IdentityServiceDbProperties.DbSchema);
         b.ConfigureByConvention();
+
+        b.Property(x => x.Id)
+            .HasColumnName("id")
+            .ValueGeneratedOnAdd();
 
         b.Property(x => x.UserId)
             .HasColumnName("user_id")
@@ -110,6 +118,10 @@ public static class IdentityServiceDbContextModelCreatingExtensions
         b.ToTable("doctors", IdentityServiceDbProperties.DbSchema);
         b.ConfigureByConvention();
 
+        b.Property(x => x.Id)
+            .HasColumnName("id")
+            .ValueGeneratedOnAdd();
+
         b.Property(x => x.UserId)
             .HasColumnName("user_id")
             .IsRequired();
@@ -146,6 +158,10 @@ public static class IdentityServiceDbContextModelCreatingExtensions
     {
         b.ToTable("family_links", IdentityServiceDbProperties.DbSchema);
         b.ConfigureByConvention();
+
+        b.Property(x => x.Id)
+            .HasColumnName("id")
+            .ValueGeneratedOnAdd();
 
         b.Property(x => x.PatientId)
             .HasColumnName("patient_id")

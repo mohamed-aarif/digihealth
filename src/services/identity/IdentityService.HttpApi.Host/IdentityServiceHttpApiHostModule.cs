@@ -42,9 +42,10 @@ public class IdentityServiceHttpApiHostModule : AbpModule
         app.UseAbpSerilogEnrichers();
         app.UseAuthorization();
         app.UseSwagger();
-        app.UseSwaggerUI(c =>
+        app.UseSwaggerUI(options =>
         {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity Service API");
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity Service API");
+            options.RoutePrefix = string.Empty;
         });
         app.UseAuditing();
         app.UseConfiguredEndpoints();

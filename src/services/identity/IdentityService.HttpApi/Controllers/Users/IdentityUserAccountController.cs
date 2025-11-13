@@ -5,6 +5,7 @@ using IdentityService.Users;
 using IdentityService.Users.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Domain.Entities;
 
 namespace IdentityService.Controllers.Users;
 
@@ -25,9 +26,16 @@ public class IdentityUserAccountController : IdentityServiceController
     }
 
     [HttpGet("{id}")]
-    public Task<IdentityUserAccountDto> GetAsync(Guid id)
+    public async Task<ActionResult<IdentityUserAccountDto>> GetAsync(Guid id)
     {
-        return _identityUserAccountAppService.GetAsync(id);
+        try
+        {
+            return await _identityUserAccountAppService.GetAsync(id);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
     }
 
     [HttpPost]
@@ -37,14 +45,29 @@ public class IdentityUserAccountController : IdentityServiceController
     }
 
     [HttpPut("{id}")]
-    public Task<IdentityUserAccountDto> UpdateAsync(Guid id, [FromBody] CreateUpdateIdentityUserAccountDto input)
+    public async Task<ActionResult<IdentityUserAccountDto>> UpdateAsync(Guid id, [FromBody] CreateUpdateIdentityUserAccountDto input)
     {
-        return _identityUserAccountAppService.UpdateAsync(id, input);
+        try
+        {
+            return await _identityUserAccountAppService.UpdateAsync(id, input);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
     }
 
     [HttpDelete("{id}")]
-    public Task DeleteAsync(Guid id)
+    public async Task<IActionResult> DeleteAsync(Guid id)
     {
-        return _identityUserAccountAppService.DeleteAsync(id);
+        try
+        {
+            await _identityUserAccountAppService.DeleteAsync(id);
+            return NoContent();
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
     }
 }

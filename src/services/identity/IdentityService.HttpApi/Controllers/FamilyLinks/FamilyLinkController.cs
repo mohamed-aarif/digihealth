@@ -5,6 +5,7 @@ using IdentityService.FamilyLinks;
 using IdentityService.FamilyLinks.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Domain.Entities;
 
 namespace IdentityService.Controllers.FamilyLinks;
 
@@ -25,9 +26,16 @@ public class FamilyLinkController : IdentityServiceController
     }
 
     [HttpGet("{id}")]
-    public Task<FamilyLinkDto> GetAsync(Guid id)
+    public async Task<ActionResult<FamilyLinkDto>> GetAsync(Guid id)
     {
-        return _familyLinkAppService.GetAsync(id);
+        try
+        {
+            return await _familyLinkAppService.GetAsync(id);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
     }
 
     [HttpPost]
@@ -37,14 +45,29 @@ public class FamilyLinkController : IdentityServiceController
     }
 
     [HttpPut("{id}")]
-    public Task<FamilyLinkDto> UpdateAsync(Guid id, [FromBody] CreateUpdateFamilyLinkDto input)
+    public async Task<ActionResult<FamilyLinkDto>> UpdateAsync(Guid id, [FromBody] CreateUpdateFamilyLinkDto input)
     {
-        return _familyLinkAppService.UpdateAsync(id, input);
+        try
+        {
+            return await _familyLinkAppService.UpdateAsync(id, input);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
     }
 
     [HttpDelete("{id}")]
-    public Task DeleteAsync(Guid id)
+    public async Task<IActionResult> DeleteAsync(Guid id)
     {
-        return _familyLinkAppService.DeleteAsync(id);
+        try
+        {
+            await _familyLinkAppService.DeleteAsync(id);
+            return NoContent();
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
     }
 }

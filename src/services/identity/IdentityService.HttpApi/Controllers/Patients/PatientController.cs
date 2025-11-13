@@ -5,6 +5,7 @@ using IdentityService.Patients;
 using IdentityService.Patients.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Domain.Entities;
 
 namespace IdentityService.Controllers.Patients;
 
@@ -25,9 +26,16 @@ public class PatientController : IdentityServiceController
     }
 
     [HttpGet("{id}")]
-    public Task<PatientDto> GetAsync(Guid id)
+    public async Task<ActionResult<PatientDto>> GetAsync(Guid id)
     {
-        return _patientAppService.GetAsync(id);
+        try
+        {
+            return await _patientAppService.GetAsync(id);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
     }
 
     [HttpPost]
@@ -37,14 +45,29 @@ public class PatientController : IdentityServiceController
     }
 
     [HttpPut("{id}")]
-    public Task<PatientDto> UpdateAsync(Guid id, [FromBody] CreateUpdatePatientDto input)
+    public async Task<ActionResult<PatientDto>> UpdateAsync(Guid id, [FromBody] CreateUpdatePatientDto input)
     {
-        return _patientAppService.UpdateAsync(id, input);
+        try
+        {
+            return await _patientAppService.UpdateAsync(id, input);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
     }
 
     [HttpDelete("{id}")]
-    public Task DeleteAsync(Guid id)
+    public async Task<IActionResult> DeleteAsync(Guid id)
     {
-        return _patientAppService.DeleteAsync(id);
+        try
+        {
+            await _patientAppService.DeleteAsync(id);
+            return NoContent();
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
     }
 }

@@ -25,6 +25,8 @@ public static class IdentityServiceDbContextModelCreatingExtensions
     {
         b.ToTable("users", IdentityServiceDbProperties.DbSchema);
         b.ConfigureByConvention();
+        b.Ignore(x => x.ConcurrencyStamp);
+        b.Ignore(x => x.ExtraProperties);
 
         b.Property(x => x.Id)
             .HasColumnName("id")
@@ -67,6 +69,8 @@ public static class IdentityServiceDbContextModelCreatingExtensions
     {
         b.ToTable("patients", IdentityServiceDbProperties.DbSchema);
         b.ConfigureByConvention();
+        b.Ignore(x => x.ConcurrencyStamp);
+        b.Ignore(x => x.ExtraProperties);
 
         b.Property(x => x.Id)
             .HasColumnName("id")
@@ -117,6 +121,8 @@ public static class IdentityServiceDbContextModelCreatingExtensions
     {
         b.ToTable("doctors", IdentityServiceDbProperties.DbSchema);
         b.ConfigureByConvention();
+        b.Ignore(x => x.ConcurrencyStamp);
+        b.Ignore(x => x.ExtraProperties);
 
         b.Property(x => x.Id)
             .HasColumnName("id")
@@ -158,6 +164,8 @@ public static class IdentityServiceDbContextModelCreatingExtensions
     {
         b.ToTable("family_links", IdentityServiceDbProperties.DbSchema);
         b.ConfigureByConvention();
+        b.Ignore(x => x.ConcurrencyStamp);
+        b.Ignore(x => x.ExtraProperties);
 
         b.Property(x => x.Id)
             .HasColumnName("id")

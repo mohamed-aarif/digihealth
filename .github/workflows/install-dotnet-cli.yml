@@ -1,0 +1,19 @@
+name: Install .NET CLI
+
+on:
+  workflow_dispatch:  # run manually from the Actions tab; add more triggers later
+
+jobs:
+  setup-dotnet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'   # change to 6.0.x/7.0.x if needed
+
+      - name: Verify
+        run: dotnet --info

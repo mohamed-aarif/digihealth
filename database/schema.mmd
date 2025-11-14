@@ -1,0 +1,226 @@
+erDiagram
+    %% ============ IDENTITY ============
+    Users ||--o{ Patients : "1 user may be a patient"
+    Users ||--o{ Doctors  : "1 user may be a doctor"
+    Patients ||--o{ FamilyLinks : "patient has family links"
+    Users ||--o{ FamilyLinks : "family user linked"
+
+    Users {
+      UUID Id PK
+      string UserName
+      string Email
+      string PasswordHash
+      string UserType
+      bool IsActive
+      timestamptz CreatedAt
+    }
+
+    Patients {
+      UUID Id PK
+      UUID UserId FK
+      string FullName
+      date DateOfBirth
+      string Gender
+      string Country
+      string MobileNumber
+      string HealthVaultId
+      timestamptz CreatedAt
+    }
+
+    Doctors {
+      UUID Id PK
+      UUID UserId FK
+      string FullName
+      string Specialty
+      string RegistrationNo
+      string ClinicName
+      timestamptz CreatedAt
+    }
+
+    FamilyLinks {
+      UUID Id PK
+      UUID PatientId FK
+      UUID FamilyUserId FK
+      string Relationship
+      bool IsGuardian
+      timestamptz CreatedAt
+    }
+
+    %% ============ VAULT ============
+    Patients ||--o{ VaultRecords : "owns records"
+    Patients ||--o{ VaultTimeline : "timeline events"
+
+    VaultRecords {
+      UUID Id PK
+      UUID PatientId FK
+      string RecordType
+      string Title
+      text Description
+      string FileKey
+      string Sensitivity
+      string Source
+      timestamptz CreatedAt
+    }
+
+    VaultTimeline {
+      UUID Id PK
+      UUID PatientId FK
+      string EventType
+      UUID RelatedId
+      timestamptz EventTime
+      string Summary
+    }
+
+    %% ============ CONSENT ============
+    Patients ||--o{ ConsentSessions : "patient grants access"
+    Users ||--o{ ConsentSessions : "actor user"
+    ConsentSessions ||--o{ AccessLogs : "audit entries"
+
+    ConsentSessions {
+      UUID Id PK
+      UUID PatientId FK
+      UUID ActorUserId FK
+      string ActorType
+      jsonb ScopeJson
+      timestamptz ExpiresAt
+      bool IsRevoked
+      timestamptz CreatedAt
+    }
+
+    AccessLogs {
+      UUID Id PK
+      UUID ConsentSessionId FK
+      timestamptz AccessedAt
+      string ResourceType
+      UUID ResourceId
+      string Action
+    }
+
+    %% ============ MEDICATION ============
+    Patients ||--o{ Prescriptions : ""
+    Doctors ||--o{ Prescriptions : ""
+    VaultRecords ||--o{ Prescriptions : ""
+    Prescriptions ||--o{ MedicationItems : ""
+    MedicationItems ||--o{ MedicationSchedules : ""
+    MedicationSchedules ||--o{ MedicationDoses : ""
+
+    Prescriptions {
+      UUID Id PK
+      UUID PatientId FK
+      UUID DoctorId FK
+      UUID RecordId FK
+      date IssuedOn
+      text Notes
+    }
+
+    MedicationItems {
+      UUID Id PK
+      UUID PrescriptionId FK
+      string Name
+      string Dosage
+      string Frequency
+      string Route
+      int DurationDays
+    }
+
+    MedicationSchedules {
+      UUID Id PK
+      UUID MedicationItemId FK
+      date StartDate
+      date EndDate
+      jsonb TimesInDay
+      string TimeZone
+    }
+
+    MedicationDoses {
+      UUID Id PK
+      UUID ScheduleId FK
+      timestamptz DueAt
+      string Status
+      timestamptz TakenAt
+    }
+
+    %% ============ APPOINTMENTS ============
+    Patients ||--o{ Appointments : ""
+    Doctors ||--o{ Appointments : ""
+    Appointments ||--o{ VisitNotes : ""
+    Appointments ||--o{ AiVisitBriefs : ""
+
+    Appointments {
+      UUID Id PK
+      UUID PatientId FK
+      UUID DoctorId FK
+      timestamptz ScheduledAt
+      string Status
+      string Reason
+      string Location
+    }
+
+    VisitNotes {
+      UUID Id PK
+      UUID AppointmentId FK
+      text NotesByDoctor
+      text NotesByPatient
+    }
+
+    AiVisitBriefs {
+      UUID Id PK
+      UUID AppointmentId FK
+      text SummaryForDoctor
+      text SummaryForPatient
+    }
+
+    %% ============ DEVICES ============
+    Patients ||--o{ DeviceLinks : ""
+    DeviceLinks ||--o{ VitalReadings : ""
+
+    DeviceLinks {
+      UUID Id PK
+      UUID PatientId FK
+      string Provider
+      string ExternalId
+      timestamptz LinkedAt
+      bool IsActive
+    }
+
+    VitalReadings {
+      UUID Id PK
+      UUID PatientId FK
+      UUID DeviceLinkId FK
+      string VitalType
+      numeric Value
+      string Unit
+      timestamptz TakenAt
+    }
+
+    %% ============ ENGAGEMENT ============
+    Patients ||--o{ Notifications : ""
+    Users ||--o{ Notifications : ""
+    Patients ||--o{ ChatSessions : ""
+    ChatSessions ||--o{ ChatMessages : ""
+
+    Notifications {
+      UUID Id PK
+      UUID PatientId FK
+      UUID UserId FK
+      string Channel
+      string TemplateKey
+      jsonb Payload
+      string Status
+      timestamptz CreatedAt
+    }
+
+    ChatSessions {
+      UUID Id PK
+      UUID PatientId FK
+      timestamptz StartedAt
+      bool IsActive
+    }
+
+    ChatMessages {
+      UUID Id PK
+      UUID SessionId FK
+      string Sender
+      text Content
+      timestamptz CreatedAt
+    }

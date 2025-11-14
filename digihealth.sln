@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29020.237
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36623.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "digihealth.Domain", "src\digihealth.Domain\digihealth.Domain.csproj", "{554AD327-6DBA-4F8F-96F8-81CE7A0C863F}"
 EndProject
@@ -38,6 +38,14 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "digihealth.Blazor", "src\digihealth.Blazor\digihealth.Blazor.csproj", "{27B2DDC7-8B75-4322-A312-25419C15D9D8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "digihealth.Blazor.Client", "src\digihealth.Blazor.Client\digihealth.Blazor.Client.csproj", "{188A64AD-A1A7-4F95-85D1-C935594611B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "postgresql", "postgresql", "{9EBDC66A-1E75-4D8A-B317-F0A545254DD1}"
+	ProjectSection(SolutionItems) = preProject
+		database\postgresql\PostgreSQL Initial Database Setup script.sql = database\postgresql\PostgreSQL Initial Database Setup script.sql
+		database\schema.mmd = database\schema.mmd
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -130,6 +138,7 @@ Global
 		{748584B1-BA69-4F6A-81AA-F4BDE6BCE29D} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
 		{27B2DDC7-8B75-4322-A312-25419C15D9D8} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
 		{188A64AD-A1A7-4F95-85D1-C935594611B7} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
+		{9EBDC66A-1E75-4D8A-B317-F0A545254DD1} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}

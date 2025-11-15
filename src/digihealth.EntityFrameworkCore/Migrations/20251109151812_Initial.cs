@@ -1202,7 +1202,7 @@ namespace digihealth.Migrations
                     title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     description = table.Column<string>(type: "text", nullable: true),
                     file_storage_key = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
-                    sensitivity = table.Column<string>(type: "vault.sensitivity_level", nullable: true, defaultValueSql: "'Restricted'::vault.sensitivity_level"),
+                    sensitivity = table.Column<string>(type: "vault.sensitivity_level", nullable: false, defaultValueSql: "'Restricted'::vault.sensitivity_level"),
                     source = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()")
                 },

@@ -1169,7 +1169,7 @@ public class VaultRecordEntity
     public string Title { get; set; } = default!;
     public string? Description { get; set; }
     public string FileStorageKey { get; set; } = default!;
-    public VaultSensitivityLevel Sensitivity { get; set; }
+    public VaultSensitivityLevel? Sensitivity { get; set; }
     public string? Source { get; set; }
     public DateTime CreatedAt { get; set; }
 }

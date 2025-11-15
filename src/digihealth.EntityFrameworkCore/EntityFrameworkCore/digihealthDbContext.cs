@@ -87,6 +87,87 @@ public class digihealthDbContext :
 
         builder.HasPostgresExtension("pgcrypto");
 
+        builder.HasPostgresEnum("vault", "record_type", new[]
+        {
+            nameof(VaultRecordType.Report),
+            nameof(VaultRecordType.Prescription),
+            nameof(VaultRecordType.Discharge),
+            nameof(VaultRecordType.Imaging),
+            nameof(VaultRecordType.NationalId),
+            nameof(VaultRecordType.Insurance),
+            nameof(VaultRecordType.Other)
+        });
+
+        builder.HasPostgresEnum("vault", "sensitivity_level", new[]
+        {
+            nameof(VaultSensitivityLevel.Public),
+            nameof(VaultSensitivityLevel.Restricted),
+            nameof(VaultSensitivityLevel.Confidential)
+        });
+
+        builder.HasPostgresEnum("vault", "event_type", new[]
+        {
+            nameof(VaultEventType.RecordUploaded),
+            nameof(VaultEventType.Appointment),
+            nameof(VaultEventType.MedicationStarted),
+            nameof(VaultEventType.MedicationReminder),
+            nameof(VaultEventType.VitalReading),
+            nameof(VaultEventType.AiInsight)
+        });
+
+        builder.HasPostgresEnum("consent", "actor_type", new[]
+        {
+            nameof(ConsentActorType.Doctor),
+            nameof(ConsentActorType.Family)
+        });
+
+        builder.HasPostgresEnum("medication", "dose_status", new[]
+        {
+            nameof(MedicationDoseStatus.Scheduled),
+            nameof(MedicationDoseStatus.Taken),
+            nameof(MedicationDoseStatus.Missed),
+            nameof(MedicationDoseStatus.Skipped)
+        });
+
+        builder.HasPostgresEnum("appointments", "appointment_status", new[]
+        {
+            nameof(AppointmentStatus.Planned),
+            nameof(AppointmentStatus.Completed),
+            nameof(AppointmentStatus.Cancelled),
+            nameof(AppointmentStatus.NoShow)
+        });
+
+        builder.HasPostgresEnum("devices", "vital_type", new[]
+        {
+            nameof(VitalType.HeartRate),
+            nameof(VitalType.BloodPressure),
+            nameof(VitalType.Glucose),
+            nameof(VitalType.Steps),
+            nameof(VitalType.Weight),
+            nameof(VitalType.SpO2)
+        });
+
+        builder.HasPostgresEnum("engagement", "channel_type", new[]
+        {
+            nameof(EngagementChannelType.Push),
+            nameof(EngagementChannelType.Email),
+            nameof(EngagementChannelType.Sms),
+            nameof(EngagementChannelType.WhatsApp)
+        });
+
+        builder.HasPostgresEnum("engagement", "notification_status", new[]
+        {
+            nameof(EngagementNotificationStatus.Pending),
+            nameof(EngagementNotificationStatus.Sent),
+            nameof(EngagementNotificationStatus.Failed)
+        });
+
+        builder.HasPostgresEnum("engagement", "message_sender", new[]
+        {
+            nameof(EngagementMessageSender.Patient),
+            nameof(EngagementMessageSender.AiAssistant)
+        });
+
         ApplyUtcDateTimeConverter(builder);
 
         /* Include modules to your migration db context */
@@ -431,7 +512,6 @@ public class digihealthDbContext :
             b.Property(x => x.RecordType)
                 .HasColumnName("record_type")
                 .HasColumnType("vault.record_type")
-                .HasConversion<string>()
                 .IsRequired();
             b.Property(x => x.Title)
                 .HasColumnName("title")
@@ -446,7 +526,6 @@ public class digihealthDbContext :
             b.Property(x => x.Sensitivity)
                 .HasColumnName("sensitivity")
                 .HasColumnType("vault.sensitivity_level")
-                .HasConversion<string>()
                 .HasDefaultValueSql("'Restricted'::vault.sensitivity_level")
                 .HasSentinel(VaultSensitivityLevel.Restricted)
                 .IsRequired();
@@ -478,7 +557,6 @@ public class digihealthDbContext :
             b.Property(x => x.EventType)
                 .HasColumnName("event_type")
                 .HasColumnType("vault.event_type")
-                .HasConversion<string>()
                 .IsRequired();
             b.Property(x => x.RelatedId)
                 .HasColumnName("related_id");
@@ -519,7 +597,6 @@ public class digihealthDbContext :
             b.Property(x => x.ActorType)
                 .HasColumnName("actor_type")
                 .HasColumnType("consent.actor_type")
-                .HasConversion<string>()
                 .IsRequired();
             b.Property(x => x.ScopeJson)
                 .HasColumnName("scope_json")
@@ -714,7 +791,6 @@ public class digihealthDbContext :
             b.Property(x => x.Status)
                 .HasColumnName("status")
                 .HasColumnType("medication.dose_status")
-                .HasConversion<string>()
                 .HasDefaultValueSql("'Scheduled'::medication.dose_status")
                 .HasSentinel(MedicationDoseStatus.Scheduled)
                 .IsRequired();
@@ -753,7 +829,6 @@ public class digihealthDbContext :
             b.Property(x => x.Status)
                 .HasColumnName("status")
                 .HasColumnType("appointments.appointment_status")
-                .HasConversion<string>()
                 .HasDefaultValueSql("'Planned'::appointments.appointment_status")
                 .HasSentinel(AppointmentStatus.Planned)
                 .IsRequired();
@@ -885,7 +960,6 @@ public class digihealthDbContext :
             b.Property(x => x.VitalType)
                 .HasColumnName("vital_type")
                 .HasColumnType("devices.vital_type")
-                .HasConversion<string>()
                 .IsRequired();
             b.Property(x => x.ValueNumeric)
                 .HasColumnName("value_numeric")
@@ -938,7 +1012,6 @@ public class digihealthDbContext :
             b.Property(x => x.Channel)
                 .HasColumnName("channel")
                 .HasColumnType("engagement.channel_type")
-                .HasConversion<string>()
                 .IsRequired();
             b.Property(x => x.TemplateKey)
                 .HasColumnName("template_key")
@@ -950,7 +1023,6 @@ public class digihealthDbContext :
             b.Property(x => x.Status)
                 .HasColumnName("status")
                 .HasColumnType("engagement.notification_status")
-                .HasConversion<string>()
                 .HasDefaultValueSql("'Pending'::engagement.notification_status")
                 .HasSentinel(EngagementNotificationStatus.Pending)
                 .IsRequired();
@@ -1013,7 +1085,6 @@ public class digihealthDbContext :
             b.Property(x => x.Sender)
                 .HasColumnName("sender")
                 .HasColumnType("engagement.message_sender")
-                .HasConversion<string>()
                 .IsRequired();
             b.Property(x => x.Content)
                 .HasColumnName("content")

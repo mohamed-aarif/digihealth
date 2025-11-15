@@ -32,6 +32,17 @@ namespace digihealth.Migrations
             migrationBuilder.EnsureSchema(
                 name: "engagement");
 
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"vault\".\"record_type\" CASCADE;");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"vault\".\"sensitivity_level\" CASCADE;");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"vault\".\"event_type\" CASCADE;");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"consent\".\"actor_type\" CASCADE;");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"medication\".\"dose_status\" CASCADE;");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"appointments\".\"appointment_status\" CASCADE;");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"devices\".\"vital_type\" CASCADE;");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"engagement\".\"channel_type\" CASCADE;");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"engagement\".\"notification_status\" CASCADE;");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"engagement\".\"message_sender\" CASCADE;");
+
             migrationBuilder.AlterDatabase()
                 .Annotation("Npgsql:PostgresExtension:pgcrypto", ",,")
                 .Annotation("Npgsql:Enum:vault.record_type", "Report,Prescription,Discharge,Imaging,NationalId,Insurance,Other")

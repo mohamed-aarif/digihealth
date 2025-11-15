@@ -86,7 +86,6 @@ public class digihealthDbContext :
         base.OnModelCreating(builder);
 
         builder.HasPostgresExtension("pgcrypto");
-        ConfigurePostgresEnums(builder);
 
         ApplyUtcDateTimeConverter(builder);
 
@@ -110,13 +109,6 @@ public class digihealthDbContext :
         ConfigureAppointmentsSchema(builder);
         ConfigureDevicesSchema(builder);
         ConfigureEngagementSchema(builder);
-    }
-
-    private static void ConfigurePostgresEnums(ModelBuilder builder)
-    {
-        // Enum columns are stored using PostgreSQL enum types configured through the migrations.
-        // Convert CLR enums to strings so EF Core sends enum labels to PostgreSQL without relying on
-        // HasPostgresEnum(), which also emits CREATE TYPE statements during migrations.
     }
 
     private static void ConfigureIdentitySchema(ModelBuilder builder)

@@ -45,65 +45,25 @@ namespace digihealth.Migrations
 
             migrationBuilder.Sql("CREATE EXTENSION IF NOT EXISTS \"pgcrypto\";");
 
-            migrationBuilder.Sql(@"DO $$
-BEGIN
-    CREATE TYPE \"vault\".\"record_type\" AS ENUM ('Report','Prescription','Discharge','Imaging','NationalId','Insurance','Other');
-EXCEPTION WHEN duplicate_object THEN NULL;
-END $$;");
+            migrationBuilder.Sql("CREATE TYPE \"vault\".\"record_type\" AS ENUM ('Report', 'Prescription', 'Discharge', 'Imaging', 'NationalId', 'Insurance', 'Other');");
 
-            migrationBuilder.Sql(@"DO $$
-BEGIN
-    CREATE TYPE \"vault\".\"sensitivity_level\" AS ENUM ('Public','Restricted','Confidential');
-EXCEPTION WHEN duplicate_object THEN NULL;
-END $$;");
+            migrationBuilder.Sql("CREATE TYPE \"vault\".\"sensitivity_level\" AS ENUM ('Public', 'Restricted', 'Confidential');");
 
-            migrationBuilder.Sql(@"DO $$
-BEGIN
-    CREATE TYPE \"vault\".\"event_type\" AS ENUM ('RecordUploaded','Appointment','MedicationStarted','MedicationReminder','VitalReading','AiInsight');
-EXCEPTION WHEN duplicate_object THEN NULL;
-END $$;");
+            migrationBuilder.Sql("CREATE TYPE \"vault\".\"event_type\" AS ENUM ('RecordUploaded', 'Appointment', 'MedicationStarted', 'MedicationReminder', 'VitalReading', 'AiInsight');");
 
-            migrationBuilder.Sql(@"DO $$
-BEGIN
-    CREATE TYPE \"consent\".\"actor_type\" AS ENUM ('Doctor','Family');
-EXCEPTION WHEN duplicate_object THEN NULL;
-END $$;");
+            migrationBuilder.Sql("CREATE TYPE \"consent\".\"actor_type\" AS ENUM ('Doctor', 'Family');");
 
-            migrationBuilder.Sql(@"DO $$
-BEGIN
-    CREATE TYPE \"medication\".\"dose_status\" AS ENUM ('Scheduled','Taken','Missed','Skipped');
-EXCEPTION WHEN duplicate_object THEN NULL;
-END $$;");
+            migrationBuilder.Sql("CREATE TYPE \"medication\".\"dose_status\" AS ENUM ('Scheduled', 'Taken', 'Missed', 'Skipped');");
 
-            migrationBuilder.Sql(@"DO $$
-BEGIN
-    CREATE TYPE \"appointments\".\"appointment_status\" AS ENUM ('Planned','Completed','Cancelled','NoShow');
-EXCEPTION WHEN duplicate_object THEN NULL;
-END $$;");
+            migrationBuilder.Sql("CREATE TYPE \"appointments\".\"appointment_status\" AS ENUM ('Planned', 'Completed', 'Cancelled', 'NoShow');");
 
-            migrationBuilder.Sql(@"DO $$
-BEGIN
-    CREATE TYPE \"devices\".\"vital_type\" AS ENUM ('HeartRate','BloodPressure','Glucose','Steps','Weight','SpO2');
-EXCEPTION WHEN duplicate_object THEN NULL;
-END $$;");
+            migrationBuilder.Sql("CREATE TYPE \"devices\".\"vital_type\" AS ENUM ('HeartRate', 'BloodPressure', 'Glucose', 'Steps', 'Weight', 'SpO2');");
 
-            migrationBuilder.Sql(@"DO $$
-BEGIN
-    CREATE TYPE \"engagement\".\"channel_type\" AS ENUM ('Push','Email','Sms','WhatsApp');
-EXCEPTION WHEN duplicate_object THEN NULL;
-END $$;");
+            migrationBuilder.Sql("CREATE TYPE \"engagement\".\"channel_type\" AS ENUM ('Push', 'Email', 'Sms', 'WhatsApp');");
 
-            migrationBuilder.Sql(@"DO $$
-BEGIN
-    CREATE TYPE \"engagement\".\"notification_status\" AS ENUM ('Pending','Sent','Failed');
-EXCEPTION WHEN duplicate_object THEN NULL;
-END $$;");
+            migrationBuilder.Sql("CREATE TYPE \"engagement\".\"notification_status\" AS ENUM ('Pending', 'Sent', 'Failed');");
 
-            migrationBuilder.Sql(@"DO $$
-BEGIN
-    CREATE TYPE \"engagement\".\"message_sender\" AS ENUM ('Patient','AiAssistant');
-EXCEPTION WHEN duplicate_object THEN NULL;
-END $$;");
+            migrationBuilder.Sql("CREATE TYPE \"engagement\".\"message_sender\" AS ENUM ('Patient', 'AiAssistant');");
 
             migrationBuilder.CreateTable(
                 name: "AbpAuditLogExcelFiles",

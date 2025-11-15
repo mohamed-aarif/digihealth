@@ -11,19 +11,6 @@ namespace digihealth.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:PostgresExtension:pgcrypto", ",,")
-                .Annotation("Npgsql:Enum:vault.record_type", "Report,Prescription,Discharge,Imaging,NationalId,Insurance,Other")
-                .Annotation("Npgsql:Enum:vault.sensitivity_level", "Public,Restricted,Confidential")
-                .Annotation("Npgsql:Enum:vault.event_type", "RecordUploaded,Appointment,MedicationStarted,MedicationReminder,VitalReading,AiInsight")
-                .Annotation("Npgsql:Enum:consent.actor_type", "Doctor,Family")
-                .Annotation("Npgsql:Enum:medication.dose_status", "Scheduled,Taken,Missed,Skipped")
-                .Annotation("Npgsql:Enum:appointments.appointment_status", "Planned,Completed,Cancelled,NoShow")
-                .Annotation("Npgsql:Enum:devices.vital_type", "HeartRate,BloodPressure,Glucose,Steps,Weight,SpO2")
-                .Annotation("Npgsql:Enum:engagement.channel_type", "Push,Email,Sms,WhatsApp")
-                .Annotation("Npgsql:Enum:engagement.notification_status", "Pending,Sent,Failed")
-                .Annotation("Npgsql:Enum:engagement.message_sender", "Patient,AiAssistant");
-
             migrationBuilder.EnsureSchema(
                 name: "identity");
 
@@ -44,6 +31,19 @@ namespace digihealth.Migrations
 
             migrationBuilder.EnsureSchema(
                 name: "engagement");
+
+            migrationBuilder.AlterDatabase()
+                .Annotation("Npgsql:PostgresExtension:pgcrypto", ",,")
+                .Annotation("Npgsql:Enum:vault.record_type", "Report,Prescription,Discharge,Imaging,NationalId,Insurance,Other")
+                .Annotation("Npgsql:Enum:vault.sensitivity_level", "Public,Restricted,Confidential")
+                .Annotation("Npgsql:Enum:vault.event_type", "RecordUploaded,Appointment,MedicationStarted,MedicationReminder,VitalReading,AiInsight")
+                .Annotation("Npgsql:Enum:consent.actor_type", "Doctor,Family")
+                .Annotation("Npgsql:Enum:medication.dose_status", "Scheduled,Taken,Missed,Skipped")
+                .Annotation("Npgsql:Enum:appointments.appointment_status", "Planned,Completed,Cancelled,NoShow")
+                .Annotation("Npgsql:Enum:devices.vital_type", "HeartRate,BloodPressure,Glucose,Steps,Weight,SpO2")
+                .Annotation("Npgsql:Enum:engagement.channel_type", "Push,Email,Sms,WhatsApp")
+                .Annotation("Npgsql:Enum:engagement.notification_status", "Pending,Sent,Failed")
+                .Annotation("Npgsql:Enum:engagement.message_sender", "Patient,AiAssistant");
 
             migrationBuilder.CreateTable(
                 name: "AbpAuditLogExcelFiles",

@@ -731,6 +731,7 @@ public class digihealthDbContext :
                 .HasColumnName("status")
                 .HasColumnType("medication.dose_status")
                 .HasDefaultValueSql("'Scheduled'::medication.dose_status")
+                .HasSentinel(MedicationDoseStatus.Scheduled)
                 .IsRequired();
             b.Property(x => x.TakenAt)
                 .HasColumnName("taken_at");
@@ -768,6 +769,7 @@ public class digihealthDbContext :
                 .HasColumnName("status")
                 .HasColumnType("appointments.appointment_status")
                 .HasDefaultValueSql("'Planned'::appointments.appointment_status")
+                .HasSentinel(AppointmentStatus.Planned)
                 .IsRequired();
             b.Property(x => x.Reason)
                 .HasColumnName("reason")
@@ -961,6 +963,7 @@ public class digihealthDbContext :
                 .HasColumnName("status")
                 .HasColumnType("engagement.notification_status")
                 .HasDefaultValueSql("'Pending'::engagement.notification_status")
+                .HasSentinel(EngagementNotificationStatus.Pending)
                 .IsRequired();
             b.Property(x => x.CreatedAt)
                 .HasColumnName("created_at")

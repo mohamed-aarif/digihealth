@@ -1143,7 +1143,7 @@ public class PatientInsuranceEntity
     public DateTime CreatedAt { get; set; }
 }
 
-internal enum VaultRecordType
+public enum VaultRecordType
 {
     Report,
     Prescription,
@@ -1154,7 +1154,7 @@ internal enum VaultRecordType
     Other
 }
 
-internal enum VaultSensitivityLevel
+public enum VaultSensitivityLevel
 {
     Public,
     Restricted,
@@ -1174,7 +1174,7 @@ public class VaultRecordEntity
     public DateTime CreatedAt { get; set; }
 }
 
-internal enum VaultEventType
+public enum VaultEventType
 {
     RecordUploaded,
     Appointment,
@@ -1195,7 +1195,7 @@ public class VaultTimelineEventEntity
     public string? DetailsJson { get; set; }
 }
 
-internal enum ConsentActorType
+public enum ConsentActorType
 {
     Doctor,
     Family
@@ -1256,7 +1256,7 @@ public class MedicationScheduleEntity
     public string Timezone { get; set; } = default!;
 }
 
-internal enum MedicationDoseStatus
+public enum MedicationDoseStatus
 {
     Scheduled,
     Taken,
@@ -1274,7 +1274,7 @@ public class MedicationDoseEntity
     public string? Notes { get; set; }
 }
 
-internal enum AppointmentStatus
+public enum AppointmentStatus
 {
     Planned,
     Completed,
@@ -1322,7 +1322,7 @@ public class DeviceLinkEntity
     public bool IsActive { get; set; }
 }
 
-internal enum VitalType
+public enum VitalType
 {
     HeartRate,
     BloodPressure,
@@ -1345,7 +1345,7 @@ public class VitalReadingEntity
     public DateTime CreatedAt { get; set; }
 }
 
-internal enum EngagementChannelType
+public enum EngagementChannelType
 {
     Push,
     Email,
@@ -1353,7 +1353,7 @@ internal enum EngagementChannelType
     WhatsApp
 }
 
-internal enum EngagementNotificationStatus
+public enum EngagementNotificationStatus
 {
     Pending,
     Sent,
@@ -1381,7 +1381,7 @@ public class ChatSessionEntity
     public bool IsActive { get; set; }
 }
 
-internal enum EngagementMessageSender
+public enum EngagementMessageSender
 {
     Patient,
     AiAssistant

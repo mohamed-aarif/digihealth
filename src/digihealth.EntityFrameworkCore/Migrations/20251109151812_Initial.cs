@@ -32,29 +32,147 @@ namespace digihealth.Migrations
             migrationBuilder.EnsureSchema(
                 name: "engagement");
 
-            migrationBuilder.Sql("DROP TYPE IF EXISTS \"engagement\".\"message_sender\" CASCADE;");
-            migrationBuilder.Sql("DROP TYPE IF EXISTS \"engagement\".\"notification_status\" CASCADE;");
-            migrationBuilder.Sql("DROP TYPE IF EXISTS \"engagement\".\"channel_type\" CASCADE;");
-            migrationBuilder.Sql("DROP TYPE IF EXISTS \"devices\".\"vital_type\" CASCADE;");
-            migrationBuilder.Sql("DROP TYPE IF EXISTS \"appointments\".\"appointment_status\" CASCADE;");
-            migrationBuilder.Sql("DROP TYPE IF EXISTS \"medication\".\"dose_status\" CASCADE;");
-            migrationBuilder.Sql("DROP TYPE IF EXISTS \"consent\".\"actor_type\" CASCADE;");
-            migrationBuilder.Sql("DROP TYPE IF EXISTS \"vault\".\"event_type\" CASCADE;");
-            migrationBuilder.Sql("DROP TYPE IF EXISTS \"vault\".\"sensitivity_level\" CASCADE;");
-            migrationBuilder.Sql("DROP TYPE IF EXISTS \"vault\".\"record_type\" CASCADE;");
+            migrationBuilder.Sql("CREATE EXTENSION IF NOT EXISTS \"pgcrypto\";");
 
-            migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:Extension:pgcrypto", ",,")
-                .Annotation("Npgsql:Enum:vault.record_type", new[] { "Report", "Prescription", "Discharge", "Imaging", "NationalId", "Insurance", "Other" })
-                .Annotation("Npgsql:Enum:vault.sensitivity_level", new[] { "Public", "Restricted", "Confidential" })
-                .Annotation("Npgsql:Enum:vault.event_type", new[] { "RecordUploaded", "Appointment", "MedicationStarted", "MedicationReminder", "VitalReading", "AiInsight" })
-                .Annotation("Npgsql:Enum:consent.actor_type", new[] { "Doctor", "Family" })
-                .Annotation("Npgsql:Enum:medication.dose_status", new[] { "Scheduled", "Taken", "Missed", "Skipped" })
-                .Annotation("Npgsql:Enum:appointments.appointment_status", new[] { "Planned", "Completed", "Cancelled", "NoShow" })
-                .Annotation("Npgsql:Enum:devices.vital_type", new[] { "HeartRate", "BloodPressure", "Glucose", "Steps", "Weight", "SpO2" })
-                .Annotation("Npgsql:Enum:engagement.channel_type", new[] { "Push", "Email", "Sms", "WhatsApp" })
-                .Annotation("Npgsql:Enum:engagement.notification_status", new[] { "Pending", "Sent", "Failed" })
-                .Annotation("Npgsql:Enum:engagement.message_sender", new[] { "Patient", "AiAssistant" });
+            migrationBuilder.Sql(@"
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_type t
+        JOIN pg_namespace n ON n.oid = t.typnamespace
+        WHERE n.nspname = 'vault' AND t.typname = 'record_type'
+    ) THEN
+        CREATE TYPE vault.record_type AS ENUM ('Report','Prescription','Discharge','Imaging','NationalId','Insurance','Other');
+    END IF;
+END $$;
+");
+
+            migrationBuilder.Sql(@"
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_type t
+        JOIN pg_namespace n ON n.oid = t.typnamespace
+        WHERE n.nspname = 'vault' AND t.typname = 'sensitivity_level'
+    ) THEN
+        CREATE TYPE vault.sensitivity_level AS ENUM ('Public','Restricted','Confidential');
+    END IF;
+END $$;
+");
+
+            migrationBuilder.Sql(@"
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_type t
+        JOIN pg_namespace n ON n.oid = t.typnamespace
+        WHERE n.nspname = 'vault' AND t.typname = 'event_type'
+    ) THEN
+        CREATE TYPE vault.event_type AS ENUM ('RecordUploaded','Appointment','MedicationStarted','MedicationReminder','VitalReading','AiInsight');
+    END IF;
+END $$;
+");
+
+            migrationBuilder.Sql(@"
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_type t
+        JOIN pg_namespace n ON n.oid = t.typnamespace
+        WHERE n.nspname = 'consent' AND t.typname = 'actor_type'
+    ) THEN
+        CREATE TYPE consent.actor_type AS ENUM ('Doctor','Family');
+    END IF;
+END $$;
+");
+
+            migrationBuilder.Sql(@"
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_type t
+        JOIN pg_namespace n ON n.oid = t.typnamespace
+        WHERE n.nspname = 'medication' AND t.typname = 'dose_status'
+    ) THEN
+        CREATE TYPE medication.dose_status AS ENUM ('Scheduled','Taken','Missed','Skipped');
+    END IF;
+END $$;
+");
+
+            migrationBuilder.Sql(@"
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_type t
+        JOIN pg_namespace n ON n.oid = t.typnamespace
+        WHERE n.nspname = 'appointments' AND t.typname = 'appointment_status'
+    ) THEN
+        CREATE TYPE appointments.appointment_status AS ENUM ('Planned','Completed','Cancelled','NoShow');
+    END IF;
+END $$;
+");
+
+            migrationBuilder.Sql(@"
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_type t
+        JOIN pg_namespace n ON n.oid = t.typnamespace
+        WHERE n.nspname = 'devices' AND t.typname = 'vital_type'
+    ) THEN
+        CREATE TYPE devices.vital_type AS ENUM ('HeartRate','BloodPressure','Glucose','Steps','Weight','SpO2');
+    END IF;
+END $$;
+");
+
+            migrationBuilder.Sql(@"
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_type t
+        JOIN pg_namespace n ON n.oid = t.typnamespace
+        WHERE n.nspname = 'engagement' AND t.typname = 'channel_type'
+    ) THEN
+        CREATE TYPE engagement.channel_type AS ENUM ('Push','Email','Sms','WhatsApp');
+    END IF;
+END $$;
+");
+
+            migrationBuilder.Sql(@"
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_type t
+        JOIN pg_namespace n ON n.oid = t.typnamespace
+        WHERE n.nspname = 'engagement' AND t.typname = 'notification_status'
+    ) THEN
+        CREATE TYPE engagement.notification_status AS ENUM ('Pending','Sent','Failed');
+    END IF;
+END $$;
+");
+
+            migrationBuilder.Sql(@"
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_type t
+        JOIN pg_namespace n ON n.oid = t.typnamespace
+        WHERE n.nspname = 'engagement' AND t.typname = 'message_sender'
+    ) THEN
+        CREATE TYPE engagement.message_sender AS ENUM ('Patient','AiAssistant');
+    END IF;
+END $$;
+");
 
             migrationBuilder.CreateTable(
                 name: "AbpAuditLogExcelFiles",
@@ -2039,29 +2157,16 @@ namespace digihealth.Migrations
                 name: "users",
                 schema: "identity");
 
-            migrationBuilder.Sql("DROP TYPE IF EXISTS \"engagement\".\"message_sender\" CASCADE;");
-            migrationBuilder.Sql("DROP TYPE IF EXISTS \"engagement\".\"notification_status\" CASCADE;");
-            migrationBuilder.Sql("DROP TYPE IF EXISTS \"engagement\".\"channel_type\" CASCADE;");
-            migrationBuilder.Sql("DROP TYPE IF EXISTS \"devices\".\"vital_type\" CASCADE;");
-            migrationBuilder.Sql("DROP TYPE IF EXISTS \"appointments\".\"appointment_status\" CASCADE;");
-            migrationBuilder.Sql("DROP TYPE IF EXISTS \"medication\".\"dose_status\" CASCADE;");
-            migrationBuilder.Sql("DROP TYPE IF EXISTS \"consent\".\"actor_type\" CASCADE;");
-            migrationBuilder.Sql("DROP TYPE IF EXISTS \"vault\".\"event_type\" CASCADE;");
-            migrationBuilder.Sql("DROP TYPE IF EXISTS \"vault\".\"sensitivity_level\" CASCADE;");
-            migrationBuilder.Sql("DROP TYPE IF EXISTS \"vault\".\"record_type\" CASCADE;");
-
-            migrationBuilder.AlterDatabase()
-                .OldAnnotation("Npgsql:Extension:pgcrypto", ",,")
-                .OldAnnotation("Npgsql:Enum:vault.record_type", new[] { "Report", "Prescription", "Discharge", "Imaging", "NationalId", "Insurance", "Other" })
-                .OldAnnotation("Npgsql:Enum:vault.sensitivity_level", new[] { "Public", "Restricted", "Confidential" })
-                .OldAnnotation("Npgsql:Enum:vault.event_type", new[] { "RecordUploaded", "Appointment", "MedicationStarted", "MedicationReminder", "VitalReading", "AiInsight" })
-                .OldAnnotation("Npgsql:Enum:consent.actor_type", new[] { "Doctor", "Family" })
-                .OldAnnotation("Npgsql:Enum:medication.dose_status", new[] { "Scheduled", "Taken", "Missed", "Skipped" })
-                .OldAnnotation("Npgsql:Enum:appointments.appointment_status", new[] { "Planned", "Completed", "Cancelled", "NoShow" })
-                .OldAnnotation("Npgsql:Enum:devices.vital_type", new[] { "HeartRate", "BloodPressure", "Glucose", "Steps", "Weight", "SpO2" })
-                .OldAnnotation("Npgsql:Enum:engagement.channel_type", new[] { "Push", "Email", "Sms", "WhatsApp" })
-                .OldAnnotation("Npgsql:Enum:engagement.notification_status", new[] { "Pending", "Sent", "Failed" })
-                .OldAnnotation("Npgsql:Enum:engagement.message_sender", new[] { "Patient", "AiAssistant" });
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"engagement\".\"message_sender\";");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"engagement\".\"notification_status\";");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"engagement\".\"channel_type\";");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"devices\".\"vital_type\";");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"appointments\".\"appointment_status\";");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"medication\".\"dose_status\";");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"consent\".\"actor_type\";");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"vault\".\"event_type\";");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"vault\".\"sensitivity_level\";");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"vault\".\"record_type\";");
 
             migrationBuilder.DropTable(
                 name: "AbpAuditLogActions");
@@ -2167,6 +2272,8 @@ namespace digihealth.Migrations
 
             migrationBuilder.DropTable(
                 name: "OpenIddictApplications");
+
+            migrationBuilder.Sql("DROP EXTENSION IF EXISTS \"pgcrypto\";");
         }
     }
 }

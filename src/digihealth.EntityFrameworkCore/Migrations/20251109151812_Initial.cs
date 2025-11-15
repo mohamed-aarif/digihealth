@@ -43,18 +43,67 @@ namespace digihealth.Migrations
             migrationBuilder.Sql("DROP TYPE IF EXISTS \"engagement\".\"notification_status\" CASCADE;");
             migrationBuilder.Sql("DROP TYPE IF EXISTS \"engagement\".\"message_sender\" CASCADE;");
 
-            migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:PostgresExtension:pgcrypto", ",,")
-                .Annotation("Npgsql:Enum:vault.record_type", "Report,Prescription,Discharge,Imaging,NationalId,Insurance,Other")
-                .Annotation("Npgsql:Enum:vault.sensitivity_level", "Public,Restricted,Confidential")
-                .Annotation("Npgsql:Enum:vault.event_type", "RecordUploaded,Appointment,MedicationStarted,MedicationReminder,VitalReading,AiInsight")
-                .Annotation("Npgsql:Enum:consent.actor_type", "Doctor,Family")
-                .Annotation("Npgsql:Enum:medication.dose_status", "Scheduled,Taken,Missed,Skipped")
-                .Annotation("Npgsql:Enum:appointments.appointment_status", "Planned,Completed,Cancelled,NoShow")
-                .Annotation("Npgsql:Enum:devices.vital_type", "HeartRate,BloodPressure,Glucose,Steps,Weight,SpO2")
-                .Annotation("Npgsql:Enum:engagement.channel_type", "Push,Email,Sms,WhatsApp")
-                .Annotation("Npgsql:Enum:engagement.notification_status", "Pending,Sent,Failed")
-                .Annotation("Npgsql:Enum:engagement.message_sender", "Patient,AiAssistant");
+            migrationBuilder.Sql("CREATE EXTENSION IF NOT EXISTS \"pgcrypto\";");
+
+            migrationBuilder.Sql(@"DO $$
+BEGIN
+    CREATE TYPE \"vault\".\"record_type\" AS ENUM ('Report','Prescription','Discharge','Imaging','NationalId','Insurance','Other');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;");
+
+            migrationBuilder.Sql(@"DO $$
+BEGIN
+    CREATE TYPE \"vault\".\"sensitivity_level\" AS ENUM ('Public','Restricted','Confidential');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;");
+
+            migrationBuilder.Sql(@"DO $$
+BEGIN
+    CREATE TYPE \"vault\".\"event_type\" AS ENUM ('RecordUploaded','Appointment','MedicationStarted','MedicationReminder','VitalReading','AiInsight');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;");
+
+            migrationBuilder.Sql(@"DO $$
+BEGIN
+    CREATE TYPE \"consent\".\"actor_type\" AS ENUM ('Doctor','Family');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;");
+
+            migrationBuilder.Sql(@"DO $$
+BEGIN
+    CREATE TYPE \"medication\".\"dose_status\" AS ENUM ('Scheduled','Taken','Missed','Skipped');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;");
+
+            migrationBuilder.Sql(@"DO $$
+BEGIN
+    CREATE TYPE \"appointments\".\"appointment_status\" AS ENUM ('Planned','Completed','Cancelled','NoShow');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;");
+
+            migrationBuilder.Sql(@"DO $$
+BEGIN
+    CREATE TYPE \"devices\".\"vital_type\" AS ENUM ('HeartRate','BloodPressure','Glucose','Steps','Weight','SpO2');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;");
+
+            migrationBuilder.Sql(@"DO $$
+BEGIN
+    CREATE TYPE \"engagement\".\"channel_type\" AS ENUM ('Push','Email','Sms','WhatsApp');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;");
+
+            migrationBuilder.Sql(@"DO $$
+BEGIN
+    CREATE TYPE \"engagement\".\"notification_status\" AS ENUM ('Pending','Sent','Failed');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;");
+
+            migrationBuilder.Sql(@"DO $$
+BEGIN
+    CREATE TYPE \"engagement\".\"message_sender\" AS ENUM ('Patient','AiAssistant');
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;");
 
             migrationBuilder.CreateTable(
                 name: "AbpAuditLogExcelFiles",
@@ -2039,18 +2088,16 @@ namespace digihealth.Migrations
                 name: "users",
                 schema: "identity");
 
-            migrationBuilder.AlterDatabase()
-                .OldAnnotation("Npgsql:PostgresExtension:pgcrypto", ",,")
-                .OldAnnotation("Npgsql:Enum:vault.record_type", "Report,Prescription,Discharge,Imaging,NationalId,Insurance,Other")
-                .OldAnnotation("Npgsql:Enum:vault.sensitivity_level", "Public,Restricted,Confidential")
-                .OldAnnotation("Npgsql:Enum:vault.event_type", "RecordUploaded,Appointment,MedicationStarted,MedicationReminder,VitalReading,AiInsight")
-                .OldAnnotation("Npgsql:Enum:consent.actor_type", "Doctor,Family")
-                .OldAnnotation("Npgsql:Enum:medication.dose_status", "Scheduled,Taken,Missed,Skipped")
-                .OldAnnotation("Npgsql:Enum:appointments.appointment_status", "Planned,Completed,Cancelled,NoShow")
-                .OldAnnotation("Npgsql:Enum:devices.vital_type", "HeartRate,BloodPressure,Glucose,Steps,Weight,SpO2")
-                .OldAnnotation("Npgsql:Enum:engagement.channel_type", "Push,Email,Sms,WhatsApp")
-                .OldAnnotation("Npgsql:Enum:engagement.notification_status", "Pending,Sent,Failed")
-                .OldAnnotation("Npgsql:Enum:engagement.message_sender", "Patient,AiAssistant");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"engagement\".\"message_sender\" CASCADE;");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"engagement\".\"notification_status\" CASCADE;");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"engagement\".\"channel_type\" CASCADE;");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"devices\".\"vital_type\" CASCADE;");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"appointments\".\"appointment_status\" CASCADE;");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"medication\".\"dose_status\" CASCADE;");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"consent\".\"actor_type\" CASCADE;");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"vault\".\"event_type\" CASCADE;");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"vault\".\"sensitivity_level\" CASCADE;");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"vault\".\"record_type\" CASCADE;");
 
             migrationBuilder.DropTable(
                 name: "AbpAuditLogActions");

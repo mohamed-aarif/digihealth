@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@digihealth/core/*": [
+        "packages/core/src/*"
+      ],
+      "@digihealth/ui/*": [
+        "packages/ui/src/*"
+      ],
+      "@digihealth/theme/*": [
+        "packages/theme/src/*"
+      ],
+      "@digihealth/core": [
+        "packages/core/src/index.ts"
+      ],
+      "@digihealth/ui": [
+        "packages/ui/src/index.ts"
+      ]
+    }
+  }
+}

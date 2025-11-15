@@ -22,10 +22,10 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore (not strictly needed for this simple app, but good practice)
-        run: dotnet restore HelloWorld/HelloWorld.csproj
+        run: dotnet restore DigiCompile/compile.csproj
 
       - name: Build project
-        run: dotnet build HelloWorld/HelloWorld.csproj -c Release
+        run: dotnet build DigiCompile/compile.csproj -c Release
 
       - name: Run app
-        run: dotnet run --project HelloWorld/HelloWorld.csproj
+        run: dotnet run --project DigiCompile/compile.csproj

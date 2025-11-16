@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using IdentityService.PatientIdentifiers.Dtos;
+using IdentityService.PatientInsurances.Dtos;
 using Volo.Abp.Application.Dtos;
 
 namespace IdentityService.Patients.Dtos;
@@ -15,4 +18,7 @@ public class PatientDto : EntityDto<Guid>
     public string? MobileNumber { get; set; }
     public string? HealthVaultId { get; set; }
     public DateTime CreatedAt { get; set; }
+    public string? PhotoStorageKey { get; set; }
+    public List<PatientIdentifierDto> Identifiers { get; set; } = new();
+    public List<PatientInsuranceDto> Insurances { get; set; } = new();
 }

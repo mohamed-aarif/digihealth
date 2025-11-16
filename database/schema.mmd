@@ -5,12 +5,49 @@ erDiagram
     Patients ||--o{ FamilyLinks : "patient has family links"
     Users ||--o{ FamilyLinks : "family user linked"
 
-    %% New: patient identifiers & insurances
     Patients ||--o{ PatientIdentifiers : "structured IDs"
     Patients ||--o{ PatientInsurances  : "insurance policies"
 
+    %% ============ VAULT ============
+    Patients ||--o{ VaultRecords : "owns records"
+    Patients ||--o{ VaultTimeline : "timeline events"
+    VaultRecords ||--o{ PatientIdentifiers : "document for ID"
+    VaultRecords ||--o{ PatientInsurances  : "document for insurance"
+
+    %% ============ CONSENT ============
+    Patients ||--o{ ConsentSessions : "patient grants access"
+    Users ||--o{ ConsentSessions : "actor user"
+    ConsentSessions ||--o{ AccessLogs : "audit entries"
+
+    %% ============ MEDICATION ============
+    Patients ||--o{ Prescriptions : ""
+    Doctors ||--o{ Prescriptions : ""
+    VaultRecords ||--o{ Prescriptions : ""
+    Prescriptions ||--o{ MedicationItems : ""
+    MedicationItems ||--o{ MedicationSchedules : ""
+    MedicationSchedules ||--o{ MedicationDoses : ""
+
+    %% ============ APPOINTMENTS ============
+    Patients ||--o{ Appointments : ""
+    Doctors ||--o{ Appointments : ""
+    Appointments ||--o{ VisitNotes : ""
+    Appointments ||--o{ AiVisitBriefs : ""
+
+    %% ============ DEVICES ============
+    Patients ||--o{ DeviceLinks : ""
+    DeviceLinks ||--o{ VitalReadings : ""
+
+    %% ============ ENGAGEMENT ============
+    Patients ||--o{ Notifications : ""
+    Users ||--o{ Notifications : ""
+    Patients ||--o{ ChatSessions : ""
+    ChatSessions ||--o{ ChatMessages : ""
+
+    %% ============ ENTITY DEFINITIONS ============
+
     Users {
       UUID Id PK
+      UUID TenantId
       string UserName
       string Email
       string PasswordHash
@@ -22,6 +59,7 @@ erDiagram
 
     Patients {
       UUID Id PK
+      UUID TenantId
       UUID UserId FK
       string FullName
       date DateOfBirth
@@ -36,6 +74,7 @@ erDiagram
 
     Doctors {
       UUID Id PK
+      UUID TenantId
       UUID UserId FK
       string FullName
       string Salutation
@@ -48,6 +87,7 @@ erDiagram
 
     FamilyLinks {
       UUID Id PK
+      UUID TenantId
       UUID PatientId FK
       UUID FamilyUserId FK
       string Relationship
@@ -57,19 +97,21 @@ erDiagram
 
     PatientIdentifiers {
       UUID Id PK
+      UUID TenantId
       UUID PatientId FK
-      string IdType         
+      string IdType
       string IdNumber
       string IssuerCountry
       date IssueDate
       date ExpiryDate
       string Notes
-      UUID RecordId FK      
+      UUID RecordId FK
       timestamptz CreatedAt
     }
 
     PatientInsurances {
       UUID Id PK
+      UUID TenantId
       UUID PatientId FK
       string InsurerName
       string PolicyNumber
@@ -79,22 +121,15 @@ erDiagram
       date IssueDate
       date ExpiryDate
       bool IsActive
-      UUID RecordId FK      
+      UUID RecordId FK
       timestamptz CreatedAt
     }
 
-    %% ============ VAULT ============
-    Patients ||--o{ VaultRecords : "owns records"
-    Patients ||--o{ VaultTimeline : "timeline events"
-
-    %% New links: ID/Insurance docs to their backing record
-    VaultRecords ||--o{ PatientIdentifiers : "document for ID"
-    VaultRecords ||--o{ PatientInsurances  : "document for insurance"
-
     VaultRecords {
       UUID Id PK
+      UUID TenantId
       UUID PatientId FK
-      string RecordType     
+      string RecordType
       string Title
       text Description
       string FileKey
@@ -105,6 +140,7 @@ erDiagram
 
     VaultTimeline {
       UUID Id PK
+      UUID TenantId
       UUID PatientId FK
       string EventType
       UUID RelatedId
@@ -112,13 +148,9 @@ erDiagram
       string Summary
     }
 
-    %% ============ CONSENT ============
-    Patients ||--o{ ConsentSessions : "patient grants access"
-    Users ||--o{ ConsentSessions : "actor user"
-    ConsentSessions ||--o{ AccessLogs : "audit entries"
-
     ConsentSessions {
       UUID Id PK
+      UUID TenantId
       UUID PatientId FK
       UUID ActorUserId FK
       string ActorType
@@ -130,6 +162,7 @@ erDiagram
 
     AccessLogs {
       UUID Id PK
+      UUID TenantId
       UUID ConsentSessionId FK
       timestamptz AccessedAt
       string ResourceType
@@ -137,25 +170,20 @@ erDiagram
       string Action
     }
 
-    %% ============ MEDICATION ============
-    Patients ||--o{ Prescriptions : ""
-    Doctors ||--o{ Prescriptions : ""
-    VaultRecords ||--o{ Prescriptions : ""
-    Prescriptions ||--o{ MedicationItems : ""
-    MedicationItems ||--o{ MedicationSchedules : ""
-    MedicationSchedules ||--o{ MedicationDoses : ""
-
     Prescriptions {
       UUID Id PK
+      UUID TenantId
       UUID PatientId FK
       UUID DoctorId FK
       UUID RecordId FK
       date IssuedOn
       text Notes
+      timestamptz CreatedAt
     }
 
     MedicationItems {
       UUID Id PK
+      UUID TenantId
       UUID PrescriptionId FK
       string Name
       string Dosage
@@ -167,6 +195,7 @@ erDiagram
 
     MedicationSchedules {
       UUID Id PK
+      UUID TenantId
       UUID MedicationItemId FK
       date StartDate
       date EndDate
@@ -176,6 +205,7 @@ erDiagram
 
     MedicationDoses {
       UUID Id PK
+      UUID TenantId
       UUID ScheduleId FK
       timestamptz DueAt
       string Status
@@ -183,14 +213,9 @@ erDiagram
       text Notes
     }
 
-    %% ============ APPOINTMENTS ============
-    Patients ||--o{ Appointments : ""
-    Doctors ||--o{ Appointments : ""
-    Appointments ||--o{ VisitNotes : ""
-    Appointments ||--o{ AiVisitBriefs : ""
-
     Appointments {
       UUID Id PK
+      UUID TenantId
       UUID PatientId FK
       UUID DoctorId FK
       timestamptz ScheduledAt
@@ -202,6 +227,7 @@ erDiagram
 
     VisitNotes {
       UUID Id PK
+      UUID TenantId
       UUID AppointmentId FK
       text NotesByDoctor
       text NotesByPatient
@@ -210,18 +236,16 @@ erDiagram
 
     AiVisitBriefs {
       UUID Id PK
+      UUID TenantId
       UUID AppointmentId FK
       text SummaryForDoctor
       text SummaryForPatient
       timestamptz GeneratedAt
     }
 
-    %% ============ DEVICES ============
-    Patients ||--o{ DeviceLinks : ""
-    DeviceLinks ||--o{ VitalReadings : ""
-
     DeviceLinks {
       UUID Id PK
+      UUID TenantId
       UUID PatientId FK
       string Provider
       string ExternalId
@@ -231,6 +255,7 @@ erDiagram
 
     VitalReadings {
       UUID Id PK
+      UUID TenantId
       UUID PatientId FK
       UUID DeviceLinkId FK
       string VitalType
@@ -240,14 +265,9 @@ erDiagram
       timestamptz CreatedAt
     }
 
-    %% ============ ENGAGEMENT ============
-    Patients ||--o{ Notifications : ""
-    Users ||--o{ Notifications : ""
-    Patients ||--o{ ChatSessions : ""
-    ChatSessions ||--o{ ChatMessages : ""
-
     Notifications {
       UUID Id PK
+      UUID TenantId
       UUID PatientId FK
       UUID UserId FK
       string Channel
@@ -260,6 +280,7 @@ erDiagram
 
     ChatSessions {
       UUID Id PK
+      UUID TenantId
       UUID PatientId FK
       timestamptz StartedAt
       bool IsActive
@@ -267,6 +288,7 @@ erDiagram
 
     ChatMessages {
       UUID Id PK
+      UUID TenantId
       UUID SessionId FK
       string Sender
       text Content

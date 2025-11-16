@@ -329,5 +329,76 @@ CREATE INDEX IF NOT EXISTS idx_patient_insurances_active
   ON identity.patient_insurances (is_active);
 
 
+--=======================================================================================
+-- Version 3.0: 16/11/25 - Add Tenant Id
+--=======================================================================================
+ALTER TABLE identity.patients
+  ADD COLUMN IF NOT EXISTS tenant_id UUID;
+
+CREATE INDEX IF NOT EXISTS idx_patients_tenant
+  ON identity.patients (tenant_id);
+
+ALTER TABLE identity.doctors
+  ADD COLUMN IF NOT EXISTS tenant_id UUID;
+
+ALTER TABLE vault.records
+  ADD COLUMN IF NOT EXISTS tenant_id UUID;
+
+ALTER TABLE vault.timeline_events
+  ADD COLUMN IF NOT EXISTS tenant_id UUID;
+
+ALTER TABLE identity.patient_identifiers
+  ADD COLUMN IF NOT EXISTS tenant_id UUID;
+
+ALTER TABLE identity.patient_insurances
+  ADD COLUMN IF NOT EXISTS tenant_id UUID;
+
+ALTER TABLE consent.consent_sessions
+  ADD COLUMN IF NOT EXISTS tenant_id UUID;
+
+ALTER TABLE consent.access_logs
+  ADD COLUMN IF NOT EXISTS tenant_id UUID;
+
+ALTER TABLE medication.prescriptions
+  ADD COLUMN IF NOT EXISTS tenant_id UUID;
+
+ALTER TABLE medication.medication_items
+  ADD COLUMN IF NOT EXISTS tenant_id UUID;
+
+ALTER TABLE medication.medication_schedules
+  ADD COLUMN IF NOT EXISTS tenant_id UUID;
+
+ALTER TABLE medication.medication_doses
+  ADD COLUMN IF NOT EXISTS tenant_id UUID;
+
+ALTER TABLE appointments.appointments
+  ADD COLUMN IF NOT EXISTS tenant_id UUID;
+
+ALTER TABLE appointments.visit_notes
+  ADD COLUMN IF NOT EXISTS tenant_id UUID;
+
+ALTER TABLE appointments.ai_visit_briefs
+  ADD COLUMN IF NOT EXISTS tenant_id UUID;
+
+ALTER TABLE devices.device_links
+  ADD COLUMN IF NOT EXISTS tenant_id UUID;
+
+ALTER TABLE devices.vital_readings
+  ADD COLUMN IF NOT EXISTS tenant_id UUID;
+
+ALTER TABLE engagement.notifications
+  ADD COLUMN IF NOT EXISTS tenant_id UUID;
+
+ALTER TABLE engagement.chat_sessions
+  ADD COLUMN IF NOT EXISTS tenant_id UUID;
+
+ALTER TABLE engagement.chat_messages
+  ADD COLUMN IF NOT EXISTS tenant_id UUID;
+
+ALTER TABLE identity.users
+  ADD COLUMN IF NOT EXISTS tenant_id UUID;
+
+CREATE INDEX IF NOT EXISTS idx_users_tenant
+  ON identity.users (tenant_id);
 
 

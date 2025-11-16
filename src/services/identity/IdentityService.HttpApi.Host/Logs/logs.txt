@@ -589,3 +589,230 @@
 2025-11-16 17:36:11.083 +04:00 [INF] Executed action IdentityService.Controllers.Users.IdentityUserAccountController.GetListAsync (IdentityService.HttpApi) in 135.456ms
 2025-11-16 17:36:11.085 +04:00 [INF] Executed endpoint 'IdentityService.Controllers.Users.IdentityUserAccountController.GetListAsync (IdentityService.HttpApi)'
 2025-11-16 17:36:11.086 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44385/api/identity/users - 200 null application/json; charset=utf-8 195.0434ms
+2025-11-16 17:37:06.897 +04:00 [INF] Starting IdentityService.HttpApi.Host.
+2025-11-16 17:37:08.605 +04:00 [DBG] Loaded ABP modules:
+2025-11-16 17:37:08.643 +04:00 [DBG] - IdentityService.IdentityServiceHttpApiHostModule
+2025-11-16 17:37:08.647 +04:00 [DBG]   - IdentityService.IdentityServiceHttpApiModule
+2025-11-16 17:37:08.649 +04:00 [DBG]     - IdentityService.IdentityServiceApplicationModule
+2025-11-16 17:37:08.652 +04:00 [DBG]       - IdentityService.IdentityServiceDomainModule
+2025-11-16 17:37:08.654 +04:00 [DBG]         - IdentityService.IdentityServiceDomainSharedModule
+2025-11-16 17:37:08.658 +04:00 [DBG]           - Volo.Abp.Localization.AbpLocalizationModule
+2025-11-16 17:37:08.659 +04:00 [DBG]             - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2025-11-16 17:37:08.660 +04:00 [DBG]             - Volo.Abp.Settings.AbpSettingsModule
+2025-11-16 17:37:08.662 +04:00 [DBG]               - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2025-11-16 17:37:08.663 +04:00 [DBG]               - Volo.Abp.Security.AbpSecurityModule
+2025-11-16 17:37:08.665 +04:00 [DBG]               - Volo.Abp.Data.AbpDataModule
+2025-11-16 17:37:08.666 +04:00 [DBG]                 - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2025-11-16 17:37:08.668 +04:00 [DBG]                   - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2025-11-16 17:37:08.670 +04:00 [DBG]                 - Volo.Abp.Uow.AbpUnitOfWorkModule
+2025-11-16 17:37:08.685 +04:00 [DBG]                 - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2025-11-16 17:37:08.687 +04:00 [DBG]             - Volo.Abp.Threading.AbpThreadingModule
+2025-11-16 17:37:08.688 +04:00 [DBG]       - IdentityService.IdentityServiceApplicationContractsModule
+2025-11-16 17:37:08.692 +04:00 [DBG]         - Volo.Abp.Application.AbpDddApplicationContractsModule
+2025-11-16 17:37:08.694 +04:00 [DBG]           - Volo.Abp.Auditing.AbpAuditingContractsModule
+2025-11-16 17:37:08.695 +04:00 [DBG]         - Volo.Abp.Application.AbpDddApplicationModule
+2025-11-16 17:37:08.698 +04:00 [DBG]           - Volo.Abp.Domain.AbpDddDomainModule
+2025-11-16 17:37:08.699 +04:00 [DBG]             - Volo.Abp.Auditing.AbpAuditingModule
+2025-11-16 17:37:08.702 +04:00 [DBG]               - Volo.Abp.Json.AbpJsonModule
+2025-11-16 17:37:08.703 +04:00 [DBG]                 - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2025-11-16 17:37:08.704 +04:00 [DBG]                   - Volo.Abp.Json.AbpJsonAbstractionsModule
+2025-11-16 17:37:08.706 +04:00 [DBG]                   - Volo.Abp.Timing.AbpTimingModule
+2025-11-16 17:37:08.708 +04:00 [DBG]               - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2025-11-16 17:37:08.710 +04:00 [DBG]                 - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2025-11-16 17:37:08.712 +04:00 [DBG]             - Volo.Abp.EventBus.AbpEventBusModule
+2025-11-16 17:37:08.715 +04:00 [DBG]               - Volo.Abp.Guids.AbpGuidsModule
+2025-11-16 17:37:08.716 +04:00 [DBG]               - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2025-11-16 17:37:08.718 +04:00 [DBG]               - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2025-11-16 17:37:08.719 +04:00 [DBG]             - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2025-11-16 17:37:08.721 +04:00 [DBG]             - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2025-11-16 17:37:08.723 +04:00 [DBG]             - Volo.Abp.Specifications.AbpSpecificationsModule
+2025-11-16 17:37:08.725 +04:00 [DBG]             - Volo.Abp.Caching.AbpCachingModule
+2025-11-16 17:37:08.726 +04:00 [DBG]               - Volo.Abp.Serialization.AbpSerializationModule
+2025-11-16 17:37:08.728 +04:00 [DBG]             - Volo.Abp.Domain.AbpDddDomainSharedModule
+2025-11-16 17:37:08.729 +04:00 [DBG]           - Volo.Abp.Validation.AbpValidationModule
+2025-11-16 17:37:08.731 +04:00 [DBG]           - Volo.Abp.Authorization.AbpAuthorizationModule
+2025-11-16 17:37:08.732 +04:00 [DBG]             - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2025-11-16 17:37:08.734 +04:00 [DBG]           - Volo.Abp.Http.AbpHttpAbstractionsModule
+2025-11-16 17:37:08.735 +04:00 [DBG]           - Volo.Abp.Features.AbpFeaturesModule
+2025-11-16 17:37:08.737 +04:00 [DBG]           - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2025-11-16 17:37:08.738 +04:00 [DBG]       - Volo.Abp.AutoMapper.AbpAutoMapperModule
+2025-11-16 17:37:08.742 +04:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2025-11-16 17:37:08.744 +04:00 [DBG]       - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2025-11-16 17:37:08.745 +04:00 [DBG]         - Volo.Abp.Http.AbpHttpModule
+2025-11-16 17:37:08.747 +04:00 [DBG]           - Volo.Abp.Minify.AbpMinifyModule
+2025-11-16 17:37:08.748 +04:00 [DBG]         - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2025-11-16 17:37:08.750 +04:00 [DBG]       - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2025-11-16 17:37:08.751 +04:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2025-11-16 17:37:08.753 +04:00 [DBG]       - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2025-11-16 17:37:08.754 +04:00 [DBG]         - Volo.Abp.UI.AbpUiModule
+2025-11-16 17:37:08.758 +04:00 [DBG]   - IdentityService.EntityFrameworkCore.IdentityServiceEntityFrameworkCoreModule
+2025-11-16 17:37:08.760 +04:00 [DBG]     - Volo.Abp.EntityFrameworkCore.PostgreSql.AbpEntityFrameworkCorePostgreSqlModule
+2025-11-16 17:37:08.761 +04:00 [DBG]       - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2025-11-16 17:37:08.763 +04:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2025-11-16 17:37:08.764 +04:00 [DBG]     - Volo.Abp.Castle.AbpCastleCoreModule
+2025-11-16 17:37:08.766 +04:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2025-11-16 17:37:08.767 +04:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2025-11-16 17:37:09.265 +04:00 [INF] User profile is available. Using 'C:\Users\user\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-11-16 17:37:09.437 +04:00 [INF] Initialized all ABP modules.
+2025-11-16 17:37:09.687 +04:00 [INF] Now listening on: https://localhost:44385
+2025-11-16 17:37:09.861 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44385/index.html - null null
+2025-11-16 17:37:09.876 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-11-16 17:37:09.877 +04:00 [INF] Hosting environment: Development
+2025-11-16 17:37:09.879 +04:00 [INF] Content root path: E:\Project\digihealth\src\services\identity\IdentityService.HttpApi.Host
+2025-11-16 17:37:10.178 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44385/index.html - 200 null text/html;charset=utf-8 316.7308ms
+2025-11-16 17:37:10.197 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44385/_vs/browserLink - null null
+2025-11-16 17:37:10.197 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44385/_framework/aspnetcore-browser-refresh.js - null null
+2025-11-16 17:37:10.241 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44385/_framework/aspnetcore-browser-refresh.js - 200 16541 application/javascript; charset=utf-8 43.1127ms
+2025-11-16 17:37:10.272 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44385/_vs/browserLink - 200 null text/javascript; charset=UTF-8 76.1857ms
+2025-11-16 17:37:10.474 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44385/swagger/v1/swagger.json - null null
+2025-11-16 17:37:10.553 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44385/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 78.7729ms
+2025-11-16 17:38:55.398 +04:00 [INF] Starting IdentityService.HttpApi.Host.
+2025-11-16 17:39:10.688 +04:00 [DBG] Loaded ABP modules:
+2025-11-16 17:39:10.691 +04:00 [DBG] - IdentityService.IdentityServiceHttpApiHostModule
+2025-11-16 17:39:10.692 +04:00 [DBG]   - IdentityService.IdentityServiceHttpApiModule
+2025-11-16 17:39:10.693 +04:00 [DBG]     - IdentityService.IdentityServiceApplicationModule
+2025-11-16 17:39:10.694 +04:00 [DBG]       - IdentityService.IdentityServiceDomainModule
+2025-11-16 17:39:10.695 +04:00 [DBG]         - IdentityService.IdentityServiceDomainSharedModule
+2025-11-16 17:39:10.695 +04:00 [DBG]           - Volo.Abp.Localization.AbpLocalizationModule
+2025-11-16 17:39:10.696 +04:00 [DBG]             - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2025-11-16 17:39:10.697 +04:00 [DBG]             - Volo.Abp.Settings.AbpSettingsModule
+2025-11-16 17:39:10.698 +04:00 [DBG]               - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2025-11-16 17:39:10.699 +04:00 [DBG]               - Volo.Abp.Security.AbpSecurityModule
+2025-11-16 17:39:10.699 +04:00 [DBG]               - Volo.Abp.Data.AbpDataModule
+2025-11-16 17:39:10.700 +04:00 [DBG]                 - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2025-11-16 17:39:10.701 +04:00 [DBG]                   - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2025-11-16 17:39:10.702 +04:00 [DBG]                 - Volo.Abp.Uow.AbpUnitOfWorkModule
+2025-11-16 17:39:10.702 +04:00 [DBG]                 - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2025-11-16 17:39:10.703 +04:00 [DBG]             - Volo.Abp.Threading.AbpThreadingModule
+2025-11-16 17:39:10.704 +04:00 [DBG]       - IdentityService.IdentityServiceApplicationContractsModule
+2025-11-16 17:39:10.705 +04:00 [DBG]         - Volo.Abp.Application.AbpDddApplicationContractsModule
+2025-11-16 17:39:10.705 +04:00 [DBG]           - Volo.Abp.Auditing.AbpAuditingContractsModule
+2025-11-16 17:39:10.706 +04:00 [DBG]         - Volo.Abp.Application.AbpDddApplicationModule
+2025-11-16 17:39:10.707 +04:00 [DBG]           - Volo.Abp.Domain.AbpDddDomainModule
+2025-11-16 17:39:10.707 +04:00 [DBG]             - Volo.Abp.Auditing.AbpAuditingModule
+2025-11-16 17:39:10.708 +04:00 [DBG]               - Volo.Abp.Json.AbpJsonModule
+2025-11-16 17:39:10.709 +04:00 [DBG]                 - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2025-11-16 17:39:10.709 +04:00 [DBG]                   - Volo.Abp.Json.AbpJsonAbstractionsModule
+2025-11-16 17:39:10.710 +04:00 [DBG]                   - Volo.Abp.Timing.AbpTimingModule
+2025-11-16 17:39:10.711 +04:00 [DBG]               - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2025-11-16 17:39:10.712 +04:00 [DBG]                 - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2025-11-16 17:39:10.713 +04:00 [DBG]             - Volo.Abp.EventBus.AbpEventBusModule
+2025-11-16 17:39:10.713 +04:00 [DBG]               - Volo.Abp.Guids.AbpGuidsModule
+2025-11-16 17:39:10.714 +04:00 [DBG]               - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2025-11-16 17:39:10.715 +04:00 [DBG]               - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2025-11-16 17:39:10.716 +04:00 [DBG]             - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2025-11-16 17:39:10.716 +04:00 [DBG]             - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2025-11-16 17:39:10.717 +04:00 [DBG]             - Volo.Abp.Specifications.AbpSpecificationsModule
+2025-11-16 17:39:10.718 +04:00 [DBG]             - Volo.Abp.Caching.AbpCachingModule
+2025-11-16 17:39:10.718 +04:00 [DBG]               - Volo.Abp.Serialization.AbpSerializationModule
+2025-11-16 17:39:10.719 +04:00 [DBG]             - Volo.Abp.Domain.AbpDddDomainSharedModule
+2025-11-16 17:39:10.720 +04:00 [DBG]           - Volo.Abp.Validation.AbpValidationModule
+2025-11-16 17:39:10.721 +04:00 [DBG]           - Volo.Abp.Authorization.AbpAuthorizationModule
+2025-11-16 17:39:10.721 +04:00 [DBG]             - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2025-11-16 17:39:10.722 +04:00 [DBG]           - Volo.Abp.Http.AbpHttpAbstractionsModule
+2025-11-16 17:39:10.723 +04:00 [DBG]           - Volo.Abp.Features.AbpFeaturesModule
+2025-11-16 17:39:10.723 +04:00 [DBG]           - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2025-11-16 17:39:10.724 +04:00 [DBG]       - Volo.Abp.AutoMapper.AbpAutoMapperModule
+2025-11-16 17:39:10.725 +04:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2025-11-16 17:39:10.725 +04:00 [DBG]       - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2025-11-16 17:39:10.726 +04:00 [DBG]         - Volo.Abp.Http.AbpHttpModule
+2025-11-16 17:39:10.727 +04:00 [DBG]           - Volo.Abp.Minify.AbpMinifyModule
+2025-11-16 17:39:10.728 +04:00 [DBG]         - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2025-11-16 17:39:10.729 +04:00 [DBG]       - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2025-11-16 17:39:10.729 +04:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2025-11-16 17:39:10.730 +04:00 [DBG]       - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2025-11-16 17:39:10.731 +04:00 [DBG]         - Volo.Abp.UI.AbpUiModule
+2025-11-16 17:39:10.731 +04:00 [DBG]   - IdentityService.EntityFrameworkCore.IdentityServiceEntityFrameworkCoreModule
+2025-11-16 17:39:10.732 +04:00 [DBG]     - Volo.Abp.EntityFrameworkCore.PostgreSql.AbpEntityFrameworkCorePostgreSqlModule
+2025-11-16 17:39:10.733 +04:00 [DBG]       - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2025-11-16 17:39:10.733 +04:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2025-11-16 17:39:10.735 +04:00 [DBG]     - Volo.Abp.Castle.AbpCastleCoreModule
+2025-11-16 17:39:10.735 +04:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2025-11-16 17:39:10.736 +04:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2025-11-16 17:39:12.189 +04:00 [INF] User profile is available. Using 'C:\Users\user\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-11-16 17:39:12.288 +04:00 [INF] Initialized all ABP modules.
+2025-11-16 17:39:12.414 +04:00 [INF] Now listening on: https://localhost:44385
+2025-11-16 17:39:12.500 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-11-16 17:39:12.501 +04:00 [INF] Hosting environment: Development
+2025-11-16 17:39:12.502 +04:00 [INF] Content root path: E:\Project\digihealth\src\services\identity\IdentityService.HttpApi.Host
+2025-11-16 17:39:43.570 +04:00 [INF] Starting IdentityService.HttpApi.Host.
+2025-11-16 17:39:45.435 +04:00 [DBG] Loaded ABP modules:
+2025-11-16 17:39:45.438 +04:00 [DBG] - IdentityService.IdentityServiceHttpApiHostModule
+2025-11-16 17:39:45.440 +04:00 [DBG]   - IdentityService.IdentityServiceHttpApiModule
+2025-11-16 17:39:45.441 +04:00 [DBG]     - IdentityService.IdentityServiceApplicationModule
+2025-11-16 17:39:45.442 +04:00 [DBG]       - IdentityService.IdentityServiceDomainModule
+2025-11-16 17:39:45.443 +04:00 [DBG]         - IdentityService.IdentityServiceDomainSharedModule
+2025-11-16 17:39:45.446 +04:00 [DBG]           - Volo.Abp.Localization.AbpLocalizationModule
+2025-11-16 17:39:45.448 +04:00 [DBG]             - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2025-11-16 17:39:45.451 +04:00 [DBG]             - Volo.Abp.Settings.AbpSettingsModule
+2025-11-16 17:39:45.452 +04:00 [DBG]               - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2025-11-16 17:39:45.453 +04:00 [DBG]               - Volo.Abp.Security.AbpSecurityModule
+2025-11-16 17:39:45.454 +04:00 [DBG]               - Volo.Abp.Data.AbpDataModule
+2025-11-16 17:39:45.455 +04:00 [DBG]                 - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2025-11-16 17:39:45.456 +04:00 [DBG]                   - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2025-11-16 17:39:45.457 +04:00 [DBG]                 - Volo.Abp.Uow.AbpUnitOfWorkModule
+2025-11-16 17:39:45.458 +04:00 [DBG]                 - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2025-11-16 17:39:45.460 +04:00 [DBG]             - Volo.Abp.Threading.AbpThreadingModule
+2025-11-16 17:39:45.461 +04:00 [DBG]       - IdentityService.IdentityServiceApplicationContractsModule
+2025-11-16 17:39:45.463 +04:00 [DBG]         - Volo.Abp.Application.AbpDddApplicationContractsModule
+2025-11-16 17:39:45.465 +04:00 [DBG]           - Volo.Abp.Auditing.AbpAuditingContractsModule
+2025-11-16 17:39:45.466 +04:00 [DBG]         - Volo.Abp.Application.AbpDddApplicationModule
+2025-11-16 17:39:45.467 +04:00 [DBG]           - Volo.Abp.Domain.AbpDddDomainModule
+2025-11-16 17:39:45.469 +04:00 [DBG]             - Volo.Abp.Auditing.AbpAuditingModule
+2025-11-16 17:39:45.470 +04:00 [DBG]               - Volo.Abp.Json.AbpJsonModule
+2025-11-16 17:39:45.471 +04:00 [DBG]                 - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2025-11-16 17:39:45.472 +04:00 [DBG]                   - Volo.Abp.Json.AbpJsonAbstractionsModule
+2025-11-16 17:39:45.473 +04:00 [DBG]                   - Volo.Abp.Timing.AbpTimingModule
+2025-11-16 17:39:45.474 +04:00 [DBG]               - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2025-11-16 17:39:45.476 +04:00 [DBG]                 - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2025-11-16 17:39:45.477 +04:00 [DBG]             - Volo.Abp.EventBus.AbpEventBusModule
+2025-11-16 17:39:45.479 +04:00 [DBG]               - Volo.Abp.Guids.AbpGuidsModule
+2025-11-16 17:39:45.481 +04:00 [DBG]               - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2025-11-16 17:39:45.482 +04:00 [DBG]               - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2025-11-16 17:39:45.483 +04:00 [DBG]             - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2025-11-16 17:39:45.484 +04:00 [DBG]             - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2025-11-16 17:39:45.485 +04:00 [DBG]             - Volo.Abp.Specifications.AbpSpecificationsModule
+2025-11-16 17:39:45.486 +04:00 [DBG]             - Volo.Abp.Caching.AbpCachingModule
+2025-11-16 17:39:45.486 +04:00 [DBG]               - Volo.Abp.Serialization.AbpSerializationModule
+2025-11-16 17:39:45.487 +04:00 [DBG]             - Volo.Abp.Domain.AbpDddDomainSharedModule
+2025-11-16 17:39:45.488 +04:00 [DBG]           - Volo.Abp.Validation.AbpValidationModule
+2025-11-16 17:39:45.489 +04:00 [DBG]           - Volo.Abp.Authorization.AbpAuthorizationModule
+2025-11-16 17:39:45.489 +04:00 [DBG]             - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2025-11-16 17:39:45.490 +04:00 [DBG]           - Volo.Abp.Http.AbpHttpAbstractionsModule
+2025-11-16 17:39:45.491 +04:00 [DBG]           - Volo.Abp.Features.AbpFeaturesModule
+2025-11-16 17:39:45.491 +04:00 [DBG]           - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2025-11-16 17:39:45.492 +04:00 [DBG]       - Volo.Abp.AutoMapper.AbpAutoMapperModule
+2025-11-16 17:39:45.493 +04:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2025-11-16 17:39:45.493 +04:00 [DBG]       - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2025-11-16 17:39:45.494 +04:00 [DBG]         - Volo.Abp.Http.AbpHttpModule
+2025-11-16 17:39:45.499 +04:00 [DBG]           - Volo.Abp.Minify.AbpMinifyModule
+2025-11-16 17:39:45.500 +04:00 [DBG]         - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2025-11-16 17:39:45.501 +04:00 [DBG]       - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2025-11-16 17:39:45.502 +04:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2025-11-16 17:39:45.503 +04:00 [DBG]       - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2025-11-16 17:39:45.504 +04:00 [DBG]         - Volo.Abp.UI.AbpUiModule
+2025-11-16 17:39:45.504 +04:00 [DBG]   - IdentityService.EntityFrameworkCore.IdentityServiceEntityFrameworkCoreModule
+2025-11-16 17:39:45.505 +04:00 [DBG]     - Volo.Abp.EntityFrameworkCore.PostgreSql.AbpEntityFrameworkCorePostgreSqlModule
+2025-11-16 17:39:45.506 +04:00 [DBG]       - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2025-11-16 17:39:45.507 +04:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2025-11-16 17:39:45.508 +04:00 [DBG]     - Volo.Abp.Castle.AbpCastleCoreModule
+2025-11-16 17:39:45.509 +04:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2025-11-16 17:39:45.509 +04:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2025-11-16 17:39:46.015 +04:00 [INF] User profile is available. Using 'C:\Users\user\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-11-16 17:39:46.176 +04:00 [INF] Initialized all ABP modules.
+2025-11-16 17:39:46.392 +04:00 [INF] Now listening on: https://localhost:44385
+2025-11-16 17:39:46.554 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-11-16 17:39:46.556 +04:00 [INF] Hosting environment: Development
+2025-11-16 17:39:46.558 +04:00 [INF] Content root path: E:\Project\digihealth\src\services\identity\IdentityService.HttpApi.Host
+2025-11-16 17:39:47.070 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44385/_framework/aspnetcore-browser-refresh.js - null null
+2025-11-16 17:39:47.072 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44385/_vs/browserLink - null null
+2025-11-16 17:39:47.126 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44385/_framework/aspnetcore-browser-refresh.js - 200 16541 application/javascript; charset=utf-8 53.3801ms
+2025-11-16 17:39:47.243 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44385/_vs/browserLink - 200 null text/javascript; charset=UTF-8 171.3247ms
+2025-11-16 17:39:47.394 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44385/swagger/v1/swagger.json - null null
+2025-11-16 17:39:47.593 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44385/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 197.6277ms
+2025-11-16 17:39:53.394 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44385/_framework/aspnetcore-browser-refresh.js - null null
+2025-11-16 17:39:53.394 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44385/_vs/browserLink - null null
+2025-11-16 17:39:53.426 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44385/_framework/aspnetcore-browser-refresh.js - 200 16541 application/javascript; charset=utf-8 32.2234ms
+2025-11-16 17:39:53.457 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44385/_vs/browserLink - 200 null text/javascript; charset=UTF-8 62.6213ms
+2025-11-16 17:39:53.639 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44385/swagger/v1/swagger.json - null null
+2025-11-16 17:39:53.916 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44385/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 277.1246ms

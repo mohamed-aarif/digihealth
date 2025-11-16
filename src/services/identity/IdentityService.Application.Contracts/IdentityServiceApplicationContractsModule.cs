@@ -5,7 +5,7 @@ namespace IdentityService;
 
 [DependsOn(
     typeof(IdentityServiceDomainSharedModule),
-    typeof(AbpDddApplicationContractsModule)
+    typeof(AbpDddApplicationContractsModule),
     typeof(AbpDddApplicationModule)
 )]
 public class IdentityServiceApplicationContractsModule : AbpModule

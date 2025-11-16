@@ -263,3 +263,5 @@ src/digihealth.Blazor.Server.Tiered/Logs/*
 
 # Use abp install-libs to restore.
 **/wwwroot/libs/*
+/src/services/identity/IdentityService.HttpApi.Host/Logs/logs.txt
+/.gitignore

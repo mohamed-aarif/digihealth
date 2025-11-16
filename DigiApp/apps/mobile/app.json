@@ -1,0 +1,8 @@
+{
+  "expo": {
+    "name": "DigiHealth Mobile",
+    "slug": "digihealth-mobile",
+    "platforms": ["ios", "android", "web"],
+    "version": "0.1.0"
+  }
+}

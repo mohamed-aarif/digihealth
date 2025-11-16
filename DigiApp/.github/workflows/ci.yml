@@ -1,0 +1,13 @@
+name: CI
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: pnpm/action-setup@v2
+      - name: Install
+        run: pnpm install
+      - name: Build web
+        run: pnpm --filter @digihealth/web build

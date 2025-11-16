@@ -1,0 +1,31 @@
+name: Build .NET App
+
+on:
+  push:
+    branches:
+      - main
+      - stage
+      - codex/implement-identity-and-patient-microservice-fraf9g
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore (not strictly needed for this simple app, but good practice)
+        run: dotnet restore DigiCompile/compile.csproj
+
+      - name: Build project
+        run: dotnet build DigiCompile/compile.csproj -c Release
+
+      - name: Run app
+        run: dotnet run --project DigiCompile/compile.csproj

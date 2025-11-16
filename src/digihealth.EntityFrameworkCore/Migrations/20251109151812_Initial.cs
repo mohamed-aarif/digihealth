@@ -11,6 +11,159 @@ namespace digihealth.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "identity");
+
+            migrationBuilder.EnsureSchema(
+                name: "vault");
+
+            migrationBuilder.EnsureSchema(
+                name: "consent");
+
+            migrationBuilder.EnsureSchema(
+                name: "medication");
+
+            migrationBuilder.EnsureSchema(
+                name: "appointments");
+
+            migrationBuilder.EnsureSchema(
+                name: "devices");
+
+            migrationBuilder.EnsureSchema(
+                name: "engagement");
+
+            migrationBuilder.Sql("CREATE EXTENSION IF NOT EXISTS \"pgcrypto\";");
+
+            migrationBuilder.Sql(@"DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_type t
+        JOIN pg_namespace n ON n.oid = t.typnamespace
+        WHERE n.nspname = 'vault' AND t.typname = 'record_type'
+    ) THEN
+        CREATE TYPE vault.record_type AS ENUM ('Report','Prescription','Discharge','Imaging','NationalId','Insurance','Other');
+    END IF;
+END
+$$;");
+
+            migrationBuilder.Sql(@"DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_type t
+        JOIN pg_namespace n ON n.oid = t.typnamespace
+        WHERE n.nspname = 'vault' AND t.typname = 'sensitivity_level'
+    ) THEN
+        CREATE TYPE vault.sensitivity_level AS ENUM ('Public','Restricted','Confidential');
+    END IF;
+END
+$$;");
+
+            migrationBuilder.Sql(@"DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_type t
+        JOIN pg_namespace n ON n.oid = t.typnamespace
+        WHERE n.nspname = 'vault' AND t.typname = 'event_type'
+    ) THEN
+        CREATE TYPE vault.event_type AS ENUM ('RecordUploaded','Appointment','MedicationStarted','MedicationReminder','VitalReading','AiInsight');
+    END IF;
+END
+$$;");
+
+            migrationBuilder.Sql(@"DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_type t
+        JOIN pg_namespace n ON n.oid = t.typnamespace
+        WHERE n.nspname = 'consent' AND t.typname = 'actor_type'
+    ) THEN
+        CREATE TYPE consent.actor_type AS ENUM ('Doctor','Family');
+    END IF;
+END
+$$;");
+
+            migrationBuilder.Sql(@"DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_type t
+        JOIN pg_namespace n ON n.oid = t.typnamespace
+        WHERE n.nspname = 'medication' AND t.typname = 'dose_status'
+    ) THEN
+        CREATE TYPE medication.dose_status AS ENUM ('Scheduled','Taken','Missed','Skipped');
+    END IF;
+END
+$$;");
+
+            migrationBuilder.Sql(@"DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_type t
+        JOIN pg_namespace n ON n.oid = t.typnamespace
+        WHERE n.nspname = 'appointments' AND t.typname = 'appointment_status'
+    ) THEN
+        CREATE TYPE appointments.appointment_status AS ENUM ('Planned','Completed','Cancelled','NoShow');
+    END IF;
+END
+$$;");
+
+            migrationBuilder.Sql(@"DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_type t
+        JOIN pg_namespace n ON n.oid = t.typnamespace
+        WHERE n.nspname = 'devices' AND t.typname = 'vital_type'
+    ) THEN
+        CREATE TYPE devices.vital_type AS ENUM ('HeartRate','BloodPressure','Glucose','Steps','Weight','SpO2');
+    END IF;
+END
+$$;");
+
+            migrationBuilder.Sql(@"DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_type t
+        JOIN pg_namespace n ON n.oid = t.typnamespace
+        WHERE n.nspname = 'engagement' AND t.typname = 'channel_type'
+    ) THEN
+        CREATE TYPE engagement.channel_type AS ENUM ('Push','Email','Sms','WhatsApp');
+    END IF;
+END
+$$;");
+
+            migrationBuilder.Sql(@"DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_type t
+        JOIN pg_namespace n ON n.oid = t.typnamespace
+        WHERE n.nspname = 'engagement' AND t.typname = 'notification_status'
+    ) THEN
+        CREATE TYPE engagement.notification_status AS ENUM ('Pending','Sent','Failed');
+    END IF;
+END
+$$;");
+
+            migrationBuilder.Sql(@"DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_type t
+        JOIN pg_namespace n ON n.oid = t.typnamespace
+        WHERE n.nspname = 'engagement' AND t.typname = 'message_sender'
+    ) THEN
+        CREATE TYPE engagement.message_sender AS ENUM ('Patient','AiAssistant');
+    END IF;
+END
+$$;");
+
             migrationBuilder.CreateTable(
                 name: "AbpAuditLogExcelFiles",
                 columns: table => new
@@ -1050,11 +1203,950 @@ namespace digihealth.Migrations
                 name: "IX_OpenIddictTokens_ReferenceId",
                 table: "OpenIddictTokens",
                 column: "ReferenceId");
+
+            migrationBuilder.CreateTable(
+                name: "users",
+                schema: "identity",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    user_name = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
+                    email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    password_hash = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    user_type = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    photo_storage_key = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: true),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_identity_users", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "doctors",
+                schema: "identity",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    salutation = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
+                    full_name = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    gender = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: true),
+                    specialty = table.Column<string>(type: "character varying(120)", maxLength: 120, nullable: true),
+                    registration_no = table.Column<string>(type: "character varying(80)", maxLength: 80, nullable: true),
+                    clinic_name = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_identity_doctors", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_identity_doctors_users",
+                        column: x => x.user_id,
+                        principalSchema: "identity",
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "patients",
+                schema: "identity",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    salutation = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
+                    full_name = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    date_of_birth = table.Column<DateTime>(type: "date", nullable: true),
+                    gender = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: true),
+                    country = table.Column<string>(type: "character varying(80)", maxLength: 80, nullable: true),
+                    mobile_number = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    healthvault_id = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    residence_country = table.Column<string>(type: "character varying(80)", maxLength: 80, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_identity_patients", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_identity_patients_users",
+                        column: x => x.user_id,
+                        principalSchema: "identity",
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "family_links",
+                schema: "identity",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    patient_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    family_user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    relationship = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    is_guardian = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_identity_family_links", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_identity_family_links_patients",
+                        column: x => x.patient_id,
+                        principalSchema: "identity",
+                        principalTable: "patients",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_identity_family_links_users",
+                        column: x => x.family_user_id,
+                        principalSchema: "identity",
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "records",
+                schema: "vault",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    patient_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    record_type = table.Column<string>(type: "vault.record_type", nullable: false),
+                    title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    description = table.Column<string>(type: "text", nullable: true),
+                    file_storage_key = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: false),
+                    sensitivity = table.Column<string>(type: "vault.sensitivity_level", nullable: false, defaultValueSql: "'Restricted'::vault.sensitivity_level"),
+                    source = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_vault_records", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_vault_records_patients",
+                        column: x => x.patient_id,
+                        principalSchema: "identity",
+                        principalTable: "patients",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "consent_sessions",
+                schema: "consent",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    patient_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    actor_user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    actor_type = table.Column<string>(type: "consent.actor_type", nullable: false),
+                    scope_json = table.Column<string>(type: "jsonb", nullable: false),
+                    expires_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    is_revoked = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_consent_consent_sessions", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_consent_sessions_patients",
+                        column: x => x.patient_id,
+                        principalSchema: "identity",
+                        principalTable: "patients",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_consent_sessions_users",
+                        column: x => x.actor_user_id,
+                        principalSchema: "identity",
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "access_logs",
+                schema: "consent",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    consent_session_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    accessed_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    resource_type = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    resource_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    action = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_consent_access_logs", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_consent_access_logs_sessions",
+                        column: x => x.consent_session_id,
+                        principalSchema: "consent",
+                        principalTable: "consent_sessions",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "medication_prescriptions",
+                schema: "medication",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    patient_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    doctor_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    record_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    issued_on = table.Column<DateTime>(type: "date", nullable: false),
+                    notes = table.Column<string>(type: "text", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_medication_prescriptions", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_medication_prescriptions_doctors",
+                        column: x => x.doctor_id,
+                        principalSchema: "identity",
+                        principalTable: "doctors",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_medication_prescriptions_patients",
+                        column: x => x.patient_id,
+                        principalSchema: "identity",
+                        principalTable: "patients",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_medication_prescriptions_records",
+                        column: x => x.record_id,
+                        principalSchema: "vault",
+                        principalTable: "records",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "medication_items",
+                schema: "medication",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    prescription_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    name = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    dosage = table.Column<string>(type: "character varying(80)", maxLength: 80, nullable: true),
+                    frequency = table.Column<string>(type: "character varying(80)", maxLength: 80, nullable: true),
+                    route = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    duration_days = table.Column<int>(type: "integer", nullable: true),
+                    instructions = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_medication_medication_items", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_medication_items_prescriptions",
+                        column: x => x.prescription_id,
+                        principalSchema: "medication",
+                        principalTable: "medication_prescriptions",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "medication_schedules",
+                schema: "medication",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    medication_item_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    start_date = table.Column<DateTime>(type: "date", nullable: false),
+                    end_date = table.Column<DateTime>(type: "date", nullable: true),
+                    times_in_day = table.Column<string>(type: "jsonb", nullable: false),
+                    timezone = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false, defaultValue: "Asia/Dubai")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_medication_medication_schedules", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_medication_schedules_items",
+                        column: x => x.medication_item_id,
+                        principalSchema: "medication",
+                        principalTable: "medication_items",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "medication_doses",
+                schema: "medication",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    schedule_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    due_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    status = table.Column<string>(type: "medication.dose_status", nullable: false, defaultValueSql: "'Scheduled'::medication.dose_status"),
+                    taken_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    notes = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_medication_medication_doses", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_medication_doses_schedules",
+                        column: x => x.schedule_id,
+                        principalSchema: "medication",
+                        principalTable: "medication_schedules",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "appointments",
+                schema: "appointments",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    patient_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    doctor_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    scheduled_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    status = table.Column<string>(type: "appointments.appointment_status", nullable: false, defaultValueSql: "'Planned'::appointments.appointment_status"),
+                    reason = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    location = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_appointments_appointments", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_appointments_doctors",
+                        column: x => x.doctor_id,
+                        principalSchema: "identity",
+                        principalTable: "doctors",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_appointments_patients",
+                        column: x => x.patient_id,
+                        principalSchema: "identity",
+                        principalTable: "patients",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "visit_notes",
+                schema: "appointments",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    appointment_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    notes_by_doctor = table.Column<string>(type: "text", nullable: true),
+                    notes_by_patient = table.Column<string>(type: "text", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_appointments_visit_notes", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_visit_notes_appointments",
+                        column: x => x.appointment_id,
+                        principalSchema: "appointments",
+                        principalTable: "appointments",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ai_visit_briefs",
+                schema: "appointments",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    appointment_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    summary_for_doctor = table.Column<string>(type: "text", nullable: true),
+                    summary_for_patient = table.Column<string>(type: "text", nullable: true),
+                    generated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_appointments_ai_visit_briefs", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_ai_visit_briefs_appointments",
+                        column: x => x.appointment_id,
+                        principalSchema: "appointments",
+                        principalTable: "appointments",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "device_links",
+                schema: "devices",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    patient_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    provider = table.Column<string>(type: "character varying(80)", maxLength: 80, nullable: false),
+                    external_id = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    linked_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_devices_device_links", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_device_links_patients",
+                        column: x => x.patient_id,
+                        principalSchema: "identity",
+                        principalTable: "patients",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "vital_readings",
+                schema: "devices",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    patient_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    device_link_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    vital_type = table.Column<string>(type: "devices.vital_type", nullable: false),
+                    value_numeric = table.Column<decimal>(type: "numeric(12,4)", nullable: true),
+                    value_text = table.Column<string>(type: "character varying(80)", maxLength: 80, nullable: true),
+                    unit = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
+                    taken_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_devices_vital_readings", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_vital_readings_device_links",
+                        column: x => x.device_link_id,
+                        principalSchema: "devices",
+                        principalTable: "device_links",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_vital_readings_patients",
+                        column: x => x.patient_id,
+                        principalSchema: "identity",
+                        principalTable: "patients",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "notifications",
+                schema: "engagement",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    patient_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    channel = table.Column<string>(type: "engagement.channel_type", nullable: false),
+                    template_key = table.Column<string>(type: "character varying(80)", maxLength: 80, nullable: true),
+                    payload_json = table.Column<string>(type: "jsonb", nullable: false),
+                    status = table.Column<string>(type: "engagement.notification_status", nullable: false, defaultValueSql: "'Pending'::engagement.notification_status"),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    sent_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_engagement_notifications", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_notifications_patients",
+                        column: x => x.patient_id,
+                        principalSchema: "identity",
+                        principalTable: "patients",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_notifications_users",
+                        column: x => x.user_id,
+                        principalSchema: "identity",
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "chat_sessions",
+                schema: "engagement",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    patient_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    started_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_engagement_chat_sessions", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_chat_sessions_patients",
+                        column: x => x.patient_id,
+                        principalSchema: "identity",
+                        principalTable: "patients",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "chat_messages",
+                schema: "engagement",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    session_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    sender = table.Column<string>(type: "engagement.message_sender", nullable: false),
+                    content = table.Column<string>(type: "text", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_engagement_chat_messages", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_chat_messages_sessions",
+                        column: x => x.session_id,
+                        principalSchema: "engagement",
+                        principalTable: "chat_sessions",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "patient_identifiers",
+                schema: "identity",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    patient_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    id_type = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    id_number = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
+                    issuer_country = table.Column<string>(type: "character varying(2)", maxLength: 2, nullable: true),
+                    issue_date = table.Column<DateTime>(type: "date", nullable: true),
+                    expiry_date = table.Column<DateTime>(type: "date", nullable: true),
+                    notes = table.Column<string>(type: "text", nullable: true),
+                    record_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_identity_patient_identifiers", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_identity_patient_identifiers_patients",
+                        column: x => x.patient_id,
+                        principalSchema: "identity",
+                        principalTable: "patients",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_identity_patient_identifiers_records",
+                        column: x => x.record_id,
+                        principalSchema: "vault",
+                        principalTable: "records",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "patient_insurances",
+                schema: "identity",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    patient_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    insurer_name = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    policy_number = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
+                    member_id = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true),
+                    plan_name = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    insurer_country = table.Column<string>(type: "character varying(2)", maxLength: 2, nullable: true),
+                    issue_date = table.Column<DateTime>(type: "date", nullable: true),
+                    expiry_date = table.Column<DateTime>(type: "date", nullable: true),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
+                    record_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_identity_patient_insurances", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_identity_patient_insurances_patients",
+                        column: x => x.patient_id,
+                        principalSchema: "identity",
+                        principalTable: "patients",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_identity_patient_insurances_records",
+                        column: x => x.record_id,
+                        principalSchema: "vault",
+                        principalTable: "records",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "timeline_events",
+                schema: "vault",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "gen_random_uuid()"),
+                    patient_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    event_type = table.Column<string>(type: "vault.event_type", nullable: false),
+                    related_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    event_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
+                    summary = table.Column<string>(type: "character varying(300)", maxLength: 300, nullable: true),
+                    details_json = table.Column<string>(type: "jsonb", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_vault_timeline_events", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_vault_timeline_events_patients",
+                        column: x => x.patient_id,
+                        principalSchema: "identity",
+                        principalTable: "patients",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_identity_doctors_user_id",
+                schema: "identity",
+                table: "doctors",
+                column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_identity_family_links_family_user_id",
+                schema: "identity",
+                table: "family_links",
+                column: "family_user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_identity_family_links_patient_id",
+                schema: "identity",
+                table: "family_links",
+                column: "patient_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_identity_patients_user_id",
+                schema: "identity",
+                table: "patients",
+                column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_identity_patient_identifiers_record_id",
+                schema: "identity",
+                table: "patient_identifiers",
+                column: "record_id");
+
+            migrationBuilder.CreateIndex(
+                name: "uq_patient_identifier",
+                schema: "identity",
+                table: "patient_identifiers",
+                columns: new[] { "patient_id", "id_type", "id_number" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "idx_patient_identifiers_patient",
+                schema: "identity",
+                table: "patient_identifiers",
+                column: "patient_id");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_patient_identifiers_type",
+                schema: "identity",
+                table: "patient_identifiers",
+                column: "id_type");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_identity_patient_insurances_record_id",
+                schema: "identity",
+                table: "patient_insurances",
+                column: "record_id");
+
+            migrationBuilder.CreateIndex(
+                name: "uq_patient_policy",
+                schema: "identity",
+                table: "patient_insurances",
+                columns: new[] { "patient_id", "policy_number" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "idx_patient_insurances_active",
+                schema: "identity",
+                table: "patient_insurances",
+                column: "is_active");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_patient_insurances_patient",
+                schema: "identity",
+                table: "patient_insurances",
+                column: "patient_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_identity_users_email",
+                schema: "identity",
+                table: "users",
+                column: "email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_identity_users_user_name",
+                schema: "identity",
+                table: "users",
+                column: "user_name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UQ_identity_patients_healthvault_id",
+                schema: "identity",
+                table: "patients",
+                column: "healthvault_id",
+                unique: true,
+                filter: "healthvault_id IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_vault_records_patient_id",
+                schema: "vault",
+                table: "records",
+                column: "patient_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_vault_timeline_events_patient_id",
+                schema: "vault",
+                table: "timeline_events",
+                column: "patient_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_consent_access_logs_consent_session_id",
+                schema: "consent",
+                table: "access_logs",
+                column: "consent_session_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_consent_consent_sessions_actor_user_id",
+                schema: "consent",
+                table: "consent_sessions",
+                column: "actor_user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_consent_consent_sessions_patient_id",
+                schema: "consent",
+                table: "consent_sessions",
+                column: "patient_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_medication_medication_doses_schedule_id",
+                schema: "medication",
+                table: "medication_doses",
+                column: "schedule_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_medication_medication_items_prescription_id",
+                schema: "medication",
+                table: "medication_items",
+                column: "prescription_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_medication_medication_schedules_medication_item_id",
+                schema: "medication",
+                table: "medication_schedules",
+                column: "medication_item_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_medication_prescriptions_doctor_id",
+                schema: "medication",
+                table: "medication_prescriptions",
+                column: "doctor_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_medication_prescriptions_patient_id",
+                schema: "medication",
+                table: "medication_prescriptions",
+                column: "patient_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_medication_prescriptions_record_id",
+                schema: "medication",
+                table: "medication_prescriptions",
+                column: "record_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_appointments_ai_visit_briefs_appointment_id",
+                schema: "appointments",
+                table: "ai_visit_briefs",
+                column: "appointment_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_appointments_appointments_doctor_id",
+                schema: "appointments",
+                table: "appointments",
+                column: "doctor_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_appointments_appointments_patient_id",
+                schema: "appointments",
+                table: "appointments",
+                column: "patient_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_appointments_visit_notes_appointment_id",
+                schema: "appointments",
+                table: "visit_notes",
+                column: "appointment_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_devices_device_links_patient_id",
+                schema: "devices",
+                table: "device_links",
+                column: "patient_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_devices_vital_readings_device_link_id",
+                schema: "devices",
+                table: "vital_readings",
+                column: "device_link_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_devices_vital_readings_patient_id",
+                schema: "devices",
+                table: "vital_readings",
+                column: "patient_id");
+
+            migrationBuilder.CreateIndex(
+                name: "idx_vital_patient_time",
+                schema: "devices",
+                table: "vital_readings",
+                columns: new[] { "patient_id", "taken_at" },
+                descending: new[] { false, true });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_engagement_chat_messages_session_id",
+                schema: "engagement",
+                table: "chat_messages",
+                column: "session_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_engagement_chat_sessions_patient_id",
+                schema: "engagement",
+                table: "chat_sessions",
+                column: "patient_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_engagement_notifications_patient_id",
+                schema: "engagement",
+                table: "notifications",
+                column: "patient_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_engagement_notifications_user_id",
+                schema: "engagement",
+                table: "notifications",
+                column: "user_id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "chat_messages",
+                schema: "engagement");
+
+            migrationBuilder.DropTable(
+                name: "notifications",
+                schema: "engagement");
+
+            migrationBuilder.DropTable(
+                name: "vital_readings",
+                schema: "devices");
+
+            migrationBuilder.DropTable(
+                name: "ai_visit_briefs",
+                schema: "appointments");
+
+            migrationBuilder.DropTable(
+                name: "visit_notes",
+                schema: "appointments");
+
+            migrationBuilder.DropTable(
+                name: "medication_doses",
+                schema: "medication");
+
+            migrationBuilder.DropTable(
+                name: "chat_sessions",
+                schema: "engagement");
+
+            migrationBuilder.DropTable(
+                name: "device_links",
+                schema: "devices");
+
+            migrationBuilder.DropTable(
+                name: "appointments",
+                schema: "appointments");
+
+            migrationBuilder.DropTable(
+                name: "medication_schedules",
+                schema: "medication");
+
+            migrationBuilder.DropTable(
+                name: "access_logs",
+                schema: "consent");
+
+            migrationBuilder.DropTable(
+                name: "medication_items",
+                schema: "medication");
+
+            migrationBuilder.DropTable(
+                name: "consent_sessions",
+                schema: "consent");
+
+            migrationBuilder.DropTable(
+                name: "medication_prescriptions",
+                schema: "medication");
+
+            migrationBuilder.DropTable(
+                name: "patient_identifiers",
+                schema: "identity");
+
+            migrationBuilder.DropTable(
+                name: "patient_insurances",
+                schema: "identity");
+
+            migrationBuilder.DropTable(
+                name: "timeline_events",
+                schema: "vault");
+
+            migrationBuilder.DropTable(
+                name: "records",
+                schema: "vault");
+
+            migrationBuilder.DropTable(
+                name: "family_links",
+                schema: "identity");
+
+            migrationBuilder.DropTable(
+                name: "doctors",
+                schema: "identity");
+
+            migrationBuilder.DropTable(
+                name: "patients",
+                schema: "identity");
+
+            migrationBuilder.DropTable(
+                name: "users",
+                schema: "identity");
+
             migrationBuilder.DropTable(
                 name: "AbpAuditLogActions");
 
@@ -1159,6 +2251,19 @@ namespace digihealth.Migrations
 
             migrationBuilder.DropTable(
                 name: "OpenIddictApplications");
+
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"engagement\".\"message_sender\";");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"engagement\".\"notification_status\";");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"engagement\".\"channel_type\";");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"devices\".\"vital_type\";");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"appointments\".\"appointment_status\";");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"medication\".\"dose_status\";");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"consent\".\"actor_type\";");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"vault\".\"event_type\";");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"vault\".\"sensitivity_level\";");
+            migrationBuilder.Sql("DROP TYPE IF EXISTS \"vault\".\"record_type\";");
+
+            migrationBuilder.Sql("DROP EXTENSION IF EXISTS \"pgcrypto\";");
         }
     }
 }

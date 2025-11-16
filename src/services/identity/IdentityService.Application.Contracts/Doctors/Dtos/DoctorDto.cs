@@ -13,4 +13,5 @@ public class DoctorDto : EntityDto<Guid>
     public string? RegistrationNumber { get; set; }
     public string? ClinicName { get; set; }
     public DateTime CreatedAt { get; set; }
+    public string? PhotoStorageKey { get; set; }
 }

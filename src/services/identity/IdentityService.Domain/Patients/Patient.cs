@@ -10,7 +10,9 @@ public class Patient : AggregateRoot<Guid>
     public string FullName { get; private set; }
     public DateTime? DateOfBirth { get; private set; }
     public string? Gender { get; private set; }
+    public string? Salutation { get; private set; }
     public string? Country { get; private set; }
+    public string? ResidenceCountry { get; private set; }
     public string? MobileNumber { get; private set; }
     public string? HealthVaultId { get; private set; }
     public DateTime CreatedAt { get; private set; }
@@ -27,13 +29,15 @@ public class Patient : AggregateRoot<Guid>
         string fullName,
         DateTime? dateOfBirth,
         string? gender,
+        string? salutation,
         string? country,
+        string? residenceCountry,
         string? mobileNumber,
         string? healthVaultId) : base(id)
     {
         SetUserId(userId);
         SetFullName(fullName);
-        UpdateProfile(dateOfBirth, gender, country, mobileNumber, healthVaultId);
+        UpdateProfile(dateOfBirth, gender, salutation, country, residenceCountry, mobileNumber, healthVaultId);
         CreatedAt = DateTime.UtcNow;
     }
 
@@ -50,13 +54,19 @@ public class Patient : AggregateRoot<Guid>
     public void UpdateProfile(
         DateTime? dateOfBirth,
         string? gender,
+        string? salutation,
         string? country,
+        string? residenceCountry,
         string? mobileNumber,
         string? healthVaultId)
     {
         DateOfBirth = dateOfBirth;
         Gender = gender.IsNullOrWhiteSpace() ? null : Check.Length(gender, nameof(gender), PatientConsts.MaxGenderLength);
+        Salutation = salutation.IsNullOrWhiteSpace() ? null : Check.Length(salutation, nameof(salutation), PatientConsts.MaxSalutationLength);
         Country = country.IsNullOrWhiteSpace() ? null : Check.Length(country, nameof(country), PatientConsts.MaxCountryLength);
+        ResidenceCountry = residenceCountry.IsNullOrWhiteSpace()
+            ? null
+            : Check.Length(residenceCountry, nameof(residenceCountry), PatientConsts.MaxResidenceCountryLength);
         SetMobileNumber(mobileNumber);
         SetHealthVaultId(healthVaultId);
     }
@@ -80,12 +90,14 @@ public class Patient : AggregateRoot<Guid>
         string fullName,
         DateTime? dateOfBirth,
         string? gender,
+        string? salutation,
         string? country,
+        string? residenceCountry,
         string? mobileNumber,
         string? healthVaultId)
     {
         SetUserId(userId);
         SetFullName(fullName);
-        UpdateProfile(dateOfBirth, gender, country, mobileNumber, healthVaultId);
+        UpdateProfile(dateOfBirth, gender, salutation, country, residenceCountry, mobileNumber, healthVaultId);
     }
 }

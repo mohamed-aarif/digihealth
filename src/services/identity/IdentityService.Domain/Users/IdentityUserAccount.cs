@@ -13,6 +13,7 @@ public class IdentityUserAccount : AggregateRoot<Guid>
     public string UserType { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
+    public string? PhotoStorageKey { get; private set; }
 
     private IdentityUserAccount()
     {
@@ -29,13 +30,15 @@ public class IdentityUserAccount : AggregateRoot<Guid>
         string email,
         string passwordHash,
         string userType,
-        bool isActive) : base(id)
+        bool isActive,
+        string? photoStorageKey = null) : base(id)
     {
         SetUserName(userName);
         SetEmail(email);
         SetPasswordHash(passwordHash);
         SetUserType(userType);
         IsActive = isActive;
+        SetPhotoStorageKey(photoStorageKey);
         CreatedAt = DateTime.UtcNow;
     }
 
@@ -66,12 +69,20 @@ public class IdentityUserAccount : AggregateRoot<Guid>
         UserType = normalized;
     }
 
-    public void Update(string userName, string email, string passwordHash, string userType, bool isActive)
+    public void SetPhotoStorageKey(string? photoStorageKey)
+    {
+        PhotoStorageKey = photoStorageKey.IsNullOrWhiteSpace()
+            ? null
+            : Check.Length(photoStorageKey, nameof(photoStorageKey), IdentityUserAccountConsts.MaxPhotoStorageKeyLength);
+    }
+
+    public void Update(string userName, string email, string passwordHash, string userType, bool isActive, string? photoStorageKey)
     {
         SetUserName(userName);
         SetEmail(email);
         SetPasswordHash(passwordHash);
         SetUserType(userType);
         IsActive = isActive;
+        SetPhotoStorageKey(photoStorageKey);
     }
 }

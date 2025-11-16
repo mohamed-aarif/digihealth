@@ -22,4 +22,7 @@ public class CreateUpdateIdentityUserAccountDto
     public string UserType { get; set; } = string.Empty;
 
     public bool IsActive { get; set; } = true;
+
+    [StringLength(IdentityUserAccountConsts.MaxPhotoStorageKeyLength)]
+    public string? PhotoStorageKey { get; set; }
 }

@@ -22,7 +22,8 @@ public class IdentityUserAccountAppService : CrudAppService<IdentityUserAccount,
             createInput.Email,
             createInput.PasswordHash,
             createInput.UserType,
-            createInput.IsActive);
+            createInput.IsActive,
+            createInput.PhotoStorageKey);
     }
 
     protected override void MapToEntity(CreateUpdateIdentityUserAccountDto updateInput, IdentityUserAccount entity)
@@ -32,6 +33,7 @@ public class IdentityUserAccountAppService : CrudAppService<IdentityUserAccount,
             updateInput.Email,
             updateInput.PasswordHash,
             updateInput.UserType,
-            updateInput.IsActive);
+            updateInput.IsActive,
+            updateInput.PhotoStorageKey);
     }
 }

@@ -12,6 +12,12 @@ public class CreateUpdateDoctorDto
     [StringLength(DoctorConsts.MaxFullNameLength)]
     public string FullName { get; set; } = string.Empty;
 
+    [StringLength(DoctorConsts.MaxSalutationLength)]
+    public string? Salutation { get; set; }
+
+    [StringLength(DoctorConsts.MaxGenderLength)]
+    public string? Gender { get; set; }
+
     [StringLength(DoctorConsts.MaxSpecialtyLength)]
     public string? Specialty { get; set; }
 

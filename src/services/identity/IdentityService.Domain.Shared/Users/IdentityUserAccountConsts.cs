@@ -8,6 +8,7 @@ public static class IdentityUserAccountConsts
     public const int MaxEmailLength = 256;
     public const int MaxPasswordHashLength = 256;
     public const int MaxUserTypeLength = 20;
+    public const int MaxPhotoStorageKeyLength = 256;
 
     public static IReadOnlyList<string> AllowedUserTypes { get; } = new[]
     {

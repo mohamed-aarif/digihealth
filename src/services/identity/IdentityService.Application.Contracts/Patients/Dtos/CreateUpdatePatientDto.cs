@@ -17,8 +17,14 @@ public class CreateUpdatePatientDto
     [StringLength(PatientConsts.MaxGenderLength)]
     public string? Gender { get; set; }
 
+    [StringLength(PatientConsts.MaxSalutationLength)]
+    public string? Salutation { get; set; }
+
     [StringLength(PatientConsts.MaxCountryLength)]
     public string? Country { get; set; }
+
+    [StringLength(PatientConsts.MaxResidenceCountryLength)]
+    public string? ResidenceCountry { get; set; }
 
     [StringLength(PatientConsts.MaxMobileNumberLength)]
     public string? MobileNumber { get; set; }

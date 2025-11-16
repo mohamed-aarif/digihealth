@@ -1,6 +1,8 @@
 using AutoMapper;
 using IdentityService.Doctors.Dtos;
 using IdentityService.FamilyLinks.Dtos;
+using IdentityService.PatientIdentifiers.Dtos;
+using IdentityService.PatientInsurances.Dtos;
 using IdentityService.Patients.Dtos;
 using IdentityService.Users.Dtos;
 
@@ -21,5 +23,11 @@ public class IdentityServiceApplicationAutoMapperProfile : Profile
 
         CreateMap<Users.IdentityUserAccount, IdentityUserAccountDto>();
         CreateMap<CreateUpdateIdentityUserAccountDto, Users.IdentityUserAccount>();
+
+        CreateMap<PatientIdentifiers.PatientIdentifier, PatientIdentifierDto>();
+        CreateMap<CreateUpdatePatientIdentifierDto, PatientIdentifiers.PatientIdentifier>();
+
+        CreateMap<PatientInsurances.PatientInsurance, PatientInsuranceDto>();
+        CreateMap<CreateUpdatePatientInsuranceDto, PatientInsurances.PatientInsurance>();
     }
 }

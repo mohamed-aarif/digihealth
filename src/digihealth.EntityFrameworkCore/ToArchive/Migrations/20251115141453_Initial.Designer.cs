@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Volo.Abp.EntityFrameworkCore;
@@ -12,9 +13,11 @@ using digihealth.EntityFrameworkCore;
 namespace digihealth.Migrations
 {
     [DbContext(typeof(digihealthDbContext))]
-    partial class digihealthDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251115141453_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,6 +25,16 @@ namespace digihealth.Migrations
                 .HasAnnotation("ProductVersion", "9.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "appointments", "appointment_status", new[] { "Planned", "Completed", "Cancelled", "NoShow" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "consent", "actor_type", new[] { "Doctor", "Family" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "devices", "vital_type", new[] { "HeartRate", "BloodPressure", "Glucose", "Steps", "Weight", "SpO2" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "engagement", "channel_type", new[] { "Push", "Email", "Sms", "WhatsApp" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "engagement", "message_sender", new[] { "Patient", "AiAssistant" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "engagement", "notification_status", new[] { "Pending", "Sent", "Failed" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "medication", "dose_status", new[] { "Scheduled", "Taken", "Missed", "Skipped" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "vault", "event_type", new[] { "RecordUploaded", "Appointment", "MedicationStarted", "MedicationReminder", "VitalReading", "AiInsight" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "vault", "record_type", new[] { "Report", "Prescription", "Discharge", "Imaging", "NationalId", "Insurance", "Other" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "vault", "sensitivity_level", new[] { "Public", "Restricted", "Confidential" });
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "pgcrypto");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
@@ -1870,8 +1883,7 @@ namespace digihealth.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("scheduled_at");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
+                    b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("appointments.appointment_status")
                         .HasColumnName("status")
@@ -1905,8 +1917,7 @@ namespace digihealth.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("NOW()");
 
-                    b.Property<string>("Sender")
-                        .IsRequired()
+                    b.Property<int>("Sender")
                         .HasColumnType("engagement.message_sender")
                         .HasColumnName("sender");
 
@@ -1999,8 +2010,7 @@ namespace digihealth.Migrations
                         .HasColumnName("id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
-                    b.Property<string>("ActorType")
-                        .IsRequired()
+                    b.Property<int>("ActorType")
                         .HasColumnType("consent.actor_type")
                         .HasColumnName("actor_type");
 
@@ -2266,8 +2276,7 @@ namespace digihealth.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("schedule_id");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
+                    b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("medication.dose_status")
                         .HasColumnName("status")
@@ -2380,8 +2389,7 @@ namespace digihealth.Migrations
                         .HasColumnName("id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
-                    b.Property<string>("Channel")
-                        .IsRequired()
+                    b.Property<int>("Channel")
                         .HasColumnType("engagement.channel_type")
                         .HasColumnName("channel");
 
@@ -2404,8 +2412,7 @@ namespace digihealth.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("sent_at");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
+                    b.Property<int>("Status")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("engagement.notification_status")
                         .HasColumnName("status")
@@ -2720,13 +2727,11 @@ namespace digihealth.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("patient_id");
 
-                    b.Property<string>("RecordType")
-                        .IsRequired()
+                    b.Property<int>("RecordType")
                         .HasColumnType("vault.record_type")
                         .HasColumnName("record_type");
 
-                    b.Property<string>("Sensitivity")
-                        .IsRequired()
+                    b.Property<int>("Sensitivity")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("vault.sensitivity_level")
                         .HasColumnName("sensitivity")
@@ -2768,8 +2773,7 @@ namespace digihealth.Migrations
                         .HasColumnName("event_time")
                         .HasDefaultValueSql("NOW()");
 
-                    b.Property<string>("EventType")
-                        .IsRequired()
+                    b.Property<int>("EventType")
                         .HasColumnType("vault.event_type")
                         .HasColumnName("event_type");
 
@@ -2866,8 +2870,7 @@ namespace digihealth.Migrations
                         .HasColumnType("character varying(80)")
                         .HasColumnName("value_text");
 
-                    b.Property<string>("VitalType")
-                        .IsRequired()
+                    b.Property<int>("VitalType")
                         .HasColumnType("devices.vital_type")
                         .HasColumnName("vital_type");
 

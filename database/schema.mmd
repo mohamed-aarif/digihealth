@@ -5,6 +5,10 @@ erDiagram
     Patients ||--o{ FamilyLinks : "patient has family links"
     Users ||--o{ FamilyLinks : "family user linked"
 
+    %% New: patient identifiers & insurances
+    Patients ||--o{ PatientIdentifiers : "structured IDs"
+    Patients ||--o{ PatientInsurances  : "insurance policies"
+
     Users {
       UUID Id PK
       string UserName
@@ -13,6 +17,7 @@ erDiagram
       string UserType
       bool IsActive
       timestamptz CreatedAt
+      string PhotoStorageKey
     }
 
     Patients {
@@ -21,7 +26,9 @@ erDiagram
       string FullName
       date DateOfBirth
       string Gender
+      string Salutation
       string Country
+      string ResidenceCountry
       string MobileNumber
       string HealthVaultId
       timestamptz CreatedAt
@@ -31,6 +38,8 @@ erDiagram
       UUID Id PK
       UUID UserId FK
       string FullName
+      string Salutation
+      string Gender
       string Specialty
       string RegistrationNo
       string ClinicName
@@ -46,14 +55,46 @@ erDiagram
       timestamptz CreatedAt
     }
 
+    PatientIdentifiers {
+      UUID Id PK
+      UUID PatientId FK
+      string IdType         
+      string IdNumber
+      string IssuerCountry
+      date IssueDate
+      date ExpiryDate
+      string Notes
+      UUID RecordId FK      
+      timestamptz CreatedAt
+    }
+
+    PatientInsurances {
+      UUID Id PK
+      UUID PatientId FK
+      string InsurerName
+      string PolicyNumber
+      string MemberId
+      string PlanName
+      string InsurerCountry
+      date IssueDate
+      date ExpiryDate
+      bool IsActive
+      UUID RecordId FK      
+      timestamptz CreatedAt
+    }
+
     %% ============ VAULT ============
     Patients ||--o{ VaultRecords : "owns records"
     Patients ||--o{ VaultTimeline : "timeline events"
 
+    %% New links: ID/Insurance docs to their backing record
+    VaultRecords ||--o{ PatientIdentifiers : "document for ID"
+    VaultRecords ||--o{ PatientInsurances  : "document for insurance"
+
     VaultRecords {
       UUID Id PK
       UUID PatientId FK
-      string RecordType
+      string RecordType     
       string Title
       text Description
       string FileKey
@@ -121,6 +162,7 @@ erDiagram
       string Frequency
       string Route
       int DurationDays
+      text Instructions
     }
 
     MedicationSchedules {
@@ -138,6 +180,7 @@ erDiagram
       timestamptz DueAt
       string Status
       timestamptz TakenAt
+      text Notes
     }
 
     %% ============ APPOINTMENTS ============
@@ -154,6 +197,7 @@ erDiagram
       string Status
       string Reason
       string Location
+      timestamptz CreatedAt
     }
 
     VisitNotes {
@@ -161,6 +205,7 @@ erDiagram
       UUID AppointmentId FK
       text NotesByDoctor
       text NotesByPatient
+      timestamptz CreatedAt
     }
 
     AiVisitBriefs {
@@ -168,6 +213,7 @@ erDiagram
       UUID AppointmentId FK
       text SummaryForDoctor
       text SummaryForPatient
+      timestamptz GeneratedAt
     }
 
     %% ============ DEVICES ============
@@ -191,6 +237,7 @@ erDiagram
       numeric Value
       string Unit
       timestamptz TakenAt
+      timestamptz CreatedAt
     }
 
     %% ============ ENGAGEMENT ============
@@ -208,6 +255,7 @@ erDiagram
       jsonb Payload
       string Status
       timestamptz CreatedAt
+      timestamptz SentAt
     }
 
     ChatSessions {

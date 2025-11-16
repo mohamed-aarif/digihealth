@@ -61,6 +61,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{02
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "postgresql", "postgresql", "{9EBDC66A-1E75-4D8A-B317-F0A545254DD1}"
 	ProjectSection(SolutionItems) = preProject
+		database\postgresql\PostgreSQL Initial Database - Sample data.sql = database\postgresql\PostgreSQL Initial Database - Sample data.sql
+		database\postgresql\PostgreSQL Initial Database Setup script.sql = database\postgresql\PostgreSQL Initial Database Setup script.sql
 		database\schema.mmd = database\schema.mmd
 	EndProjectSection
 EndProject

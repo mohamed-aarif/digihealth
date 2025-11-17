@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+using IdentityService.Users;
 using Volo.Abp.Identity;
 using Volo.Abp.ObjectExtending;
 using Volo.Abp.ObjectExtending.Modularity;
@@ -20,11 +22,17 @@ public static class IdentityServiceModuleExtensionConfigurator
                     identity.ConfigureUser(user =>
                     {
                         user.AddOrUpdateProperty<string?>(
-                                IdentityUserExtensionConsts.SalutationPropertyName,
-                                options => options.MapEfCore(builder => builder.HasMaxLength(IdentityUserExtensionConsts.MaxSalutationLength)))
+                            IdentityUserExtensionConsts.SalutationPropertyName,
+                            property =>
+                            {
+                                property.Attributes.Add(new StringLengthAttribute(IdentityUserExtensionConsts.MaxSalutationLength));
+                            })
                             .AddOrUpdateProperty<string?>(
                                 IdentityUserExtensionConsts.ProfilePhotoUrlPropertyName,
-                                options => options.MapEfCore(builder => builder.HasMaxLength(IdentityUserExtensionConsts.MaxProfilePhotoUrlLength)));
+                                property =>
+                                {
+                                    property.Attributes.Add(new StringLengthAttribute(IdentityUserExtensionConsts.MaxProfilePhotoUrlLength));
+                                });
                     });
                 });
         });

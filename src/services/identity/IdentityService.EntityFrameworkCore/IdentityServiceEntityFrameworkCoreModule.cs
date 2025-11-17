@@ -21,6 +21,8 @@ public class IdentityServiceEntityFrameworkCoreModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
+        IdentityServiceEfCoreEntityExtensionMappings.Configure();
+
         var configuration = context.Services.GetConfiguration();
 
         context.Services.AddAbpDbContext<IdentityServiceDbContext>(options =>

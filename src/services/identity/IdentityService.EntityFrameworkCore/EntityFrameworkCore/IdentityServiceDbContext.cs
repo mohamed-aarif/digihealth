@@ -19,6 +19,7 @@ public class IdentityServiceDbContext : AbpDbContext<IdentityServiceDbContext>, 
     public DbSet<IdentitySecurityLog> SecurityLogs { get; set; } = default!;
     public DbSet<IdentityUserDelegation> UserDelegations { get; set; } = default!;
     public DbSet<IdentityLinkUser> LinkUsers { get; set; } = default!;
+    public DbSet<IdentitySession> Sessions { get; set; } = default!;
 
     public DbSet<Patient> Patients { get; set; } = default!;
     public DbSet<Doctor> Doctors { get; set; } = default!;

@@ -8,7 +8,8 @@ public class IdentityServicePermissionDefinitionProvider : PermissionDefinitionP
 {
     public override void Define(IPermissionDefinitionContext context)
     {
-        var group = context.AddGroup(IdentityServicePermissions.GroupName, L("Permission:IdentityService"));
+        var group = context.GetGroupOrNull(IdentityServicePermissions.GroupName)
+                    ?? context.AddGroup(IdentityServicePermissions.GroupName, L("Permission:IdentityService"));
 
         var doctors = group.AddPermission(IdentityServicePermissions.Doctors.Default, L("Permission:Doctors"));
         doctors.AddChild(IdentityServicePermissions.Doctors.Manage, L("Permission:Doctors.Manage"));

@@ -1,103 +1,67 @@
 using System;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities;
+using Volo.Abp.MultiTenancy;
+using Volo.Abp.Timing;
 
 namespace IdentityService.Patients;
 
-public class Patient : AggregateRoot<Guid>
+public class Patient : AggregateRoot<Guid>, IMultiTenant, IHasCreationTime
 {
     public Guid UserId { get; private set; }
-    public string FullName { get; private set; }
+    public Guid? TenantId { get; private set; }
+    public string? Salutation { get; private set; }
     public DateTime? DateOfBirth { get; private set; }
     public string? Gender { get; private set; }
-    public string? Salutation { get; private set; }
-    public string? Country { get; private set; }
     public string? ResidenceCountry { get; private set; }
-    public string? MobileNumber { get; private set; }
-    public string? HealthVaultId { get; private set; }
-    public DateTime CreatedAt { get; private set; }
+    public DateTime CreationTime { get; private set; }
 
-    private Patient()
+    protected Patient()
     {
-        FullName = string.Empty;
-        CreatedAt = DateTime.UtcNow;
+        CreationTime = Clock.Now;
     }
 
     public Patient(
         Guid id,
         Guid userId,
-        string fullName,
+        Guid? tenantId,
+        string? salutation,
         DateTime? dateOfBirth,
         string? gender,
-        string? salutation,
-        string? country,
-        string? residenceCountry,
-        string? mobileNumber,
-        string? healthVaultId) : base(id)
+        string? residenceCountry) : base(id)
     {
         SetUserId(userId);
-        SetFullName(fullName);
-        UpdateProfile(dateOfBirth, gender, salutation, country, residenceCountry, mobileNumber, healthVaultId);
-        CreatedAt = DateTime.UtcNow;
+        TenantId = tenantId;
+        UpdateProfile(salutation, dateOfBirth, gender, residenceCountry);
+        CreationTime = Clock.Now;
     }
 
-    public void SetUserId(Guid userId)
+    public void Update(string? salutation, DateTime? dateOfBirth, string? gender, string? residenceCountry)
     {
-        UserId = userId;
+        UpdateProfile(salutation, dateOfBirth, gender, residenceCountry);
     }
 
-    public void SetFullName(string fullName)
+    public void ChangeTenant(Guid? tenantId)
     {
-        FullName = Check.NotNullOrWhiteSpace(fullName, nameof(fullName), PatientConsts.MaxFullNameLength);
+        TenantId = tenantId;
     }
 
-    public void UpdateProfile(
-        DateTime? dateOfBirth,
-        string? gender,
-        string? salutation,
-        string? country,
-        string? residenceCountry,
-        string? mobileNumber,
-        string? healthVaultId)
+    private void SetUserId(Guid userId)
     {
+        UserId = Check.NotNull(userId, nameof(userId));
+    }
+
+    private void UpdateProfile(string? salutation, DateTime? dateOfBirth, string? gender, string? residenceCountry)
+    {
+        Salutation = salutation.IsNullOrWhiteSpace()
+            ? null
+            : Check.Length(salutation, nameof(salutation), PatientConsts.MaxSalutationLength);
         DateOfBirth = dateOfBirth;
-        Gender = gender.IsNullOrWhiteSpace() ? null : Check.Length(gender, nameof(gender), PatientConsts.MaxGenderLength);
-        Salutation = salutation.IsNullOrWhiteSpace() ? null : Check.Length(salutation, nameof(salutation), PatientConsts.MaxSalutationLength);
-        Country = country.IsNullOrWhiteSpace() ? null : Check.Length(country, nameof(country), PatientConsts.MaxCountryLength);
+        Gender = gender.IsNullOrWhiteSpace()
+            ? null
+            : Check.Length(gender, nameof(gender), PatientConsts.MaxGenderLength);
         ResidenceCountry = residenceCountry.IsNullOrWhiteSpace()
             ? null
             : Check.Length(residenceCountry, nameof(residenceCountry), PatientConsts.MaxResidenceCountryLength);
-        SetMobileNumber(mobileNumber);
-        SetHealthVaultId(healthVaultId);
-    }
-
-    public void SetMobileNumber(string? mobileNumber)
-    {
-        MobileNumber = mobileNumber.IsNullOrWhiteSpace()
-            ? null
-            : Check.Length(mobileNumber, nameof(mobileNumber), PatientConsts.MaxMobileNumberLength);
-    }
-
-    public void SetHealthVaultId(string? healthVaultId)
-    {
-        HealthVaultId = healthVaultId.IsNullOrWhiteSpace()
-            ? null
-            : Check.Length(healthVaultId, nameof(healthVaultId), PatientConsts.MaxHealthVaultIdLength);
-    }
-
-    public void Update(
-        Guid userId,
-        string fullName,
-        DateTime? dateOfBirth,
-        string? gender,
-        string? salutation,
-        string? country,
-        string? residenceCountry,
-        string? mobileNumber,
-        string? healthVaultId)
-    {
-        SetUserId(userId);
-        SetFullName(fullName);
-        UpdateProfile(dateOfBirth, gender, salutation, country, residenceCountry, mobileNumber, healthVaultId);
     }
 }

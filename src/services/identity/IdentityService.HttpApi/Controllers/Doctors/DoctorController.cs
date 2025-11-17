@@ -3,13 +3,14 @@ using System.Threading.Tasks;
 using IdentityService.Controllers;
 using IdentityService.Doctors;
 using IdentityService.Doctors.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.Application.Dtos;
-using Volo.Abp.Domain.Entities;
+using Volo.Abp;
 
 namespace IdentityService.Controllers.Doctors;
 
-[Route("api/identity/doctors")]
+[Route("api/identity-service/doctors")]
 public class DoctorController : IdentityServiceController
 {
     private readonly IDoctorAppService _doctorAppService;
@@ -20,22 +21,15 @@ public class DoctorController : IdentityServiceController
     }
 
     [HttpGet]
-    public Task<PagedResultDto<DoctorDto>> GetListAsync(PagedAndSortedResultRequestDto input)
+    public Task<PagedResultDto<DoctorDto>> GetListAsync([FromQuery] DoctorPagedAndSortedResultRequestDto input)
     {
         return _doctorAppService.GetListAsync(input);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<DoctorDto>> GetAsync(Guid id)
+    public Task<DoctorDto> GetAsync(Guid id)
     {
-        try
-        {
-            return await _doctorAppService.GetAsync(id);
-        }
-        catch (EntityNotFoundException)
-        {
-            return NotFound();
-        }
+        return _doctorAppService.GetAsync(id);
     }
 
     [HttpPost]
@@ -45,29 +39,14 @@ public class DoctorController : IdentityServiceController
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<DoctorDto>> UpdateAsync(Guid id, [FromBody] CreateUpdateDoctorDto input)
+    public Task<DoctorDto> UpdateAsync(Guid id, [FromBody] CreateUpdateDoctorDto input)
     {
-        try
-        {
-            return await _doctorAppService.UpdateAsync(id, input);
-        }
-        catch (EntityNotFoundException)
-        {
-            return NotFound();
-        }
+        return _doctorAppService.UpdateAsync(id, input);
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteAsync(Guid id)
+    public Task DeleteAsync(Guid id)
     {
-        try
-        {
-            await _doctorAppService.DeleteAsync(id);
-            return NoContent();
-        }
-        catch (EntityNotFoundException)
-        {
-            return NotFound();
-        }
+        return _doctorAppService.DeleteAsync(id);
     }
 }

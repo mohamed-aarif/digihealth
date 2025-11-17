@@ -9,7 +9,7 @@ public interface IPatientAppService :
     ICrudAppService<
         PatientDto,
         Guid,
-        PagedAndSortedResultRequestDto,
+        PatientPagedAndSortedResultRequestDto,
         CreateUpdatePatientDto>
 {
 }

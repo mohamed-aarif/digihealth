@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using Volo.Abp;
 using Volo.Abp.Autofac;
 using Volo.Abp.Modularity;
+using Volo.Abp.MultiTenancy;
 using Volo.Abp.Swashbuckle;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Volo.Abp.AspNetCore.Serilog;
@@ -38,6 +39,7 @@ public class IdentityServiceHttpApiHostModule : AbpModule
 
         app.UseCorrelationId();
         app.UseRouting();
+        app.UseMultiTenancy();
         app.UseAuthentication();
         app.UseAbpSerilogEnrichers();
         app.UseAuthorization();

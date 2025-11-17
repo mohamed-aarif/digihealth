@@ -17,6 +17,7 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
 {
     private readonly ITenantRepository _tenantRepository;
     private readonly IGuidGenerator _guidGenerator;
+    private readonly TenantManager _tenantManager;
     private readonly IdentityUserManager _userManager;
     private readonly IRepository<Doctor, Guid> _doctorRepository;
     private readonly IRepository<Patient, Guid> _patientRepository;
@@ -25,6 +26,7 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
     public IdentityServiceDataSeedContributor(
         ITenantRepository tenantRepository,
         IGuidGenerator guidGenerator,
+        TenantManager tenantManager,
         IdentityUserManager userManager,
         IRepository<Doctor, Guid> doctorRepository,
         IRepository<Patient, Guid> patientRepository,
@@ -32,6 +34,7 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
     {
         _tenantRepository = tenantRepository;
         _guidGenerator = guidGenerator;
+        _tenantManager = tenantManager;
         _userManager = userManager;
         _doctorRepository = doctorRepository;
         _patientRepository = patientRepository;
@@ -55,8 +58,8 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
             return tenant;
         }
 
-        tenant = await _tenantRepository.InsertAsync(new Tenant(_guidGenerator.Create(), name, null));
-        return tenant;
+        tenant = await _tenantManager.CreateAsync(name);
+        return await _tenantRepository.InsertAsync(tenant);
     }
 
     private async Task EnsureHostAdminAsync()

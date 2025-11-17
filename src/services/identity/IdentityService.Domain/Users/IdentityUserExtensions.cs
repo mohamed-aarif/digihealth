@@ -1,4 +1,5 @@
 using Volo.Abp.Identity;
+using Volo.Abp.ObjectExtending;
 
 namespace IdentityService.Users;
 

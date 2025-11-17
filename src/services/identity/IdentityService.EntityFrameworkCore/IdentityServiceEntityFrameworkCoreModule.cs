@@ -8,6 +8,8 @@ using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.PostgreSql;
 using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.Modularity;
+using Volo.Abp.PermissionManagement;
+using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace IdentityService.EntityFrameworkCore;
@@ -16,6 +18,7 @@ namespace IdentityService.EntityFrameworkCore;
     typeof(IdentityServiceDomainModule),
     typeof(AbpEntityFrameworkCorePostgreSqlModule),
     typeof(AbpIdentityEntityFrameworkCoreModule),
+    typeof(AbpPermissionManagementEntityFrameworkCoreModule),
     typeof(AbpTenantManagementEntityFrameworkCoreModule))]
 public class IdentityServiceEntityFrameworkCoreModule : AbpModule
 {
@@ -28,8 +31,12 @@ public class IdentityServiceEntityFrameworkCoreModule : AbpModule
     {
         var configuration = context.Services.GetConfiguration();
 
+        PermissionManagementDbProperties.DbSchema = IdentityServiceDbProperties.DbSchema;
+
         context.Services.AddAbpDbContext<IdentityServiceDbContext>(options =>
         {
+            options.ReplaceDbContext<IIdentityDbContext>();
+            options.ReplaceDbContext<IPermissionManagementDbContext>();
             options.AddDefaultRepositories(includeAllEntities: true);
         });
 

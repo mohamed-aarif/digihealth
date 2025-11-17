@@ -5,6 +5,8 @@ using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
+using Volo.Abp.PermissionManagement;
+using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 
 namespace IdentityService.EntityFrameworkCore;
 
@@ -24,6 +26,10 @@ public class IdentityServiceDbContext : AbpDbContext<IdentityServiceDbContext>, 
     public DbSet<Patient> Patients { get; set; } = default!;
     public DbSet<Doctor> Doctors { get; set; } = default!;
 
+    public DbSet<PermissionGroupDefinitionRecord> PermissionGroups { get; set; } = default!;
+    public DbSet<PermissionDefinitionRecord> PermissionDefinitions { get; set; } = default!;
+    public DbSet<PermissionGrant> PermissionGrants { get; set; } = default!;
+
     public IdentityServiceDbContext(DbContextOptions<IdentityServiceDbContext> options)
         : base(options)
     {
@@ -36,6 +42,7 @@ public class IdentityServiceDbContext : AbpDbContext<IdentityServiceDbContext>, 
         base.OnModelCreating(builder);
 
         builder.ConfigureIdentity();
+        builder.ConfigurePermissionManagement();
         builder.ConfigureIdentityService();
     }
 }

@@ -88,15 +88,36 @@ public class IdentityServiceHttpApiHostModule : AbpModule
 
     private static void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
     {
+        var authority = configuration["AuthServer:Authority"];
+        var requireHttps = bool.TryParse(configuration["AuthServer:RequireHttpsMetadata"], out var parsedRequireHttps)
+            ? parsedRequireHttps
+            : true;
+        var audience = configuration["AuthServer:Audience"];
+
         context.Services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
-                options.Authority = configuration["AuthServer:Authority"] ?? configuration["App:SelfUrl"];
-                options.RequireHttpsMetadata = bool.TryParse(configuration["AuthServer:RequireHttpsMetadata"], out var requireHttps)
-                    ? requireHttps
-                    : false;
-                options.Audience = configuration["AuthServer:Audience"] ?? "IdentityService";
+                if (!string.IsNullOrWhiteSpace(authority))
+                {
+                    options.Authority = authority;
+                    options.RequireHttpsMetadata = requireHttps;
+                }
+                else
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters.ValidateIssuer = false;
+                    options.TokenValidationParameters.ValidateIssuerSigningKey = false;
+                }
+
+                if (!string.IsNullOrWhiteSpace(audience))
+                {
+                    options.Audience = audience;
+                }
+                else
+                {
+                    options.TokenValidationParameters.ValidateAudience = false;
+                }
             });
     }
 }

@@ -9,7 +9,9 @@ namespace IdentityService;
     typeof(IdentityServiceDomainModule),
     typeof(IdentityServiceApplicationContractsModule),
     typeof(AbpDddApplicationModule),
-    typeof(AbpAutoMapperModule))]
+    typeof(AbpAutoMapperModule),
+    typeof(AbpIdentityApplicationModule),
+    typeof(AbpTenantManagementApplicationModule))]
 public class IdentityServiceApplicationModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)

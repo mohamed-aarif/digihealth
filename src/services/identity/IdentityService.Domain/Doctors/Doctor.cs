@@ -1,74 +1,73 @@
 using System;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities;
+using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.MultiTenancy;
 
 namespace IdentityService.Doctors;
 
-public class Doctor : AggregateRoot<Guid>
+public class Doctor : AggregateRoot<Guid>, IMultiTenant, IHasCreationTime
 {
     public Guid UserId { get; private set; }
-    public string FullName { get; private set; }
+    public Guid? TenantId { get; private set; }
     public string? Salutation { get; private set; }
     public string? Gender { get; private set; }
-    public string? Specialty { get; private set; }
+    public string? Specialization { get; private set; }
     public string? RegistrationNumber { get; private set; }
-    public string? ClinicName { get; private set; }
-    public DateTime CreatedAt { get; private set; }
+    public DateTime CreationTime { get; private set; }
 
-    private Doctor()
+    protected Doctor()
     {
-        FullName = string.Empty;
-        CreatedAt = DateTime.UtcNow;
+        CreationTime = DateTime.UtcNow;
     }
 
     public Doctor(
         Guid id,
         Guid userId,
-        string fullName,
+        Guid? tenantId,
         string? salutation,
         string? gender,
-        string? specialty,
-        string? registrationNumber,
-        string? clinicName) : base(id)
+        string? specialization,
+        string? registrationNumber) : base(id)
     {
         SetUserId(userId);
-        SetFullName(fullName);
-        UpdateProfile(salutation, gender, specialty, registrationNumber, clinicName);
-        CreatedAt = DateTime.UtcNow;
-    }
-
-    public void SetUserId(Guid userId)
-    {
-        UserId = userId;
-    }
-
-    public void SetFullName(string fullName)
-    {
-        FullName = Check.NotNullOrWhiteSpace(fullName, nameof(fullName), DoctorConsts.MaxFullNameLength);
-    }
-
-    public void UpdateProfile(string? salutation, string? gender, string? specialty, string? registrationNumber, string? clinicName)
-    {
-        Salutation = salutation.IsNullOrWhiteSpace() ? null : Check.Length(salutation, nameof(salutation), DoctorConsts.MaxSalutationLength);
-        Gender = gender.IsNullOrWhiteSpace() ? null : Check.Length(gender, nameof(gender), DoctorConsts.MaxGenderLength);
-        Specialty = specialty.IsNullOrWhiteSpace() ? null : Check.Length(specialty, nameof(specialty), DoctorConsts.MaxSpecialtyLength);
-        RegistrationNumber = registrationNumber.IsNullOrWhiteSpace()
-            ? null
-            : Check.Length(registrationNumber, nameof(registrationNumber), DoctorConsts.MaxRegistrationNumberLength);
-        ClinicName = clinicName.IsNullOrWhiteSpace() ? null : Check.Length(clinicName, nameof(clinicName), DoctorConsts.MaxClinicNameLength);
+        TenantId = tenantId;
+        UpdateProfile(salutation, gender, specialization, registrationNumber);
+        CreationTime = DateTime.UtcNow;
     }
 
     public void Update(
-        Guid userId,
-        string fullName,
         string? salutation,
         string? gender,
-        string? specialty,
-        string? registrationNumber,
-        string? clinicName)
+        string? specialization,
+        string? registrationNumber)
     {
-        SetUserId(userId);
-        SetFullName(fullName);
-        UpdateProfile(salutation, gender, specialty, registrationNumber, clinicName);
+        UpdateProfile(salutation, gender, specialization, registrationNumber);
+    }
+
+    public void ChangeTenant(Guid? tenantId)
+    {
+        TenantId = tenantId;
+    }
+
+    private void SetUserId(Guid userId)
+    {
+        UserId = Check.NotNull(userId, nameof(userId));
+    }
+
+    private void UpdateProfile(string? salutation, string? gender, string? specialization, string? registrationNumber)
+    {
+        Salutation = salutation.IsNullOrWhiteSpace()
+            ? null
+            : Check.Length(salutation, nameof(salutation), DoctorConsts.MaxSalutationLength);
+        Gender = gender.IsNullOrWhiteSpace()
+            ? null
+            : Check.Length(gender, nameof(gender), DoctorConsts.MaxGenderLength);
+        Specialization = specialization.IsNullOrWhiteSpace()
+            ? null
+            : Check.Length(specialization, nameof(specialization), DoctorConsts.MaxSpecializationLength);
+        RegistrationNumber = registrationNumber.IsNullOrWhiteSpace()
+            ? null
+            : Check.Length(registrationNumber, nameof(registrationNumber), DoctorConsts.MaxRegistrationNumberLength);
     }
 }

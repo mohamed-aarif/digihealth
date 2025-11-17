@@ -2,6 +2,12 @@
   "culture": "en",
   "texts": {
     "Menu:IdentityService": "Identity Service",
-    "IdentityService": "Identity Service"
+    "IdentityService": "Identity Service",
+    "Permission:IdentityService": "Identity Service",
+    "Permission:Doctors": "Doctors",
+    "Permission:Doctors.Manage": "Manage doctors",
+    "Permission:Patients": "Patients",
+    "Permission:Patients.Manage": "Manage patients",
+    "Permission:Profile": "Profile"
   }
 }

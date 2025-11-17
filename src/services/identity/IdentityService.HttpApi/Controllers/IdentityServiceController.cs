@@ -1,3 +1,4 @@
+using IdentityService.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc;
 

@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using Volo.Abp;
+using Volo.Abp.AspNetCore.MultiTenancy;
 using Volo.Abp.Autofac;
 using Volo.Abp.Modularity;
-using Volo.Abp.MultiTenancy;
 using Volo.Abp.Swashbuckle;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using Volo.Abp.AspNetCore.Serilog;
 
 namespace IdentityService;
@@ -19,7 +19,8 @@ namespace IdentityService;
     typeof(IdentityServiceEntityFrameworkCoreModule),
     typeof(AbpAutofacModule),
     typeof(AbpSwashbuckleModule),
-    typeof(AbpAspNetCoreSerilogModule)
+    typeof(AbpAspNetCoreSerilogModule),
+    typeof(AbpAspNetCoreMultiTenancyModule)
 )]
 public class IdentityServiceHttpApiHostModule : AbpModule
 {

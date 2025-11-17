@@ -1,3 +1,4 @@
+using IdentityService.Localization;
 using IdentityService.Permissions;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Identity;

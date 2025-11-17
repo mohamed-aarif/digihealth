@@ -63,7 +63,7 @@ public class ProfileAppService : IdentityServiceAppService, IProfileAppService
 
     private async Task<IdentityUser> GetCurrentUserAsync()
     {
-        var userId = CurrentUser.GetId();
+        var userId = CurrentUser.Id ?? throw new AbpException("Current user id is not available");
         var user = await _identityUserManager.GetByIdAsync(userId);
         return user;
     }

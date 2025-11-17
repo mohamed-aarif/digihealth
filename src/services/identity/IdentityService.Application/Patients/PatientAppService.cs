@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IdentityService.Patients.Dtos;
+using IdentityService.Localization;
 using IdentityService.Permissions;
 using IdentityService.Users;
 using Microsoft.AspNetCore.Authorization;
@@ -18,11 +19,11 @@ namespace IdentityService.Patients;
 public class PatientAppService : CrudAppService<Patient, PatientDto, Guid, PatientPagedAndSortedResultRequestDto, CreateUpdatePatientDto>,
     IPatientAppService
 {
-    private readonly IIdentityUserRepository _identityUserRepository;
+    private readonly IRepository<IdentityUser, Guid> _identityUserRepository;
 
     public PatientAppService(
         IRepository<Patient, Guid> repository,
-        IIdentityUserRepository identityUserRepository)
+        IRepository<IdentityUser, Guid> identityUserRepository)
         : base(repository)
     {
         _identityUserRepository = identityUserRepository;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IdentityService.Doctors.Dtos;
+using IdentityService.Localization;
 using IdentityService.Permissions;
 using IdentityService.Users;
 using Microsoft.AspNetCore.Authorization;
@@ -18,11 +19,11 @@ namespace IdentityService.Doctors;
 public class DoctorAppService : CrudAppService<Doctor, DoctorDto, Guid, DoctorPagedAndSortedResultRequestDto, CreateUpdateDoctorDto>,
     IDoctorAppService
 {
-    private readonly IIdentityUserRepository _identityUserRepository;
+    private readonly IRepository<IdentityUser, Guid> _identityUserRepository;
 
     public DoctorAppService(
         IRepository<Doctor, Guid> repository,
-        IIdentityUserRepository identityUserRepository)
+        IRepository<IdentityUser, Guid> identityUserRepository)
         : base(repository)
     {
         _identityUserRepository = identityUserRepository;

@@ -27,7 +27,7 @@ public class IdentityServiceDbContext : AbpDbContext<IdentityServiceDbContext>, 
     public DbSet<Doctor> Doctors { get; set; } = default!;
 
     public DbSet<PermissionGroupDefinitionRecord> PermissionGroups { get; set; } = default!;
-    public DbSet<PermissionDefinitionRecord> PermissionDefinitions { get; set; } = default!;
+    public DbSet<PermissionDefinitionRecord> Permissions { get; set; } = default!;
     public DbSet<PermissionGrant> PermissionGrants { get; set; } = default!;
 
     public IdentityServiceDbContext(DbContextOptions<IdentityServiceDbContext> options)

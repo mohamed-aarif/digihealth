@@ -1,0 +1,420 @@
+erDiagram
+
+    %% =========================
+    %% CONFIGURATION MASTER DATA
+    %% =========================
+
+    configuration_appointment_statuses {
+        UUID id
+        string code
+        string name
+        string description
+        int sort_order
+        bool is_active
+    }
+
+    configuration_appointment_channels {
+        UUID id
+        string code
+        string name
+        string description
+        int sort_order
+        bool is_active
+    }
+
+    configuration_days_of_week {
+        UUID id
+        string code
+        string name
+        string description
+        int sort_order
+        bool is_active
+    }
+
+    configuration_medication_intake_statuses {
+        UUID id
+        string code
+        string name
+        string description
+        int sort_order
+        bool is_active
+    }
+
+    configuration_consent_party_types {
+        UUID id
+        string code
+        string name
+        string description
+        int sort_order
+        bool is_active
+    }
+
+    configuration_consent_statuses {
+        UUID id
+        string code
+        string name
+        string description
+        int sort_order
+        bool is_active
+    }
+
+    configuration_device_types {
+        UUID id
+        string code
+        string name
+        string description
+        int sort_order
+        bool is_active
+    }
+
+    configuration_notification_channels {
+        UUID id
+        string code
+        string name
+        string description
+        int sort_order
+        bool is_active
+    }
+
+    configuration_notification_statuses {
+        UUID id
+        string code
+        string name
+        string description
+        int sort_order
+        bool is_active
+    }
+
+    configuration_vault_record_types {
+        UUID id
+        string code
+        string name
+        string description
+        int sort_order
+        bool is_active
+    }
+
+    %% =============
+    %% IDENTITY
+    %% =============
+
+    identity_users {
+        UUID id
+        UUID tenant_id
+        string user_name
+        string email
+        string salutation
+        string profile_photo_url
+        string name
+        string surname
+        bool is_active
+        datetime creation_time
+    }
+
+    identity_doctors {
+        UUID id
+        UUID tenant_id
+        UUID user_id
+        string salutation
+        string gender
+        string specialization
+        string registration_number
+        datetime creation_time
+    }
+
+    identity_patients {
+        UUID id
+        UUID tenant_id
+        UUID user_id
+        string salutation
+        date date_of_birth
+        string gender
+        string residence_country
+        datetime creation_time
+    }
+
+    identity_users ||--o{ identity_doctors : "doctor for user"
+    identity_users ||--o{ identity_patients : "patient for user"
+
+    %% =============
+    %% PATIENT SERVICE
+    %% =============
+
+    patient_patient_profile_extensions {
+        UUID id
+        UUID tenant_id
+        UUID identity_patient_id
+        string primary_contact_number
+        string secondary_contact_number
+        string email
+        string address_line1
+        string address_line2
+        string city
+        string state
+        string zipcode
+        string country
+        string emergency_contact_name
+        string emergency_contact_number
+        string preferred_language
+        datetime creation_time
+    }
+
+    patient_patient_medical_summaries {
+        UUID id
+        UUID tenant_id
+        UUID identity_patient_id
+        string blood_group
+        string allergies
+        string chronic_conditions
+        string notes
+        datetime creation_time
+    }
+
+    patient_patient_external_links {
+        UUID id
+        UUID tenant_id
+        UUID identity_patient_id
+        string system_name
+        string external_reference
+        datetime creation_time
+    }
+
+    identity_patients ||--o{ patient_patient_profile_extensions : "profile extension"
+    identity_patients ||--o{ patient_patient_medical_summaries : "medical summary"
+    identity_patients ||--o{ patient_patient_external_links : "external links"
+
+    %% =============
+    %% APPOINTMENT SERVICE
+    %% =============
+
+    appointment_appointments {
+        UUID id
+        UUID tenant_id
+        UUID identity_patient_id
+        UUID identity_doctor_id
+        datetime start_time
+        datetime end_time
+        UUID status_id
+        UUID channel_id
+        string reason
+        string notes
+        datetime creation_time
+    }
+
+    appointment_doctor_schedule_rules {
+        UUID id
+        UUID tenant_id
+        UUID identity_doctor_id
+        UUID day_of_week_id
+        interval start_time_of_day
+        interval end_time_of_day
+        int slot_duration_minutes
+        datetime creation_time
+    }
+
+    appointment_appointment_audits {
+        UUID id
+        UUID appointment_id
+        UUID changed_by_user_id
+        UUID old_status_id
+        UUID new_status_id
+        datetime change_time
+        string comment
+    }
+
+    identity_patients ||--o{ appointment_appointments : "patient appointments"
+    identity_doctors  ||--o{ appointment_appointments : "doctor appointments"
+
+    configuration_appointment_statuses ||--o{ appointment_appointments : "status"
+    configuration_appointment_channels ||--o{ appointment_appointments : "channel"
+
+    identity_doctors ||--o{ appointment_doctor_schedule_rules : "has schedule"
+    configuration_days_of_week ||--o{ appointment_doctor_schedule_rules : "day of week"
+
+    appointment_appointments ||--o{ appointment_appointment_audits : "audits"
+    configuration_appointment_statuses ||--o{ appointment_appointment_audits : "old/new status"
+
+    %% =============
+    %% MEDICATION SERVICE
+    %% =============
+
+    medication_prescriptions {
+        UUID id
+        UUID tenant_id
+        UUID identity_patient_id
+        UUID identity_doctor_id
+        datetime created_at
+        string diagnosis_summary
+        string notes
+    }
+
+    medication_prescription_items {
+        UUID id
+        UUID tenant_id
+        UUID prescription_id
+        string drug_name
+        string strength
+        string dosage_instructions
+        date start_date
+        date end_date
+        int frequency_per_day
+    }
+
+    medication_medication_schedules {
+        UUID id
+        UUID tenant_id
+        UUID identity_patient_id
+        UUID prescription_item_id
+        interval time_of_day
+    }
+
+    medication_medication_intake_logs {
+        UUID id
+        UUID tenant_id
+        UUID identity_patient_id
+        UUID prescription_item_id
+        datetime scheduled_time
+        datetime taken_time
+        UUID status_id
+        string notes
+        datetime creation_time
+    }
+
+    identity_patients ||--o{ medication_prescriptions : "has prescriptions"
+    identity_doctors  ||--o{ medication_prescriptions : "writes prescriptions"
+
+    medication_prescriptions ||--o{ medication_prescription_items : "has items"
+    medication_prescription_items ||--o{ medication_medication_schedules : "has schedule"
+    medication_prescription_items ||--o{ medication_medication_intake_logs : "intake logs"
+
+    identity_patients ||--o{ medication_medication_schedules : "scheduled meds"
+    identity_patients ||--o{ medication_medication_intake_logs : "intake logs"
+
+    configuration_medication_intake_statuses ||--o{ medication_medication_intake_logs : "status"
+
+    %% =============
+    %% CONSENT SERVICE
+    %% =============
+
+    consent_consents {
+        UUID id
+        UUID tenant_id
+        UUID identity_patient_id
+        UUID granted_to_party_type_id
+        UUID granted_to_party_id
+        string data_scope
+        string purpose_of_use
+        datetime granted_at
+        datetime expires_at
+        UUID status_id
+    }
+
+    consent_consent_audits {
+        UUID id
+        UUID consent_id
+        string action
+        UUID performed_by_user_id
+        datetime action_time
+        string details
+    }
+
+    identity_patients ||--o{ consent_consents : "gives consent"
+
+    configuration_consent_party_types ||--o{ consent_consents : "party type"
+    configuration_consent_statuses    ||--o{ consent_consents : "status"
+
+    consent_consents ||--o{ consent_consent_audits : "audit entries"
+
+    %% =============
+    %% DEVICE SERVICE
+    %% =============
+
+    device_devices {
+        UUID id
+        UUID tenant_id
+        string device_serial
+        UUID device_type_id
+        string manufacturer
+        string model
+        UUID assigned_patient_id
+        datetime assigned_at
+        bool is_active
+        datetime creation_time
+    }
+
+    device_device_readings {
+        UUID id
+        UUID tenant_id
+        UUID device_id
+        UUID identity_patient_id
+        datetime reading_time
+        string reading_type
+        decimal value1
+        decimal value2
+        string unit
+        string raw_payload
+    }
+
+    configuration_device_types ||--o{ device_devices : "device type"
+    identity_patients          ||--o{ device_devices : "assigned devices"
+
+    device_devices   ||--o{ device_device_readings : "readings"
+    identity_patients ||--o{ device_device_readings : "readings"
+
+    %% =============
+    %% ENGAGEMENT SERVICE
+    %% =============
+
+    engagement_notification_templates {
+        UUID id
+        UUID tenant_id
+        string template_key
+        UUID channel_id
+        string subject_template
+        string body_template
+        bool is_active
+        datetime creation_time
+    }
+
+    engagement_notifications {
+        UUID id
+        UUID tenant_id
+        UUID recipient_user_id
+        UUID channel_id
+        string template_key
+        string payload_json
+        datetime created_at
+        datetime sent_at
+        UUID status_id
+        string error_message
+    }
+
+    configuration_notification_channels ||--o{ engagement_notification_templates : "channel"
+    configuration_notification_channels ||--o{ engagement_notifications : "channel"
+    configuration_notification_statuses ||--o{ engagement_notifications : "status"
+
+    identity_users ||--o{ engagement_notifications : "receives notifications"
+
+    %% =============
+    %% VAULT SERVICE
+    %% =============
+
+    vault_vault_records {
+        UUID id
+        UUID tenant_id
+        UUID identity_patient_id
+        UUID owner_user_id
+        UUID record_type_id
+        string title
+        string metadata_json
+        date issue_date
+        date expiry_date
+        string storage_location
+        bool is_encrypted
+        datetime created_at
+        datetime last_updated_at
+    }
+
+    configuration_vault_record_types ||--o{ vault_vault_records : "record type"
+    identity_patients                ||--o{ vault_vault_records : "patient records"
+    identity_users                   ||--o{ vault_vault_records : "owner"

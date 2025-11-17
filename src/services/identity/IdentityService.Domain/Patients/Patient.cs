@@ -1,12 +1,11 @@
 using System;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities;
-using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
 namespace IdentityService.Patients;
 
-public class Patient : AggregateRoot<Guid>, IMultiTenant, IHasCreationTime
+public class Patient : AggregateRoot<Guid>, IMultiTenant
 {
     public Guid UserId { get; private set; }
     public Guid? TenantId { get; private set; }

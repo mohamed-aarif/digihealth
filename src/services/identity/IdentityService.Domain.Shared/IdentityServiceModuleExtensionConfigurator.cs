@@ -27,7 +27,6 @@ public static class IdentityServiceModuleExtensionConfigurator
                                 {
                                     property.Attributes.Add(new StringLengthAttribute(IdentityUserExtensionConsts.MaxSalutationLength));
                                     property.Configuration[IdentityModuleExtensionConsts.ConfigurationNames.AllowUserToEdit] = true;
-                                    property.Configuration[IdentityModuleExtensionConsts.ConfigurationNames.AllowUserToView] = true;
                                 })
                             .AddOrUpdateProperty<string?>(
                                 IdentityUserExtensionConsts.ProfilePhotoUrlPropertyName,
@@ -35,7 +34,6 @@ public static class IdentityServiceModuleExtensionConfigurator
                                 {
                                     property.Attributes.Add(new StringLengthAttribute(IdentityUserExtensionConsts.MaxProfilePhotoUrlLength));
                                     property.Configuration[IdentityModuleExtensionConsts.ConfigurationNames.AllowUserToEdit] = true;
-                                    property.Configuration[IdentityModuleExtensionConsts.ConfigurationNames.AllowUserToView] = true;
                                 });
                     });
                 });

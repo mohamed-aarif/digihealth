@@ -8,7 +8,6 @@ using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.PostgreSql;
 using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.Modularity;
-using Volo.Abp.PermissionManagement;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
@@ -30,8 +29,6 @@ public class IdentityServiceEntityFrameworkCoreModule : AbpModule
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         var configuration = context.Services.GetConfiguration();
-
-        PermissionManagementDbProperties.DbSchema = IdentityServiceDbProperties.DbSchema;
 
         context.Services.AddAbpDbContext<IdentityServiceDbContext>(options =>
         {

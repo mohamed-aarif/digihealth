@@ -6,14 +6,17 @@ using Volo.Abp;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.PostgreSql;
+using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.Modularity;
+using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace IdentityService.EntityFrameworkCore;
 
 [DependsOn(
     typeof(IdentityServiceDomainModule),
-    typeof(AbpEntityFrameworkCorePostgreSqlModule)
-)]
+    typeof(AbpEntityFrameworkCorePostgreSqlModule),
+    typeof(AbpIdentityEntityFrameworkCoreModule),
+    typeof(AbpTenantManagementEntityFrameworkCoreModule))]
 public class IdentityServiceEntityFrameworkCoreModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)

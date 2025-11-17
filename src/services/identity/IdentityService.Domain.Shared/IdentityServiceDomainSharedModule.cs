@@ -1,10 +1,15 @@
+using IdentityService.Permissions;
+using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.VirtualFileSystem;
 
 namespace IdentityService;
 
-[DependsOn(typeof(AbpLocalizationModule))]
+[DependsOn(
+    typeof(AbpLocalizationModule),
+    typeof(AbpIdentityDomainSharedModule),
+    typeof(AbpTenantManagementDomainSharedModule))]
 public class IdentityServiceDomainSharedModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
@@ -25,6 +30,11 @@ public class IdentityServiceDomainSharedModule : AbpModule
             options.Resources
                 .Add<IdentityServiceResource>("en")
                 .AddVirtualJson("/Localization/IdentityService");
+        });
+
+        Configure<AbpPermissionOptions>(options =>
+        {
+            options.DefinitionProviders.Add<IdentityServicePermissionDefinitionProvider>();
         });
     }
 }

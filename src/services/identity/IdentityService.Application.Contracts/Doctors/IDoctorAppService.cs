@@ -9,7 +9,7 @@ public interface IDoctorAppService :
     ICrudAppService<
         DoctorDto,
         Guid,
-        PagedAndSortedResultRequestDto,
+        DoctorPagedAndSortedResultRequestDto,
         CreateUpdateDoctorDto>
 {
 }

@@ -1,3 +1,6 @@
+using IdentityService.Users;
+using Volo.Abp.Identity;
+using Volo.Abp.ObjectExtending;
 using Volo.Abp.Threading;
 
 namespace IdentityService;
@@ -8,6 +11,22 @@ public static class IdentityServiceModuleExtensionConfigurator
 
     public static void Configure()
     {
-        OneTimeRunner.Run(() => { });
+        OneTimeRunner.Run(() =>
+        {
+            ObjectExtensionManager.Instance
+                .Modules()
+                .ConfigureIdentity(identity =>
+                {
+                    identity.ConfigureUser(user =>
+                    {
+                        user.AddOrUpdateProperty<string?>(
+                                IdentityUserExtensions.SalutationPropertyName,
+                                options => options.MapEfCore(builder => builder.HasMaxLength(IdentityUserExtensionConsts.MaxSalutationLength)))
+                            .AddOrUpdateProperty<string?>(
+                                IdentityUserExtensions.ProfilePhotoUrlPropertyName,
+                                options => options.MapEfCore(builder => builder.HasMaxLength(IdentityUserExtensionConsts.MaxProfilePhotoUrlLength)));
+                    });
+                });
+        });
     }
 }

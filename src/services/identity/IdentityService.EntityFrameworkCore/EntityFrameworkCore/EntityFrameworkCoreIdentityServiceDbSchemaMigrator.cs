@@ -22,7 +22,7 @@ public class EntityFrameworkCoreIdentityServiceDbSchemaMigrator : IIdentityServi
 
     public async Task MigrateAsync()
     {
-        await using var uow = _unitOfWorkManager.Begin(requiresNew: true);
+        using var uow = _unitOfWorkManager.Begin(requiresNew: true);
 
         var dbContext = await _dbContextProvider.GetDbContextAsync();
         await dbContext.Database.MigrateAsync();

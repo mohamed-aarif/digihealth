@@ -7,7 +7,9 @@ using Volo.Abp.Uow;
 
 namespace IdentityService.EntityFrameworkCore;
 
-public class EntityFrameworkCoreIdentityServiceDbSchemaMigrator : IIdentityServiceDbSchemaMigrator, ITransientDependency
+[Dependency(ReplaceServices = true)]
+[ExposeServices(typeof(IIdentityServiceDbSchemaMigrator))]
+public class EntityFrameworkCoreIdentityServiceDbSchemaMigrator : IIdentityServiceDbSchemaMigrator
 {
     private readonly IDbContextProvider<IdentityServiceDbContext> _dbContextProvider;
     private readonly IUnitOfWorkManager _unitOfWorkManager;

@@ -3,7 +3,9 @@ using Volo.Abp.DependencyInjection;
 
 namespace IdentityService.Data;
 
-public class NullIdentityServiceDbSchemaMigrator : IIdentityServiceDbSchemaMigrator, ITransientDependency
+[Dependency(TryRegister = true)]
+[ExposeServices(typeof(IIdentityServiceDbSchemaMigrator))]
+public class NullIdentityServiceDbSchemaMigrator : IIdentityServiceDbSchemaMigrator
 {
     public Task MigrateAsync()
     {

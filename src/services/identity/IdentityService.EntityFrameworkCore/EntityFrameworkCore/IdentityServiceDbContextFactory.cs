@@ -13,7 +13,7 @@ public class IdentityServiceDbContextFactory : IDesignTimeDbContextFactory<Ident
         var configuration = BuildConfiguration();
 
         var connectionString = configuration.GetConnectionString(IdentityServiceDbProperties.ConnectionStringName)
-            ?? configuration.GetConnectionString("IdentityService")
+            ?? configuration.GetConnectionString("Default")
             ?? throw new InvalidOperationException(
                 $"Connection string '{IdentityServiceDbProperties.ConnectionStringName}' was not found.");
 

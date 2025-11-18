@@ -39,17 +39,22 @@ public class IdentityServiceEntityFrameworkCoreModule : AbpModule
 
         Configure<AbpDbConnectionOptions>(options =>
         {
-            var connectionString = configuration.GetConnectionString(IdentityServiceDbProperties.ConnectionStringName)
-                ?? configuration.GetConnectionString("IdentityService");
+            var defaultConnection = configuration.GetConnectionString("Default");
+            if (!string.IsNullOrWhiteSpace(defaultConnection))
+            {
+                options.ConnectionStrings.Default = defaultConnection;
+            }
 
-            if (string.IsNullOrWhiteSpace(connectionString))
+            var identityConnection = configuration.GetConnectionString(IdentityServiceDbProperties.ConnectionStringName)
+                ?? defaultConnection;
+
+            if (string.IsNullOrWhiteSpace(identityConnection))
             {
                 throw new InvalidOperationException(
                     $"Connection string '{IdentityServiceDbProperties.ConnectionStringName}' was not found in configuration.");
             }
 
-            options.ConnectionStrings.Default = connectionString;
-            options.ConnectionStrings[IdentityServiceDbProperties.ConnectionStringName] = connectionString;
+            options.ConnectionStrings[IdentityServiceDbProperties.ConnectionStringName] = identityConnection;
         });
 
         Configure<AbpDbContextOptions>(options =>

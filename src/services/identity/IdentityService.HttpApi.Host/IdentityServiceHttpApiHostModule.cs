@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Volo.Abp;
@@ -36,8 +35,6 @@ public class IdentityServiceHttpApiHostModule : AbpModule
         ConfigureAuthentication(context, configuration);
 
         context.Services.AddSwaggerGen();
-
-        context.Services.AddHostedService<IdentityServiceDatabaseMigrationHostedService>();
 
         Configure<SwaggerGenOptions>(options =>
         {

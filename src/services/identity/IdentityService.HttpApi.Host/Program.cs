@@ -2,9 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using IdentityService.Data;
+using IdentityService.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 using Volo.Abp;
@@ -73,6 +76,12 @@ public class Program
     private static async Task MigrateAndSeedDatabaseAsync(IServiceProvider serviceProvider)
     {
         await using var scope = serviceProvider.CreateAsyncScope();
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+        logger.LogInformation("Applying database migrations...");
+
+        var dbContext = scope.ServiceProvider.GetRequiredService<IdentityServiceDbContext>();
+        await dbContext.Database.MigrateAsync();
 
         var migrators = scope.ServiceProvider.GetRequiredService<IEnumerable<IIdentityServiceDbSchemaMigrator>>();
         foreach (var migrator in migrators)
@@ -80,7 +89,11 @@ public class Program
             await migrator.MigrateAsync();
         }
 
+        logger.LogInformation("Seeding initial data...");
+
         var dataSeeder = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
         await dataSeeder.SeedAsync(new DataSeedContext(null));
+
+        logger.LogInformation("Database ready.");
     }
 }

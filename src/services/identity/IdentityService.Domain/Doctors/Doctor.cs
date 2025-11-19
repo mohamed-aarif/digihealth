@@ -2,6 +2,7 @@ using System;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.MultiTenancy;
+using Volo.Abp.Timing;
 
 namespace IdentityService.Doctors;
 

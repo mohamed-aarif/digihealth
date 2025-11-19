@@ -7,12 +7,18 @@ using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
+using Volo.Abp.TenantManagement;
+using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace IdentityService.EntityFrameworkCore;
 
 [ConnectionStringName(IdentityServiceDbProperties.ConnectionStringName)]
-public class IdentityServiceDbContext : AbpDbContext<IdentityServiceDbContext>, IIdentityServiceDbContext
+public class IdentityServiceDbContext : AbpDbContext<IdentityServiceDbContext>, IIdentityServiceDbContext, ITenantManagementDbContext
 {
+    // DbSets for TenantManagement:
+    public DbSet<Tenant> Tenants { get; set; }
+    public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
+
     public DbSet<IdentityUser> Users { get; set; } = default!;
     public DbSet<IdentityRole> Roles { get; set; } = default!;
     public DbSet<IdentityClaimType> ClaimTypes { get; set; } = default!;
@@ -37,12 +43,13 @@ public class IdentityServiceDbContext : AbpDbContext<IdentityServiceDbContext>, 
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.HasDefaultSchema(IdentityServiceDbProperties.DbSchema);
+        builder.HasDefaultSchema(IdentityServiceDbProperties.DbSchema); // "identity"
 
         base.OnModelCreating(builder);
 
         builder.ConfigureIdentity();
         builder.ConfigurePermissionManagement();
+        builder.ConfigureTenantManagement();
         builder.ConfigureIdentityService();
     }
 }

@@ -34,6 +34,7 @@ public class IdentityServiceEntityFrameworkCoreModule : AbpModule
         {
             options.ReplaceDbContext<IIdentityDbContext>();
             options.ReplaceDbContext<IPermissionManagementDbContext>();
+            options.ReplaceDbContext<ITenantManagementDbContext>();
             options.AddDefaultRepositories(includeAllEntities: true);
         });
 

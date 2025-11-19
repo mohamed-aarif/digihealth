@@ -70,8 +70,18 @@ public class IdentityServiceEntityFrameworkCoreModule : AbpModule
                         "The database connection string could not be resolved for IdentityServiceDbContext.");
                 }
 
-                configurationContext.DbContextOptions.UseNpgsql(connectionString);
+                configurationContext.DbContextOptions.UseNpgsql(
+                    connectionString,
+                    npgsqlOptions =>
+                    {
+                        // Put EF migrations history in the 'identity' schema
+                        npgsqlOptions.MigrationsHistoryTable(
+                            "__EFMigrationsHistory",
+                            IdentityServiceDbProperties.DbSchema  // should be "identity"
+                        );
+                    });
             });
         });
+
     }
 }

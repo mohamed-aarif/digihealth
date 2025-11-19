@@ -6,7 +6,7 @@ public static class IdentityServicePermissions
 
     public static class Doctors
     {
-        public const string Default = GroupName + ".Doctors";
+        public const string Default = GroupName + ".DoctorManagement";
         public const string Manage = Default + ".Manage";
     }
 

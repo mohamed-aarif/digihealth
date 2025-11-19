@@ -11,8 +11,8 @@ public class IdentityServicePermissionDefinitionProvider : PermissionDefinitionP
         var group = context.GetGroupOrNull(IdentityServicePermissions.GroupName)
                     ?? context.AddGroup(IdentityServicePermissions.GroupName, L("Permission:IdentityService"));
 
-        var doctors = group.AddPermission(IdentityServicePermissions.Doctors.Default, L("Permission:Doctors"));
-        doctors.AddChild(IdentityServicePermissions.Doctors.Manage, L("Permission:Doctors.Manage"));
+        var doctors = group.AddPermission(IdentityServicePermissions.Doctors.Default, L("Permission:DoctorManagement"));
+        doctors.AddChild(IdentityServicePermissions.Doctors.Manage, L("Permission:DoctorManagement.Manage"));
 
         var patients = group.AddPermission(IdentityServicePermissions.Patients.Default, L("Permission:Patients"));
         patients.AddChild(IdentityServicePermissions.Patients.Manage, L("Permission:Patients.Manage"));

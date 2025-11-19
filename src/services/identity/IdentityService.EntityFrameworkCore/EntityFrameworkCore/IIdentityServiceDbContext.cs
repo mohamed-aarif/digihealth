@@ -1,20 +1,14 @@
 using IdentityService.Doctors;
-using IdentityService.FamilyLinks;
-using IdentityService.PatientIdentifiers;
-using IdentityService.PatientInsurances;
 using IdentityService.Patients;
-using IdentityService.Users;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.Identity.EntityFrameworkCore;
+using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 
 namespace IdentityService.EntityFrameworkCore;
 
-public interface IIdentityServiceDbContext : IEfCoreDbContext
+public interface IIdentityServiceDbContext : IEfCoreDbContext, IIdentityDbContext, IPermissionManagementDbContext
 {
-    DbSet<IdentityUserAccount> IdentityUsers { get; }
     DbSet<Patient> Patients { get; }
     DbSet<Doctor> Doctors { get; }
-    DbSet<FamilyLink> FamilyLinks { get; }
-    DbSet<PatientIdentifier> PatientIdentifiers { get; }
-    DbSet<PatientInsurance> PatientInsurances { get; }
 }

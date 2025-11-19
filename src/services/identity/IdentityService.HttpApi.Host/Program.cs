@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using IdentityService.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -7,6 +9,7 @@ using Serilog;
 using Serilog.Events;
 using Volo.Abp;
 using Volo.Abp.Autofac;
+using Volo.Abp.Data;
 
 namespace IdentityService;
 
@@ -14,6 +17,9 @@ public class Program
 {
     public async static Task<int> Main(string[] args)
     {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
+
         Log.Logger = new LoggerConfiguration()
 #if DEBUG
             .MinimumLevel.Debug()
@@ -41,6 +47,8 @@ public class Program
 
             var app = builder.Build();
 
+            await MigrateAndSeedDatabaseAsync(app.Services);
+
             await app.InitializeApplicationAsync();
             await app.RunAsync();
 
@@ -60,5 +68,19 @@ public class Program
         {
             Log.CloseAndFlush();
         }
+    }
+
+    private static async Task MigrateAndSeedDatabaseAsync(IServiceProvider serviceProvider)
+    {
+        await using var scope = serviceProvider.CreateAsyncScope();
+
+        var migrators = scope.ServiceProvider.GetRequiredService<IEnumerable<IIdentityServiceDbSchemaMigrator>>();
+        foreach (var migrator in migrators)
+        {
+            await migrator.MigrateAsync();
+        }
+
+        var dataSeeder = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
+        await dataSeeder.SeedAsync(new DataSeedContext(null));
     }
 }

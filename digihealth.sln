@@ -65,36 +65,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mermaid", "Mermaid", "{0F2C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v1", "v1", "{7AC09D49-5D2F-49AC-A904-7365C2126008}"
 	ProjectSection(SolutionItems) = preProject
-		database\schema.mmd = database\schema.mmd
 		database\Mermaid\v1\schema.mmd = database\Mermaid\v1\schema.mmd
-		database\schema.png = database\schema.png
 		database\Mermaid\v1\schema.png = database\Mermaid\v1\schema.png
-		database\schema.svg = database\schema.svg
 		database\Mermaid\v1\schema.svg = database\Mermaid\v1\schema.svg
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v1", "v1", "{14F9F121-5E99-4B52-8581-42CCA3084D1D}"
 	ProjectSection(SolutionItems) = preProject
-		database\postgresql\digihealth-16112025.sql = database\postgresql\digihealth-16112025.sql
 		database\postgresql\v1\digihealth-16112025.sql = database\postgresql\v1\digihealth-16112025.sql
-		database\postgresql\PostgreSQL Initial Database - Sample data.sql = database\postgresql\PostgreSQL Initial Database - Sample data.sql
 		database\postgresql\v1\PostgreSQL Initial Database - Sample data.sql = database\postgresql\v1\PostgreSQL Initial Database - Sample data.sql
-		database\postgresql\PostgreSQL Initial Database Setup script.sql = database\postgresql\PostgreSQL Initial Database Setup script.sql
 		database\postgresql\v1\PostgreSQL Initial Database Setup script.sql = database\postgresql\v1\PostgreSQL Initial Database Setup script.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v2", "v2", "{A7F7D28B-28E1-4A73-AA44-72C8004A9F46}"
 	ProjectSection(SolutionItems) = preProject
 		database\postgresql\v2\digihealthv2-18112025.sql = database\postgresql\v2\digihealthv2-18112025.sql
-		PostgreSQL v2 Database-Sample data.sql = PostgreSQL v2 Database-Sample data.sql
 		database\postgresql\v2\PostgreSQL v2 Database-Sample data.sql = database\postgresql\v2\PostgreSQL v2 Database-Sample data.sql
-		PostgreSQL v2 Database.sql = PostgreSQL v2 Database.sql
 		database\postgresql\v2\PostgreSQL v2 Database.sql = database\postgresql\v2\PostgreSQL v2 Database.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v2", "v2", "{493CCB57-F776-452E-8E9D-478CC7589661}"
 	ProjectSection(SolutionItems) = preProject
-		schema.mmd = schema.mmd
 		database\Mermaid\v2\schema.mmd = database\Mermaid\v2\schema.mmd
 	EndProjectSection
 EndProject

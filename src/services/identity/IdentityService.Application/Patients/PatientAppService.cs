@@ -1,47 +1,105 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using IdentityService.PatientIdentifiers;
-using IdentityService.PatientIdentifiers.Dtos;
-using IdentityService.PatientInsurances;
-using IdentityService.PatientInsurances.Dtos;
 using IdentityService.Patients.Dtos;
+using IdentityService.Localization;
+using IdentityService.Permissions;
 using IdentityService.Users;
+using Microsoft.AspNetCore.Authorization;
+using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Identity;
 
 namespace IdentityService.Patients;
 
-public class PatientAppService : CrudAppService<Patient, PatientDto, Guid, PagedAndSortedResultRequestDto, CreateUpdatePatientDto>, IPatientAppService
+[Authorize(IdentityServicePermissions.Patients.Default)]
+public class PatientAppService : CrudAppService<Patient, PatientDto, Guid, PatientPagedAndSortedResultRequestDto, CreateUpdatePatientDto>,
+    IPatientAppService
 {
-    private readonly IRepository<IdentityUserAccount, Guid> _userRepository;
-    private readonly IRepository<PatientIdentifier, Guid> _patientIdentifierRepository;
-    private readonly IRepository<PatientInsurance, Guid> _patientInsuranceRepository;
+    private readonly IRepository<IdentityUser, Guid> _identityUserRepository;
 
     public PatientAppService(
         IRepository<Patient, Guid> repository,
-        IRepository<IdentityUserAccount, Guid> userRepository,
-        IRepository<PatientIdentifier, Guid> patientIdentifierRepository,
-        IRepository<PatientInsurance, Guid> patientInsuranceRepository) : base(repository)
+        IRepository<IdentityUser, Guid> identityUserRepository)
+        : base(repository)
     {
-        _userRepository = userRepository;
-        _patientIdentifierRepository = patientIdentifierRepository;
-        _patientInsuranceRepository = patientInsuranceRepository;
+        _identityUserRepository = identityUserRepository;
         LocalizationResource = typeof(IdentityServiceResource);
         ObjectMapperContext = typeof(IdentityServiceApplicationModule);
     }
 
+    [Authorize(IdentityServicePermissions.Patients.Manage)]
+    public override Task<PatientDto> CreateAsync(CreateUpdatePatientDto input)
+    {
+        return base.CreateAsync(input);
+    }
+
+    [Authorize(IdentityServicePermissions.Patients.Manage)]
+    public override Task<PatientDto> UpdateAsync(Guid id, CreateUpdatePatientDto input)
+    {
+        return base.UpdateAsync(id, input);
+    }
+
+    [Authorize(IdentityServicePermissions.Patients.Manage)]
+    public override Task DeleteAsync(Guid id)
+    {
+        return base.DeleteAsync(id);
+    }
+
     public override async Task<PatientDto> GetAsync(Guid id)
     {
+        await CheckGetPolicyAsync();
         var patient = await Repository.GetAsync(id);
-        var dto = ObjectMapper.Map<Patient, PatientDto>(patient);
+        var user = await _identityUserRepository.GetAsync(patient.UserId);
+        return MapPatientDto(patient, user);
+    }
 
-        await PopulatePhotoAsync(patient, dto);
-        await PopulateIdentifiersAsync(patient, dto);
-        await PopulateInsurancesAsync(patient, dto);
+    public override async Task<PagedResultDto<PatientDto>> GetListAsync(PatientPagedAndSortedResultRequestDto input)
+    {
+        await CheckGetListPolicyAsync();
 
-        return dto;
+        var patientQueryable = await Repository.GetQueryableAsync();
+        var userQueryable = await _identityUserRepository.GetQueryableAsync();
+
+        var query = from patient in patientQueryable
+                    join user in userQueryable on patient.UserId equals user.Id
+                    select new { patient, user };
+
+        if (input.DateOfBirth.HasValue)
+        {
+            query = query.Where(x => x.patient.DateOfBirth == input.DateOfBirth.Value.Date);
+        }
+
+        if (input.TenantId.HasValue)
+        {
+            query = query.Where(x => x.patient.TenantId == input.TenantId);
+        }
+
+        if (!input.NameFilter.IsNullOrWhiteSpace())
+        {
+            var nameFilter = input.NameFilter!.ToLower();
+            query = query.Where(x =>
+                (x.user.Name ?? string.Empty).ToLower().Contains(nameFilter) ||
+                (x.user.Surname ?? string.Empty).ToLower().Contains(nameFilter) ||
+                x.user.UserName.ToLower().Contains(nameFilter));
+        }
+
+        query = query.OrderByDescending(x => x.patient.CreationTime);
+
+        var totalCount = await AsyncExecuter.CountAsync(query);
+        var items = await AsyncExecuter.ToListAsync(
+            query.Skip(input.SkipCount).Take(input.MaxResultCount));
+
+        var dtos = ObjectMapper.Map<List<Patient>, List<PatientDto>>(items.Select(i => i.patient).ToList());
+        for (var i = 0; i < items.Count; i++)
+        {
+            ApplyUserData(dtos[i], items[i].user);
+        }
+
+        return new PagedResultDto<PatientDto>(totalCount, dtos);
     }
 
     protected override Patient MapToEntity(CreateUpdatePatientDto createInput)
@@ -49,45 +107,34 @@ public class PatientAppService : CrudAppService<Patient, PatientDto, Guid, Paged
         return new Patient(
             GuidGenerator.Create(),
             createInput.UserId,
-            createInput.FullName,
+            CurrentTenant.Id,
+            createInput.Salutation,
             createInput.DateOfBirth,
             createInput.Gender,
-            createInput.Salutation,
-            createInput.Country,
-            createInput.ResidenceCountry,
-            createInput.MobileNumber,
-            createInput.HealthVaultId);
+            createInput.ResidenceCountry);
     }
 
     protected override void MapToEntity(CreateUpdatePatientDto updateInput, Patient entity)
     {
         entity.Update(
-            updateInput.UserId,
-            updateInput.FullName,
+            updateInput.Salutation,
             updateInput.DateOfBirth,
             updateInput.Gender,
-            updateInput.Salutation,
-            updateInput.Country,
-            updateInput.ResidenceCountry,
-            updateInput.MobileNumber,
-            updateInput.HealthVaultId);
+            updateInput.ResidenceCountry);
     }
 
-    private async Task PopulatePhotoAsync(Patient patient, PatientDto dto)
+    private PatientDto MapPatientDto(Patient patient, IdentityUser user)
     {
-        var user = await _userRepository.FirstOrDefaultAsync(x => x.Id == patient.UserId);
-        dto.PhotoStorageKey = user?.PhotoStorageKey;
+        var dto = ObjectMapper.Map<Patient, PatientDto>(patient);
+        ApplyUserData(dto, user);
+        return dto;
     }
 
-    private async Task PopulateIdentifiersAsync(Patient patient, PatientDto dto)
+    private static void ApplyUserData(PatientDto dto, IdentityUser user)
     {
-        var identifiers = await _patientIdentifierRepository.GetListAsync(x => x.PatientId == patient.Id);
-        dto.Identifiers = ObjectMapper.Map<List<PatientIdentifier>, List<PatientIdentifierDto>>(identifiers);
-    }
-
-    private async Task PopulateInsurancesAsync(Patient patient, PatientDto dto)
-    {
-        var insurances = await _patientInsuranceRepository.GetListAsync(x => x.PatientId == patient.Id);
-        dto.Insurances = ObjectMapper.Map<List<PatientInsurance>, List<PatientInsuranceDto>>(insurances);
+        dto.UserName = user.UserName;
+        dto.Name = user.Name;
+        dto.Surname = user.Surname;
+        dto.ProfilePhotoUrl = user.GetProfilePhotoUrl();
     }
 }

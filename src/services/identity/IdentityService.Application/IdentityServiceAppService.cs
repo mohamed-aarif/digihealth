@@ -1,3 +1,4 @@
+using IdentityService.Localization;
 using Volo.Abp.Application.Services;
 
 namespace IdentityService;

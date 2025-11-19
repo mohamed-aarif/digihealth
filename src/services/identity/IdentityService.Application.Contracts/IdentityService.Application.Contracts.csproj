@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="$(MSBuildThisFileDirectory)..\..\..\..\common.props" />
 
   <PropertyGroup>
@@ -10,6 +10,8 @@
   <ItemGroup>
     <PackageReference Include="Volo.Abp.Ddd.Application" Version="9.3.6" />
     <PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="9.3.6" />
+    <PackageReference Include="Volo.Abp.Identity.Application.Contracts" Version="9.3.6" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Application.Contracts" Version="9.3.6" />
   </ItemGroup>
 
   <ItemGroup>

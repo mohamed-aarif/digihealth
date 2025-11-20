@@ -10998,3 +10998,670 @@ Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving 
    at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
    at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
    at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2025-11-20 19:37:14.945 +04:00 [INF] Starting IdentityService.HttpApi.Host.
+2025-11-20 19:37:25.942 +04:00 [INF] Applying database migrations...
+2025-11-20 19:37:27.810 +04:00 [INF] Seeding initial data...
+2025-11-20 19:37:28.538 +04:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-11-20 19:37:30.258 +04:00 [INF] Database ready.
+2025-11-20 19:37:30.271 +04:00 [DBG] Loaded ABP modules:
+2025-11-20 19:37:30.272 +04:00 [DBG] - IdentityService.IdentityServiceHttpApiHostModule
+2025-11-20 19:37:30.273 +04:00 [DBG]   - IdentityService.IdentityServiceHttpApiModule
+2025-11-20 19:37:30.274 +04:00 [DBG]     - IdentityService.IdentityServiceApplicationModule
+2025-11-20 19:37:30.275 +04:00 [DBG]       - IdentityService.IdentityServiceDomainModule
+2025-11-20 19:37:30.275 +04:00 [DBG]         - IdentityService.IdentityServiceDomainSharedModule
+2025-11-20 19:37:30.276 +04:00 [DBG]           - Volo.Abp.Localization.AbpLocalizationModule
+2025-11-20 19:37:30.277 +04:00 [DBG]             - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2025-11-20 19:37:30.278 +04:00 [DBG]             - Volo.Abp.Settings.AbpSettingsModule
+2025-11-20 19:37:30.279 +04:00 [DBG]               - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2025-11-20 19:37:30.279 +04:00 [DBG]               - Volo.Abp.Security.AbpSecurityModule
+2025-11-20 19:37:30.280 +04:00 [DBG]               - Volo.Abp.Data.AbpDataModule
+2025-11-20 19:37:30.281 +04:00 [DBG]                 - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2025-11-20 19:37:30.282 +04:00 [DBG]                   - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2025-11-20 19:37:30.282 +04:00 [DBG]                 - Volo.Abp.Uow.AbpUnitOfWorkModule
+2025-11-20 19:37:30.283 +04:00 [DBG]                 - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2025-11-20 19:37:30.284 +04:00 [DBG]             - Volo.Abp.Threading.AbpThreadingModule
+2025-11-20 19:37:30.284 +04:00 [DBG]           - Volo.Abp.Identity.AbpIdentityDomainSharedModule
+2025-11-20 19:37:30.286 +04:00 [DBG]             - Volo.Abp.Users.AbpUsersDomainSharedModule
+2025-11-20 19:37:30.286 +04:00 [DBG]             - Volo.Abp.Validation.AbpValidationModule
+2025-11-20 19:37:30.287 +04:00 [DBG]             - Volo.Abp.Features.AbpFeaturesModule
+2025-11-20 19:37:30.288 +04:00 [DBG]               - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2025-11-20 19:37:30.289 +04:00 [DBG]                 - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2025-11-20 19:37:30.291 +04:00 [DBG]               - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2025-11-20 19:37:30.292 +04:00 [DBG]           - Volo.Abp.TenantManagement.AbpTenantManagementDomainSharedModule
+2025-11-20 19:37:30.293 +04:00 [DBG]         - Volo.Abp.Identity.AbpIdentityDomainModule
+2025-11-20 19:37:30.294 +04:00 [DBG]           - Volo.Abp.Domain.AbpDddDomainModule
+2025-11-20 19:37:30.295 +04:00 [DBG]             - Volo.Abp.Auditing.AbpAuditingModule
+2025-11-20 19:37:30.295 +04:00 [DBG]               - Volo.Abp.Json.AbpJsonModule
+2025-11-20 19:37:30.296 +04:00 [DBG]                 - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2025-11-20 19:37:30.297 +04:00 [DBG]                   - Volo.Abp.Json.AbpJsonAbstractionsModule
+2025-11-20 19:37:30.298 +04:00 [DBG]                   - Volo.Abp.Timing.AbpTimingModule
+2025-11-20 19:37:30.299 +04:00 [DBG]               - Volo.Abp.Auditing.AbpAuditingContractsModule
+2025-11-20 19:37:30.299 +04:00 [DBG]             - Volo.Abp.EventBus.AbpEventBusModule
+2025-11-20 19:37:30.300 +04:00 [DBG]               - Volo.Abp.Guids.AbpGuidsModule
+2025-11-20 19:37:30.301 +04:00 [DBG]               - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2025-11-20 19:37:30.302 +04:00 [DBG]               - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2025-11-20 19:37:30.302 +04:00 [DBG]             - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2025-11-20 19:37:30.303 +04:00 [DBG]             - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2025-11-20 19:37:30.304 +04:00 [DBG]             - Volo.Abp.Specifications.AbpSpecificationsModule
+2025-11-20 19:37:30.305 +04:00 [DBG]             - Volo.Abp.Caching.AbpCachingModule
+2025-11-20 19:37:30.306 +04:00 [DBG]               - Volo.Abp.Serialization.AbpSerializationModule
+2025-11-20 19:37:30.306 +04:00 [DBG]             - Volo.Abp.Domain.AbpDddDomainSharedModule
+2025-11-20 19:37:30.307 +04:00 [DBG]           - Volo.Abp.Users.AbpUsersDomainModule
+2025-11-20 19:37:30.308 +04:00 [DBG]             - Volo.Abp.Users.AbpUsersAbstractionModule
+2025-11-20 19:37:30.309 +04:00 [DBG]           - Volo.Abp.AutoMapper.AbpAutoMapperModule
+2025-11-20 19:37:30.310 +04:00 [DBG]         - Volo.Abp.TenantManagement.AbpTenantManagementDomainModule
+2025-11-20 19:37:30.310 +04:00 [DBG]       - IdentityService.IdentityServiceApplicationContractsModule
+2025-11-20 19:37:30.311 +04:00 [DBG]         - Volo.Abp.Application.AbpDddApplicationContractsModule
+2025-11-20 19:37:30.312 +04:00 [DBG]         - Volo.Abp.Application.AbpDddApplicationModule
+2025-11-20 19:37:30.312 +04:00 [DBG]           - Volo.Abp.Authorization.AbpAuthorizationModule
+2025-11-20 19:37:30.313 +04:00 [DBG]           - Volo.Abp.Http.AbpHttpAbstractionsModule
+2025-11-20 19:37:30.314 +04:00 [DBG]           - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2025-11-20 19:37:30.314 +04:00 [DBG]         - Volo.Abp.Identity.AbpIdentityApplicationContractsModule
+2025-11-20 19:37:30.315 +04:00 [DBG]           - Volo.Abp.PermissionManagement.AbpPermissionManagementApplicationContractsModule
+2025-11-20 19:37:30.316 +04:00 [DBG]             - Volo.Abp.PermissionManagement.AbpPermissionManagementDomainSharedModule
+2025-11-20 19:37:30.316 +04:00 [DBG]         - Volo.Abp.TenantManagement.AbpTenantManagementApplicationContractsModule
+2025-11-20 19:37:30.317 +04:00 [DBG]       - Volo.Abp.Identity.AbpIdentityApplicationModule
+2025-11-20 19:37:30.318 +04:00 [DBG]         - Volo.Abp.PermissionManagement.AbpPermissionManagementApplicationModule
+2025-11-20 19:37:30.318 +04:00 [DBG]           - Volo.Abp.PermissionManagement.AbpPermissionManagementDomainModule
+2025-11-20 19:37:30.319 +04:00 [DBG]       - Volo.Abp.TenantManagement.AbpTenantManagementApplicationModule
+2025-11-20 19:37:30.320 +04:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2025-11-20 19:37:30.320 +04:00 [DBG]       - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2025-11-20 19:37:30.321 +04:00 [DBG]         - Volo.Abp.Http.AbpHttpModule
+2025-11-20 19:37:30.322 +04:00 [DBG]           - Volo.Abp.Minify.AbpMinifyModule
+2025-11-20 19:37:30.322 +04:00 [DBG]         - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2025-11-20 19:37:30.323 +04:00 [DBG]       - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2025-11-20 19:37:30.324 +04:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2025-11-20 19:37:30.325 +04:00 [DBG]       - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2025-11-20 19:37:30.326 +04:00 [DBG]         - Volo.Abp.UI.AbpUiModule
+2025-11-20 19:37:30.326 +04:00 [DBG]     - Volo.Abp.Identity.AbpIdentityHttpApiModule
+2025-11-20 19:37:30.327 +04:00 [DBG]     - Volo.Abp.TenantManagement.AbpTenantManagementHttpApiModule
+2025-11-20 19:37:30.328 +04:00 [DBG]       - Volo.Abp.FeatureManagement.AbpFeatureManagementHttpApiModule
+2025-11-20 19:37:30.328 +04:00 [DBG]         - Volo.Abp.FeatureManagement.AbpFeatureManagementApplicationContractsModule
+2025-11-20 19:37:30.329 +04:00 [DBG]           - Volo.Abp.FeatureManagement.AbpFeatureManagementDomainSharedModule
+2025-11-20 19:37:30.330 +04:00 [DBG]   - IdentityService.EntityFrameworkCore.IdentityServiceEntityFrameworkCoreModule
+2025-11-20 19:37:30.330 +04:00 [DBG]     - Volo.Abp.EntityFrameworkCore.PostgreSql.AbpEntityFrameworkCorePostgreSqlModule
+2025-11-20 19:37:30.331 +04:00 [DBG]       - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2025-11-20 19:37:30.332 +04:00 [DBG]     - Volo.Abp.Identity.EntityFrameworkCore.AbpIdentityEntityFrameworkCoreModule
+2025-11-20 19:37:30.332 +04:00 [DBG]       - Volo.Abp.Users.EntityFrameworkCore.AbpUsersEntityFrameworkCoreModule
+2025-11-20 19:37:30.333 +04:00 [DBG]     - Volo.Abp.PermissionManagement.EntityFrameworkCore.AbpPermissionManagementEntityFrameworkCoreModule
+2025-11-20 19:37:30.334 +04:00 [DBG]     - Volo.Abp.TenantManagement.EntityFrameworkCore.AbpTenantManagementEntityFrameworkCoreModule
+2025-11-20 19:37:30.334 +04:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2025-11-20 19:37:30.335 +04:00 [DBG]     - Volo.Abp.Castle.AbpCastleCoreModule
+2025-11-20 19:37:30.336 +04:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2025-11-20 19:37:30.336 +04:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2025-11-20 19:37:30.337 +04:00 [DBG]   - Volo.Abp.AspNetCore.MultiTenancy.AbpAspNetCoreMultiTenancyModule
+2025-11-20 19:37:30.338 +04:00 [DBG]   - Volo.Abp.AspNetCore.Authentication.JwtBearer.AbpAspNetCoreAuthenticationJwtBearerModule
+2025-11-20 19:37:31.764 +04:00 [INF] User profile is available. Using 'C:\Users\user\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-11-20 19:37:31.901 +04:00 [INF] Initialized all ABP modules.
+2025-11-20 19:37:32.042 +04:00 [INF] Now listening on: https://localhost:44385
+2025-11-20 19:37:32.044 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-11-20 19:37:32.045 +04:00 [INF] Hosting environment: Development
+2025-11-20 19:37:32.046 +04:00 [INF] Content root path: E:\Project\digihealth\src\services\identity\IdentityService.HttpApi.Host
+2025-11-20 19:59:05.550 +04:00 [INF] Starting IdentityService.HttpApi.Host.
+2025-11-20 19:59:11.763 +04:00 [INF] Applying database migrations...
+2025-11-20 19:59:14.308 +04:00 [INF] Seeding initial data...
+2025-11-20 19:59:16.301 +04:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-11-20 19:59:18.480 +04:00 [INF] Database ready.
+2025-11-20 19:59:18.495 +04:00 [DBG] Loaded ABP modules:
+2025-11-20 19:59:18.497 +04:00 [DBG] - IdentityService.IdentityServiceHttpApiHostModule
+2025-11-20 19:59:18.499 +04:00 [DBG]   - IdentityService.IdentityServiceHttpApiModule
+2025-11-20 19:59:18.500 +04:00 [DBG]     - IdentityService.IdentityServiceApplicationModule
+2025-11-20 19:59:18.501 +04:00 [DBG]       - IdentityService.IdentityServiceDomainModule
+2025-11-20 19:59:18.502 +04:00 [DBG]         - IdentityService.IdentityServiceDomainSharedModule
+2025-11-20 19:59:18.503 +04:00 [DBG]           - Volo.Abp.Localization.AbpLocalizationModule
+2025-11-20 19:59:18.504 +04:00 [DBG]             - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2025-11-20 19:59:18.505 +04:00 [DBG]             - Volo.Abp.Settings.AbpSettingsModule
+2025-11-20 19:59:18.507 +04:00 [DBG]               - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2025-11-20 19:59:18.508 +04:00 [DBG]               - Volo.Abp.Security.AbpSecurityModule
+2025-11-20 19:59:18.509 +04:00 [DBG]               - Volo.Abp.Data.AbpDataModule
+2025-11-20 19:59:18.510 +04:00 [DBG]                 - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2025-11-20 19:59:18.511 +04:00 [DBG]                   - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2025-11-20 19:59:18.512 +04:00 [DBG]                 - Volo.Abp.Uow.AbpUnitOfWorkModule
+2025-11-20 19:59:18.513 +04:00 [DBG]                 - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2025-11-20 19:59:18.515 +04:00 [DBG]             - Volo.Abp.Threading.AbpThreadingModule
+2025-11-20 19:59:18.516 +04:00 [DBG]           - Volo.Abp.Identity.AbpIdentityDomainSharedModule
+2025-11-20 19:59:18.517 +04:00 [DBG]             - Volo.Abp.Users.AbpUsersDomainSharedModule
+2025-11-20 19:59:18.518 +04:00 [DBG]             - Volo.Abp.Validation.AbpValidationModule
+2025-11-20 19:59:18.519 +04:00 [DBG]             - Volo.Abp.Features.AbpFeaturesModule
+2025-11-20 19:59:18.520 +04:00 [DBG]               - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2025-11-20 19:59:18.522 +04:00 [DBG]                 - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2025-11-20 19:59:18.523 +04:00 [DBG]               - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2025-11-20 19:59:18.525 +04:00 [DBG]           - Volo.Abp.TenantManagement.AbpTenantManagementDomainSharedModule
+2025-11-20 19:59:18.526 +04:00 [DBG]         - Volo.Abp.Identity.AbpIdentityDomainModule
+2025-11-20 19:59:18.527 +04:00 [DBG]           - Volo.Abp.Domain.AbpDddDomainModule
+2025-11-20 19:59:18.529 +04:00 [DBG]             - Volo.Abp.Auditing.AbpAuditingModule
+2025-11-20 19:59:18.529 +04:00 [DBG]               - Volo.Abp.Json.AbpJsonModule
+2025-11-20 19:59:18.530 +04:00 [DBG]                 - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2025-11-20 19:59:18.532 +04:00 [DBG]                   - Volo.Abp.Json.AbpJsonAbstractionsModule
+2025-11-20 19:59:18.533 +04:00 [DBG]                   - Volo.Abp.Timing.AbpTimingModule
+2025-11-20 19:59:18.534 +04:00 [DBG]               - Volo.Abp.Auditing.AbpAuditingContractsModule
+2025-11-20 19:59:18.536 +04:00 [DBG]             - Volo.Abp.EventBus.AbpEventBusModule
+2025-11-20 19:59:18.537 +04:00 [DBG]               - Volo.Abp.Guids.AbpGuidsModule
+2025-11-20 19:59:18.538 +04:00 [DBG]               - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2025-11-20 19:59:18.540 +04:00 [DBG]               - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2025-11-20 19:59:18.543 +04:00 [DBG]             - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2025-11-20 19:59:18.548 +04:00 [DBG]             - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2025-11-20 19:59:18.549 +04:00 [DBG]             - Volo.Abp.Specifications.AbpSpecificationsModule
+2025-11-20 19:59:18.550 +04:00 [DBG]             - Volo.Abp.Caching.AbpCachingModule
+2025-11-20 19:59:18.551 +04:00 [DBG]               - Volo.Abp.Serialization.AbpSerializationModule
+2025-11-20 19:59:18.552 +04:00 [DBG]             - Volo.Abp.Domain.AbpDddDomainSharedModule
+2025-11-20 19:59:18.553 +04:00 [DBG]           - Volo.Abp.Users.AbpUsersDomainModule
+2025-11-20 19:59:18.554 +04:00 [DBG]             - Volo.Abp.Users.AbpUsersAbstractionModule
+2025-11-20 19:59:18.556 +04:00 [DBG]           - Volo.Abp.AutoMapper.AbpAutoMapperModule
+2025-11-20 19:59:18.557 +04:00 [DBG]         - Volo.Abp.TenantManagement.AbpTenantManagementDomainModule
+2025-11-20 19:59:18.558 +04:00 [DBG]       - IdentityService.IdentityServiceApplicationContractsModule
+2025-11-20 19:59:18.559 +04:00 [DBG]         - Volo.Abp.Application.AbpDddApplicationContractsModule
+2025-11-20 19:59:18.560 +04:00 [DBG]         - Volo.Abp.Application.AbpDddApplicationModule
+2025-11-20 19:59:18.561 +04:00 [DBG]           - Volo.Abp.Authorization.AbpAuthorizationModule
+2025-11-20 19:59:18.562 +04:00 [DBG]           - Volo.Abp.Http.AbpHttpAbstractionsModule
+2025-11-20 19:59:18.563 +04:00 [DBG]           - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2025-11-20 19:59:18.564 +04:00 [DBG]         - Volo.Abp.Identity.AbpIdentityApplicationContractsModule
+2025-11-20 19:59:18.565 +04:00 [DBG]           - Volo.Abp.PermissionManagement.AbpPermissionManagementApplicationContractsModule
+2025-11-20 19:59:18.567 +04:00 [DBG]             - Volo.Abp.PermissionManagement.AbpPermissionManagementDomainSharedModule
+2025-11-20 19:59:18.568 +04:00 [DBG]         - Volo.Abp.TenantManagement.AbpTenantManagementApplicationContractsModule
+2025-11-20 19:59:18.569 +04:00 [DBG]       - Volo.Abp.Identity.AbpIdentityApplicationModule
+2025-11-20 19:59:18.570 +04:00 [DBG]         - Volo.Abp.PermissionManagement.AbpPermissionManagementApplicationModule
+2025-11-20 19:59:18.571 +04:00 [DBG]           - Volo.Abp.PermissionManagement.AbpPermissionManagementDomainModule
+2025-11-20 19:59:18.572 +04:00 [DBG]       - Volo.Abp.TenantManagement.AbpTenantManagementApplicationModule
+2025-11-20 19:59:18.573 +04:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2025-11-20 19:59:18.574 +04:00 [DBG]       - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2025-11-20 19:59:18.575 +04:00 [DBG]         - Volo.Abp.Http.AbpHttpModule
+2025-11-20 19:59:18.576 +04:00 [DBG]           - Volo.Abp.Minify.AbpMinifyModule
+2025-11-20 19:59:18.577 +04:00 [DBG]         - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2025-11-20 19:59:18.578 +04:00 [DBG]       - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2025-11-20 19:59:18.579 +04:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2025-11-20 19:59:18.581 +04:00 [DBG]       - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2025-11-20 19:59:18.582 +04:00 [DBG]         - Volo.Abp.UI.AbpUiModule
+2025-11-20 19:59:18.583 +04:00 [DBG]     - Volo.Abp.Identity.AbpIdentityHttpApiModule
+2025-11-20 19:59:18.584 +04:00 [DBG]     - Volo.Abp.TenantManagement.AbpTenantManagementHttpApiModule
+2025-11-20 19:59:18.585 +04:00 [DBG]       - Volo.Abp.FeatureManagement.AbpFeatureManagementHttpApiModule
+2025-11-20 19:59:18.586 +04:00 [DBG]         - Volo.Abp.FeatureManagement.AbpFeatureManagementApplicationContractsModule
+2025-11-20 19:59:18.587 +04:00 [DBG]           - Volo.Abp.FeatureManagement.AbpFeatureManagementDomainSharedModule
+2025-11-20 19:59:18.588 +04:00 [DBG]   - IdentityService.EntityFrameworkCore.IdentityServiceEntityFrameworkCoreModule
+2025-11-20 19:59:18.589 +04:00 [DBG]     - Volo.Abp.EntityFrameworkCore.PostgreSql.AbpEntityFrameworkCorePostgreSqlModule
+2025-11-20 19:59:18.590 +04:00 [DBG]       - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2025-11-20 19:59:18.591 +04:00 [DBG]     - Volo.Abp.Identity.EntityFrameworkCore.AbpIdentityEntityFrameworkCoreModule
+2025-11-20 19:59:18.592 +04:00 [DBG]       - Volo.Abp.Users.EntityFrameworkCore.AbpUsersEntityFrameworkCoreModule
+2025-11-20 19:59:18.593 +04:00 [DBG]     - Volo.Abp.PermissionManagement.EntityFrameworkCore.AbpPermissionManagementEntityFrameworkCoreModule
+2025-11-20 19:59:18.594 +04:00 [DBG]     - Volo.Abp.TenantManagement.EntityFrameworkCore.AbpTenantManagementEntityFrameworkCoreModule
+2025-11-20 19:59:18.595 +04:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2025-11-20 19:59:18.596 +04:00 [DBG]     - Volo.Abp.Castle.AbpCastleCoreModule
+2025-11-20 19:59:18.597 +04:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2025-11-20 19:59:18.598 +04:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2025-11-20 19:59:18.599 +04:00 [DBG]   - Volo.Abp.AspNetCore.MultiTenancy.AbpAspNetCoreMultiTenancyModule
+2025-11-20 19:59:18.600 +04:00 [DBG]   - Volo.Abp.AspNetCore.Authentication.JwtBearer.AbpAspNetCoreAuthenticationJwtBearerModule
+2025-11-20 19:59:19.083 +04:00 [INF] User profile is available. Using 'C:\Users\user\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-11-20 19:59:19.231 +04:00 [INF] Initialized all ABP modules.
+2025-11-20 19:59:19.489 +04:00 [INF] Now listening on: https://localhost:44385
+2025-11-20 19:59:19.636 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-11-20 19:59:19.637 +04:00 [INF] Hosting environment: Development
+2025-11-20 19:59:19.638 +04:00 [INF] Content root path: E:\Project\digihealth\src\services\identity\IdentityService.HttpApi.Host
+2025-11-20 19:59:24.702 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44385/_framework/aspnetcore-browser-refresh.js - null null
+2025-11-20 19:59:24.750 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44385/_framework/aspnetcore-browser-refresh.js - 200 16541 application/javascript; charset=utf-8 59.9373ms
+2025-11-20 19:59:26.183 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44385/swagger/v1/swagger.json - null null
+2025-11-20 19:59:27.669 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44385/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 1486.8306ms
+2025-11-20 19:59:47.909 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44385/api/identity-service/doctors - null null
+2025-11-20 19:59:47.946 +04:00 [INF] Executing endpoint 'IdentityService.Controllers.Doctors.DoctorController.GetListAsync (IdentityService.HttpApi)'
+2025-11-20 19:59:47.997 +04:00 [INF] Route matched with {action = "GetList", controller = "Doctor", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Volo.Abp.Application.Dtos.PagedResultDto`1[IdentityService.Doctors.Dtos.DoctorDto]] GetListAsync(IdentityService.Doctors.Dtos.DoctorPagedAndSortedResultRequestDto) on controller IdentityService.Controllers.Doctors.DoctorController (IdentityService.HttpApi).
+2025-11-20 19:59:48.204 +04:00 [INF] Authorization failed. These requirements were not met:
+PermissionRequirement: IdentityService.Doctors
+2025-11-20 19:59:48.265 +04:00 [WRN] ---------- RemoteServiceErrorInfo ----------
+{
+  "code": "Volo.Authorization:010001",
+  "message": "Authorization failed! Given policy has not granted.",
+  "details": null,
+  "data": null,
+  "validationErrors": null
+}
+
+2025-11-20 19:59:48.269 +04:00 [WRN] Exception of type 'Volo.Abp.Authorization.AbpAuthorizationException' was thrown.
+Volo.Abp.Authorization.AbpAuthorizationException: Exception of type 'Volo.Abp.Authorization.AbpAuthorizationException' was thrown.
+   at Microsoft.AspNetCore.Authorization.AbpAuthorizationServiceExtensions.CheckAsync(IAuthorizationService authorizationService, AuthorizationPolicy policy)
+   at Volo.Abp.Authorization.MethodInvocationAuthorizationService.CheckAsync(MethodInvocationAuthorizationContext context)
+   at Volo.Abp.Authorization.AuthorizationInterceptor.AuthorizeAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Authorization.AuthorizationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Auditing.AuditingInterceptor.ProceedByLoggingAsync(IAbpMethodInvocation invocation, AbpAuditingOptions options, IAuditingHelper auditingHelper, IAuditLogScope auditLogScope)
+   at Volo.Abp.Auditing.AuditingInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Validation.ValidationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Uow.UnitOfWorkInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at lambda_method2390(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|26_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+2025-11-20 19:59:48.317 +04:00 [WRN] Code:Volo.Authorization:010001
+2025-11-20 19:59:48.335 +04:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-11-20 19:59:48.343 +04:00 [INF] Executed action IdentityService.Controllers.Doctors.DoctorController.GetListAsync (IdentityService.HttpApi) in 337.3835ms
+2025-11-20 19:59:48.345 +04:00 [INF] Executed endpoint 'IdentityService.Controllers.Doctors.DoctorController.GetListAsync (IdentityService.HttpApi)'
+2025-11-20 19:59:48.362 +04:00 [INF] AUDIT LOG: [401: GET    ] /api/identity-service/doctors
+- UserName - UserId                 :  - 
+- ClientIpAddress        : ::1
+- ExecutionDuration      : 407
+- Actions:
+  - IdentityService.Doctors.DoctorAppService.GetListAsync (36 ms.)
+    {"input":{"nameFilter":null,"specializationFilter":null,"tenantId":null,"sorting":null,"skipCount":0,"maxResultCount":10}}
+  - IdentityService.Controllers.Doctors.DoctorController.GetListAsync (77 ms.)
+    {"input":{"nameFilter":null,"specializationFilter":null,"tenantId":null,"sorting":null,"skipCount":0,"maxResultCount":10}}
+- Exceptions:
+  - Exception of type 'Volo.Abp.Authorization.AbpAuthorizationException' was thrown.
+    Volo.Abp.Authorization.AbpAuthorizationException: Exception of type 'Volo.Abp.Authorization.AbpAuthorizationException' was thrown.
+   at Microsoft.AspNetCore.Authorization.AbpAuthorizationServiceExtensions.CheckAsync(IAuthorizationService authorizationService, AuthorizationPolicy policy)
+   at Volo.Abp.Authorization.MethodInvocationAuthorizationService.CheckAsync(MethodInvocationAuthorizationContext context)
+   at Volo.Abp.Authorization.AuthorizationInterceptor.AuthorizeAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Authorization.AuthorizationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Auditing.AuditingInterceptor.ProceedByLoggingAsync(IAbpMethodInvocation invocation, AbpAuditingOptions options, IAuditingHelper auditingHelper, IAuditLogScope auditLogScope)
+   at Volo.Abp.Auditing.AuditingInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Validation.ValidationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Uow.UnitOfWorkInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at lambda_method2390(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|26_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+
+2025-11-20 19:59:48.365 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44385/api/identity-service/doctors - 401 0 null 456.1569ms
+2025-11-20 20:01:15.141 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44385/api/identity-service/doctors?TenantId=3a1daa2f-274c-c133-f38f-6f5a98d37f7a - null null
+2025-11-20 20:01:15.200 +04:00 [INF] Executing endpoint 'IdentityService.Controllers.Doctors.DoctorController.GetListAsync (IdentityService.HttpApi)'
+2025-11-20 20:01:15.204 +04:00 [INF] Route matched with {action = "GetList", controller = "Doctor", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Volo.Abp.Application.Dtos.PagedResultDto`1[IdentityService.Doctors.Dtos.DoctorDto]] GetListAsync(IdentityService.Doctors.Dtos.DoctorPagedAndSortedResultRequestDto) on controller IdentityService.Controllers.Doctors.DoctorController (IdentityService.HttpApi).
+2025-11-20 20:01:15.217 +04:00 [INF] Authorization failed. These requirements were not met:
+PermissionRequirement: IdentityService.Doctors
+2025-11-20 20:01:15.229 +04:00 [WRN] ---------- RemoteServiceErrorInfo ----------
+{
+  "code": "Volo.Authorization:010001",
+  "message": "Authorization failed! Given policy has not granted.",
+  "details": null,
+  "data": null,
+  "validationErrors": null
+}
+
+2025-11-20 20:01:15.231 +04:00 [WRN] Exception of type 'Volo.Abp.Authorization.AbpAuthorizationException' was thrown.
+Volo.Abp.Authorization.AbpAuthorizationException: Exception of type 'Volo.Abp.Authorization.AbpAuthorizationException' was thrown.
+   at Microsoft.AspNetCore.Authorization.AbpAuthorizationServiceExtensions.CheckAsync(IAuthorizationService authorizationService, AuthorizationPolicy policy)
+   at Volo.Abp.Authorization.MethodInvocationAuthorizationService.CheckAsync(MethodInvocationAuthorizationContext context)
+   at Volo.Abp.Authorization.AuthorizationInterceptor.AuthorizeAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Authorization.AuthorizationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Auditing.AuditingInterceptor.ProceedByLoggingAsync(IAbpMethodInvocation invocation, AbpAuditingOptions options, IAuditingHelper auditingHelper, IAuditLogScope auditLogScope)
+   at Volo.Abp.Auditing.AuditingInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Validation.ValidationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Uow.UnitOfWorkInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at lambda_method2390(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|26_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+2025-11-20 20:01:15.243 +04:00 [WRN] Code:Volo.Authorization:010001
+2025-11-20 20:01:15.244 +04:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-11-20 20:01:15.267 +04:00 [INF] Executed action IdentityService.Controllers.Doctors.DoctorController.GetListAsync (IdentityService.HttpApi) in 59.1712ms
+2025-11-20 20:01:15.270 +04:00 [INF] Executed endpoint 'IdentityService.Controllers.Doctors.DoctorController.GetListAsync (IdentityService.HttpApi)'
+2025-11-20 20:01:15.275 +04:00 [INF] AUDIT LOG: [401: GET    ] /api/identity-service/doctors
+- UserName - UserId                 :  - 
+- ClientIpAddress        : ::1
+- ExecutionDuration      : 73
+- Actions:
+  - IdentityService.Doctors.DoctorAppService.GetListAsync (9 ms.)
+    {"input":{"nameFilter":null,"specializationFilter":null,"tenantId":"3a1daa2f-274c-c133-f38f-6f5a98d37f7a","sorting":null,"skipCount":0,"maxResultCount":10}}
+  - IdentityService.Controllers.Doctors.DoctorController.GetListAsync (13 ms.)
+    {"input":{"nameFilter":null,"specializationFilter":null,"tenantId":"3a1daa2f-274c-c133-f38f-6f5a98d37f7a","sorting":null,"skipCount":0,"maxResultCount":10}}
+- Exceptions:
+  - Exception of type 'Volo.Abp.Authorization.AbpAuthorizationException' was thrown.
+    Volo.Abp.Authorization.AbpAuthorizationException: Exception of type 'Volo.Abp.Authorization.AbpAuthorizationException' was thrown.
+   at Microsoft.AspNetCore.Authorization.AbpAuthorizationServiceExtensions.CheckAsync(IAuthorizationService authorizationService, AuthorizationPolicy policy)
+   at Volo.Abp.Authorization.MethodInvocationAuthorizationService.CheckAsync(MethodInvocationAuthorizationContext context)
+   at Volo.Abp.Authorization.AuthorizationInterceptor.AuthorizeAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Authorization.AuthorizationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Auditing.AuditingInterceptor.ProceedByLoggingAsync(IAbpMethodInvocation invocation, AbpAuditingOptions options, IAuditingHelper auditingHelper, IAuditLogScope auditLogScope)
+   at Volo.Abp.Auditing.AuditingInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Validation.ValidationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Uow.UnitOfWorkInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at lambda_method2390(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|26_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+
+2025-11-20 20:01:15.277 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44385/api/identity-service/doctors?TenantId=3a1daa2f-274c-c133-f38f-6f5a98d37f7a - 401 0 null 136.5682ms
+2025-11-20 20:01:19.033 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44385/api/identity-service/doctors?TenantId=3a1daa2f-274c-c133-f38f-6f5a98d37f7a - null null
+2025-11-20 20:01:19.038 +04:00 [INF] Executing endpoint 'IdentityService.Controllers.Doctors.DoctorController.GetListAsync (IdentityService.HttpApi)'
+2025-11-20 20:01:19.040 +04:00 [INF] Route matched with {action = "GetList", controller = "Doctor", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Volo.Abp.Application.Dtos.PagedResultDto`1[IdentityService.Doctors.Dtos.DoctorDto]] GetListAsync(IdentityService.Doctors.Dtos.DoctorPagedAndSortedResultRequestDto) on controller IdentityService.Controllers.Doctors.DoctorController (IdentityService.HttpApi).
+2025-11-20 20:01:19.046 +04:00 [INF] Authorization failed. These requirements were not met:
+PermissionRequirement: IdentityService.Doctors
+2025-11-20 20:01:19.051 +04:00 [WRN] ---------- RemoteServiceErrorInfo ----------
+{
+  "code": "Volo.Authorization:010001",
+  "message": "Authorization failed! Given policy has not granted.",
+  "details": null,
+  "data": null,
+  "validationErrors": null
+}
+
+2025-11-20 20:01:19.053 +04:00 [WRN] Exception of type 'Volo.Abp.Authorization.AbpAuthorizationException' was thrown.
+Volo.Abp.Authorization.AbpAuthorizationException: Exception of type 'Volo.Abp.Authorization.AbpAuthorizationException' was thrown.
+   at Microsoft.AspNetCore.Authorization.AbpAuthorizationServiceExtensions.CheckAsync(IAuthorizationService authorizationService, AuthorizationPolicy policy)
+   at Volo.Abp.Authorization.MethodInvocationAuthorizationService.CheckAsync(MethodInvocationAuthorizationContext context)
+   at Volo.Abp.Authorization.AuthorizationInterceptor.AuthorizeAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Authorization.AuthorizationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Auditing.AuditingInterceptor.ProceedByLoggingAsync(IAbpMethodInvocation invocation, AbpAuditingOptions options, IAuditingHelper auditingHelper, IAuditLogScope auditLogScope)
+   at Volo.Abp.Auditing.AuditingInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Validation.ValidationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Uow.UnitOfWorkInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at lambda_method2390(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|26_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+2025-11-20 20:01:19.061 +04:00 [WRN] Code:Volo.Authorization:010001
+2025-11-20 20:01:19.062 +04:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-11-20 20:01:19.063 +04:00 [INF] Executed action IdentityService.Controllers.Doctors.DoctorController.GetListAsync (IdentityService.HttpApi) in 20.9499ms
+2025-11-20 20:01:19.064 +04:00 [INF] Executed endpoint 'IdentityService.Controllers.Doctors.DoctorController.GetListAsync (IdentityService.HttpApi)'
+2025-11-20 20:01:19.067 +04:00 [INF] AUDIT LOG: [401: GET    ] /api/identity-service/doctors
+- UserName - UserId                 :  - 
+- ClientIpAddress        : ::1
+- ExecutionDuration      : 27
+- Actions:
+  - IdentityService.Doctors.DoctorAppService.GetListAsync (3 ms.)
+    {"input":{"nameFilter":null,"specializationFilter":null,"tenantId":"3a1daa2f-274c-c133-f38f-6f5a98d37f7a","sorting":null,"skipCount":0,"maxResultCount":10}}
+  - IdentityService.Controllers.Doctors.DoctorController.GetListAsync (6 ms.)
+    {"input":{"nameFilter":null,"specializationFilter":null,"tenantId":"3a1daa2f-274c-c133-f38f-6f5a98d37f7a","sorting":null,"skipCount":0,"maxResultCount":10}}
+- Exceptions:
+  - Exception of type 'Volo.Abp.Authorization.AbpAuthorizationException' was thrown.
+    Volo.Abp.Authorization.AbpAuthorizationException: Exception of type 'Volo.Abp.Authorization.AbpAuthorizationException' was thrown.
+   at Microsoft.AspNetCore.Authorization.AbpAuthorizationServiceExtensions.CheckAsync(IAuthorizationService authorizationService, AuthorizationPolicy policy)
+   at Volo.Abp.Authorization.MethodInvocationAuthorizationService.CheckAsync(MethodInvocationAuthorizationContext context)
+   at Volo.Abp.Authorization.AuthorizationInterceptor.AuthorizeAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Authorization.AuthorizationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Auditing.AuditingInterceptor.ProceedByLoggingAsync(IAbpMethodInvocation invocation, AbpAuditingOptions options, IAuditingHelper auditingHelper, IAuditLogScope auditLogScope)
+   at Volo.Abp.Auditing.AuditingInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Validation.ValidationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Uow.UnitOfWorkInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at lambda_method2390(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|26_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+
+2025-11-20 20:01:19.071 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44385/api/identity-service/doctors?TenantId=3a1daa2f-274c-c133-f38f-6f5a98d37f7a - 401 0 null 37.8507ms
+2025-11-20 20:01:55.523 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44385/api/identity-service/doctors?TenantId=3a1daa2f-274c-c133-f38f-6f5a98d37f7a - null null
+2025-11-20 20:01:55.654 +04:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenMalformedException: IDX14100: JWT is not well formed, there are no dots (.).
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken.ReadToken(ReadOnlyMemory`1 encodedTokenMemory)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken..ctor(String jwtEncodedString, TryReadJwtClaim tryReadJwtClaim)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ReadToken(String token, TokenValidationParameters validationParameters)
+2025-11-20 20:01:55.661 +04:00 [INF] Bearer was not authenticated. Failure message: IDX14100: JWT is not well formed, there are no dots (.).
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+2025-11-20 20:01:55.663 +04:00 [INF] Executing endpoint 'IdentityService.Controllers.Doctors.DoctorController.GetListAsync (IdentityService.HttpApi)'
+2025-11-20 20:01:55.664 +04:00 [INF] Route matched with {action = "GetList", controller = "Doctor", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Volo.Abp.Application.Dtos.PagedResultDto`1[IdentityService.Doctors.Dtos.DoctorDto]] GetListAsync(IdentityService.Doctors.Dtos.DoctorPagedAndSortedResultRequestDto) on controller IdentityService.Controllers.Doctors.DoctorController (IdentityService.HttpApi).
+2025-11-20 20:01:55.667 +04:00 [INF] Authorization failed. These requirements were not met:
+PermissionRequirement: IdentityService.Doctors
+2025-11-20 20:01:55.673 +04:00 [WRN] ---------- RemoteServiceErrorInfo ----------
+{
+  "code": "Volo.Authorization:010001",
+  "message": "Authorization failed! Given policy has not granted.",
+  "details": null,
+  "data": null,
+  "validationErrors": null
+}
+
+2025-11-20 20:01:55.675 +04:00 [WRN] Exception of type 'Volo.Abp.Authorization.AbpAuthorizationException' was thrown.
+Volo.Abp.Authorization.AbpAuthorizationException: Exception of type 'Volo.Abp.Authorization.AbpAuthorizationException' was thrown.
+   at Microsoft.AspNetCore.Authorization.AbpAuthorizationServiceExtensions.CheckAsync(IAuthorizationService authorizationService, AuthorizationPolicy policy)
+   at Volo.Abp.Authorization.MethodInvocationAuthorizationService.CheckAsync(MethodInvocationAuthorizationContext context)
+   at Volo.Abp.Authorization.AuthorizationInterceptor.AuthorizeAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Authorization.AuthorizationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Auditing.AuditingInterceptor.ProceedByLoggingAsync(IAbpMethodInvocation invocation, AbpAuditingOptions options, IAuditingHelper auditingHelper, IAuditLogScope auditLogScope)
+   at Volo.Abp.Auditing.AuditingInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Validation.ValidationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Uow.UnitOfWorkInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at lambda_method2390(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|26_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+2025-11-20 20:01:55.682 +04:00 [WRN] Code:Volo.Authorization:010001
+2025-11-20 20:01:55.684 +04:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-11-20 20:01:55.685 +04:00 [INF] Executed action IdentityService.Controllers.Doctors.DoctorController.GetListAsync (IdentityService.HttpApi) in 20.2037ms
+2025-11-20 20:01:55.687 +04:00 [INF] Executed endpoint 'IdentityService.Controllers.Doctors.DoctorController.GetListAsync (IdentityService.HttpApi)'
+2025-11-20 20:01:55.727 +04:00 [INF] AUDIT LOG: [401: GET    ] /api/identity-service/doctors
+- UserName - UserId                 :  - 
+- ClientIpAddress        : ::1
+- ExecutionDuration      : 26
+- Actions:
+  - IdentityService.Doctors.DoctorAppService.GetListAsync (2 ms.)
+    {"input":{"nameFilter":null,"specializationFilter":null,"tenantId":"3a1daa2f-274c-c133-f38f-6f5a98d37f7a","sorting":null,"skipCount":0,"maxResultCount":10}}
+  - IdentityService.Controllers.Doctors.DoctorController.GetListAsync (6 ms.)
+    {"input":{"nameFilter":null,"specializationFilter":null,"tenantId":"3a1daa2f-274c-c133-f38f-6f5a98d37f7a","sorting":null,"skipCount":0,"maxResultCount":10}}
+- Exceptions:
+  - Exception of type 'Volo.Abp.Authorization.AbpAuthorizationException' was thrown.
+    Volo.Abp.Authorization.AbpAuthorizationException: Exception of type 'Volo.Abp.Authorization.AbpAuthorizationException' was thrown.
+   at Microsoft.AspNetCore.Authorization.AbpAuthorizationServiceExtensions.CheckAsync(IAuthorizationService authorizationService, AuthorizationPolicy policy)
+   at Volo.Abp.Authorization.MethodInvocationAuthorizationService.CheckAsync(MethodInvocationAuthorizationContext context)
+   at Volo.Abp.Authorization.AuthorizationInterceptor.AuthorizeAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Authorization.AuthorizationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Auditing.AuditingInterceptor.ProceedByLoggingAsync(IAbpMethodInvocation invocation, AbpAuditingOptions options, IAuditingHelper auditingHelper, IAuditLogScope auditLogScope)
+   at Volo.Abp.Auditing.AuditingInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Validation.ValidationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapterWithReturnValue`1.ProceedAsync()
+   at Volo.Abp.Uow.UnitOfWorkInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync[TResult](IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at lambda_method2390(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextExceptionFilterAsync>g__Awaited|26_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+
+2025-11-20 20:01:55.729 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44385/api/identity-service/doctors?TenantId=3a1daa2f-274c-c133-f38f-6f5a98d37f7a - 401 0 null 206.2048ms
+2025-11-20 21:33:21.412 +04:00 [INF] Starting IdentityService.HttpApi.Host.
+2025-11-20 21:33:33.091 +04:00 [INF] Applying database migrations...
+2025-11-20 21:33:35.189 +04:00 [INF] Seeding initial data...
+2025-11-20 21:33:35.924 +04:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-11-20 21:33:37.044 +04:00 [INF] Database ready.
+2025-11-20 21:33:37.054 +04:00 [DBG] Loaded ABP modules:
+2025-11-20 21:33:37.055 +04:00 [DBG] - IdentityService.IdentityServiceHttpApiHostModule
+2025-11-20 21:33:37.056 +04:00 [DBG]   - IdentityService.IdentityServiceHttpApiModule
+2025-11-20 21:33:37.057 +04:00 [DBG]     - IdentityService.IdentityServiceApplicationModule
+2025-11-20 21:33:37.057 +04:00 [DBG]       - IdentityService.IdentityServiceDomainModule
+2025-11-20 21:33:37.058 +04:00 [DBG]         - IdentityService.IdentityServiceDomainSharedModule
+2025-11-20 21:33:37.059 +04:00 [DBG]           - Volo.Abp.Localization.AbpLocalizationModule
+2025-11-20 21:33:37.060 +04:00 [DBG]             - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2025-11-20 21:33:37.060 +04:00 [DBG]             - Volo.Abp.Settings.AbpSettingsModule
+2025-11-20 21:33:37.061 +04:00 [DBG]               - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2025-11-20 21:33:37.062 +04:00 [DBG]               - Volo.Abp.Security.AbpSecurityModule
+2025-11-20 21:33:37.063 +04:00 [DBG]               - Volo.Abp.Data.AbpDataModule
+2025-11-20 21:33:37.063 +04:00 [DBG]                 - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2025-11-20 21:33:37.064 +04:00 [DBG]                   - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2025-11-20 21:33:37.065 +04:00 [DBG]                 - Volo.Abp.Uow.AbpUnitOfWorkModule
+2025-11-20 21:33:37.065 +04:00 [DBG]                 - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2025-11-20 21:33:37.066 +04:00 [DBG]             - Volo.Abp.Threading.AbpThreadingModule
+2025-11-20 21:33:37.067 +04:00 [DBG]           - Volo.Abp.Identity.AbpIdentityDomainSharedModule
+2025-11-20 21:33:37.068 +04:00 [DBG]             - Volo.Abp.Users.AbpUsersDomainSharedModule
+2025-11-20 21:33:37.068 +04:00 [DBG]             - Volo.Abp.Validation.AbpValidationModule
+2025-11-20 21:33:37.069 +04:00 [DBG]             - Volo.Abp.Features.AbpFeaturesModule
+2025-11-20 21:33:37.070 +04:00 [DBG]               - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2025-11-20 21:33:37.070 +04:00 [DBG]                 - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2025-11-20 21:33:37.071 +04:00 [DBG]               - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2025-11-20 21:33:37.072 +04:00 [DBG]           - Volo.Abp.TenantManagement.AbpTenantManagementDomainSharedModule
+2025-11-20 21:33:37.072 +04:00 [DBG]         - Volo.Abp.Identity.AbpIdentityDomainModule
+2025-11-20 21:33:37.073 +04:00 [DBG]           - Volo.Abp.Domain.AbpDddDomainModule
+2025-11-20 21:33:37.074 +04:00 [DBG]             - Volo.Abp.Auditing.AbpAuditingModule
+2025-11-20 21:33:37.075 +04:00 [DBG]               - Volo.Abp.Json.AbpJsonModule
+2025-11-20 21:33:37.075 +04:00 [DBG]                 - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2025-11-20 21:33:37.076 +04:00 [DBG]                   - Volo.Abp.Json.AbpJsonAbstractionsModule
+2025-11-20 21:33:37.077 +04:00 [DBG]                   - Volo.Abp.Timing.AbpTimingModule
+2025-11-20 21:33:37.077 +04:00 [DBG]               - Volo.Abp.Auditing.AbpAuditingContractsModule
+2025-11-20 21:33:37.078 +04:00 [DBG]             - Volo.Abp.EventBus.AbpEventBusModule
+2025-11-20 21:33:37.078 +04:00 [DBG]               - Volo.Abp.Guids.AbpGuidsModule
+2025-11-20 21:33:37.079 +04:00 [DBG]               - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2025-11-20 21:33:37.080 +04:00 [DBG]               - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2025-11-20 21:33:37.080 +04:00 [DBG]             - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2025-11-20 21:33:37.081 +04:00 [DBG]             - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2025-11-20 21:33:37.082 +04:00 [DBG]             - Volo.Abp.Specifications.AbpSpecificationsModule
+2025-11-20 21:33:37.082 +04:00 [DBG]             - Volo.Abp.Caching.AbpCachingModule
+2025-11-20 21:33:37.083 +04:00 [DBG]               - Volo.Abp.Serialization.AbpSerializationModule
+2025-11-20 21:33:37.084 +04:00 [DBG]             - Volo.Abp.Domain.AbpDddDomainSharedModule
+2025-11-20 21:33:37.084 +04:00 [DBG]           - Volo.Abp.Users.AbpUsersDomainModule
+2025-11-20 21:33:37.085 +04:00 [DBG]             - Volo.Abp.Users.AbpUsersAbstractionModule
+2025-11-20 21:33:37.086 +04:00 [DBG]           - Volo.Abp.AutoMapper.AbpAutoMapperModule
+2025-11-20 21:33:37.086 +04:00 [DBG]         - Volo.Abp.TenantManagement.AbpTenantManagementDomainModule
+2025-11-20 21:33:37.087 +04:00 [DBG]       - IdentityService.IdentityServiceApplicationContractsModule
+2025-11-20 21:33:37.088 +04:00 [DBG]         - Volo.Abp.Application.AbpDddApplicationContractsModule
+2025-11-20 21:33:37.089 +04:00 [DBG]         - Volo.Abp.Application.AbpDddApplicationModule
+2025-11-20 21:33:37.089 +04:00 [DBG]           - Volo.Abp.Authorization.AbpAuthorizationModule
+2025-11-20 21:33:37.090 +04:00 [DBG]           - Volo.Abp.Http.AbpHttpAbstractionsModule
+2025-11-20 21:33:37.091 +04:00 [DBG]           - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2025-11-20 21:33:37.092 +04:00 [DBG]         - Volo.Abp.Identity.AbpIdentityApplicationContractsModule
+2025-11-20 21:33:37.093 +04:00 [DBG]           - Volo.Abp.PermissionManagement.AbpPermissionManagementApplicationContractsModule
+2025-11-20 21:33:37.094 +04:00 [DBG]             - Volo.Abp.PermissionManagement.AbpPermissionManagementDomainSharedModule
+2025-11-20 21:33:37.095 +04:00 [DBG]         - Volo.Abp.TenantManagement.AbpTenantManagementApplicationContractsModule
+2025-11-20 21:33:37.095 +04:00 [DBG]       - Volo.Abp.Identity.AbpIdentityApplicationModule
+2025-11-20 21:33:37.096 +04:00 [DBG]         - Volo.Abp.PermissionManagement.AbpPermissionManagementApplicationModule
+2025-11-20 21:33:37.096 +04:00 [DBG]           - Volo.Abp.PermissionManagement.AbpPermissionManagementDomainModule
+2025-11-20 21:33:37.097 +04:00 [DBG]       - Volo.Abp.TenantManagement.AbpTenantManagementApplicationModule
+2025-11-20 21:33:37.098 +04:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2025-11-20 21:33:37.098 +04:00 [DBG]       - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2025-11-20 21:33:37.099 +04:00 [DBG]         - Volo.Abp.Http.AbpHttpModule
+2025-11-20 21:33:37.100 +04:00 [DBG]           - Volo.Abp.Minify.AbpMinifyModule
+2025-11-20 21:33:37.100 +04:00 [DBG]         - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2025-11-20 21:33:37.101 +04:00 [DBG]       - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2025-11-20 21:33:37.102 +04:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2025-11-20 21:33:37.102 +04:00 [DBG]       - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2025-11-20 21:33:37.103 +04:00 [DBG]         - Volo.Abp.UI.AbpUiModule
+2025-11-20 21:33:37.104 +04:00 [DBG]     - Volo.Abp.Identity.AbpIdentityHttpApiModule
+2025-11-20 21:33:37.104 +04:00 [DBG]     - Volo.Abp.TenantManagement.AbpTenantManagementHttpApiModule
+2025-11-20 21:33:37.105 +04:00 [DBG]       - Volo.Abp.FeatureManagement.AbpFeatureManagementHttpApiModule
+2025-11-20 21:33:37.106 +04:00 [DBG]         - Volo.Abp.FeatureManagement.AbpFeatureManagementApplicationContractsModule
+2025-11-20 21:33:37.107 +04:00 [DBG]           - Volo.Abp.FeatureManagement.AbpFeatureManagementDomainSharedModule
+2025-11-20 21:33:37.107 +04:00 [DBG]   - IdentityService.EntityFrameworkCore.IdentityServiceEntityFrameworkCoreModule
+2025-11-20 21:33:37.108 +04:00 [DBG]     - Volo.Abp.EntityFrameworkCore.PostgreSql.AbpEntityFrameworkCorePostgreSqlModule
+2025-11-20 21:33:37.108 +04:00 [DBG]       - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2025-11-20 21:33:37.109 +04:00 [DBG]     - Volo.Abp.Identity.EntityFrameworkCore.AbpIdentityEntityFrameworkCoreModule
+2025-11-20 21:33:37.110 +04:00 [DBG]       - Volo.Abp.Users.EntityFrameworkCore.AbpUsersEntityFrameworkCoreModule
+2025-11-20 21:33:37.110 +04:00 [DBG]     - Volo.Abp.PermissionManagement.EntityFrameworkCore.AbpPermissionManagementEntityFrameworkCoreModule
+2025-11-20 21:33:37.111 +04:00 [DBG]     - Volo.Abp.TenantManagement.EntityFrameworkCore.AbpTenantManagementEntityFrameworkCoreModule
+2025-11-20 21:33:37.112 +04:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2025-11-20 21:33:37.112 +04:00 [DBG]     - Volo.Abp.Castle.AbpCastleCoreModule
+2025-11-20 21:33:37.113 +04:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2025-11-20 21:33:37.113 +04:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2025-11-20 21:33:37.114 +04:00 [DBG]   - Volo.Abp.AspNetCore.MultiTenancy.AbpAspNetCoreMultiTenancyModule
+2025-11-20 21:33:37.115 +04:00 [DBG]   - Volo.Abp.AspNetCore.Authentication.JwtBearer.AbpAspNetCoreAuthenticationJwtBearerModule
+2025-11-20 21:33:38.693 +04:00 [INF] User profile is available. Using 'C:\Users\user\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-11-20 21:33:38.820 +04:00 [INF] Initialized all ABP modules.
+2025-11-20 21:33:38.942 +04:00 [INF] Now listening on: https://localhost:44385
+2025-11-20 21:33:39.009 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-11-20 21:33:39.010 +04:00 [INF] Hosting environment: Development
+2025-11-20 21:33:39.011 +04:00 [INF] Content root path: E:\Project\digihealth\src\services\identity\IdentityService.HttpApi.Host
+2025-11-20 21:33:39.361 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44385/_framework/aspnetcore-browser-refresh.js - null null
+2025-11-20 21:33:39.362 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44385/_vs/browserLink - null null
+2025-11-20 21:33:39.397 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44385/_framework/aspnetcore-browser-refresh.js - 200 16541 application/javascript; charset=utf-8 34.0043ms
+2025-11-20 21:33:39.439 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44385/_vs/browserLink - 200 null text/javascript; charset=UTF-8 78.4758ms
+2025-11-20 21:33:39.665 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44385/swagger/v1/swagger.json - null null
+2025-11-20 21:33:40.905 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44385/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 1240.0468ms

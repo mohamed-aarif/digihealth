@@ -552,3 +552,29 @@ CREATE INDEX IF NOT EXISTS ix_vault_records_owner
 -- ============================================================
 -- END
 -- ============================================================
+
+ALTER TABLE identity.doctors
+    ADD CONSTRAINT fk_identity_doctors_user
+        FOREIGN KEY (user_id)
+        REFERENCES identity."AbpUsers"("Id")
+        ON DELETE CASCADE;
+
+ALTER TABLE identity.doctors
+    ADD COLUMN "ConcurrencyStamp" varchar(40) NULL;
+
+ALTER TABLE identity.doctors
+    ADD COLUMN "ExtraProperties" text NULL;
+
+ALTER TABLE identity.patients
+    ADD CONSTRAINT fk_identity_patients_user
+        FOREIGN KEY (user_id)
+        REFERENCES identity."AbpUsers"("Id")
+        ON DELETE CASCADE;
+
+ALTER TABLE identity.patients
+    ADD COLUMN "ConcurrencyStamp" varchar(40) NULL;
+
+ALTER TABLE identity.patients
+    ADD COLUMN "ExtraProperties" text NULL;
+
+

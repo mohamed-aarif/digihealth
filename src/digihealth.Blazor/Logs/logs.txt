@@ -9703,3 +9703,130 @@
 2025-11-18 21:29:16.781 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_vs/browserLink - 200 null text/javascript; charset=UTF-8 3.6138ms
 2025-11-18 21:29:17.006 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/blazor-hotreload - null null
 2025-11-18 21:29:17.006 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/blazor-hotreload - 204 null null 0.2402ms
+2025-11-20 22:06:12.030 +04:00 [INF] Starting web host.
+2025-11-20 22:06:25.664 +04:00 [DBG] Loaded ABP modules:
+2025-11-20 22:06:25.665 +04:00 [DBG] - digihealth.Blazor.digihealthBlazorModule
+2025-11-20 22:06:25.665 +04:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2025-11-20 22:06:25.665 +04:00 [DBG]     - Volo.Abp.Castle.AbpCastleCoreModule
+2025-11-20 22:06:25.665 +04:00 [DBG]   - Volo.Abp.AspNetCore.Mvc.UI.Bundling.AbpAspNetCoreMvcUiBundlingModule
+2025-11-20 22:06:25.665 +04:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.AbpAspNetCoreMvcUiBootstrapModule
+2025-11-20 22:06:25.665 +04:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.UI.AbpAspNetCoreMvcUiModule
+2025-11-20 22:06:25.665 +04:00 [DBG]         - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2025-11-20 22:06:25.665 +04:00 [DBG]           - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2025-11-20 22:06:25.665 +04:00 [DBG]             - Volo.Abp.Auditing.AbpAuditingModule
+2025-11-20 22:06:25.665 +04:00 [DBG]               - Volo.Abp.Data.AbpDataModule
+2025-11-20 22:06:25.665 +04:00 [DBG]                 - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2025-11-20 22:06:25.665 +04:00 [DBG]                   - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2025-11-20 22:06:25.665 +04:00 [DBG]                   - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2025-11-20 22:06:25.665 +04:00 [DBG]                 - Volo.Abp.Uow.AbpUnitOfWorkModule
+2025-11-20 22:06:25.665 +04:00 [DBG]                 - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2025-11-20 22:06:25.665 +04:00 [DBG]               - Volo.Abp.Json.AbpJsonModule
+2025-11-20 22:06:25.665 +04:00 [DBG]                 - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2025-11-20 22:06:25.665 +04:00 [DBG]                   - Volo.Abp.Json.AbpJsonAbstractionsModule
+2025-11-20 22:06:25.665 +04:00 [DBG]                   - Volo.Abp.Timing.AbpTimingModule
+2025-11-20 22:06:25.665 +04:00 [DBG]                     - Volo.Abp.Localization.AbpLocalizationModule
+2025-11-20 22:06:25.665 +04:00 [DBG]                       - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2025-11-20 22:06:25.665 +04:00 [DBG]                       - Volo.Abp.Settings.AbpSettingsModule
+2025-11-20 22:06:25.665 +04:00 [DBG]                         - Volo.Abp.Security.AbpSecurityModule
+2025-11-20 22:06:25.665 +04:00 [DBG]                       - Volo.Abp.Threading.AbpThreadingModule
+2025-11-20 22:06:25.665 +04:00 [DBG]               - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2025-11-20 22:06:25.665 +04:00 [DBG]                 - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2025-11-20 22:06:25.665 +04:00 [DBG]               - Volo.Abp.Auditing.AbpAuditingContractsModule
+2025-11-20 22:06:25.665 +04:00 [DBG]             - Volo.Abp.Http.AbpHttpModule
+2025-11-20 22:06:25.665 +04:00 [DBG]               - Volo.Abp.Http.AbpHttpAbstractionsModule
+2025-11-20 22:06:25.665 +04:00 [DBG]               - Volo.Abp.Minify.AbpMinifyModule
+2025-11-20 22:06:25.665 +04:00 [DBG]             - Volo.Abp.Authorization.AbpAuthorizationModule
+2025-11-20 22:06:25.665 +04:00 [DBG]               - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2025-11-20 22:06:25.665 +04:00 [DBG]             - Volo.Abp.Validation.AbpValidationModule
+2025-11-20 22:06:25.665 +04:00 [DBG]             - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2025-11-20 22:06:25.665 +04:00 [DBG]             - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2025-11-20 22:06:25.665 +04:00 [DBG]           - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2025-11-20 22:06:25.665 +04:00 [DBG]           - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2025-11-20 22:06:25.665 +04:00 [DBG]             - Volo.Abp.Application.AbpDddApplicationContractsModule
+2025-11-20 22:06:25.665 +04:00 [DBG]           - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2025-11-20 22:06:25.665 +04:00 [DBG]             - Volo.Abp.UI.AbpUiModule
+2025-11-20 22:06:25.665 +04:00 [DBG]           - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2025-11-20 22:06:25.665 +04:00 [DBG]           - Volo.Abp.Application.AbpDddApplicationModule
+2025-11-20 22:06:25.665 +04:00 [DBG]             - Volo.Abp.Domain.AbpDddDomainModule
+2025-11-20 22:06:25.665 +04:00 [DBG]               - Volo.Abp.EventBus.AbpEventBusModule
+2025-11-20 22:06:25.665 +04:00 [DBG]                 - Volo.Abp.Guids.AbpGuidsModule
+2025-11-20 22:06:25.665 +04:00 [DBG]                 - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2025-11-20 22:06:25.665 +04:00 [DBG]                 - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2025-11-20 22:06:25.665 +04:00 [DBG]               - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2025-11-20 22:06:25.665 +04:00 [DBG]               - Volo.Abp.Specifications.AbpSpecificationsModule
+2025-11-20 22:06:25.665 +04:00 [DBG]               - Volo.Abp.Caching.AbpCachingModule
+2025-11-20 22:06:25.665 +04:00 [DBG]                 - Volo.Abp.Serialization.AbpSerializationModule
+2025-11-20 22:06:25.665 +04:00 [DBG]               - Volo.Abp.Domain.AbpDddDomainSharedModule
+2025-11-20 22:06:25.665 +04:00 [DBG]             - Volo.Abp.Features.AbpFeaturesModule
+2025-11-20 22:06:25.665 +04:00 [DBG]     - Volo.Abp.AspNetCore.Bundling.AbpAspNetCoreBundlingModule
+2025-11-20 22:06:25.665 +04:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.UI.Bundling.AbpAspNetCoreMvcUiBundlingAbstractionsModule
+2025-11-20 22:06:25.665 +04:00 [DBG]   - Volo.Abp.AspNetCore.Components.WebAssembly.LeptonXLiteTheme.Bundling.AbpAspNetCoreComponentsWebAssemblyLeptonXLiteThemeBundlingModule
+2025-11-20 22:06:25.665 +04:00 [DBG]     - Volo.Abp.AspNetCore.Components.WebAssembly.Theming.Bundling.AbpAspNetCoreComponentsWebAssemblyThemingBundlingModule
+2025-11-20 22:06:27.900 +04:00 [INF] User profile is available. Using 'C:\Users\user\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-11-20 22:06:36.972 +04:00 [INF] Initialized all ABP modules.
+2025-11-20 22:06:37.181 +04:00 [INF] Now listening on: https://localhost:44327
+2025-11-20 22:06:42.779 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/ - null null
+2025-11-20 22:06:42.927 +04:00 [INF] The 'WebRootPath' is not set, The 'CheckLibs' feature not needed.
+2025-11-20 22:06:50.252 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-11-20 22:06:50.252 +04:00 [INF] Hosting environment: Development
+2025-11-20 22:06:50.252 +04:00 [INF] Content root path: E:\Project\digihealth\src\digihealth.Blazor
+2025-11-20 22:06:50.926 +04:00 [INF] Executing endpoint '/ (/)'
+2025-11-20 22:06:51.022 +04:00 [INF] Executed endpoint '/ (/)'
+2025-11-20 22:06:51.030 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/ - 200 null text/html; charset=utf-8 8251.3053ms
+2025-11-20 22:06:51.049 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/global.css - null null
+2025-11-20 22:06:51.059 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/aspnetcore-browser-refresh.js - null null
+2025-11-20 22:06:51.060 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/main.css - null null
+2025-11-20 22:06:51.069 +04:00 [INF] The file /global.css was not modified
+2025-11-20 22:06:51.069 +04:00 [INF] The file /main.css was not modified
+2025-11-20 22:06:51.069 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/global.js - null null
+2025-11-20 22:06:51.069 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/digihealth.Blazor.Client.styles.css - null null
+2025-11-20 22:06:51.070 +04:00 [INF] The file /global.js was not modified
+2025-11-20 22:06:51.070 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/global.js - 304 null application/javascript 0.8799ms
+2025-11-20 22:06:51.070 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_vs/browserLink - null null
+2025-11-20 22:06:51.070 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/global.css - 304 null text/css 22.212ms
+2025-11-20 22:06:51.071 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/main.css - 304 null text/css 10.2409ms
+2025-11-20 22:06:51.094 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/aspnetcore-browser-refresh.js - 200 16519 application/javascript; charset=utf-8 34.5645ms
+2025-11-20 22:06:51.108 +04:00 [INF] Sending file. Request path: '/digihealth.Blazor.Client.styles.css'. Physical path: 'E:\Project\digihealth\src\digihealth.Blazor.Client\obj\Debug\net9.0\scopedcss\bundle\digihealth.Blazor.Client.styles.css'
+2025-11-20 22:06:51.109 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/digihealth.Blazor.Client.styles.css - 200 407 text/css 39.2725ms
+2025-11-20 22:06:51.112 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_content/Volo.Abp.PermissionManagement.Blazor/Volo.Abp.PermissionManagement.Blazor.p33ll9g8os.bundle.scp.css - null null
+2025-11-20 22:06:51.112 +04:00 [INF] The file /_content/Volo.Abp.PermissionManagement.Blazor/Volo.Abp.PermissionManagement.Blazor.p33ll9g8os.bundle.scp.css was not modified
+2025-11-20 22:06:51.112 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_content/Volo.Abp.PermissionManagement.Blazor/Volo.Abp.PermissionManagement.Blazor.p33ll9g8os.bundle.scp.css - 304 null text/css 0.5144ms
+2025-11-20 22:06:51.144 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_vs/browserLink - 200 null text/javascript; charset=UTF-8 73.0718ms
+2025-11-20 22:06:51.204 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/blazor.boot.json - null null
+2025-11-20 22:06:51.248 +04:00 [INF] Sending file. Request path: '/_framework/blazor.boot.json'. Physical path: 'E:\Project\digihealth\src\digihealth.Blazor.Client\bin\Debug\net9.0\wwwroot\_framework\blazor.boot.json'
+2025-11-20 22:06:51.251 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/blazor.boot.json - 200 70303 application/json 46.7596ms
+2025-11-20 22:06:51.508 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/appsettings.json - null null
+2025-11-20 22:06:51.508 +04:00 [INF] The file /appsettings.json was not modified
+2025-11-20 22:06:51.508 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/appsettings.json - 304 null application/json 0.4925ms
+2025-11-20 22:06:51.583 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/digihealth.HttpApi.Client.qj6246tm00.pdb - null null
+2025-11-20 22:06:51.588 +04:00 [INF] Executing endpoint 'Microsoft.AspNetCore.Routing.RouteEndpoint'
+2025-11-20 22:06:51.630 +04:00 [INF] Sending file. Request path: '_framework/digihealth.HttpApi.Client.qj6246tm00.pdb'. Physical path: 'E:\Project\digihealth\src\digihealth.Blazor.Client\obj\Debug\net9.0\compressed\gnus4sgtjj-qj6246tm00.gz'
+2025-11-20 22:06:51.631 +04:00 [INF] Executed endpoint 'Microsoft.AspNetCore.Routing.RouteEndpoint'
+2025-11-20 22:06:51.631 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/digihealth.HttpApi.Client.qj6246tm00.pdb - 200 18081 application/octet-stream 48.0269ms
+2025-11-20 22:06:51.637 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/digihealth.Application.Contracts.246f72s0hg.pdb - null null
+2025-11-20 22:06:51.703 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/digihealth.Domain.Shared.cyg2hdmv75.pdb - null null
+2025-11-20 22:06:51.741 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/digihealth.Blazor.Client.ewsel8i1aa.pdb - null null
+2025-11-20 22:06:51.848 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/digihealth.Application.Contracts.oqziqtyj72.wasm - null null
+2025-11-20 22:06:51.876 +04:00 [INF] Executing endpoint 'Microsoft.AspNetCore.Routing.RouteEndpoint'
+2025-11-20 22:06:51.879 +04:00 [INF] Executing endpoint 'Microsoft.AspNetCore.Routing.RouteEndpoint'
+2025-11-20 22:06:51.879 +04:00 [INF] Executing endpoint 'Microsoft.AspNetCore.Routing.RouteEndpoint'
+2025-11-20 22:06:51.882 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/digihealth.HttpApi.Client.k3hz9fcch5.wasm - null null
+2025-11-20 22:06:51.889 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/digihealth.Domain.Shared.a4weya1mw2.wasm - null null
+2025-11-20 22:06:51.914 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/digihealth.Blazor.Client.uopfqow2f0.wasm - null null
+2025-11-20 22:06:51.922 +04:00 [INF] Sending file. Request path: '_framework/digihealth.Domain.Shared.cyg2hdmv75.pdb'. Physical path: 'E:\Project\digihealth\src\digihealth.Blazor.Client\obj\Debug\net9.0\compressed\0tf4qixz8a-cyg2hdmv75.gz'
+2025-11-20 22:06:51.922 +04:00 [INF] Sending file. Request path: '_framework/digihealth.Application.Contracts.246f72s0hg.pdb'. Physical path: 'E:\Project\digihealth\src\digihealth.Blazor.Client\obj\Debug\net9.0\compressed\o9mivo9t78-246f72s0hg.gz'
+2025-11-20 22:06:51.922 +04:00 [INF] Executed endpoint 'Microsoft.AspNetCore.Routing.RouteEndpoint'
+2025-11-20 22:06:51.922 +04:00 [INF] Executed endpoint 'Microsoft.AspNetCore.Routing.RouteEndpoint'
+2025-11-20 22:06:51.922 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/digihealth.Domain.Shared.cyg2hdmv75.pdb - 200 17021 application/octet-stream 219.5276ms
+2025-11-20 22:06:51.922 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/digihealth.Application.Contracts.246f72s0hg.pdb - 200 17525 application/octet-stream 285.779ms
+2025-11-20 22:06:51.923 +04:00 [INF] Sending file. Request path: '_framework/digihealth.Blazor.Client.ewsel8i1aa.pdb'. Physical path: 'E:\Project\digihealth\src\digihealth.Blazor.Client\obj\Debug\net9.0\compressed\s792792zk8-ewsel8i1aa.gz'
+2025-11-20 22:06:51.924 +04:00 [INF] Executed endpoint 'Microsoft.AspNetCore.Routing.RouteEndpoint'
+2025-11-20 22:06:51.924 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/digihealth.Blazor.Client.ewsel8i1aa.pdb - 200 30213 application/octet-stream 182.8389ms
+2025-11-20 22:06:51.955 +04:00 [INF] Sending file. Request path: '/_framework/digihealth.Application.Contracts.oqziqtyj72.wasm'. Physical path: 'E:\Project\digihealth\src\digihealth.Blazor.Client\bin\Debug\net9.0\wwwroot\_framework\digihealth.Application.Contracts.oqziqtyj72.wasm'
+2025-11-20 22:06:51.955 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/digihealth.Application.Contracts.oqziqtyj72.wasm - 200 7957 application/wasm 107.488ms
+2025-11-20 22:06:51.956 +04:00 [INF] Sending file. Request path: '/_framework/digihealth.HttpApi.Client.k3hz9fcch5.wasm'. Physical path: 'E:\Project\digihealth\src\digihealth.Blazor.Client\bin\Debug\net9.0\wwwroot\_framework\digihealth.HttpApi.Client.k3hz9fcch5.wasm'
+2025-11-20 22:06:51.956 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/digihealth.HttpApi.Client.k3hz9fcch5.wasm - 200 7957 application/wasm 74.5504ms
+2025-11-20 22:06:51.956 +04:00 [INF] Sending file. Request path: '/_framework/digihealth.Domain.Shared.a4weya1mw2.wasm'. Physical path: 'E:\Project\digihealth\src\digihealth.Blazor.Client\bin\Debug\net9.0\wwwroot\_framework\digihealth.Domain.Shared.a4weya1mw2.wasm'
+2025-11-20 22:06:51.956 +04:00 [INF] Sending file. Request path: '/_framework/digihealth.Blazor.Client.uopfqow2f0.wasm'. Physical path: 'E:\Project\digihealth\src\digihealth.Blazor.Client\bin\Debug\net9.0\wwwroot\_framework\digihealth.Blazor.Client.uopfqow2f0.wasm'
+2025-11-20 22:06:51.957 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/digihealth.Blazor.Client.uopfqow2f0.wasm - 200 30997 application/wasm 42.6488ms
+2025-11-20 22:06:51.957 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/digihealth.Domain.Shared.a4weya1mw2.wasm - 200 21781 application/wasm 68.0372ms

@@ -550,7 +550,7 @@ CREATE INDEX IF NOT EXISTS ix_vault_records_owner
     ON vault.vault_records (owner_user_id);
 
 -- ============================================================
--- END
+-- Alter Doctors & Patients to link to ABP Users
 -- ============================================================
 
 ALTER TABLE identity.doctors
@@ -577,4 +577,37 @@ ALTER TABLE identity.patients
 ALTER TABLE identity.patients
     ADD COLUMN "ExtraProperties" text NULL;
 
+-- ============================================================
+-- family_links
+-- ============================================================
 
+CREATE TABLE identity.family_links (
+    id                  UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+	tenant_id 			UUID,
+    patient_id          UUID NOT NULL REFERENCES identity.patients(id),
+    family_user_id      UUID NOT NULL,
+    relationship        VARCHAR(50) NOT NULL, -- e.g. 'Parent', 'Spouse'
+    is_guardian         BOOLEAN NOT NULL DEFAULT FALSE,
+	creation_time       TIMESTAMPTZ NOT NULL DEFAULT now(),
+	"ConcurrencyStamp" character varying(40) COLLATE pg_catalog."default",
+    "ExtraProperties" text COLLATE pg_catalog."default",
+    CONSTRAINT fk_identity_family_links_user FOREIGN KEY (family_user_id)
+        REFERENCES identity."AbpUsers" ("Id") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+);
+
+ALTER TABLE IF EXISTS identity.family_links
+    OWNER to postgres;
+
+CREATE INDEX IF NOT EXISTS ix_identity_family_links_tenant
+    ON identity.family_links USING btree
+    (tenant_id ASC NULLS LAST)
+    WITH (fillfactor=100, deduplicate_items=True)
+    TABLESPACE pg_default;
+
+CREATE INDEX IF NOT EXISTS ix_identity_family_links_user_id
+    ON identity.family_links USING btree
+    (family_user_id ASC NULLS LAST)
+    WITH (fillfactor=100, deduplicate_items=True)
+    TABLESPACE pg_default;  

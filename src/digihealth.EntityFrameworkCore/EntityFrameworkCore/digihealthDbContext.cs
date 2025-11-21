@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using IdentityService;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using System.Linq;
@@ -53,6 +54,8 @@ public class digihealthDbContext :
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.HasDefaultSchema(IdentityServiceDbProperties.DbSchema); // "identity"
+
         base.OnModelCreating(builder);
 
         // Ensure all DateTime/DateTime? values are stored as UTC in Postgres

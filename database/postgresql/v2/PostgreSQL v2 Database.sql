@@ -611,3 +611,10 @@ CREATE INDEX IF NOT EXISTS ix_identity_family_links_user_id
     (family_user_id ASC NULLS LAST)
     WITH (fillfactor=100, deduplicate_items=True)
     TABLESPACE pg_default;  
+
+-- ============================================================
+-- Create public schema and set permissions
+-- ============================================================
+CREATE SCHEMA public;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO public;

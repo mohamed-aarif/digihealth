@@ -117,7 +117,8 @@ public static class IdentityServiceDbContextModelCreatingExtensions
 
         b.Property(x => x.CreationTime)
             .HasColumnName("creation_time")
-            .IsRequired();
+            .IsRequired()
+            .HasDefaultValueSql("now()");
 
         b.HasIndex(x => x.TenantId);
 

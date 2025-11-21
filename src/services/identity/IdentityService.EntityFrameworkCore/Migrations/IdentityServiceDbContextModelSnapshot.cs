@@ -117,10 +117,6 @@ namespace IdentityService.EntityFrameworkCore.Migrations
                     .HasColumnType("character varying(40)")
                     .HasColumnName("ConcurrencyStamp");
 
-                b.Property<DateTime>("CreationTime")
-                    .HasColumnType("timestamp without time zone")
-                    .HasColumnName("CreationTime");
-
                 b.Property<Guid?>("CreatorId")
                     .HasColumnType("uuid")
                     .HasColumnName("CreatorId");
@@ -144,7 +140,8 @@ namespace IdentityService.EntityFrameworkCore.Migrations
 
                 b.Property<DateTime>("CreationTime")
                     .HasColumnType("timestamp with time zone")
-                    .HasColumnName("creation_time");
+                    .HasColumnName("creation_time")
+                    .HasDefaultValueSql("now()");
 
                 b.Property<bool>("IsDeleted")
                     .ValueGeneratedOnAdd()
@@ -185,6 +182,95 @@ namespace IdentityService.EntityFrameworkCore.Migrations
                 b.HasIndex("TenantId");
 
                 b.ToTable("family_links", "identity");
+            });
+
+            modelBuilder.Entity("Volo.Abp.TenantManagement.Tenant", b =>
+            {
+                b.Property<Guid>("Id")
+                    .HasColumnType("uuid");
+
+                b.Property<string>("ConcurrencyStamp")
+                    .IsConcurrencyToken()
+                    .IsRequired()
+                    .HasMaxLength(40)
+                    .HasColumnType("character varying(40)")
+                    .HasColumnName("ConcurrencyStamp");
+
+                b.Property<DateTime>("CreationTime")
+                    .HasColumnType("timestamp without time zone")
+                    .HasColumnName("CreationTime");
+
+                b.Property<Guid?>("CreatorId")
+                    .HasColumnType("uuid")
+                    .HasColumnName("CreatorId");
+
+                b.Property<Guid?>("DeleterId")
+                    .HasColumnType("uuid")
+                    .HasColumnName("DeleterId");
+
+                b.Property<DateTime?>("DeletionTime")
+                    .HasColumnType("timestamp without time zone")
+                    .HasColumnName("DeletionTime");
+
+                b.Property<int>("EntityVersion")
+                    .HasColumnType("integer")
+                    .HasColumnName("EntityVersion");
+
+                b.Property<string>("ExtraProperties")
+                    .IsRequired()
+                    .HasColumnType("text")
+                    .HasColumnName("ExtraProperties");
+
+                b.Property<bool>("IsDeleted")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("boolean")
+                    .HasDefaultValue(false)
+                    .HasColumnName("IsDeleted");
+
+                b.Property<DateTime?>("LastModificationTime")
+                    .HasColumnType("timestamp without time zone")
+                    .HasColumnName("LastModificationTime");
+
+                b.Property<Guid?>("LastModifierId")
+                    .HasColumnType("uuid")
+                    .HasColumnName("LastModifierId");
+
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(64)
+                    .HasColumnType("character varying(64)");
+
+                b.Property<string>("NormalizedName")
+                    .IsRequired()
+                    .HasMaxLength(64)
+                    .HasColumnType("character varying(64)");
+
+                b.HasKey("Id");
+
+                b.HasIndex("Name");
+
+                b.HasIndex("NormalizedName");
+
+                b.ToTable("AbpTenants", "identity");
+            });
+
+            modelBuilder.Entity("Volo.Abp.TenantManagement.TenantConnectionString", b =>
+            {
+                b.Property<Guid>("TenantId")
+                    .HasColumnType("uuid");
+
+                b.Property<string>("Name")
+                    .HasMaxLength(64)
+                    .HasColumnType("character varying(64)");
+
+                b.Property<string>("Value")
+                    .IsRequired()
+                    .HasMaxLength(1024)
+                    .HasColumnType("character varying(1024)");
+
+                b.HasKey("TenantId", "Name");
+
+                b.ToTable("AbpTenantConnectionStrings", "identity");
             });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityClaimType", b =>

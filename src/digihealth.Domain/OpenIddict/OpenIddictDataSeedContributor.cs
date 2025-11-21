@@ -101,26 +101,37 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
             );
         }
 
+        await CreateSwaggerClientAsync(commonScopes, configurationSection);
 
+    }
 
-        // Swagger Client
-        var swaggerClientId = configurationSection["digihealth_Swagger:ClientId"];
-        if (!swaggerClientId.IsNullOrWhiteSpace())
+    private async Task CreateSwaggerClientAsync(List<string> commonScopes, IConfigurationSection configurationSection)
+    {
+        const string swaggerClientId = "digihealth_Swagger";
+        var swaggerRootUrl = configurationSection[$"{swaggerClientId}:RootUrl"]?.TrimEnd('/') ??
+                             _configuration["App:SelfUrl"]?.TrimEnd('/');
+
+        if (swaggerRootUrl.IsNullOrWhiteSpace())
         {
-            var swaggerRootUrl = configurationSection["digihealth_Swagger:RootUrl"]?.TrimEnd('/');
-
-            await CreateApplicationAsync(
-                name: swaggerClientId!,
-                type: OpenIddictConstants.ClientTypes.Public,
-                consentType: OpenIddictConstants.ConsentTypes.Implicit,
-                displayName: "Swagger Application",
-                secret: null,
-                grantTypes: new List<string> { OpenIddictConstants.GrantTypes.AuthorizationCode, },
-                scopes: commonScopes,
-                redirectUri: $"{swaggerRootUrl}/swagger/oauth2-redirect.html",
-                clientUri: swaggerRootUrl
-            );
+            return;
         }
+
+        // Swagger UI client for local development. Replace the hard-coded secret with a secure store for production use.
+        await CreateApplicationAsync(
+            name: swaggerClientId,
+            type: OpenIddictConstants.ClientTypes.Confidential,
+            consentType: OpenIddictConstants.ConsentTypes.Implicit,
+            displayName: "digihealth Swagger UI",
+            secret: "digihealth_Swagger_DevSecret_123!",
+            grantTypes: new List<string>
+            {
+                OpenIddictConstants.GrantTypes.AuthorizationCode,
+                OpenIddictConstants.GrantTypes.RefreshToken
+            },
+            scopes: commonScopes,
+            redirectUri: $"{swaggerRootUrl}/swagger/oauth2-redirect.html",
+            clientUri: swaggerRootUrl
+        );
     }
 
     private async Task CreateApplicationAsync(
@@ -319,17 +330,54 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
             return;
         }
 
+        var requiresUpdate = false;
+
+        if (!string.Equals(client.Type, type, StringComparison.OrdinalIgnoreCase))
+        {
+            client.Type = type;
+            requiresUpdate = true;
+        }
+
+        if (!string.Equals(client.ClientSecret, secret, StringComparison.Ordinal))
+        {
+            client.ClientSecret = secret;
+            requiresUpdate = true;
+        }
+
+        if (!string.Equals(client.DisplayName, displayName, StringComparison.Ordinal))
+        {
+            client.DisplayName = displayName;
+            requiresUpdate = true;
+        }
+
+        if (!string.Equals(client.ConsentType, consentType, StringComparison.OrdinalIgnoreCase))
+        {
+            client.ConsentType = consentType;
+            requiresUpdate = true;
+        }
+
+        if (!string.Equals(client.ClientUri, clientUri, StringComparison.Ordinal))
+        {
+            client.ClientUri = clientUri;
+            requiresUpdate = true;
+        }
+
         if (!HasSameRedirectUris(client, application))
         {
             client.RedirectUris = JsonSerializer.Serialize(application.RedirectUris.Select(q => q.ToString().TrimEnd('/')));
             client.PostLogoutRedirectUris = JsonSerializer.Serialize(application.PostLogoutRedirectUris.Select(q => q.ToString().TrimEnd('/')));
 
-            await _applicationManager.UpdateAsync(client.ToModel());
+            requiresUpdate = true;
         }
 
         if (!HasSameScopes(client, application))
         {
             client.Permissions = JsonSerializer.Serialize(application.Permissions.Select(q => q.ToString()));
+            requiresUpdate = true;
+        }
+
+        if (requiresUpdate)
+        {
             await _applicationManager.UpdateAsync(client.ToModel());
         }
     }

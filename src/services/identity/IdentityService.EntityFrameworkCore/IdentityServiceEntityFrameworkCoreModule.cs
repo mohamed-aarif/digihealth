@@ -6,9 +6,12 @@ using Volo.Abp;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.PostgreSql;
+using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.Modularity;
+using Volo.Abp.PermissionManagement;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
+using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace IdentityService.EntityFrameworkCore;
@@ -23,6 +26,11 @@ public class IdentityServiceEntityFrameworkCoreModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
+        // Ensure all ABP module tables live in the identity schema for this microservice
+        AbpIdentityDbProperties.DbSchema = IdentityServiceDbProperties.DbSchema;
+        AbpPermissionManagementDbProperties.DbSchema = IdentityServiceDbProperties.DbSchema;
+        AbpTenantManagementDbProperties.DbSchema = IdentityServiceDbProperties.DbSchema;
+
         IdentityServiceEfCoreEntityExtensionMappings.Configure();
     }
 

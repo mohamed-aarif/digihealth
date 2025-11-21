@@ -22,6 +22,11 @@ public class IdentityServicePermissionDefinitionProvider : PermissionDefinitionP
         _ = patients.Children.FirstOrDefault(child => child.Name == IdentityServicePermissions.Patients.Manage)
             ?? patients.AddChild(IdentityServicePermissions.Patients.Manage, L("Permission:Patients.Manage"));
 
+        var familyLinks = group.GetPermissionOrNull(IdentityServicePermissions.FamilyLinks.Default)
+                         ?? group.AddPermission(IdentityServicePermissions.FamilyLinks.Default, L("Permission:FamilyLinks"));
+        _ = familyLinks.Children.FirstOrDefault(child => child.Name == IdentityServicePermissions.FamilyLinks.Manage)
+            ?? familyLinks.AddChild(IdentityServicePermissions.FamilyLinks.Manage, L("Permission:FamilyLinks.Manage"));
+
         _ = context.GetPermissionOrNull(IdentityServicePermissions.Profile.Default)
             ?? group.AddPermission(IdentityServicePermissions.Profile.Default, L("Permission:Profile"));
     }

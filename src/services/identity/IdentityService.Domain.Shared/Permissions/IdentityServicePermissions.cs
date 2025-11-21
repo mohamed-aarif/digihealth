@@ -16,6 +16,12 @@ public static class IdentityServicePermissions
         public const string Manage = Default + ".Manage";
     }
 
+    public static class FamilyLinks
+    {
+        public const string Default = GroupName + ".FamilyLinks";
+        public const string Manage = Default + ".Manage";
+    }
+
     public static class Profile
     {
         public const string Default = GroupName + ".Profile";

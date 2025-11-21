@@ -1,4 +1,5 @@
 using IdentityService.Doctors;
+using IdentityService.FamilyLinks;
 using IdentityService.Patients;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -38,14 +39,15 @@ public class IdentityServiceDbContext
 
     public DbSet<Patient> Patients { get; set; } = default!;
     public DbSet<Doctor> Doctors { get; set; } = default!;
+    public DbSet<FamilyLink> FamilyLinks { get; set; } = default!;
 
     public DbSet<PermissionGroupDefinitionRecord> PermissionGroups { get; set; } = default!;
     public DbSet<PermissionDefinitionRecord> Permissions { get; set; } = default!;
     public DbSet<PermissionGrant> PermissionGrants { get; set; } = default!;
 
-    public DbSet<Tenant> Tenants => throw new System.NotImplementedException();
+    public DbSet<Tenant> Tenants { get; set; } = default!;
 
-    public DbSet<TenantConnectionString> TenantConnectionStrings => throw new System.NotImplementedException();
+    public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; } = default!;
 
     public IdentityServiceDbContext(DbContextOptions<IdentityServiceDbContext> options)
         : base(options)
@@ -102,6 +104,12 @@ public class IdentityServiceDbContext
         builder.Entity<Patient>(b =>
         {
             b.ToTable("patients", IdentityServiceDbProperties.DbSchema);
+            b.Property(x => x.Id).HasColumnName("id");
+        });
+
+        builder.Entity<FamilyLink>(b =>
+        {
+            b.ToTable("family_links", IdentityServiceDbProperties.DbSchema);
             b.Property(x => x.Id).HasColumnName("id");
         });
     }

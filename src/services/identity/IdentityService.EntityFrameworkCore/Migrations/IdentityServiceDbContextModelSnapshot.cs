@@ -106,6 +106,87 @@ namespace IdentityService.EntityFrameworkCore.Migrations
                 b.ToTable("patients", "identity");
             });
 
+            modelBuilder.Entity("IdentityService.FamilyLinks.FamilyLink", b =>
+            {
+                b.Property<Guid>("Id")
+                    .HasColumnType("uuid");
+
+                b.Property<string>("ConcurrencyStamp")
+                    .IsConcurrencyToken()
+                    .HasMaxLength(40)
+                    .HasColumnType("character varying(40)")
+                    .HasColumnName("ConcurrencyStamp");
+
+                b.Property<DateTime>("CreationTime")
+                    .HasColumnType("timestamp without time zone")
+                    .HasColumnName("CreationTime");
+
+                b.Property<Guid?>("CreatorId")
+                    .HasColumnType("uuid")
+                    .HasColumnName("CreatorId");
+
+                b.Property<Guid?>("DeleterId")
+                    .HasColumnType("uuid")
+                    .HasColumnName("DeleterId");
+
+                b.Property<DateTime?>("DeletionTime")
+                    .HasColumnType("timestamp without time zone")
+                    .HasColumnName("DeletionTime");
+
+                b.Property<string>("ExtraProperties")
+                    .IsRequired()
+                    .HasColumnType("text")
+                    .HasColumnName("ExtraProperties");
+
+                b.Property<Guid>("FamilyUserId")
+                    .HasColumnType("uuid")
+                    .HasColumnName("family_user_id");
+
+                b.Property<DateTime>("CreationTime")
+                    .HasColumnType("timestamp with time zone")
+                    .HasColumnName("creation_time");
+
+                b.Property<bool>("IsDeleted")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("boolean")
+                    .HasDefaultValue(false)
+                    .HasColumnName("IsDeleted");
+
+                b.Property<bool>("IsGuardian")
+                    .HasColumnType("boolean")
+                    .HasColumnName("is_guardian");
+
+                b.Property<DateTime?>("LastModificationTime")
+                    .HasColumnType("timestamp without time zone")
+                    .HasColumnName("LastModificationTime");
+
+                b.Property<Guid?>("LastModifierId")
+                    .HasColumnType("uuid")
+                    .HasColumnName("LastModifierId");
+
+                b.Property<Guid>("PatientId")
+                    .HasColumnType("uuid")
+                    .HasColumnName("patient_id");
+
+                b.Property<string>("Relationship")
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnType("character varying(50)")
+                    .HasColumnName("relationship");
+
+                b.Property<Guid?>("TenantId")
+                    .HasColumnType("uuid")
+                    .HasColumnName("tenant_id");
+
+                b.HasKey("Id");
+
+                b.HasIndex("FamilyUserId");
+
+                b.HasIndex("TenantId");
+
+                b.ToTable("family_links", "identity");
+            });
+
             modelBuilder.Entity("Volo.Abp.Identity.IdentityClaimType", b =>
             {
                 b.Property<Guid>("Id")

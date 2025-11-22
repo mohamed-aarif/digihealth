@@ -116,13 +116,13 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
             return;
         }
 
-        // Swagger UI client for local development. Replace the hard-coded secret with a secure store for production use.
+        // Swagger UI client for local development. PKCE is used instead of a client secret to avoid browser basic auth prompts.
         await CreateApplicationAsync(
             name: swaggerClientId,
-            type: OpenIddictConstants.ClientTypes.Confidential,
+            type: OpenIddictConstants.ClientTypes.Public,
             consentType: OpenIddictConstants.ConsentTypes.Implicit,
             displayName: "digihealth Swagger UI",
-            secret: "digihealth_Swagger_DevSecret_123!",
+            secret: null,
             grantTypes: new List<string>
             {
                 OpenIddictConstants.GrantTypes.AuthorizationCode,

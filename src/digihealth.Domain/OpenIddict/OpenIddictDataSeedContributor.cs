@@ -332,9 +332,9 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
 
         var requiresUpdate = false;
 
-        if (!string.Equals(client.Type, type, StringComparison.OrdinalIgnoreCase))
+        if (!string.Equals(client.ClientType, type, StringComparison.OrdinalIgnoreCase))
         {
-            client.Type = type;
+            client.ClientType = type;
             requiresUpdate = true;
         }
 

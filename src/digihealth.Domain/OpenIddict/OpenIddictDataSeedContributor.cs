@@ -119,10 +119,10 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
         // Swagger UI client for local development. Replace the hard-coded secret with a secure store for production use.
         await CreateApplicationAsync(
             name: swaggerClientId,
-            type: OpenIddictConstants.ClientTypes.Confidential,
+            type: OpenIddictConstants.ClientTypes.Public,
             consentType: OpenIddictConstants.ConsentTypes.Implicit,
             displayName: "digihealth Swagger UI",
-            secret: "digihealth_Swagger_DevSecret_123!",
+            secret: null,
             grantTypes: new List<string>
             {
                 OpenIddictConstants.GrantTypes.AuthorizationCode,
@@ -130,7 +130,11 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
             },
             scopes: commonScopes,
             redirectUri: $"{swaggerRootUrl}/swagger/oauth2-redirect.html",
-            clientUri: swaggerRootUrl
+            clientUri: swaggerRootUrl,
+            requirements: new List<string>
+            {
+                OpenIddictConstants.Requirements.Features.ProofKeyForCodeExchange
+            }
         );
     }
 
@@ -145,7 +149,8 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
         string? clientUri = null,
         string? redirectUri = null,
         string? postLogoutRedirectUri = null,
-        List<string>? permissions = null)
+        List<string>? permissions = null,
+        List<string>? requirements = null)
     {
         if (!string.IsNullOrEmpty(secret) && string.Equals(type, OpenIddictConstants.ClientTypes.Public,
                 StringComparison.OrdinalIgnoreCase))
@@ -279,6 +284,11 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
             {
                 application.Permissions.Add(OpenIddictConstants.Permissions.Prefixes.Scope + scope);
             }
+        }
+
+        if (requirements != null)
+        {
+            application.Requirements.UnionWith(requirements);
         }
 
         if (redirectUri != null)

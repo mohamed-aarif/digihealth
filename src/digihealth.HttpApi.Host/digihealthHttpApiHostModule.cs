@@ -214,7 +214,6 @@ public class digihealthHttpApiHostModule : AbpModule
 
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             c.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-            c.OAuthClientSecret(string.Empty);
             c.OAuthUsePkce();
             c.OAuthScopes("digihealth");
         });

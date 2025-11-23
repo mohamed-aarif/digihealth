@@ -386,6 +386,12 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
             requiresUpdate = true;
         }
 
+        if (!HasSameRequirements(client, application))
+        {
+            client.Requirements = JsonSerializer.Serialize(application.Requirements.Select(q => q.ToString().TrimEnd('/')));
+            requiresUpdate = true;
+        }
+
         if (requiresUpdate)
         {
             await _applicationManager.UpdateAsync(client.ToModel());
@@ -400,5 +406,10 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
     private bool HasSameScopes(OpenIddictApplication existingClient, AbpApplicationDescriptor application)
     {
         return existingClient.Permissions == JsonSerializer.Serialize(application.Permissions.Select(q => q.ToString().TrimEnd('/')));
+    }
+
+    private bool HasSameRequirements(OpenIddictApplication existingClient, AbpApplicationDescriptor application)
+    {
+        return existingClient.Requirements == JsonSerializer.Serialize(application.Requirements.Select(q => q.ToString().TrimEnd('/')));
     }
 }

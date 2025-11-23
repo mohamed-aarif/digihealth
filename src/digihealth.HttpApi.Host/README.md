@@ -7,8 +7,9 @@ Use the Swagger **Authorize** dialog with the following values for local develop
 - **Authorization URL:** `https://localhost:44322/connect/authorize`
 - **Token URL:** `https://localhost:44322/connect/token`
 - **Client ID:** `digihealth_Swagger`
-- **Client Secret:** `digihealth_Swagger_DevSecret_123!`
 - **Redirect URI:** `https://localhost:44322/swagger/oauth2-redirect.html`
 - **Scopes:** `digihealth`
 
-Sign in with an existing test/admin account when prompted to obtain tokens. Replace the hard-coded secret with a secure secret store for non-development environments.
+Swagger now uses PKCE with a public client, so no client secret is required. Sign in with an existing test/admin account when prompted to obtain tokens.
+
+The host runs a data-seed pass on startup to keep the `digihealth_Swagger` OpenIddict client configured as public (no secret, PKCE required) even if the database already contains an older confidential entry. No manual database edits are needed; just start the API host to apply the update. The Swagger UI also falls back to `digihealth_Swagger` automatically if no `AuthServer:SwaggerClientId` value is configured so the `client_id` parameter is always supplied during sign-in.

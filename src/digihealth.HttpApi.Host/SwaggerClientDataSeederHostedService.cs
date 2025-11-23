@@ -20,7 +20,7 @@ public class SwaggerClientDataSeederHostedService : IHostedService
     {
         using var scope = _serviceProvider.CreateScope();
         var dataSeeder = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
-        await dataSeeder.SeedAsync(new DataSeedContext(), cancellationToken);
+        await dataSeeder.SeedAsync(new DataSeedContext());
     }
 
     public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;

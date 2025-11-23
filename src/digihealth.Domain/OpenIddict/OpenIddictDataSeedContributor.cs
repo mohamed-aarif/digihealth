@@ -107,7 +107,7 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
 
     private async Task CreateSwaggerClientAsync(List<string> commonScopes, IConfigurationSection configurationSection)
     {
-        const string swaggerClientId = "digihealth_Swagger";
+        var swaggerClientId = _configuration["AuthServer:SwaggerClientId"]?.Trim() ?? "digihealth_Swagger";
         var swaggerRootUrl = configurationSection[$"{swaggerClientId}:RootUrl"]?.TrimEnd('/') ??
                              _configuration["App:SelfUrl"]?.TrimEnd('/');
 

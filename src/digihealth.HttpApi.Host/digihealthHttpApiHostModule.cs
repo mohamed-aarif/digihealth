@@ -215,7 +215,9 @@ public class digihealthHttpApiHostModule : AbpModule
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "digihealth API");
 
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
-            c.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+            var swaggerClientId = configuration["AuthServer:SwaggerClientId"] ?? "digihealth_Swagger";
+
+            c.OAuthClientId(swaggerClientId);
             c.OAuthClientSecret(string.Empty);
             c.OAuthUsePkce();
             c.OAuthScopes("digihealth");

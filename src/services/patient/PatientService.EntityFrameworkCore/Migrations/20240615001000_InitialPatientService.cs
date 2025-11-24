@@ -1,0 +1,130 @@
+using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace PatientService.Migrations
+{
+    public partial class InitialPatientService : Migration
+    {
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.EnsureSchema(
+                name: "patient");
+
+            migrationBuilder.CreateTable(
+                name: "patient_external_links",
+                schema: "patient",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    IdentityPatientId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uuid", nullable: true),
+                    SystemName = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
+                    ExternalReference = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_patient_external_links", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "patient_medical_summaries",
+                schema: "patient",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    IdentityPatientId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uuid", nullable: true),
+                    BloodGroup = table.Column<string>(type: "character varying(8)", maxLength: 8, nullable: true),
+                    Allergies = table.Column<string>(type: "character varying(512)", maxLength: 512, nullable: true),
+                    ChronicConditions = table.Column<string>(type: "character varying(512)", maxLength: 512, nullable: true),
+                    Notes = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_patient_medical_summaries", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "patient_profile_extensions",
+                schema: "patient",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    IdentityPatientId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uuid", nullable: true),
+                    PrimaryContactNumber = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    SecondaryContactNumber = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    AddressLine1 = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    AddressLine2 = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    City = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    State = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    ZipCode = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    Country = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    EmergencyContactName = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    EmergencyContactNumber = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: true),
+                    PreferredLanguage = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_patient_profile_extensions", x => x.Id);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_patient_external_links_identity_patient_id_system_name",
+                schema: "patient",
+                table: "patient_external_links",
+                columns: new[] { "identity_patient_id", "system_name" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_patient_external_links_tenant_id",
+                schema: "patient",
+                table: "patient_external_links",
+                column: "tenant_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_patient_medical_summaries_identity_patient_id",
+                schema: "patient",
+                table: "patient_medical_summaries",
+                column: "identity_patient_id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_patient_medical_summaries_tenant_id",
+                schema: "patient",
+                table: "patient_medical_summaries",
+                column: "tenant_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_patient_profile_extensions_identity_patient_id",
+                schema: "patient",
+                table: "patient_profile_extensions",
+                column: "identity_patient_id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_patient_profile_extensions_tenant_id",
+                schema: "patient",
+                table: "patient_profile_extensions",
+                column: "tenant_id");
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "patient_external_links",
+                schema: "patient");
+
+            migrationBuilder.DropTable(
+                name: "patient_medical_summaries",
+                schema: "patient");
+
+            migrationBuilder.DropTable(
+                name: "patient_profile_extensions",
+                schema: "patient");
+        }
+    }
+}

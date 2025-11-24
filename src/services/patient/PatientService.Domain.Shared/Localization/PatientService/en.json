@@ -1,0 +1,12 @@
+{
+  "culture": "en",
+  "texts": {
+    "Permission:PatientService": "Patient service",
+    "Permission:PatientProfiles": "Patient profiles",
+    "Permission:PatientProfiles.Manage": "Manage patient profiles",
+    "Permission:MedicalSummaries": "Medical summaries",
+    "Permission:MedicalSummaries.Manage": "Manage medical summaries",
+    "Permission:ExternalLinks": "External system links",
+    "Permission:ExternalLinks.Manage": "Manage external system links"
+  }
+}

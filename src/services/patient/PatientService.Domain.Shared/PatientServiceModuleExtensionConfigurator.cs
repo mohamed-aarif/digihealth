@@ -1,4 +1,5 @@
 using Volo.Abp;
+using Volo.Abp.ObjectExtending;
 
 namespace PatientService;
 

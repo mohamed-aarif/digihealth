@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="$(MSBuildThisFileDirectory)..\..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>PatientService</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Core" Version="9.3.6" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore" Version="9.3.6" />
+    <PackageReference Include="Volo.Abp.Localization" Version="9.3.6" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Shared" Version="9.3.6" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Domain.Shared" Version="9.3.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Localization\PatientService\**" />
+  </ItemGroup>
+</Project>

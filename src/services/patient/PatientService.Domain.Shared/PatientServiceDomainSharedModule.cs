@@ -1,6 +1,7 @@
 using System;
 using PatientService.Localization;
 using PatientService.Permissions;
+using Volo.Abp.Authorization;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
@@ -10,7 +11,8 @@ using Volo.Abp.VirtualFileSystem;
 namespace PatientService;
 
 [DependsOn(
-    typeof(AbpLocalizationModule))]
+    typeof(AbpLocalizationModule),
+    typeof(AbpAuthorizationModule))]
 public class PatientServiceDomainSharedModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)

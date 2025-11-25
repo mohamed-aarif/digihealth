@@ -12,7 +12,9 @@ namespace PatientService;
 
 [DependsOn(
     typeof(AbpLocalizationModule),
-    typeof(AbpAuthorizationModule))]
+    typeof(AbpAuthorizationModule),
+    typeof(AbpTimingModule),
+    typeof(AbpVirtualFileSystemModule))]
 public class PatientServiceDomainSharedModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)

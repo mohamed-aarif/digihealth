@@ -35,18 +35,13 @@ public class PatientServiceHttpApiHostModule : AbpModule
 
         context.Services.AddAbpSwaggerGenWithOAuth(
             authority: configuration["AuthServer:Authority"],
-            scopes: new[] { "PatientService" },
+            scopes: new Dictionary<string, string> { { "PatientService", "Patient Service API" } },
             options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Patient Service API", Version = "v1" });
+                options.DocInclusionPredicate((docName, description) => true);
+                options.CustomSchemaIds(type => type.FullName);
             });
-
-        Configure<AbpSwaggerGenOptions>(options =>
-        {
-            options.HideAbpEndpoints();
-            options.DocInclusionPredicate((docName, description) => true);
-            options.CustomSchemaIds(type => type.FullName);
-        });
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)

@@ -23,7 +23,7 @@ public class PatientServiceDbContext : AbpDbContext<PatientServiceDbContext>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         // All tables in this DbContext default to the "patient" schema
-        builder.HasDefaultSchema(PatientServiceDbProperties.DbSchema); // "patient"
+        builder.HasDefaultSchema(PatientServiceDbProperties.DbSchema); // "patient" 
 
         base.OnModelCreating(builder);
 

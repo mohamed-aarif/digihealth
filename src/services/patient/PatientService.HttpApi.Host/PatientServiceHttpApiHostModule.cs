@@ -34,8 +34,14 @@ public class PatientServiceHttpApiHostModule : AbpModule
 
         ConfigureAuthentication(context, configuration);
 
+        var authority = configuration["AuthServer:Authority"];
+        if (string.IsNullOrWhiteSpace(authority))
+        {
+            authority = configuration["App:SelfUrl"] ?? "https://localhost:5004";
+        }
+
         context.Services.AddAbpSwaggerGenWithOAuth(
-            authority: configuration["AuthServer:Authority"],
+            authority: authority,
             scopes: new Dictionary<string, string> { { "PatientService", "Patient Service API" } },
             options =>
             {

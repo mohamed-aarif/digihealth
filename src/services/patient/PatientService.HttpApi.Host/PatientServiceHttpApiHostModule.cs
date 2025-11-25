@@ -33,34 +33,19 @@ public class PatientServiceHttpApiHostModule : AbpModule
 
         ConfigureAuthentication(context, configuration);
 
-        context.Services.AddSwaggerGen();
+        context.Services.AddAbpSwaggerGenWithOAuth(
+            authority: configuration["AuthServer:Authority"],
+            scopes: new[] { "PatientService" },
+            options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Patient Service API", Version = "v1" });
+            });
 
-        Configure<SwaggerGenOptions>(options =>
+        Configure<AbpSwaggerGenOptions>(options =>
         {
-            options.SwaggerDoc("v1", new OpenApiInfo { Title = "Patient Service API", Version = "v1" });
-            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-            {
-                Description = "JWT Authorization header using the Bearer scheme. Example: 'Bearer 12345abcdef'",
-                Name = "Authorization",
-                In = ParameterLocation.Header,
-                Type = SecuritySchemeType.Http,
-                Scheme = "bearer",
-                BearerFormat = "JWT"
-            });
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
-                    },
-                    Array.Empty<string>()
-                }
-            });
+            options.HideAbpEndpoints();
+            options.DocInclusionPredicate((docName, description) => true);
+            options.CustomSchemaIds(type => type.FullName);
         });
     }
 

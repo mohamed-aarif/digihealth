@@ -47,7 +47,7 @@ public class PatientExternalLinkAppService : CrudAppService<
     {
         await EnsureIdentityPatientExistsAsync(updateInput.IdentityPatientId);
         await base.MapToEntityAsync(updateInput, entity);
-        entity.IdentityPatientId = updateInput.IdentityPatientId;
+        entity.SetIdentityPatientId(updateInput.IdentityPatientId);
         entity.UpdateLink(updateInput.SystemName, updateInput.ExternalReference);
     }
 

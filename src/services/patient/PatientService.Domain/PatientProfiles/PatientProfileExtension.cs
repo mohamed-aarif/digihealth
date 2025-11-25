@@ -32,6 +32,11 @@ public class PatientProfileExtension : FullAuditedAggregateRoot<Guid>, IMultiTen
         TenantId = tenantId;
     }
 
+    public void SetIdentityPatientId(Guid identityPatientId)
+    {
+        IdentityPatientId = identityPatientId;
+    }
+
     public void UpdateContact(string? primary, string? secondary, string? email)
     {
         PrimaryContactNumber = primary;

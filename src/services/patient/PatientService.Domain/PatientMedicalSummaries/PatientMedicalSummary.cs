@@ -24,6 +24,11 @@ public class PatientMedicalSummary : FullAuditedAggregateRoot<Guid>, IMultiTenan
         TenantId = tenantId;
     }
 
+    public void SetIdentityPatientId(Guid identityPatientId)
+    {
+        IdentityPatientId = identityPatientId;
+    }
+
     public void UpdateDetails(string? bloodGroup, string? allergies, string? chronicConditions, string? notes)
     {
         BloodGroup = bloodGroup;

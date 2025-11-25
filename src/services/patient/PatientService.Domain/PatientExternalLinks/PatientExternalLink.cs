@@ -24,6 +24,11 @@ public class PatientExternalLink : FullAuditedAggregateRoot<Guid>, IMultiTenant
         TenantId = tenantId;
     }
 
+    public void SetIdentityPatientId(Guid identityPatientId)
+    {
+        IdentityPatientId = identityPatientId;
+    }
+
     public void UpdateLink(string systemName, string externalReference)
     {
         SystemName = systemName;

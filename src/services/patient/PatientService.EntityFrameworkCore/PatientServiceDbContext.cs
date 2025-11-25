@@ -4,6 +4,7 @@ using PatientService.PatientMedicalSummaries;
 using PatientService.PatientProfiles;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace PatientService.EntityFrameworkCore;
 

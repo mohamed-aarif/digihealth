@@ -46,7 +46,7 @@ public class PatientMedicalSummaryAppService : CrudAppService<
     {
         await EnsureIdentityPatientExistsAsync(updateInput.IdentityPatientId);
         await base.MapToEntityAsync(updateInput, entity);
-        entity.IdentityPatientId = updateInput.IdentityPatientId;
+        entity.SetIdentityPatientId(updateInput.IdentityPatientId);
         entity.UpdateDetails(updateInput.BloodGroup, updateInput.Allergies, updateInput.ChronicConditions, updateInput.Notes);
     }
 

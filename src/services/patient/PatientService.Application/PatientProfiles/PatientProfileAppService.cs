@@ -46,7 +46,7 @@ public class PatientProfileAppService : CrudAppService<
     {
         await EnsureIdentityPatientExistsAsync(updateInput.IdentityPatientId);
         await base.MapToEntityAsync(updateInput, entity);
-        entity.IdentityPatientId = updateInput.IdentityPatientId;
+        entity.SetIdentityPatientId(updateInput.IdentityPatientId);
         entity.UpdateContact(updateInput.PrimaryContactNumber, updateInput.SecondaryContactNumber, updateInput.Email);
         entity.UpdateAddress(updateInput.AddressLine1, updateInput.AddressLine2, updateInput.City, updateInput.State, updateInput.ZipCode, updateInput.Country);
         entity.UpdateEmergencyContact(updateInput.EmergencyContactName, updateInput.EmergencyContactNumber);

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Npgsql;
 using PatientService.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
@@ -49,7 +50,16 @@ public class Program
 
             var app = builder.Build();
 
-            await MigrateAndSeedDatabaseAsync(app.Services);
+            var skipDbMigrations = builder.Configuration.GetValue("App:SkipDbMigrations", false);
+
+            if (skipDbMigrations)
+            {
+                Log.Information("Database migration is skipped because App:SkipDbMigrations is true.");
+            }
+            else
+            {
+                await MigrateAndSeedDatabaseAsync(app.Services, builder.Configuration.GetConnectionString("Default") ?? string.Empty);
+            }
 
             await app.InitializeApplicationAsync();
             await app.RunAsync();
@@ -72,19 +82,27 @@ public class Program
         }
     }
 
-    private static async Task MigrateAndSeedDatabaseAsync(IServiceProvider serviceProvider)
+    private static async Task MigrateAndSeedDatabaseAsync(IServiceProvider serviceProvider, string connectionString)
     {
         await using var scope = serviceProvider.CreateAsyncScope();
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
         logger.LogInformation("Applying database migrations...");
 
-        var dbContext = scope.ServiceProvider.GetRequiredService<PatientServiceDbContext>();
-        await dbContext.Database.MigrateAsync();
+        try
+        {
+            var dbContext = scope.ServiceProvider.GetRequiredService<PatientServiceDbContext>();
+            await dbContext.Database.MigrateAsync();
 
-        var dataSeeder = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
-        await dataSeeder.SeedAsync(new DataSeedContext(null));
+            var dataSeeder = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
+            await dataSeeder.SeedAsync(new DataSeedContext(null));
 
-        logger.LogInformation("Database ready.");
+            logger.LogInformation("Database ready.");
+        }
+        catch (PostgresException ex)
+        {
+            logger.LogCritical(ex, "Failed to connect to PostgreSQL using ConnectionStrings:Default = {ConnectionString}. Ensure the credentials are correct or set App:SkipDbMigrations to true.", connectionString);
+            throw;
+        }
     }
 }

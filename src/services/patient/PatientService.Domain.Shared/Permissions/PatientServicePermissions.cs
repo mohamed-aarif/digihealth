@@ -27,4 +27,14 @@ public static class PatientServicePermissions
         public const string Update = Default + ".Update";
         public const string Delete = Default + ".Delete";
     }
+
+    public static class PatientLookups
+    {
+        public const string Default = GroupName + ".PatientLookups";
+    }
+
+    public static class PatientSummaries
+    {
+        public const string Default = GroupName + ".PatientSummaries";
+    }
 }

@@ -11,6 +11,7 @@ using Volo.Abp.AspNetCore.Authentication.JwtBearer;
 using Volo.Abp.AspNetCore.MultiTenancy;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
+using Volo.Abp.Http.Client;
 using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
 using PatientService.EntityFrameworkCore;
@@ -33,6 +34,7 @@ public class PatientServiceHttpApiHostModule : AbpModule
         var configuration = context.Services.GetConfiguration();
 
         ConfigureAuthentication(context, configuration);
+        ConfigureRemoteServices(configuration);
 
         var authority = configuration["AuthServer:Authority"];
         if (string.IsNullOrWhiteSpace(authority))
@@ -104,5 +106,19 @@ public class PatientServiceHttpApiHostModule : AbpModule
                     options.TokenValidationParameters.ValidateAudience = false;
                 }
             });
+    }
+
+    private void ConfigureRemoteServices(IConfiguration configuration)
+    {
+        var baseUrl = configuration["RemoteServices:IdentityService:BaseUrl"];
+
+        if (!string.IsNullOrWhiteSpace(baseUrl))
+        {
+            Configure<AbpRemoteServiceOptions>(options =>
+            {
+                options.RemoteServices[PatientServiceRemoteServiceConsts.IdentityService] =
+                    new RemoteServiceConfiguration(baseUrl);
+            });
+        }
     }
 }

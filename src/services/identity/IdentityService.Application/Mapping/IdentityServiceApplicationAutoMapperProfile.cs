@@ -11,20 +11,20 @@ public class IdentityServiceApplicationAutoMapperProfile : Profile
 {
     public IdentityServiceApplicationAutoMapperProfile()
     {
-        CreateMap<Doctors.Doctor, DoctorDto>().MapExtraProperties();
-        CreateMap<CreateDoctorDto, Doctors.Doctor>(MemberList.Source).MapExtraProperties();
-        CreateMap<UpdateDoctorDto, Doctors.Doctor>(MemberList.Source).MapExtraProperties();
+        CreateMap<Doctors.Doctor, DoctorDto>();
+        CreateMap<CreateDoctorDto, Doctors.Doctor>(MemberList.Source);
+        CreateMap<UpdateDoctorDto, Doctors.Doctor>(MemberList.Source);
 
-        CreateMap<Patients.Patient, PatientDto>().MapExtraProperties();
-        CreateMap<CreatePatientDto, Patients.Patient>(MemberList.Source).MapExtraProperties();
-        CreateMap<UpdatePatientDto, Patients.Patient>(MemberList.Source).MapExtraProperties();
+        CreateMap<Patients.Patient, PatientDto>();
+        CreateMap<CreatePatientDto, Patients.Patient>(MemberList.Source);
+        CreateMap<UpdatePatientDto, Patients.Patient>(MemberList.Source);
 
-        CreateMap<FamilyLinks.FamilyLink, FamilyLinkDto>().MapExtraProperties();
-        CreateMap<CreateFamilyLinkDto, FamilyLinks.FamilyLink>(MemberList.Source).MapExtraProperties();
-        CreateMap<UpdateFamilyLinkDto, FamilyLinks.FamilyLink>(MemberList.Source).MapExtraProperties();
+        CreateMap<FamilyLinks.FamilyLink, FamilyLinkDto>();
+        CreateMap<CreateFamilyLinkDto, FamilyLinks.FamilyLink>(MemberList.Source);
+        CreateMap<UpdateFamilyLinkDto, FamilyLinks.FamilyLink>(MemberList.Source);
 
-        CreateMap<Users.UserProfile, UserProfileDto>().MapExtraProperties();
-        CreateMap<CreateUserProfileDto, Users.UserProfile>(MemberList.Source).MapExtraProperties();
-        CreateMap<UpdateUserProfileDto, Users.UserProfile>(MemberList.Source).MapExtraProperties();
+        CreateMap<Users.UserProfile, UserProfileDto>();
+        CreateMap<CreateUserProfileDto, Users.UserProfile>(MemberList.Source);
+        CreateMap<UpdateUserProfileDto, Users.UserProfile>(MemberList.Source);
     }
 }

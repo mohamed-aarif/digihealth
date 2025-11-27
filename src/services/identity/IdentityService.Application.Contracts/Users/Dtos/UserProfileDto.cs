@@ -2,20 +2,18 @@ using System;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Data;
 
-namespace IdentityService.Doctors.Dtos;
+namespace IdentityService.Users.Dtos;
 
-public class DoctorDto : FullAuditedEntityDto<Guid>
+public class UserProfileDto : FullAuditedEntityDto<Guid>
 {
-    public Guid UserId { get; set; }
     public Guid? TenantId { get; set; }
+    public string UserName { get; set; } = default!;
+    public string Email { get; set; } = default!;
     public string? Salutation { get; set; }
-    public string? Gender { get; set; }
-    public string? Specialization { get; set; }
-    public string? RegistrationNumber { get; set; }
-    public string? UserName { get; set; }
+    public string? ProfilePhotoUrl { get; set; }
     public string? Name { get; set; }
     public string? Surname { get; set; }
-    public string? ProfilePhotoUrl { get; set; }
+    public bool IsActive { get; set; }
     public ExtraPropertyDictionary ExtraProperties { get; set; } = new();
     public string? ConcurrencyStamp { get; set; }
 }

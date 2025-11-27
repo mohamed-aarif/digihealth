@@ -31,13 +31,13 @@ public class PatientController : IdentityServiceController
     }
 
     [HttpPost]
-    public Task<PatientDto> CreateAsync([FromBody] CreateUpdatePatientDto input)
+    public Task<PatientDto> CreateAsync([FromBody] CreatePatientDto input)
     {
         return _patientAppService.CreateAsync(input);
     }
 
     [HttpPut("{id}")]
-    public Task<PatientDto> UpdateAsync(Guid id, [FromBody] CreateUpdatePatientDto input)
+    public Task<PatientDto> UpdateAsync(Guid id, [FromBody] UpdatePatientDto input)
     {
         return _patientAppService.UpdateAsync(id, input);
     }

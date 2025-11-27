@@ -3,8 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace IdentityService.FamilyLinks.Dtos;
 
-public class CreateUpdateFamilyLinkDto
+public class CreateFamilyLinkDto
 {
+    public Guid? TenantId { get; set; }
+
     [Required]
     public Guid PatientId { get; set; }
 

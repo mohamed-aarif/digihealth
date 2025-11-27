@@ -16,7 +16,7 @@ using Volo.Abp.Identity;
 namespace IdentityService.Patients;
 
 [Authorize(IdentityServicePermissions.Patients.Default)]
-public class PatientAppService : CrudAppService<Patient, PatientDto, Guid, PatientPagedAndSortedResultRequestDto, CreateUpdatePatientDto>,
+public class PatientAppService : CrudAppService<Patient, PatientDto, Guid, PatientPagedAndSortedResultRequestDto, CreatePatientDto, UpdatePatientDto>,
     IPatientAppService
 {
     private readonly IRepository<IdentityUser, Guid> _identityUserRepository;
@@ -32,13 +32,13 @@ public class PatientAppService : CrudAppService<Patient, PatientDto, Guid, Patie
     }
 
     [Authorize(IdentityServicePermissions.Patients.Manage)]
-    public override Task<PatientDto> CreateAsync(CreateUpdatePatientDto input)
+    public override Task<PatientDto> CreateAsync(CreatePatientDto input)
     {
         return base.CreateAsync(input);
     }
 
     [Authorize(IdentityServicePermissions.Patients.Manage)]
-    public override Task<PatientDto> UpdateAsync(Guid id, CreateUpdatePatientDto input)
+    public override Task<PatientDto> UpdateAsync(Guid id, UpdatePatientDto input)
     {
         return base.UpdateAsync(id, input);
     }
@@ -102,7 +102,7 @@ public class PatientAppService : CrudAppService<Patient, PatientDto, Guid, Patie
         return new PagedResultDto<PatientDto>(totalCount, dtos);
     }
 
-    protected override Patient MapToEntity(CreateUpdatePatientDto createInput)
+    protected override Patient MapToEntity(CreatePatientDto createInput)
     {
         return new Patient(
             GuidGenerator.Create(),
@@ -114,13 +114,14 @@ public class PatientAppService : CrudAppService<Patient, PatientDto, Guid, Patie
             createInput.ResidenceCountry);
     }
 
-    protected override void MapToEntity(CreateUpdatePatientDto updateInput, Patient entity)
+    protected override void MapToEntity(UpdatePatientDto updateInput, Patient entity)
     {
         entity.Update(
             updateInput.Salutation,
             updateInput.DateOfBirth,
             updateInput.Gender,
             updateInput.ResidenceCountry);
+        entity.ConcurrencyStamp = updateInput.ConcurrencyStamp;
     }
 
     private PatientDto MapPatientDto(Patient patient, IdentityUser user)

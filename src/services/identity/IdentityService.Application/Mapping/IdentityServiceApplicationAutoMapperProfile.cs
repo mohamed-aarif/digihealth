@@ -11,11 +11,19 @@ public class IdentityServiceApplicationAutoMapperProfile : Profile
 {
     public IdentityServiceApplicationAutoMapperProfile()
     {
-        CreateMap<Doctors.Doctor, DoctorDto>();
+        CreateMap<Doctors.Doctor, DoctorDto>()
+            .ForMember(x => x.UserName, opt => opt.Ignore())
+            .ForMember(x => x.Name, opt => opt.Ignore())
+            .ForMember(x => x.Surname, opt => opt.Ignore())
+            .ForMember(x => x.ProfilePhotoUrl, opt => opt.Ignore());
         CreateMap<CreateDoctorDto, Doctors.Doctor>(MemberList.Source);
         CreateMap<UpdateDoctorDto, Doctors.Doctor>(MemberList.Source);
 
-        CreateMap<Patients.Patient, PatientDto>();
+        CreateMap<Patients.Patient, PatientDto>()
+            .ForMember(x => x.UserName, opt => opt.Ignore())
+            .ForMember(x => x.Name, opt => opt.Ignore())
+            .ForMember(x => x.Surname, opt => opt.Ignore())
+            .ForMember(x => x.ProfilePhotoUrl, opt => opt.Ignore());
         CreateMap<CreatePatientDto, Patients.Patient>(MemberList.Source);
         CreateMap<UpdatePatientDto, Patients.Patient>(MemberList.Source);
 

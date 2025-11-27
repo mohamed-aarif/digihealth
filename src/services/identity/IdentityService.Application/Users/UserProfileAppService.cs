@@ -5,6 +5,7 @@ using IdentityService.Localization;
 using IdentityService.Permissions;
 using IdentityService.Users.Dtos;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;

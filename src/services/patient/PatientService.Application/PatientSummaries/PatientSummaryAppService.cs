@@ -6,6 +6,7 @@ using PatientService.PatientLookups;
 using PatientService.PatientMedicalSummaries;
 using PatientService.PatientProfiles;
 using PatientService.Permissions;
+using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Authorization;
 using Volo.Abp.Domain.Repositories;

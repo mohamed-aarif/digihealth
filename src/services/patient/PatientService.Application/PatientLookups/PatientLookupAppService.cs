@@ -6,6 +6,7 @@ using IdentityService.FamilyLinks;
 using IdentityService.FamilyLinks.Dtos;
 using IdentityService.Patients;
 using IdentityService.Patients.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using IdentityService.Users;
 using IdentityService.Users.Dtos;
 using PatientService.Permissions;

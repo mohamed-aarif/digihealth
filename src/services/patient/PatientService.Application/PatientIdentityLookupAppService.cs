@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using IdentityService.Patients;
+using Microsoft.AspNetCore.Authorization;
 using PatientService.Permissions;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Authorization;

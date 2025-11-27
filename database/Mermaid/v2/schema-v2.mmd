@@ -1,0 +1,522 @@
+erDiagram
+    %% ============================================================
+    %% IDENTITY SCHEMA (identity.*)
+    %% ============================================================
+
+    AbpUsers ||--|| Users : "1-1 user profile (identity.AbpUsers -> identity.users)"
+    AbpUsers ||--o{ Patients : "user is a patient (identity.patients.user_id)"
+    AbpUsers ||--o{ Doctors  : "user is a doctor (identity.doctors.user_id)"
+    AbpUsers ||--o{ FamilyLinks : "family link (identity.family_links.family_user_id)"
+    Patients ||--o{ FamilyLinks : "patient has family members"
+
+    AbpUsers {
+      uuid Id PK
+      uuid TenantId
+      varchar UserName
+      varchar Email
+      bool   IsActive
+      bool   IsDeleted
+      timestamp CreationTime
+    }
+
+    Users {
+      %% identity.users
+      %% -> AbpUsers.Id
+      uuid Id PK       
+      uuid TenantId   
+      varchar UserName
+      varchar Email
+      varchar Salutation
+      text   ProfilePhotoUrl
+      varchar Name
+      varchar Surname
+      bool   IsActive
+      timestamptz CreationTime
+    }
+
+    Patients {
+      %% identity.patients
+      uuid Id PK
+      uuid TenantId
+      %% -> AbpUsers.Id
+      uuid UserId FK      
+      varchar Salutation
+      date   DateOfBirth
+      varchar Gender
+      varchar ResidenceCountry
+      timestamptz CreationTime
+    }
+
+    Doctors {
+      %% identity.doctors
+      uuid Id PK
+      uuid TenantId
+      %% -> AbpUsers.Id
+      uuid UserId FK      
+      varchar Salutation
+      varchar Gender
+      varchar Specialization
+      varchar RegistrationNumber
+      timestamptz CreationTime
+    }
+
+    FamilyLinks {
+      %% identity.family_links
+      uuid Id PK
+      uuid TenantId
+      %% -> Patients.Id
+      uuid PatientId FK      
+      %% -> AbpUsers.Id
+      uuid FamilyUserId FK   
+      %% Parent/Spouse/Child/Other
+      varchar Relationship   
+      bool   IsGuardian
+      timestamptz CreationTime
+    }
+
+     %% ============================================================
+    %% PATIENT SCHEMA (patient.*)
+    %% ============================================================
+
+    Patients ||--o{ PatientProfileExtensions : "detail profile"
+    Patients ||--o{ PatientMedicalSummaries  : "medical background"
+    Patients ||--o{ PatientExternalLinks     : "external systems"
+
+    PatientProfileExtensions {
+      %% patient.patient_profile_extensions
+      uuid Id PK
+      uuid TenantId
+      %% -> Patients.Id
+      uuid IdentityPatientId FK   
+      varchar PrimaryContactNumber
+      varchar SecondaryContactNumber
+      varchar Email
+      varchar AddressLine1
+      varchar AddressLine2
+      varchar City
+      varchar State
+      varchar ZipCode
+      varchar Country
+      varchar EmergencyContactName
+      varchar EmergencyContactNumber
+      varchar PreferredLanguage
+      timestamptz CreationTime
+    }
+
+    PatientMedicalSummaries {
+      %% patient.patient_medical_summaries
+      uuid Id PK
+      uuid TenantId
+      %% -> Patients.Id
+      uuid IdentityPatientId FK   
+      varchar BloodGroup
+      text   Allergies
+      text   ChronicConditions
+      text   Notes
+      timestamptz CreationTime
+    }
+
+    PatientExternalLinks {
+      %% patient.patient_external_links
+      uuid Id PK
+      uuid TenantId
+      %% -> Patients.Id
+      uuid IdentityPatientId FK   
+      varchar SystemName
+      varchar ExternalReference
+      timestamptz CreationTime
+    }
+
+    %% ============================================================
+    %% CONFIGURATION SCHEMA (configuration.*)
+    %% ============================================================
+
+    AppointmentStatuses {
+      %% configuration.appointment_statuses
+      uuid Id PK
+      varchar Code
+      varchar Name
+      text   Description
+      int    SortOrder
+      bool   IsActive
+    }
+
+    AppointmentChannels {
+      %% configuration.appointment_channels
+      uuid Id PK
+      varchar Code
+      varchar Name
+      text   Description
+      int    SortOrder
+      bool   IsActive
+    }
+
+    DaysOfWeek {
+      %% configuration.days_of_week
+      uuid Id PK
+      varchar Code
+      varchar Name
+      text   Description
+      int    SortOrder
+      bool   IsActive
+    }
+
+    ConsentPartyTypes {
+      %% configuration.consent_party_types
+      uuid Id PK
+      varchar Code
+      varchar Name
+      text   Description
+      int    SortOrder
+      bool   IsActive
+    }
+
+    ConsentStatuses {
+      %% configuration.consent_statuses
+      uuid Id PK
+      varchar Code
+      varchar Name
+      text   Description
+      int    SortOrder
+      bool   IsActive
+    }
+
+    DeviceTypes {
+      %% configuration.device_types
+      uuid Id PK
+      varchar Code
+      varchar Name
+      text   Description
+      int    SortOrder
+      bool   IsActive
+    }
+
+    MedicationIntakeStatuses {
+      %% configuration.medication_intake_statuses
+      uuid Id PK
+      varchar Code
+      varchar Name
+      text   Description
+      int    SortOrder
+      bool   IsActive
+    }
+
+    NotificationChannels {
+      %% configuration.notification_channels
+      uuid Id PK
+      varchar Code
+      varchar Name
+      text   Description
+      int    SortOrder
+      bool   IsActive
+    }
+
+    NotificationStatuses {
+      %% configuration.notification_statuses
+      uuid Id PK
+      varchar Code
+      varchar Name
+      text   Description
+      int    SortOrder
+      bool   IsActive
+    }
+
+    VaultRecordTypes {
+      %% configuration.vault_record_types
+      uuid Id PK
+      varchar Code
+      varchar Name
+      text   Description
+      int    SortOrder
+      bool   IsActive
+    }
+
+    %% ============================================================
+    %% APPOINTMENT SCHEMA (appointment.*)
+    %% ============================================================
+
+    Patients ||--o{ Appointments : "patient visits"
+    Doctors  ||--o{ Appointments : "doctor schedule"
+    Appointments ||--o{ AppointmentAudits : "status changes"
+    Doctors ||--o{ DoctorScheduleRules : "availability rules"
+
+    Appointments }o--|| AppointmentStatuses : "status_id"
+    Appointments }o--|| AppointmentChannels : "channel_id"
+    DoctorScheduleRules }o--|| DaysOfWeek : "day_of_week_id"
+
+    Appointments {
+      %% appointment.appointments
+      uuid Id PK
+      uuid TenantId
+      uuid IdentityPatientId FK
+      uuid IdentityDoctorId FK
+      timestamptz StartTime
+      timestamptz EndTime
+      uuid StatusId FK
+      uuid ChannelId FK
+      varchar Reason
+      text   Notes
+      timestamptz CreationTime
+    }
+
+    AppointmentAudits {
+      %% appointment.appointment_audits
+      uuid Id PK
+      uuid AppointmentId FK
+      uuid ChangedByUserId
+      uuid OldStatusId FK
+      uuid NewStatusId FK
+      timestamptz ChangeTime
+      text   Comment
+    }
+
+    DoctorScheduleRules {
+      %% appointment.doctor_schedule_rules
+      uuid Id PK
+      uuid TenantId
+      uuid IdentityDoctorId FK
+      uuid DayOfWeekId FK
+      interval StartTimeOfDay
+      interval EndTimeOfDay
+      int      SlotDurationMinutes
+      timestamptz CreationTime
+    }
+
+    %% ============================================================
+    %% CONSENT SCHEMA (consent.*)
+    %% ============================================================
+
+    Patients ||--o{ Consents : "patient grants access"
+    Consents ||--o{ ConsentAudits : "history"
+
+    Consents }o--|| ConsentPartyTypes : "granted_to_party_type_id"
+    Consents }o--|| ConsentStatuses   : "status_id"
+
+    Consents {
+      %% consent.consents
+      uuid Id PK
+      uuid TenantId
+      uuid IdentityPatientId FK
+      uuid GrantedToPartyTypeId FK
+      uuid GrantedToPartyId       
+      varchar DataScope
+      text   PurposeOfUse
+      timestamptz GrantedAt
+      timestamptz ExpiresAt
+      uuid StatusId FK
+    }
+
+    ConsentAudits {
+      %% consent.consent_audits
+      uuid Id PK
+      uuid ConsentId FK
+      varchar Action
+      uuid PerformedByUserId
+      timestamptz ActionTime
+      text   Details
+    }
+
+    %% ============================================================
+    %% DEVICE SCHEMA (device.*)
+    %% ============================================================
+
+    DeviceTypes ||--o{ Devices : "device type"
+    Patients ||--o{ Devices : "assigned device"
+    Devices ||--o{ DeviceReadings : "data stream"
+    Patients ||--o{ DeviceReadings : "patient vitals"
+
+    Devices {
+      %% device.devices
+      uuid Id PK
+      uuid TenantId
+      varchar DeviceSerial
+      uuid DeviceTypeId FK
+      varchar Manufacturer
+      varchar Model
+      uuid AssignedPatientId FK
+      timestamptz AssignedAt
+      bool   IsActive
+      timestamptz CreationTime
+    }
+
+    DeviceReadings {
+      %% device.device_readings
+      uuid Id PK
+      uuid TenantId
+      uuid DeviceId FK
+      uuid IdentityPatientId FK
+      timestamptz ReadingTime
+      %% e.g. HeartRate, BP, Glucose
+      varchar ReadingType      
+      numeric Value1
+      numeric Value2
+      varchar Unit
+      text   RawPayload
+    }
+
+    %% ============================================================
+    %% MEDICATION SCHEMA (medication.*)
+    %% ============================================================
+
+    Patients ||--o{ Prescriptions : ""
+    Doctors  ||--o{ Prescriptions : ""
+    Prescriptions ||--o{ PrescriptionItems : ""
+    PrescriptionItems ||--o{ MedicationSchedules : ""
+    PrescriptionItems ||--o{ MedicationIntakeLogs : ""
+
+    MedicationIntakeLogs }o--|| MedicationIntakeStatuses : "status_id"
+
+    Prescriptions {
+      %% medication.prescriptions
+      uuid Id PK
+      uuid TenantId
+      uuid IdentityPatientId FK
+      uuid IdentityDoctorId FK
+      timestamptz CreatedAt
+      text   DiagnosisSummary
+      text   Notes
+    }
+
+    PrescriptionItems {
+      %% medication.prescription_items
+      uuid Id PK
+      uuid TenantId
+      uuid PrescriptionId FK
+      varchar DrugName
+      varchar Strength
+      text   DosageInstructions
+      date   StartDate
+      date   EndDate
+      int    FrequencyPerDay
+    }
+
+    MedicationSchedules {
+      %% medication.medication_schedules
+      uuid Id PK
+      uuid TenantId
+      uuid IdentityPatientId FK
+      uuid PrescriptionItemId FK
+      interval TimeOfDay
+    }
+
+    MedicationIntakeLogs {
+      %% medication.medication_intake_logs
+      uuid Id PK
+      uuid TenantId
+      uuid IdentityPatientId FK
+      uuid PrescriptionItemId FK
+      timestamptz ScheduledTime
+      timestamptz TakenTime
+      uuid StatusId FK
+      text Notes
+      timestamptz CreationTime
+    }
+
+    %% ============================================================
+    %% ENGAGEMENT SCHEMA (engagement.*)
+    %% ============================================================
+
+    NotificationChannels ||--o{ NotificationTemplates : ""
+    NotificationChannels ||--o{ Notifications        : ""
+    NotificationStatuses ||--o{ Notifications        : ""
+    AbpUsers ||--o{ Notifications : "recipient_user_id"
+
+    %% New: chat & AI assistant sessions
+    Patients ||--o{ ChatSessions : "patient conversations"
+    AbpUsers ||--o{ ChatSessions : "created_by_user_id (optional)"
+    ChatSessions ||--o{ ChatMessages : "conversation messages"
+    AbpUsers ||--o{ ChatMessages : "sender_user_id (for human senders)"
+
+    NotificationTemplates {
+      %% engagement.notification_templates
+      uuid Id PK
+      uuid TenantId
+      varchar TemplateKey
+      uuid ChannelId FK
+      varchar SubjectTemplate
+      text   BodyTemplate
+      bool   IsActive
+      timestamptz CreationTime
+    }
+
+    Notifications {
+      %% engagement.notifications
+      uuid Id PK
+      uuid TenantId
+      %% -> AbpUsers.Id
+      uuid RecipientUserId FK   
+      uuid ChannelId FK
+      varchar TemplateKey
+      text   PayloadJson
+      timestamptz CreatedAt
+      timestamptz SentAt
+      uuid StatusId FK
+      text   ErrorMessage
+    }
+
+    ChatSessions {
+      %% engagement.chat_sessions (planned)
+      uuid Id PK
+      uuid TenantId
+      %% -> Patients.Id
+      uuid IdentityPatientId FK  
+       %% -> AbpUsers.Id (doctor/support or null)
+      uuid CreatedByUserId FK   
+      %% 'PatientAssistant','PatientDoctor','Support'
+      varchar SessionType         
+      %% optional -> appointment.appointments.Id
+      uuid RelatedAppointmentId   
+      timestamptz StartedAt
+      timestamptz EndedAt
+      bool   IsActive
+      timestamptz LastMessageAt
+      %% channel, device, etc.
+      text   MetadataJson         
+    }
+
+    ChatMessages {
+      %% engagement.chat_messages (planned)
+      uuid Id PK
+      uuid TenantId
+       %% -> ChatSessions.Id
+      uuid SessionId FK       
+      %% 'Patient','Doctor','Assistant','System'
+      varchar SenderType          
+      %% nullable, for human senders (AbpUsers.Id)
+      uuid SenderUserId           
+      text   Content
+      %% 'PlainText','Markdown','Rich'
+      varchar ContentFormat       
+      %% quick flag for AI messages
+      bool   IsFromAiAssistant    
+      timestamptz CreatedAt
+      %% prompt, model, token usage, etc.
+      text   AiContextJson        
+    }
+
+    %% ============================================================
+    %% VAULT SCHEMA (vault.*)
+    %% ============================================================
+
+    Patients ||--o{ VaultRecords : "patient documents"
+    AbpUsers ||--o{ VaultRecords : "owner_user_id"
+    VaultRecordTypes ||--o{ VaultRecords : "record_type_id"
+
+    VaultRecords {
+      %% vault.vault_records
+      uuid Id PK
+      uuid TenantId
+      uuid IdentityPatientId FK
+      uuid OwnerUserId FK
+      %% -> configuration.vault_record_types
+      uuid RecordTypeId FK      
+      varchar Title
+      text   MetadataJson
+      date   IssueDate
+      date   ExpiryDate
+      varchar StorageLocation
+      bool   IsEncrypted
+      timestamptz CreatedAt
+      timestamptz LastUpdatedAt
+    }
+

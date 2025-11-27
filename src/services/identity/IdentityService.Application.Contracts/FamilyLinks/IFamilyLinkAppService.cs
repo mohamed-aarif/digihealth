@@ -10,6 +10,7 @@ public interface IFamilyLinkAppService :
         FamilyLinkDto,
         Guid,
         PagedAndSortedResultRequestDto,
-        CreateUpdateFamilyLinkDto>
+        CreateFamilyLinkDto,
+        UpdateFamilyLinkDto>
 {
 }

@@ -33,13 +33,13 @@ public class DoctorController : IdentityServiceController
     }
 
     [HttpPost]
-    public Task<DoctorDto> CreateAsync([FromBody] CreateUpdateDoctorDto input)
+    public Task<DoctorDto> CreateAsync([FromBody] CreateDoctorDto input)
     {
         return _doctorAppService.CreateAsync(input);
     }
 
     [HttpPut("{id}")]
-    public Task<DoctorDto> UpdateAsync(Guid id, [FromBody] CreateUpdateDoctorDto input)
+    public Task<DoctorDto> UpdateAsync(Guid id, [FromBody] UpdateDoctorDto input)
     {
         return _doctorAppService.UpdateAsync(id, input);
     }

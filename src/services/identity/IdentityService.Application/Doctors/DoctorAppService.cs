@@ -16,7 +16,7 @@ using Volo.Abp.Identity;
 namespace IdentityService.Doctors;
 
 [Authorize(IdentityServicePermissions.Doctors.Default)]
-public class DoctorAppService : CrudAppService<Doctor, DoctorDto, Guid, DoctorPagedAndSortedResultRequestDto, CreateUpdateDoctorDto>,
+public class DoctorAppService : CrudAppService<Doctor, DoctorDto, Guid, DoctorPagedAndSortedResultRequestDto, CreateDoctorDto, UpdateDoctorDto>,
     IDoctorAppService
 {
     private readonly IRepository<IdentityUser, Guid> _identityUserRepository;
@@ -32,13 +32,13 @@ public class DoctorAppService : CrudAppService<Doctor, DoctorDto, Guid, DoctorPa
     }
 
     [Authorize(IdentityServicePermissions.Doctors.Manage)]
-    public override Task<DoctorDto> CreateAsync(CreateUpdateDoctorDto input)
+    public override Task<DoctorDto> CreateAsync(CreateDoctorDto input)
     {
         return base.CreateAsync(input);
     }
 
     [Authorize(IdentityServicePermissions.Doctors.Manage)]
-    public override Task<DoctorDto> UpdateAsync(Guid id, CreateUpdateDoctorDto input)
+    public override Task<DoctorDto> UpdateAsync(Guid id, UpdateDoctorDto input)
     {
         return base.UpdateAsync(id, input);
     }
@@ -103,7 +103,7 @@ public class DoctorAppService : CrudAppService<Doctor, DoctorDto, Guid, DoctorPa
         return new PagedResultDto<DoctorDto>(totalCount, dtos);
     }
 
-    protected override Doctor MapToEntity(CreateUpdateDoctorDto createInput)
+    protected override Doctor MapToEntity(CreateDoctorDto createInput)
     {
         return new Doctor(
             GuidGenerator.Create(),
@@ -115,13 +115,14 @@ public class DoctorAppService : CrudAppService<Doctor, DoctorDto, Guid, DoctorPa
             createInput.RegistrationNumber);
     }
 
-    protected override void MapToEntity(CreateUpdateDoctorDto updateInput, Doctor entity)
+    protected override void MapToEntity(UpdateDoctorDto updateInput, Doctor entity)
     {
         entity.Update(
             updateInput.Salutation,
             updateInput.Gender,
             updateInput.Specialization,
             updateInput.RegistrationNumber);
+        entity.ConcurrencyStamp = updateInput.ConcurrencyStamp;
     }
 
     private DoctorDto MapDoctorDto(Doctor doctor, IdentityUser user)

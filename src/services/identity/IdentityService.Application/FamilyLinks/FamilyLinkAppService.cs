@@ -11,7 +11,7 @@ using Volo.Abp.Domain.Repositories;
 namespace IdentityService.FamilyLinks;
 
 [Authorize(IdentityServicePermissions.FamilyLinks.Default)]
-public class FamilyLinkAppService : CrudAppService<FamilyLink, FamilyLinkDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateFamilyLinkDto>,
+public class FamilyLinkAppService : CrudAppService<FamilyLink, FamilyLinkDto, Guid, PagedAndSortedResultRequestDto, CreateFamilyLinkDto, UpdateFamilyLinkDto>,
     IFamilyLinkAppService
 {
     public FamilyLinkAppService(IRepository<FamilyLink, Guid> repository)
@@ -22,13 +22,13 @@ public class FamilyLinkAppService : CrudAppService<FamilyLink, FamilyLinkDto, Gu
     }
 
     [Authorize(IdentityServicePermissions.FamilyLinks.Manage)]
-    public override Task<FamilyLinkDto> CreateAsync(CreateUpdateFamilyLinkDto input)
+    public override Task<FamilyLinkDto> CreateAsync(CreateFamilyLinkDto input)
     {
         return base.CreateAsync(input);
     }
 
     [Authorize(IdentityServicePermissions.FamilyLinks.Manage)]
-    public override Task<FamilyLinkDto> UpdateAsync(Guid id, CreateUpdateFamilyLinkDto input)
+    public override Task<FamilyLinkDto> UpdateAsync(Guid id, UpdateFamilyLinkDto input)
     {
         return base.UpdateAsync(id, input);
     }
@@ -39,23 +39,25 @@ public class FamilyLinkAppService : CrudAppService<FamilyLink, FamilyLinkDto, Gu
         return base.DeleteAsync(id);
     }
 
-    protected override FamilyLink MapToEntity(CreateUpdateFamilyLinkDto createInput)
+    protected override FamilyLink MapToEntity(CreateFamilyLinkDto createInput)
     {
         return new FamilyLink(
             GuidGenerator.Create(),
-            CurrentTenant.Id,
+            createInput.TenantId ?? CurrentTenant.Id,
             createInput.PatientId,
             createInput.FamilyUserId,
             createInput.Relationship,
             createInput.IsGuardian);
     }
 
-    protected override void MapToEntity(CreateUpdateFamilyLinkDto updateInput, FamilyLink entity)
+    protected override void MapToEntity(UpdateFamilyLinkDto updateInput, FamilyLink entity)
     {
         entity.Update(
             updateInput.PatientId,
             updateInput.FamilyUserId,
             updateInput.Relationship,
             updateInput.IsGuardian);
+        entity.ChangeTenant(updateInput.TenantId ?? CurrentTenant.Id);
+        entity.ConcurrencyStamp = updateInput.ConcurrencyStamp;
     }
 }

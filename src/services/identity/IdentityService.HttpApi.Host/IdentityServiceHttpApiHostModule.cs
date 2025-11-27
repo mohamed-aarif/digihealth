@@ -1,18 +1,18 @@
 using System;
+using System.Collections.Generic;
 using IdentityService.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Authentication.JwtBearer;
 using Volo.Abp.AspNetCore.MultiTenancy;
+using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
 using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
-using Volo.Abp.AspNetCore.Serilog;
 
 namespace IdentityService;
 
@@ -34,35 +34,21 @@ public class IdentityServiceHttpApiHostModule : AbpModule
 
         ConfigureAuthentication(context, configuration);
 
-        context.Services.AddSwaggerGen();
-
-        Configure<SwaggerGenOptions>(options =>
+        var authority = configuration["AuthServer:Authority"];
+        if (string.IsNullOrWhiteSpace(authority))
         {
-            options.SwaggerDoc("v1", new OpenApiInfo { Title = "Identity Service API", Version = "v1" });
-            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            authority = configuration["App:SelfUrl"] ?? "https://localhost:44345";
+        }
+
+        context.Services.AddAbpSwaggerGenWithOAuth(
+            authority: authority,
+            scopes: new Dictionary<string, string> { { "IdentityService", "Identity Service API" } },
+            options =>
             {
-                Description = "JWT Authorization header using the Bearer scheme. Example: 'Bearer 12345abcdef'",
-                Name = "Authorization",
-                In = ParameterLocation.Header,
-                Type = SecuritySchemeType.Http,
-                Scheme = "bearer",
-                BearerFormat = "JWT"
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Identity Service API", Version = "v1" });
+                options.DocInclusionPredicate((docName, description) => true);
+                options.CustomSchemaIds(type => type.FullName);
             });
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
-                    },
-                    Array.Empty<string>()
-                }
-            });
-        });
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)

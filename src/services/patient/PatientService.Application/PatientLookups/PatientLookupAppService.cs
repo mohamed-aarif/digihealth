@@ -14,6 +14,7 @@ using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Authorization;
+using Volo.Abp.Domain.Entities;
 using Volo.Abp.Http.Client;
 
 namespace PatientService.PatientLookups;
@@ -90,6 +91,6 @@ public class PatientLookupAppService : ApplicationService, IPatientLookupAppServ
     private static bool IsNotFound(Exception exception)
     {
         return exception is EntityNotFoundException
-               || (exception is AbpRemoteCallException remote && remote.HttpStatusCode == HttpStatusCode.NotFound);
+               || (exception is AbpRemoteCallException remote && remote.HttpStatusCode == (int)HttpStatusCode.NotFound);
     }
 }

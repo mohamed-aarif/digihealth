@@ -143,20 +143,27 @@ public class UserProfileAppService : CrudAppService<UserProfile, UserProfileDto,
         bool isActive)
     {
         var userNameResult = await _identityUserManager.SetUserNameAsync(user, userName);
-        userNameResult.CheckErrors();
+        CheckIdentityResult(userNameResult);
 
         var emailResult = await _identityUserManager.SetEmailAsync(user, email);
-        emailResult.CheckErrors();
+        CheckIdentityResult(emailResult);
 
         user.Name = name;
         user.Surname = surname;
 
-        var activeResult = await _identityUserManager.SetIsActiveAsync(user, isActive);
-        activeResult.CheckErrors();
+        user.SetIsActive(isActive);
         user.SetSalutation(salutation);
         user.SetProfilePhotoUrl(profilePhotoUrl);
 
         var updateResult = await _identityUserManager.UpdateAsync(user);
-        updateResult.CheckErrors();
+        CheckIdentityResult(updateResult);
+    }
+
+    private static void CheckIdentityResult(IdentityResult result)
+    {
+        if (!result.Succeeded)
+        {
+            throw new BusinessException(result.Errors.Select(e => e.Description).JoinAsString(", "));
+        }
     }
 }

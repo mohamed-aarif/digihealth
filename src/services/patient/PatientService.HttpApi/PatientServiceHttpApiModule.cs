@@ -15,7 +15,7 @@ public class PatientServiceHttpApiModule : AbpModule
         {
             options.ConventionalControllers.Create(typeof(PatientServiceApplicationModule).Assembly, opts =>
             {
-                opts.RootPath = "api/patient-service";
+                opts.RootPath = "patient-service";
             });
         });
     }

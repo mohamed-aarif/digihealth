@@ -7,7 +7,6 @@ using IdentityService.Users.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Volo.Abp;
-using Volo.Abp.Collections;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
@@ -165,7 +164,7 @@ public class UserProfileAppService : CrudAppService<UserProfile, UserProfileDto,
     {
         if (!result.Succeeded)
         {
-            throw new BusinessException(result.Errors.Select(e => e.Description).JoinAsString(", "));
+            throw new BusinessException(string.Join(", ", result.Errors.Select(e => e.Description)));
         }
     }
 }

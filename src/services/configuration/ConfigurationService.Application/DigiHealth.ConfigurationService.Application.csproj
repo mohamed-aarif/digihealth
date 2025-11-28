@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="$(MSBuildThisFileDirectory)..\\..\\..\\..\\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>DigiHealth.ConfigurationService</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="9.3.6" />
+    <PackageReference Include="Volo.Abp.Ddd.Application" Version="9.3.6" />
+    <PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="9.3.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../ConfigurationService.Domain/DigiHealth.ConfigurationService.Domain.csproj" />
+    <ProjectReference Include="../ConfigurationService.Application.Contracts/DigiHealth.ConfigurationService.Application.Contracts.csproj" />
+  </ItemGroup>
+</Project>

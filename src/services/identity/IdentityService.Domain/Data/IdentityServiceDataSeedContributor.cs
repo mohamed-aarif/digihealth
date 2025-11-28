@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using IdentityService.Doctors;
 using IdentityService.Patients;
 using IdentityService.Users;
+using Microsoft.Extensions.Logging;
+using Volo.Abp;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
@@ -20,6 +22,7 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
     private readonly IRepository<Patient, Guid> _patientRepository;
     private readonly IRepository<UserProfile, Guid> _userProfileRepository;
     private readonly ICurrentTenant _currentTenant;
+    private readonly ILogger<IdentityServiceDataSeedContributor> _logger;
 
     public IdentityServiceDataSeedContributor(
         IGuidGenerator guidGenerator,
@@ -27,7 +30,8 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
         IRepository<Doctor, Guid> doctorRepository,
         IRepository<Patient, Guid> patientRepository,
         IRepository<UserProfile, Guid> userProfileRepository,
-        ICurrentTenant currentTenant)
+        ICurrentTenant currentTenant,
+        ILogger<IdentityServiceDataSeedContributor> logger)
     {
         _guidGenerator = guidGenerator;
         _userManager = userManager;
@@ -35,13 +39,28 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
         _patientRepository = patientRepository;
         _userProfileRepository = userProfileRepository;
         _currentTenant = currentTenant;
+        _logger = logger;
     }
 
     public async Task SeedAsync(DataSeedContext context)
     {
-        await EnsureHostAdminAsync();
-        await EnsureHostDoctorAsync();
-        await EnsureHostPatientAsync();
+        // IdentityService should only seed host-level sample data. Skip tenant-specific seeding
+        // to avoid touching tenant management tables when they are not available.
+        if (context.TenantId.HasValue)
+        {
+            return;
+        }
+
+        try
+        {
+            await EnsureHostAdminAsync();
+            await EnsureHostDoctorAsync();
+            await EnsureHostPatientAsync();
+        }
+        catch (BusinessException ex)
+        {
+            _logger.LogWarning(ex, "Skipping identity seed because tenant prerequisites are not available.");
+        }
     }
 
     private async Task EnsureHostAdminAsync()

@@ -25,6 +25,9 @@ public class PatientServicePermissionDefinitionProvider : PermissionDefinitionPr
         links.AddChild(PatientServicePermissions.PatientExternalLinks.Create, L("Permission:Create"));
         links.AddChild(PatientServicePermissions.PatientExternalLinks.Update, L("Permission:Update"));
         links.AddChild(PatientServicePermissions.PatientExternalLinks.Delete, L("Permission:Delete"));
+
+        patientGroup.AddPermission(PatientServicePermissions.PatientLookups.Default, L("Permission:PatientLookups"));
+        patientGroup.AddPermission(PatientServicePermissions.PatientSummaries.Default, L("Permission:PatientSummaries"));
     }
 
     private static LocalizableString L(string name)

@@ -14,5 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="../PatientService.Domain.Shared/PatientService.Domain.Shared.csproj" />
+    <ProjectReference Include="../../identity/IdentityService.Application.Contracts/IdentityService.Application.Contracts.csproj" />
   </ItemGroup>
 </Project>

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace IdentityService.Doctors.Dtos;
 
-public class CreateUpdateDoctorDto
+public class CreateDoctorDto
 {
     [Required]
     public Guid UserId { get; set; }

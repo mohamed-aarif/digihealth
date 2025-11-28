@@ -10,6 +10,7 @@ public interface IDoctorAppService :
         DoctorDto,
         Guid,
         DoctorPagedAndSortedResultRequestDto,
-        CreateUpdateDoctorDto>
+        CreateDoctorDto,
+        UpdateDoctorDto>
 {
 }

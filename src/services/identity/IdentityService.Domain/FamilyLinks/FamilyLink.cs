@@ -1,20 +1,26 @@
 using System;
 using Volo.Abp;
+using Volo.Abp.Data;
+using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
+using Volo.Abp.ObjectExtending;
 
 namespace IdentityService.FamilyLinks;
 
-public class FamilyLink : FullAuditedAggregateRoot<Guid>, IMultiTenant
+public class FamilyLink : FullAuditedAggregateRoot<Guid>, IMultiTenant, IHasConcurrencyStamp, IHasExtraProperties
 {
     public Guid? TenantId { get; private set; }
     public Guid PatientId { get; private set; }
     public Guid FamilyUserId { get; private set; }
     public string Relationship { get; private set; }
     public bool IsGuardian { get; private set; }
+    public ExtraPropertyDictionary ExtraProperties { get; protected set; } = new();
+    public string? ConcurrencyStamp { get; set; }
 
     protected FamilyLink()
     {
+        this.SetDefaultsForExtraProperties();
     }
 
     public FamilyLink(
@@ -30,6 +36,7 @@ public class FamilyLink : FullAuditedAggregateRoot<Guid>, IMultiTenant
         SetFamilyUserId(familyUserId);
         SetRelationship(relationship);
         IsGuardian = isGuardian;
+        this.SetDefaultsForExtraProperties();
     }
 
     public void Update(

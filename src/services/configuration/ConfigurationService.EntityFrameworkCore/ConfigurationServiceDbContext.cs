@@ -5,7 +5,7 @@ using Volo.Abp.EntityFrameworkCore;
 
 namespace DigiHealth.ConfigurationService.EntityFrameworkCore;
 
-[ConnectionStringName("ConfigurationService")]
+[ConnectionStringName(ConfigurationServiceDbProperties.ConnectionStringName)]
 public class ConfigurationServiceDbContext : AbpDbContext<ConfigurationServiceDbContext>
 {
     public DbSet<AppointmentStatus> AppointmentStatuses { get; set; }
@@ -26,6 +26,8 @@ public class ConfigurationServiceDbContext : AbpDbContext<ConfigurationServiceDb
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.HasDefaultSchema(ConfigurationServiceDbProperties.DbSchema);
+
         base.OnModelCreating(builder);
 
         builder.Entity<AppointmentStatus>(b =>

@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36623.8
@@ -56,6 +56,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigiHealth.ConfigurationService.Application", "src\services\configuration\ConfigurationService.Application\DigiHealth.ConfigurationService.Application.csproj", "{FE8FA361-68AC-4883-AF72-2BC1B30C7034}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigiHealth.ConfigurationService.EntityFrameworkCore", "src\services\configuration\ConfigurationService.EntityFrameworkCore\DigiHealth.ConfigurationService.EntityFrameworkCore.csproj", "{4866E20D-3D75-45D2-AFC6-AE66E07F45E8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigurationService.HttpApi", "src\services\configuration\ConfigurationService.HttpApi\ConfigurationService.HttpApi.csproj", "{BD71A194-5E9E-4AA4-8299-F6AC86E26790}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigiHealth.ConfigurationService.HttpApi.Host", "src\services\configuration\ConfigurationService.HttpApi.Host\DigiHealth.ConfigurationService.HttpApi.Host.csproj", "{A25D5EA0-F642-47D5-9A78-9C54A2776BE5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{04DBDB01-70F4-4E06-B468-8F87850B22BE}"
 EndProject
@@ -263,6 +267,14 @@ Global
                 {4866E20D-3D75-45D2-AFC6-AE66E07F45E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
                 {4866E20D-3D75-45D2-AFC6-AE66E07F45E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
                 {4866E20D-3D75-45D2-AFC6-AE66E07F45E8}.Release|Any CPU.Build.0 = Release|Any CPU
+                {BD71A194-5E9E-4AA4-8299-F6AC86E26790}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+                {BD71A194-5E9E-4AA4-8299-F6AC86E26790}.Debug|Any CPU.Build.0 = Debug|Any CPU
+                {BD71A194-5E9E-4AA4-8299-F6AC86E26790}.Release|Any CPU.ActiveCfg = Release|Any CPU
+                {BD71A194-5E9E-4AA4-8299-F6AC86E26790}.Release|Any CPU.Build.0 = Release|Any CPU
+                {A25D5EA0-F642-47D5-9A78-9C54A2776BE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+                {A25D5EA0-F642-47D5-9A78-9C54A2776BE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+                {A25D5EA0-F642-47D5-9A78-9C54A2776BE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+                {A25D5EA0-F642-47D5-9A78-9C54A2776BE5}.Release|Any CPU.Build.0 = Release|Any CPU
         EndGlobalSection
         GlobalSection(SolutionProperties) = preSolution
                 HideSolutionNode = FALSE
@@ -293,6 +305,8 @@ Global
                 {E30BDB6F-26C7-4CD8-9C88-240FCA63E27B} = {3A755193-C3AF-4F4D-8039-AC38ACE40E32}
                 {FE8FA361-68AC-4883-AF72-2BC1B30C7034} = {3A755193-C3AF-4F4D-8039-AC38ACE40E32}
                 {4866E20D-3D75-45D2-AFC6-AE66E07F45E8} = {3A755193-C3AF-4F4D-8039-AC38ACE40E32}
+                {BD71A194-5E9E-4AA4-8299-F6AC86E26790} = {3A755193-C3AF-4F4D-8039-AC38ACE40E32}
+                {A25D5EA0-F642-47D5-9A78-9C54A2776BE5} = {3A755193-C3AF-4F4D-8039-AC38ACE40E32}
                 {50B2631D-129C-47B3-A587-029CCD6099BC} = {04DBDB01-70F4-4E06-B468-8F87850B22BE}
                 {42F719ED-8413-4895-B5B4-5AB56079BC66} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
                 {520659C8-C734-4298-A3DA-B539DB9DFC0B} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
@@ -311,7 +325,7 @@ Global
 		{7AC09D49-5D2F-49AC-A904-7365C2126008} = {0F2C3C0C-AF68-4639-A834-0B1EF720E66C}
 		{14F9F121-5E99-4B52-8581-42CCA3084D1D} = {9EBDC66A-1E75-4D8A-B317-F0A545254DD1}
 		{A7F7D28B-28E1-4A73-AA44-72C8004A9F46} = {9EBDC66A-1E75-4D8A-B317-F0A545254DD1}
-		{493CCB57-F776-452E-8E9D-478CC7589661} = {0F2C3C0C-AF68-4639-A834-0B1EF720E66C}
+                {493CCB57-F776-452E-8E9D-478CC7589661} = {0F2C3C0C-AF68-4639-A834-0B1EF720E66C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}

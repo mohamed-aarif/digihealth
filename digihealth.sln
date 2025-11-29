@@ -47,19 +47,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatientService.HttpApi", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatientService.HttpApi.Host", "src\services\patient\PatientService.HttpApi.Host\PatientService.HttpApi.Host.csproj", "{01F88080-1E38-49B7-932B-1FD96C1F0522}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigiHealth.ConfigurationService.Domain.Shared", "src\services\configuration\ConfigurationService.Domain.Shared\DigiHealth.ConfigurationService.Domain.Shared.csproj", "{BD1CB822-651B-4249-BEC9-8809048B5044}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigiHealth.ConfigurationService.Domain.Shared", "src\services\configuration\ConfigurationService.Domain.Shared\ConfigurationService.Domain.Shared.csproj", "{BD1CB822-651B-4249-BEC9-8809048B5044}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigiHealth.ConfigurationService.Domain", "src\services\configuration\ConfigurationService.Domain\DigiHealth.ConfigurationService.Domain.csproj", "{23E04889-2FC1-4DC0-BD6D-BB7BCF9F1458}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigiHealth.ConfigurationService.Domain", "src\services\configuration\ConfigurationService.Domain\ConfigurationService.Domain.csproj", "{23E04889-2FC1-4DC0-BD6D-BB7BCF9F1458}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigiHealth.ConfigurationService.Application.Contracts", "src\services\configuration\ConfigurationService.Application.Contracts\DigiHealth.ConfigurationService.Application.Contracts.csproj", "{E30BDB6F-26C7-4CD8-9C88-240FCA63E27B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigiHealth.ConfigurationService.Application.Contracts", "src\services\configuration\ConfigurationService.Application.Contracts\ConfigurationService.Application.Contracts.csproj", "{E30BDB6F-26C7-4CD8-9C88-240FCA63E27B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigiHealth.ConfigurationService.Application", "src\services\configuration\ConfigurationService.Application\DigiHealth.ConfigurationService.Application.csproj", "{FE8FA361-68AC-4883-AF72-2BC1B30C7034}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigiHealth.ConfigurationService.Application", "src\services\configuration\ConfigurationService.Application\ConfigurationService.Application.csproj", "{FE8FA361-68AC-4883-AF72-2BC1B30C7034}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigiHealth.ConfigurationService.EntityFrameworkCore", "src\services\configuration\ConfigurationService.EntityFrameworkCore\DigiHealth.ConfigurationService.EntityFrameworkCore.csproj", "{4866E20D-3D75-45D2-AFC6-AE66E07F45E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigiHealth.ConfigurationService.EntityFrameworkCore", "src\services\configuration\ConfigurationService.EntityFrameworkCore\ConfigurationService.EntityFrameworkCore.csproj", "{4866E20D-3D75-45D2-AFC6-AE66E07F45E8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigurationService.HttpApi", "src\services\configuration\ConfigurationService.HttpApi\ConfigurationService.HttpApi.csproj", "{BD71A194-5E9E-4AA4-8299-F6AC86E26790}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigiHealth.ConfigurationService.HttpApi.Host", "src\services\configuration\ConfigurationService.HttpApi.Host\DigiHealth.ConfigurationService.HttpApi.Host.csproj", "{A25D5EA0-F642-47D5-9A78-9C54A2776BE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigiHealth.ConfigurationService.HttpApi.Host", "src\services\configuration\ConfigurationService.HttpApi.Host\ConfigurationService.HttpApi.Host.csproj", "{A25D5EA0-F642-47D5-9A78-9C54A2776BE5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{04DBDB01-70F4-4E06-B468-8F87850B22BE}"
 EndProject

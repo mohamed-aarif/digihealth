@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="$(MSBuildThisFileDirectory)..\..\..\..\common.props" />
+  <Import Project="$(MSBuildThisFileDirectory)../../../../common.props" />
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ConfigurationService.Application.Contracts\ConfigurationService.Application.Contracts.csproj" />
-    <ProjectReference Include="..\ConfigurationService.Application\ConfigurationService.Application.csproj" />
+    <ProjectReference Include="../ConfigurationService.Application.Contracts/ConfigurationService.Application.Contracts.csproj" />
+    <ProjectReference Include="../ConfigurationService.Application/ConfigurationService.Application.csproj" />
   </ItemGroup>
 </Project>

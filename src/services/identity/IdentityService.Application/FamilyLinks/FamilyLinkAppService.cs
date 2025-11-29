@@ -58,6 +58,9 @@ public class FamilyLinkAppService : CrudAppService<FamilyLink, FamilyLinkDto, Gu
             updateInput.Relationship,
             updateInput.IsGuardian);
         entity.ChangeTenant(updateInput.TenantId ?? CurrentTenant.Id);
-        entity.ConcurrencyStamp = updateInput.ConcurrencyStamp;
+        if (!updateInput.ConcurrencyStamp.IsNullOrWhiteSpace())
+        {
+            entity.ConcurrencyStamp = updateInput.ConcurrencyStamp!;
+        }
     }
 }

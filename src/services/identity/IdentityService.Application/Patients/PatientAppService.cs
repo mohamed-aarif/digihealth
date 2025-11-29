@@ -121,7 +121,10 @@ public class PatientAppService : CrudAppService<Patient, PatientDto, Guid, Patie
             updateInput.DateOfBirth,
             updateInput.Gender,
             updateInput.ResidenceCountry);
-        entity.ConcurrencyStamp = updateInput.ConcurrencyStamp;
+        if (!updateInput.ConcurrencyStamp.IsNullOrWhiteSpace())
+        {
+            entity.ConcurrencyStamp = updateInput.ConcurrencyStamp!;
+        }
     }
 
     private PatientDto MapPatientDto(Patient patient, IdentityUser user)

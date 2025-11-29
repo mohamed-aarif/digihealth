@@ -16,8 +16,6 @@ public class Patient : FullAuditedAggregateRoot<Guid>, IMultiTenant, IHasConcurr
     public DateTime? DateOfBirth { get; private set; }
     public string? Gender { get; private set; }
     public string? ResidenceCountry { get; private set; }
-    public ExtraPropertyDictionary ExtraProperties { get; protected set; } = new();
-    public string? ConcurrencyStamp { get; set; }
 
     protected Patient()
     {

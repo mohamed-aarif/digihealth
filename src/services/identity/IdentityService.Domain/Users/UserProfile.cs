@@ -1,6 +1,5 @@
 using System;
 using Volo.Abp;
-using Volo.Abp.Data;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
@@ -11,15 +10,13 @@ namespace IdentityService.Users;
 public class UserProfile : FullAuditedAggregateRoot<Guid>, IMultiTenant, IHasConcurrencyStamp, IHasExtraProperties
 {
     public Guid? TenantId { get; private set; }
-    public string UserName { get; private set; }
-    public string Email { get; private set; }
+    public string UserName { get; private set; } = null!;
+    public string Email { get; private set; } = null!;
     public string? Salutation { get; private set; }
     public string? ProfilePhotoUrl { get; private set; }
     public string? Name { get; private set; }
     public string? Surname { get; private set; }
     public bool IsActive { get; private set; }
-    public ExtraPropertyDictionary ExtraProperties { get; protected set; } = new();
-    public string? ConcurrencyStamp { get; set; }
 
     protected UserProfile()
     {

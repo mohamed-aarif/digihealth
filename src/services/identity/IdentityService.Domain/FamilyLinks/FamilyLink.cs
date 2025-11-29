@@ -70,6 +70,6 @@ public class FamilyLink : FullAuditedAggregateRoot<Guid>, IMultiTenant, IHasConc
             Check.NotNullOrWhiteSpace(relationship, nameof(relationship)),
             nameof(relationship),
             FamilyLinkConsts.MaxRelationshipLength,
-            0);
+            0)!;
     }
 }

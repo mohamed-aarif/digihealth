@@ -122,7 +122,10 @@ public class DoctorAppService : CrudAppService<Doctor, DoctorDto, Guid, DoctorPa
             updateInput.Gender,
             updateInput.Specialization,
             updateInput.RegistrationNumber);
-        entity.ConcurrencyStamp = updateInput.ConcurrencyStamp;
+        if (!updateInput.ConcurrencyStamp.IsNullOrWhiteSpace())
+        {
+            entity.ConcurrencyStamp = updateInput.ConcurrencyStamp!;
+        }
     }
 
     private DoctorDto MapDoctorDto(Doctor doctor, IdentityUser user)

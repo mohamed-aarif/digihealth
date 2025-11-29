@@ -86,7 +86,10 @@ public class UserProfileAppService : CrudAppService<UserProfile, UserProfileDto,
             user.Name,
             user.Surname,
             user.IsActive);
-        entity.ConcurrencyStamp = input.ConcurrencyStamp;
+        if (!input.ConcurrencyStamp.IsNullOrWhiteSpace())
+        {
+            entity.ConcurrencyStamp = input.ConcurrencyStamp!;
+        }
 
         await Repository.UpdateAsync(entity, autoSave: true);
         return await MapToGetOutputDtoAsync(entity);

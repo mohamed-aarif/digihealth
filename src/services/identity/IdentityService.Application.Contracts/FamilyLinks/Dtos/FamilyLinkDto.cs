@@ -1,6 +1,7 @@
 using System;
 using System.Text.Json.Serialization;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Data;
 
 namespace IdentityService.FamilyLinks.Dtos;
 
@@ -12,4 +13,6 @@ public class FamilyLinkDto : FullAuditedEntityDto<Guid>
     public Guid FamilyUserId { get; set; }
     public string Relationship { get; set; } = default!;
     public bool IsGuardian { get; set; }
+    public ExtraPropertyDictionary ExtraProperties { get; set; } = new();
+    public string? ConcurrencyStamp { get; set; }
 }

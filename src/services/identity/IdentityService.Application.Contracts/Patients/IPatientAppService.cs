@@ -10,6 +10,7 @@ public interface IPatientAppService :
         PatientDto,
         Guid,
         PatientPagedAndSortedResultRequestDto,
-        CreateUpdatePatientDto>
+        CreatePatientDto,
+        UpdatePatientDto>
 {
 }

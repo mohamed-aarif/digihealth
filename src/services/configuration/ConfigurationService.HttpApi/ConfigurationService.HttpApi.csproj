@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../ConfigurationService.Application.Contracts/ConfigurationService.Application.Contracts.csproj" />
-    <ProjectReference Include="../ConfigurationService.Application/ConfigurationService.Application.csproj" />
+    <ProjectReference Include="..\\ConfigurationService.Application.Contracts\\ConfigurationService.Application.Contracts.csproj" />
+    <ProjectReference Include="..\\ConfigurationService.Application\\ConfigurationService.Application.csproj" />
   </ItemGroup>
 </Project>

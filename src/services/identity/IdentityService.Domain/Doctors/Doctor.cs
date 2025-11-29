@@ -16,8 +16,6 @@ public class Doctor : FullAuditedAggregateRoot<Guid>, IMultiTenant, IHasConcurre
     public string? Gender { get; private set; }
     public string? Specialization { get; private set; }
     public string? RegistrationNumber { get; private set; }
-    public ExtraPropertyDictionary ExtraProperties { get; protected set; } = new();
-    public string? ConcurrencyStamp { get; set; }
 
     protected Doctor()
     {

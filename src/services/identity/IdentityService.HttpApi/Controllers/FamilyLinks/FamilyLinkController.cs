@@ -35,14 +35,14 @@ public class FamilyLinkController : IdentityServiceController
 
     [HttpPost]
     [Authorize(IdentityServicePermissions.FamilyLinks.Manage)]
-    public Task<FamilyLinkDto> CreateAsync(CreateUpdateFamilyLinkDto input)
+    public Task<FamilyLinkDto> CreateAsync(CreateFamilyLinkDto input)
     {
         return _familyLinkAppService.CreateAsync(input);
     }
 
     [HttpPut("{id}")]
     [Authorize(IdentityServicePermissions.FamilyLinks.Manage)]
-    public Task<FamilyLinkDto> UpdateAsync(Guid id, CreateUpdateFamilyLinkDto input)
+    public Task<FamilyLinkDto> UpdateAsync(Guid id, UpdateFamilyLinkDto input)
     {
         return _familyLinkAppService.UpdateAsync(id, input);
     }

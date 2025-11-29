@@ -1,6 +1,7 @@
 using IdentityService.Doctors;
 using IdentityService.FamilyLinks;
 using IdentityService.Patients;
+using IdentityService.Users;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
@@ -40,6 +41,7 @@ public class IdentityServiceDbContext
     public DbSet<Patient> Patients { get; set; } = default!;
     public DbSet<Doctor> Doctors { get; set; } = default!;
     public DbSet<FamilyLink> FamilyLinks { get; set; } = default!;
+    public DbSet<UserProfile> UserProfiles { get; set; } = default!;
 
     public DbSet<PermissionGroupDefinitionRecord> PermissionGroups { get; set; } = default!;
     public DbSet<PermissionDefinitionRecord> Permissions { get; set; } = default!;
@@ -89,28 +91,6 @@ public class IdentityServiceDbContext
 
             // Composite PK required by EF
             b.HasKey(x => new { x.TenantId, x.Name });
-        });
-
-        // Doctor mapping to match existing table
-        builder.Entity<Doctor>(b =>
-        {
-            b.ToTable("doctors", IdentityServiceDbProperties.DbSchema);
-
-            // Map PK property 'Id' to column 'id'
-            b.Property(x => x.Id).HasColumnName("id");
-        });
-
-        // similar for Patient if your table uses 'id' lowercase:
-        builder.Entity<Patient>(b =>
-        {
-            b.ToTable("patients", IdentityServiceDbProperties.DbSchema);
-            b.Property(x => x.Id).HasColumnName("id");
-        });
-
-        builder.Entity<FamilyLink>(b =>
-        {
-            b.ToTable("family_links", IdentityServiceDbProperties.DbSchema);
-            b.Property(x => x.Id).HasColumnName("id");
         });
     }
 }

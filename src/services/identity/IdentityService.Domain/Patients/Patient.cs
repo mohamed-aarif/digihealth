@@ -1,11 +1,13 @@
 using System;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities;
+using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
+using Volo.Abp.ObjectExtending;
 
 namespace IdentityService.Patients;
 
-public class Patient : AggregateRoot<Guid>, IMultiTenant
+public class Patient : FullAuditedAggregateRoot<Guid>, IMultiTenant, IHasConcurrencyStamp, IHasExtraProperties
 {
     public Guid UserId { get; private set; }
     public Guid? TenantId { get; private set; }
@@ -13,11 +15,10 @@ public class Patient : AggregateRoot<Guid>, IMultiTenant
     public DateTime? DateOfBirth { get; private set; }
     public string? Gender { get; private set; }
     public string? ResidenceCountry { get; private set; }
-    public DateTime CreationTime { get; private set; }
 
     protected Patient()
     {
-        CreationTime = DateTime.UtcNow;
+        this.SetDefaultsForExtraProperties();
     }
 
     public Patient(
@@ -32,7 +33,7 @@ public class Patient : AggregateRoot<Guid>, IMultiTenant
         SetUserId(userId);
         TenantId = tenantId;
         UpdateProfile(salutation, dateOfBirth, gender, residenceCountry);
-        CreationTime = DateTime.UtcNow;
+        this.SetDefaultsForExtraProperties();
     }
 
     public void Update(string? salutation, DateTime? dateOfBirth, string? gender, string? residenceCountry)

@@ -3,63 +3,64 @@ using System.Threading.Tasks;
 using IdentityService.Doctors;
 using IdentityService.Patients;
 using IdentityService.Users;
+using Microsoft.Extensions.Logging;
+using Volo.Abp;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Guids;
 using Volo.Abp.Identity;
 using Volo.Abp.MultiTenancy;
-using Volo.Abp.TenantManagement;
 
 namespace IdentityService.Data;
 
 public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransientDependency
 {
-    private readonly ITenantRepository _tenantRepository;
     private readonly IGuidGenerator _guidGenerator;
-    private readonly TenantManager _tenantManager;
     private readonly IdentityUserManager _userManager;
     private readonly IRepository<Doctor, Guid> _doctorRepository;
     private readonly IRepository<Patient, Guid> _patientRepository;
+    private readonly IRepository<UserProfile, Guid> _userProfileRepository;
     private readonly ICurrentTenant _currentTenant;
+    private readonly ILogger<IdentityServiceDataSeedContributor> _logger;
 
     public IdentityServiceDataSeedContributor(
-        ITenantRepository tenantRepository,
         IGuidGenerator guidGenerator,
-        TenantManager tenantManager,
         IdentityUserManager userManager,
         IRepository<Doctor, Guid> doctorRepository,
         IRepository<Patient, Guid> patientRepository,
-        ICurrentTenant currentTenant)
+        IRepository<UserProfile, Guid> userProfileRepository,
+        ICurrentTenant currentTenant,
+        ILogger<IdentityServiceDataSeedContributor> logger)
     {
-        _tenantRepository = tenantRepository;
         _guidGenerator = guidGenerator;
-        _tenantManager = tenantManager;
         _userManager = userManager;
         _doctorRepository = doctorRepository;
         _patientRepository = patientRepository;
+        _userProfileRepository = userProfileRepository;
         _currentTenant = currentTenant;
+        _logger = logger;
     }
 
     public async Task SeedAsync(DataSeedContext context)
     {
-        var defaultTenant = await EnsureTenantAsync("Default Clinic");
-
-        await EnsureHostAdminAsync();
-        await EnsureTenantAdminAsync(defaultTenant);
-        await EnsureSamplePatientAsync(defaultTenant);
-    }
-
-    private async Task<Tenant> EnsureTenantAsync(string name)
-    {
-        var tenant = await _tenantRepository.FindByNameAsync(name);
-        if (tenant != null)
+        // IdentityService should only seed host-level sample data. Skip tenant-specific seeding
+        // to avoid touching tenant management tables when they are not available.
+        if (context.TenantId.HasValue)
         {
-            return tenant;
+            return;
         }
 
-        tenant = await _tenantManager.CreateAsync(name);
-        return await _tenantRepository.InsertAsync(tenant);
+        try
+        {
+            await EnsureHostAdminAsync();
+            await EnsureHostDoctorAsync();
+            await EnsureHostPatientAsync();
+        }
+        catch (BusinessException ex)
+        {
+            _logger.LogWarning(ex, "Skipping identity seed because tenant prerequisites are not available.");
+        }
     }
 
     private async Task EnsureHostAdminAsync()
@@ -77,24 +78,28 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
                 user.SetSalutation("Mr");
                 await _userManager.CreateAsync(user, "HostAdmin123!");
             }
+
+            await EnsureUserProfileAsync(user);
         }
     }
 
-    private async Task EnsureTenantAdminAsync(Tenant tenant)
+    private async Task EnsureHostDoctorAsync()
     {
-        using (_currentTenant.Change(tenant.Id))
+        using (_currentTenant.Change(null))
         {
-            var user = await _userManager.FindByEmailAsync("admin@defaultclinic.local");
+            var user = await _userManager.FindByEmailAsync("host.doctor@digihealth.local");
             if (user == null)
             {
-                user = new IdentityUser(_guidGenerator.Create(), "clinicadmin", "admin@defaultclinic.local", tenant.Id)
+                user = new IdentityUser(_guidGenerator.Create(), "hostdoctor", "host.doctor@digihealth.local", null)
                 {
-                    Name = "Default",
-                    Surname = "Admin"
+                    Name = "Host",
+                    Surname = "Doctor"
                 };
                 user.SetSalutation("Dr");
-                await _userManager.CreateAsync(user, "ClinicAdmin123!");
+                await _userManager.CreateAsync(user, "HostDoctor123!");
             }
+
+            await EnsureUserProfileAsync(user);
 
             if (!await _doctorRepository.AnyAsync(x => x.UserId == user.Id))
             {
@@ -102,7 +107,7 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
                     new Doctor(
                         _guidGenerator.Create(),
                         user.Id,
-                        tenant.Id,
+                        null,
                         user.GetSalutation(),
                         "Male",
                         "General Medicine",
@@ -112,14 +117,14 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
         }
     }
 
-    private async Task EnsureSamplePatientAsync(Tenant tenant)
+    private async Task EnsureHostPatientAsync()
     {
-        using (_currentTenant.Change(tenant.Id))
+        using (_currentTenant.Change(null))
         {
-            var user = await _userManager.FindByEmailAsync("patient1@defaultclinic.local");
+            var user = await _userManager.FindByEmailAsync("patient1@digihealth.local");
             if (user == null)
             {
-                user = new IdentityUser(_guidGenerator.Create(), "patient1", "patient1@defaultclinic.local", tenant.Id)
+                user = new IdentityUser(_guidGenerator.Create(), "patient1", "patient1@digihealth.local", null)
                 {
                     Name = "Sample",
                     Surname = "Patient"
@@ -128,13 +133,15 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
                 await _userManager.CreateAsync(user, "Patient123!");
             }
 
+            await EnsureUserProfileAsync(user);
+
             if (!await _patientRepository.AnyAsync(x => x.UserId == user.Id))
             {
                 await _patientRepository.InsertAsync(
                     new Patient(
                         _guidGenerator.Create(),
                         user.Id,
-                        tenant.Id,
+                        null,
                         user.GetSalutation(),
                         DateTime.UtcNow.AddYears(-30).Date,
                         "Female",
@@ -142,5 +149,26 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
                     autoSave: true);
             }
         }
+    }
+
+    private async Task EnsureUserProfileAsync(IdentityUser user)
+    {
+        if (await _userProfileRepository.AnyAsync(x => x.Id == user.Id))
+        {
+            return;
+        }
+
+        var profile = new UserProfile(
+            user.Id,
+            user.TenantId,
+            user.UserName,
+            user.Email,
+            user.GetSalutation(),
+            user.GetProfilePhotoUrl(),
+            user.Name,
+            user.Surname,
+            user.IsActive);
+
+        await _userProfileRepository.InsertAsync(profile, autoSave: true);
     }
 }

@@ -24,7 +24,7 @@ public class IdentityServiceApplicationModule : AbpModule
 
         Configure<AbpAutoMapperOptions>(options =>
         {
-            options.AddMaps<IdentityServiceApplicationModule>();
+            options.AddMaps<IdentityServiceApplicationModule>(validate: true);
         });
     }
 }

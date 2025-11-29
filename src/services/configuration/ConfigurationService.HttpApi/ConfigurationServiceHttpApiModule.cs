@@ -2,20 +2,20 @@ using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Modularity;
 
-namespace PatientService;
+namespace DigiHealth.ConfigurationService;
 
 [DependsOn(
-    typeof(PatientServiceApplicationModule),
+    typeof(ConfigurationServiceApplicationModule),
     typeof(AbpAspNetCoreMvcModule))]
-public class PatientServiceHttpApiModule : AbpModule
+public class ConfigurationServiceHttpApiModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         Configure<AbpAspNetCoreMvcOptions>(options =>
         {
-            options.ConventionalControllers.Create(typeof(PatientServiceApplicationModule).Assembly, opts =>
+            options.ConventionalControllers.Create(typeof(ConfigurationServiceApplicationModule).Assembly, opts =>
             {
-                opts.RootPath = "patient-service";
+                opts.RootPath = "configuration";
             });
         });
     }

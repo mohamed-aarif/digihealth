@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="9.0.5" />
+    <PackageReference Include="Volo.Abp.Http.Client" Version="9.3.6" />
     <PackageReference Include="Volo.Abp.AutoMapper" Version="9.3.6" />
     <PackageReference Include="Volo.Abp.Ddd.Application" Version="9.3.6" />
   </ItemGroup>
@@ -15,5 +17,6 @@
   <ItemGroup>
     <ProjectReference Include="../PatientService.Domain/PatientService.Domain.csproj" />
     <ProjectReference Include="../PatientService.Application.Contracts/PatientService.Application.Contracts.csproj" />
+    <ProjectReference Include="../../identity/IdentityService.Application.Contracts/IdentityService.Application.Contracts.csproj" />
   </ItemGroup>
 </Project>

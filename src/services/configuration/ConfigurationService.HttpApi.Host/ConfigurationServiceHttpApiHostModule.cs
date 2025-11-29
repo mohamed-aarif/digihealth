@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Authentication.JwtBearer;
 using Volo.Abp.AspNetCore.MultiTenancy;
@@ -14,20 +12,20 @@ using Volo.Abp.Autofac;
 using Volo.Abp.Http.Client;
 using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
-using PatientService.EntityFrameworkCore;
+using DigiHealth.ConfigurationService.EntityFrameworkCore;
 
-namespace PatientService;
+namespace DigiHealth.ConfigurationService;
 
 [DependsOn(
-    typeof(PatientServiceHttpApiModule),
-    typeof(PatientServiceApplicationModule),
-    typeof(PatientServiceEntityFrameworkCoreModule),
+    typeof(ConfigurationServiceHttpApiModule),
+    typeof(ConfigurationServiceApplicationModule),
+    typeof(ConfigurationServiceEntityFrameworkCoreModule),
     typeof(AbpAutofacModule),
     typeof(AbpSwashbuckleModule),
     typeof(AbpAspNetCoreSerilogModule),
     typeof(AbpAspNetCoreMultiTenancyModule),
     typeof(AbpAspNetCoreAuthenticationJwtBearerModule))]
-public class PatientServiceHttpApiHostModule : AbpModule
+public class ConfigurationServiceHttpApiHostModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
@@ -39,15 +37,15 @@ public class PatientServiceHttpApiHostModule : AbpModule
         var authority = configuration["AuthServer:Authority"];
         if (string.IsNullOrWhiteSpace(authority))
         {
-            authority = configuration["App:SelfUrl"] ?? "https://localhost:5004";
+            authority = configuration["App:SelfUrl"] ?? "https://localhost:5005";
         }
 
         context.Services.AddAbpSwaggerGenWithOAuth(
-            authority: authority,
-            scopes: new Dictionary<string, string> { { "PatientService", "Patient Service API" } },
+            authority: authority!,
+            scopes: new Dictionary<string, string> { { ConfigurationServiceRemoteServiceConsts.RemoteServiceName, "Configuration Service API" } },
             options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Patient Service API", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Configuration Service API", Version = "v1" });
                 options.DocInclusionPredicate((docName, description) => true);
                 options.CustomSchemaIds(type => type.FullName);
             });
@@ -66,7 +64,7 @@ public class PatientServiceHttpApiHostModule : AbpModule
         app.UseSwagger();
         app.UseSwaggerUI(options =>
         {
-            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Patient Service API");
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Configuration Service API");
             options.RoutePrefix = string.Empty;
         });
         app.UseAuditing();
@@ -79,7 +77,7 @@ public class PatientServiceHttpApiHostModule : AbpModule
         var requireHttps = bool.TryParse(configuration["AuthServer:RequireHttpsMetadata"], out var parsedRequireHttps)
             ? parsedRequireHttps
             : true;
-        var audience = configuration["AuthServer:Audience"];
+        var audience = configuration["AuthServer:Audience"] ?? ConfigurationServiceRemoteServiceConsts.RemoteServiceName;
 
         context.Services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -110,14 +108,13 @@ public class PatientServiceHttpApiHostModule : AbpModule
 
     private void ConfigureRemoteServices(IConfiguration configuration)
     {
-        var baseUrl = configuration["RemoteServices:IdentityService:BaseUrl"];
+        var identityBaseUrl = configuration["RemoteServices:IdentityService:BaseUrl"];
 
-        if (!string.IsNullOrWhiteSpace(baseUrl))
+        if (!string.IsNullOrWhiteSpace(identityBaseUrl))
         {
             Configure<AbpRemoteServiceOptions>(options =>
             {
-                options.RemoteServices[PatientServiceRemoteServiceConsts.IdentityService] =
-                    new RemoteServiceConfiguration(baseUrl);
+                options.RemoteServices["IdentityService"] = new RemoteServiceConfiguration(identityBaseUrl);
             });
         }
     }

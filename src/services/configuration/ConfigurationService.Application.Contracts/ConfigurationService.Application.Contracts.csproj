@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="$(MSBuildThisFileDirectory)..\\..\\..\\..\\common.props" />
+  <Import Project="$(MSBuildThisFileDirectory)../../../../common.props" />
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <RootNamespace>PatientService</RootNamespace>
+    <RootNamespace>DigiHealth.ConfigurationService</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../PatientService.Domain.Shared/PatientService.Domain.Shared.csproj" />
-    <ProjectReference Include="../../identity/IdentityService.Application.Contracts/IdentityService.Application.Contracts.csproj" />
+    <ProjectReference Include="../ConfigurationService.Domain.Shared/ConfigurationService.Domain.Shared.csproj" />
   </ItemGroup>
 </Project>

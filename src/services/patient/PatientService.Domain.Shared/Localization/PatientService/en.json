@@ -4,6 +4,8 @@
     "Permission:PatientService": "Patient Service",
     "Permission:PatientProfiles": "Patient profiles",
     "Permission:PatientMedicalSummaries": "Patient medical summaries",
-    "Permission:PatientExternalLinks": "Patient external links"
+    "Permission:PatientExternalLinks": "Patient external links",
+    "Permission:PatientLookups": "Patient identity lookups",
+    "Permission:PatientSummaries": "Patient summaries"
   }
 }

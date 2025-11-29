@@ -48,8 +48,9 @@ public class digihealthMenuContributor : IMenuContributor
         );
 
         var administration = context.Menu.GetAdministration();
+        var isMultiTenancyEnabled = MultiTenancyConsts.IsEnabled;
 
-        if (MultiTenancyConsts.IsEnabled)
+        if (isMultiTenancyEnabled)
         {
             administration.SetSubItemOrder(TenantManagementMenuNames.GroupName, 1);
         }

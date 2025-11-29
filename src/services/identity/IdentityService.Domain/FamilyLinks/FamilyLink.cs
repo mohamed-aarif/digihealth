@@ -1,4 +1,5 @@
 using System;
+using Volo.Abp.Data;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Entities.Auditing;
@@ -14,8 +15,6 @@ public class FamilyLink : FullAuditedAggregateRoot<Guid>, IMultiTenant, IHasConc
     public Guid FamilyUserId { get; private set; }
     public string Relationship { get; private set; } = null!;
     public bool IsGuardian { get; private set; }
-    public ExtraPropertyDictionary ExtraProperties { get; protected set; } = new();
-    public string? ConcurrencyStamp { get; set; }
 
     protected FamilyLink()
     {

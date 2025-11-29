@@ -13102,3 +13102,163 @@
 2025-11-28 09:34:36.922 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/authentication/login-callback?error=login_required&error_description=The%20user%20is%20not%20logged%20in.&error_uri=https%3A%2F%2Fdocumentation.openiddict.com%2Ferrors%2FID2015&state=83423b35e46745eb8d1fcda9087c4e56&iss=https%3A%2F%2Flocalhost%3A44322%2F&culture=en&ui-culture=en - 200 null text/html; charset=utf-8 7.4595ms
 2025-11-28 09:34:36.962 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_vs/browserLink - null null
 2025-11-28 09:34:36.978 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_vs/browserLink - 200 null text/javascript; charset=UTF-8 15.7116ms
+2025-11-29 15:14:49.931 +04:00 [INF] Starting web host.
+2025-11-29 15:15:08.274 +04:00 [DBG] Loaded ABP modules:
+2025-11-29 15:15:08.276 +04:00 [DBG] - digihealth.Blazor.digihealthBlazorModule
+2025-11-29 15:15:08.276 +04:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2025-11-29 15:15:08.276 +04:00 [DBG]     - Volo.Abp.Castle.AbpCastleCoreModule
+2025-11-29 15:15:08.276 +04:00 [DBG]   - Volo.Abp.AspNetCore.Mvc.UI.Bundling.AbpAspNetCoreMvcUiBundlingModule
+2025-11-29 15:15:08.276 +04:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.AbpAspNetCoreMvcUiBootstrapModule
+2025-11-29 15:15:08.276 +04:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.UI.AbpAspNetCoreMvcUiModule
+2025-11-29 15:15:08.276 +04:00 [DBG]         - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2025-11-29 15:15:08.276 +04:00 [DBG]           - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2025-11-29 15:15:08.276 +04:00 [DBG]             - Volo.Abp.Auditing.AbpAuditingModule
+2025-11-29 15:15:08.276 +04:00 [DBG]               - Volo.Abp.Data.AbpDataModule
+2025-11-29 15:15:08.276 +04:00 [DBG]                 - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2025-11-29 15:15:08.276 +04:00 [DBG]                   - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2025-11-29 15:15:08.276 +04:00 [DBG]                   - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2025-11-29 15:15:08.276 +04:00 [DBG]                 - Volo.Abp.Uow.AbpUnitOfWorkModule
+2025-11-29 15:15:08.276 +04:00 [DBG]                 - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2025-11-29 15:15:08.276 +04:00 [DBG]               - Volo.Abp.Json.AbpJsonModule
+2025-11-29 15:15:08.276 +04:00 [DBG]                 - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2025-11-29 15:15:08.276 +04:00 [DBG]                   - Volo.Abp.Json.AbpJsonAbstractionsModule
+2025-11-29 15:15:08.276 +04:00 [DBG]                   - Volo.Abp.Timing.AbpTimingModule
+2025-11-29 15:15:08.276 +04:00 [DBG]                     - Volo.Abp.Localization.AbpLocalizationModule
+2025-11-29 15:15:08.276 +04:00 [DBG]                       - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2025-11-29 15:15:08.276 +04:00 [DBG]                       - Volo.Abp.Settings.AbpSettingsModule
+2025-11-29 15:15:08.276 +04:00 [DBG]                         - Volo.Abp.Security.AbpSecurityModule
+2025-11-29 15:15:08.276 +04:00 [DBG]                       - Volo.Abp.Threading.AbpThreadingModule
+2025-11-29 15:15:08.276 +04:00 [DBG]               - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2025-11-29 15:15:08.276 +04:00 [DBG]                 - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2025-11-29 15:15:08.276 +04:00 [DBG]               - Volo.Abp.Auditing.AbpAuditingContractsModule
+2025-11-29 15:15:08.276 +04:00 [DBG]             - Volo.Abp.Http.AbpHttpModule
+2025-11-29 15:15:08.276 +04:00 [DBG]               - Volo.Abp.Http.AbpHttpAbstractionsModule
+2025-11-29 15:15:08.276 +04:00 [DBG]               - Volo.Abp.Minify.AbpMinifyModule
+2025-11-29 15:15:08.276 +04:00 [DBG]             - Volo.Abp.Authorization.AbpAuthorizationModule
+2025-11-29 15:15:08.276 +04:00 [DBG]               - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2025-11-29 15:15:08.276 +04:00 [DBG]             - Volo.Abp.Validation.AbpValidationModule
+2025-11-29 15:15:08.276 +04:00 [DBG]             - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2025-11-29 15:15:08.276 +04:00 [DBG]             - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2025-11-29 15:15:08.276 +04:00 [DBG]           - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2025-11-29 15:15:08.276 +04:00 [DBG]           - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2025-11-29 15:15:08.276 +04:00 [DBG]             - Volo.Abp.Application.AbpDddApplicationContractsModule
+2025-11-29 15:15:08.276 +04:00 [DBG]           - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2025-11-29 15:15:08.276 +04:00 [DBG]             - Volo.Abp.UI.AbpUiModule
+2025-11-29 15:15:08.276 +04:00 [DBG]           - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2025-11-29 15:15:08.276 +04:00 [DBG]           - Volo.Abp.Application.AbpDddApplicationModule
+2025-11-29 15:15:08.276 +04:00 [DBG]             - Volo.Abp.Domain.AbpDddDomainModule
+2025-11-29 15:15:08.276 +04:00 [DBG]               - Volo.Abp.EventBus.AbpEventBusModule
+2025-11-29 15:15:08.276 +04:00 [DBG]                 - Volo.Abp.Guids.AbpGuidsModule
+2025-11-29 15:15:08.277 +04:00 [DBG]                 - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2025-11-29 15:15:08.277 +04:00 [DBG]                 - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2025-11-29 15:15:08.277 +04:00 [DBG]               - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2025-11-29 15:15:08.277 +04:00 [DBG]               - Volo.Abp.Specifications.AbpSpecificationsModule
+2025-11-29 15:15:08.277 +04:00 [DBG]               - Volo.Abp.Caching.AbpCachingModule
+2025-11-29 15:15:08.277 +04:00 [DBG]                 - Volo.Abp.Serialization.AbpSerializationModule
+2025-11-29 15:15:08.277 +04:00 [DBG]               - Volo.Abp.Domain.AbpDddDomainSharedModule
+2025-11-29 15:15:08.277 +04:00 [DBG]             - Volo.Abp.Features.AbpFeaturesModule
+2025-11-29 15:15:08.277 +04:00 [DBG]     - Volo.Abp.AspNetCore.Bundling.AbpAspNetCoreBundlingModule
+2025-11-29 15:15:08.277 +04:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.UI.Bundling.AbpAspNetCoreMvcUiBundlingAbstractionsModule
+2025-11-29 15:15:08.277 +04:00 [DBG]   - Volo.Abp.AspNetCore.Components.WebAssembly.LeptonXLiteTheme.Bundling.AbpAspNetCoreComponentsWebAssemblyLeptonXLiteThemeBundlingModule
+2025-11-29 15:15:08.277 +04:00 [DBG]     - Volo.Abp.AspNetCore.Components.WebAssembly.Theming.Bundling.AbpAspNetCoreComponentsWebAssemblyThemingBundlingModule
+2025-11-29 15:15:11.622 +04:00 [INF] User profile is available. Using 'C:\Users\user\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-11-29 15:15:23.627 +04:00 [INF] Initialized all ABP modules.
+2025-11-29 15:15:23.830 +04:00 [INF] Now listening on: https://localhost:44327
+2025-11-29 15:15:24.462 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/ - null null
+2025-11-29 15:15:24.697 +04:00 [INF] The 'WebRootPath' is not set, The 'CheckLibs' feature not needed.
+2025-11-29 15:15:39.281 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-11-29 15:15:39.282 +04:00 [INF] Hosting environment: Development
+2025-11-29 15:15:39.282 +04:00 [INF] Content root path: E:\Project\digihealth\src\digihealth.Blazor
+2025-11-29 15:15:40.114 +04:00 [INF] Executing endpoint '/ (/)'
+2025-11-29 15:15:40.204 +04:00 [INF] Executed endpoint '/ (/)'
+2025-11-29 15:15:40.214 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/ - 200 null text/html; charset=utf-8 15754.3545ms
+2025-11-29 15:15:40.235 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/aspnetcore-browser-refresh.js - null null
+2025-11-29 15:15:40.237 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/digihealth.Blazor.Client.styles.css - null null
+2025-11-29 15:15:40.248 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_vs/browserLink - null null
+2025-11-29 15:15:40.269 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/aspnetcore-browser-refresh.js - 200 16519 application/javascript; charset=utf-8 34.4393ms
+2025-11-29 15:15:40.295 +04:00 [INF] Sending file. Request path: '/digihealth.Blazor.Client.styles.css'. Physical path: 'E:\Project\digihealth\src\digihealth.Blazor.Client\obj\Debug\net9.0\scopedcss\bundle\digihealth.Blazor.Client.styles.css'
+2025-11-29 15:15:40.297 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/digihealth.Blazor.Client.styles.css - 200 407 text/css 59.4734ms
+2025-11-29 15:15:40.313 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_vs/browserLink - 200 null text/javascript; charset=UTF-8 64.4917ms
+2025-11-29 15:15:40.384 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/blazor.boot.json - null null
+2025-11-29 15:15:40.436 +04:00 [INF] Sending file. Request path: '/_framework/blazor.boot.json'. Physical path: 'E:\Project\digihealth\src\digihealth.Blazor.Client\bin\Debug\net9.0\wwwroot\_framework\blazor.boot.json'
+2025-11-29 15:15:40.436 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/blazor.boot.json - 200 70303 application/json 51.9415ms
+2025-11-29 15:15:40.551 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/digihealth.HttpApi.Client.9wgtdager3.pdb - null null
+2025-11-29 15:15:40.555 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/digihealth.Application.Contracts.b56lwz5v1j.pdb - null null
+2025-11-29 15:15:40.577 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/digihealth.Domain.Shared.3fx3qxxyrw.pdb - null null
+2025-11-29 15:15:40.577 +04:00 [INF] Executing endpoint 'Microsoft.AspNetCore.Routing.RouteEndpoint'
+2025-11-29 15:15:40.577 +04:00 [INF] Executing endpoint 'Microsoft.AspNetCore.Routing.RouteEndpoint'
+2025-11-29 15:15:40.581 +04:00 [INF] Executing endpoint 'Microsoft.AspNetCore.Routing.RouteEndpoint'
+2025-11-29 15:15:40.630 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/appsettings.json - null null
+2025-11-29 15:15:40.631 +04:00 [INF] The file /appsettings.json was not modified
+2025-11-29 15:15:40.631 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/appsettings.json - 304 null application/json 0.9052ms
+2025-11-29 15:15:40.631 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/digihealth.Blazor.Client.js7behixl9.pdb - null null
+2025-11-29 15:15:40.632 +04:00 [INF] Executing endpoint 'Microsoft.AspNetCore.Routing.RouteEndpoint'
+2025-11-29 15:15:40.644 +04:00 [INF] Sending file. Request path: '_framework/digihealth.Domain.Shared.3fx3qxxyrw.pdb'. Physical path: 'E:\Project\digihealth\src\digihealth.Blazor.Client\obj\Debug\net9.0\compressed\0tf4qixz8a-3fx3qxxyrw.gz'
+2025-11-29 15:15:40.644 +04:00 [INF] Sending file. Request path: '_framework/digihealth.Application.Contracts.b56lwz5v1j.pdb'. Physical path: 'E:\Project\digihealth\src\digihealth.Blazor.Client\obj\Debug\net9.0\compressed\o9mivo9t78-b56lwz5v1j.gz'
+2025-11-29 15:15:40.646 +04:00 [INF] Sending file. Request path: '_framework/digihealth.HttpApi.Client.9wgtdager3.pdb'. Physical path: 'E:\Project\digihealth\src\digihealth.Blazor.Client\obj\Debug\net9.0\compressed\gnus4sgtjj-9wgtdager3.gz'
+2025-11-29 15:15:40.647 +04:00 [INF] Executed endpoint 'Microsoft.AspNetCore.Routing.RouteEndpoint'
+2025-11-29 15:15:40.647 +04:00 [INF] Executed endpoint 'Microsoft.AspNetCore.Routing.RouteEndpoint'
+2025-11-29 15:15:40.647 +04:00 [INF] Executed endpoint 'Microsoft.AspNetCore.Routing.RouteEndpoint'
+2025-11-29 15:15:40.647 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/digihealth.Application.Contracts.b56lwz5v1j.pdb - 200 17521 application/octet-stream 92.029ms
+2025-11-29 15:15:40.647 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/digihealth.Domain.Shared.3fx3qxxyrw.pdb - 200 17017 application/octet-stream 70.1725ms
+2025-11-29 15:15:40.647 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/digihealth.HttpApi.Client.9wgtdager3.pdb - 200 18081 application/octet-stream 96.0716ms
+2025-11-29 15:15:40.691 +04:00 [INF] Sending file. Request path: '_framework/digihealth.Blazor.Client.js7behixl9.pdb'. Physical path: 'E:\Project\digihealth\src\digihealth.Blazor.Client\obj\Debug\net9.0\compressed\s792792zk8-js7behixl9.gz'
+2025-11-29 15:15:40.691 +04:00 [INF] Executed endpoint 'Microsoft.AspNetCore.Routing.RouteEndpoint'
+2025-11-29 15:15:40.694 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/digihealth.Blazor.Client.js7behixl9.pdb - 200 30213 application/octet-stream 63.4271ms
+2025-11-29 15:15:41.058 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/digihealth.Application.Contracts.pw5z22j9k0.wasm - null null
+2025-11-29 15:15:41.058 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/digihealth.Domain.Shared.czvkww36y2.wasm - null null
+2025-11-29 15:15:41.061 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/digihealth.Blazor.Client.pdjs412v74.wasm - null null
+2025-11-29 15:15:41.068 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/digihealth.HttpApi.Client.3r5qvxpbp1.wasm - null null
+2025-11-29 15:15:41.105 +04:00 [INF] Sending file. Request path: '/_framework/digihealth.Application.Contracts.pw5z22j9k0.wasm'. Physical path: 'E:\Project\digihealth\src\digihealth.Blazor.Client\bin\Debug\net9.0\wwwroot\_framework\digihealth.Application.Contracts.pw5z22j9k0.wasm'
+2025-11-29 15:15:41.105 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/digihealth.Application.Contracts.pw5z22j9k0.wasm - 200 7957 application/wasm 47.4946ms
+2025-11-29 15:15:41.106 +04:00 [INF] Sending file. Request path: '/_framework/digihealth.Blazor.Client.pdjs412v74.wasm'. Physical path: 'E:\Project\digihealth\src\digihealth.Blazor.Client\bin\Debug\net9.0\wwwroot\_framework\digihealth.Blazor.Client.pdjs412v74.wasm'
+2025-11-29 15:15:41.107 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/digihealth.Blazor.Client.pdjs412v74.wasm - 200 30997 application/wasm 46.1537ms
+2025-11-29 15:15:41.111 +04:00 [INF] Sending file. Request path: '/_framework/digihealth.Domain.Shared.czvkww36y2.wasm'. Physical path: 'E:\Project\digihealth\src\digihealth.Blazor.Client\bin\Debug\net9.0\wwwroot\_framework\digihealth.Domain.Shared.czvkww36y2.wasm'
+2025-11-29 15:15:41.111 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/digihealth.Domain.Shared.czvkww36y2.wasm - 200 21781 application/wasm 53.178ms
+2025-11-29 15:15:41.117 +04:00 [INF] Sending file. Request path: '/_framework/digihealth.HttpApi.Client.3r5qvxpbp1.wasm'. Physical path: 'E:\Project\digihealth\src\digihealth.Blazor.Client\bin\Debug\net9.0\wwwroot\_framework\digihealth.HttpApi.Client.3r5qvxpbp1.wasm'
+2025-11-29 15:15:41.118 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/digihealth.HttpApi.Client.3r5qvxpbp1.wasm - 200 7957 application/wasm 49.5078ms
+2025-11-29 15:15:49.607 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/authentication/login-callback?error=login_required&error_description=The%20user%20is%20not%20logged%20in.&error_uri=https%3A%2F%2Fdocumentation.openiddict.com%2Ferrors%2FID2015&state=912a2c5128ba4960b9a13d4860d02268&iss=https%3A%2F%2Flocalhost%3A44322%2F&culture=en&ui-culture=en - null null
+2025-11-29 15:15:49.707 +04:00 [INF] Executing endpoint '/authentication/{action} (/authentication/{action})'
+2025-11-29 15:15:49.712 +04:00 [INF] Executed endpoint '/authentication/{action} (/authentication/{action})'
+2025-11-29 15:15:49.713 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/authentication/login-callback?error=login_required&error_description=The%20user%20is%20not%20logged%20in.&error_uri=https%3A%2F%2Fdocumentation.openiddict.com%2Ferrors%2FID2015&state=912a2c5128ba4960b9a13d4860d02268&iss=https%3A%2F%2Flocalhost%3A44322%2F&culture=en&ui-culture=en - 200 null text/html; charset=utf-8 106.0974ms
+2025-11-29 15:15:49.729 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_vs/browserLink - null null
+2025-11-29 15:15:49.743 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_vs/browserLink - 200 null text/javascript; charset=UTF-8 14.3571ms
+2025-11-29 15:15:51.177 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/authentication/login-callback?error=login_required&error_description=The%20user%20is%20not%20logged%20in.&error_uri=https%3A%2F%2Fdocumentation.openiddict.com%2Ferrors%2FID2015&state=0e218bcf84b547daa02d6278b026fff6&iss=https%3A%2F%2Flocalhost%3A44322%2F&culture=en&ui-culture=en - null null
+2025-11-29 15:15:51.179 +04:00 [INF] Executing endpoint '/authentication/{action} (/authentication/{action})'
+2025-11-29 15:15:51.181 +04:00 [INF] Executed endpoint '/authentication/{action} (/authentication/{action})'
+2025-11-29 15:15:51.181 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/authentication/login-callback?error=login_required&error_description=The%20user%20is%20not%20logged%20in.&error_uri=https%3A%2F%2Fdocumentation.openiddict.com%2Ferrors%2FID2015&state=0e218bcf84b547daa02d6278b026fff6&iss=https%3A%2F%2Flocalhost%3A44322%2F&culture=en&ui-culture=en - 200 null text/html; charset=utf-8 4.7139ms
+2025-11-29 15:15:51.196 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_vs/browserLink - null null
+2025-11-29 15:15:51.201 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_vs/browserLink - 200 null text/javascript; charset=UTF-8 5.2004ms
+2025-11-29 15:15:51.516 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/authentication/login-callback?error=login_required&error_description=The%20user%20is%20not%20logged%20in.&error_uri=https%3A%2F%2Fdocumentation.openiddict.com%2Ferrors%2FID2015&state=6f6b15aae4f2499da7acdd2d47095739&iss=https%3A%2F%2Flocalhost%3A44322%2F&culture=en&ui-culture=en - null null
+2025-11-29 15:15:51.521 +04:00 [INF] Executing endpoint '/authentication/{action} (/authentication/{action})'
+2025-11-29 15:15:51.522 +04:00 [INF] Executed endpoint '/authentication/{action} (/authentication/{action})'
+2025-11-29 15:15:51.522 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/authentication/login-callback?error=login_required&error_description=The%20user%20is%20not%20logged%20in.&error_uri=https%3A%2F%2Fdocumentation.openiddict.com%2Ferrors%2FID2015&state=6f6b15aae4f2499da7acdd2d47095739&iss=https%3A%2F%2Flocalhost%3A44322%2F&culture=en&ui-culture=en - 200 null text/html; charset=utf-8 5.9683ms
+2025-11-29 15:15:51.535 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_vs/browserLink - null null
+2025-11-29 15:15:51.545 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_vs/browserLink - 200 null text/javascript; charset=UTF-8 9.7956ms
+2025-11-29 15:15:51.669 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/authentication/login-callback?error=login_required&error_description=The%20user%20is%20not%20logged%20in.&error_uri=https%3A%2F%2Fdocumentation.openiddict.com%2Ferrors%2FID2015&state=a53813635ddb497db6dac912b576966b&iss=https%3A%2F%2Flocalhost%3A44322%2F&culture=en&ui-culture=en - null null
+2025-11-29 15:15:51.672 +04:00 [INF] Executing endpoint '/authentication/{action} (/authentication/{action})'
+2025-11-29 15:15:51.673 +04:00 [INF] Executed endpoint '/authentication/{action} (/authentication/{action})'
+2025-11-29 15:15:51.680 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/authentication/login-callback?error=login_required&error_description=The%20user%20is%20not%20logged%20in.&error_uri=https%3A%2F%2Fdocumentation.openiddict.com%2Ferrors%2FID2015&state=a53813635ddb497db6dac912b576966b&iss=https%3A%2F%2Flocalhost%3A44322%2F&culture=en&ui-culture=en - 200 null text/html; charset=utf-8 10.6869ms
+2025-11-29 15:15:51.687 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_vs/browserLink - null null
+2025-11-29 15:15:51.704 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_vs/browserLink - 200 null text/javascript; charset=UTF-8 16.9193ms
+2025-11-29 15:15:51.807 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/authentication/login-callback?error=login_required&error_description=The%20user%20is%20not%20logged%20in.&error_uri=https%3A%2F%2Fdocumentation.openiddict.com%2Ferrors%2FID2015&state=34442d09dea049cca7485d6288d5a642&iss=https%3A%2F%2Flocalhost%3A44322%2F&culture=en&ui-culture=en - null null
+2025-11-29 15:15:51.810 +04:00 [INF] Executing endpoint '/authentication/{action} (/authentication/{action})'
+2025-11-29 15:15:51.811 +04:00 [INF] Executed endpoint '/authentication/{action} (/authentication/{action})'
+2025-11-29 15:15:51.811 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/authentication/login-callback?error=login_required&error_description=The%20user%20is%20not%20logged%20in.&error_uri=https%3A%2F%2Fdocumentation.openiddict.com%2Ferrors%2FID2015&state=34442d09dea049cca7485d6288d5a642&iss=https%3A%2F%2Flocalhost%3A44322%2F&culture=en&ui-culture=en - 200 null text/html; charset=utf-8 4.5206ms
+2025-11-29 15:15:51.829 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_vs/browserLink - null null
+2025-11-29 15:15:51.836 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_vs/browserLink - 200 null text/javascript; charset=UTF-8 6.4607ms
+2025-11-29 15:15:51.937 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/blazor-hotreload - null null
+2025-11-29 15:15:51.939 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/blazor-hotreload - 204 null null 1.7417ms
+2025-11-29 15:15:51.956 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_framework/resource-collection.SY6ct.js - null null
+2025-11-29 15:15:51.959 +04:00 [INF] Executing endpoint 'Microsoft.AspNetCore.Routing.RouteEndpoint'
+2025-11-29 15:15:51.965 +04:00 [INF] Executed endpoint 'Microsoft.AspNetCore.Routing.RouteEndpoint'
+2025-11-29 15:15:51.965 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_framework/resource-collection.SY6ct.js - 200 61263 application/javascript 8.8236ms
+2025-11-29 15:15:57.115 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/authentication/login-callback?error=login_required&error_description=The%20user%20is%20not%20logged%20in.&error_uri=https%3A%2F%2Fdocumentation.openiddict.com%2Ferrors%2FID2015&state=504ccce9df304d09880d0ec6cbb377cf&iss=https%3A%2F%2Flocalhost%3A44322%2F&culture=en&ui-culture=en - null null
+2025-11-29 15:15:57.118 +04:00 [INF] Executing endpoint '/authentication/{action} (/authentication/{action})'
+2025-11-29 15:15:57.119 +04:00 [INF] Executed endpoint '/authentication/{action} (/authentication/{action})'
+2025-11-29 15:15:57.119 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/authentication/login-callback?error=login_required&error_description=The%20user%20is%20not%20logged%20in.&error_uri=https%3A%2F%2Fdocumentation.openiddict.com%2Ferrors%2FID2015&state=504ccce9df304d09880d0ec6cbb377cf&iss=https%3A%2F%2Flocalhost%3A44322%2F&culture=en&ui-culture=en - 200 null text/html; charset=utf-8 3.2638ms
+2025-11-29 15:15:57.188 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/digihealth.Blazor.Client.styles.css - null null
+2025-11-29 15:15:57.188 +04:00 [INF] Request starting HTTP/2 GET https://localhost:44327/_vs/browserLink - null null
+2025-11-29 15:15:57.188 +04:00 [INF] The file /digihealth.Blazor.Client.styles.css was not modified
+2025-11-29 15:15:57.188 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/digihealth.Blazor.Client.styles.css - 304 null text/css 0.7369ms
+2025-11-29 15:15:57.197 +04:00 [INF] Request finished HTTP/2 GET https://localhost:44327/_vs/browserLink - 200 null text/javascript; charset=UTF-8 8.5077ms

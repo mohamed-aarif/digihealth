@@ -1,27 +1,12 @@
 {
   "profiles": {
-    "DigiHealth.ConfigurationService.HttpApi.Host": {
+    "ConfigurationService.HttpApi.Host": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:54347;http://localhost:54348"
-    },
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    }
-  },
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:54679/",
-      "sslPort": 44300
+      "applicationUrl": "https://localhost:60992;http://localhost:60993"
     }
   }
 }

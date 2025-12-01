@@ -1,6 +1,9 @@
-@typeparam TAppService
-@typeparam TDto
-@typeparam TCreateUpdateDto
+@using System
+@using Volo.Abp.Application.Dtos
+@using Volo.Abp.Application.Services
+@typeparam TAppService where TAppService : ICrudAppService<TDto, Guid, PagedAndSortedResultRequestDto, TCreateUpdateDto, TCreateUpdateDto>
+@typeparam TDto where TDto : ConfigurationLookupDtoBase, new()
+@typeparam TCreateUpdateDto where TCreateUpdateDto : class, IConfigurationLookupCreateUpdateDto, new()
 @inherits ConfigurationLookupPageBase<TAppService, TDto, TCreateUpdateDto>
 
 <PageTitle>@EntityNamePlural</PageTitle>
@@ -17,23 +20,23 @@
                 <DataGridColumn TItem="TDto" Field="@(item => item.Code)" Caption="Code" />
                 <DataGridColumn TItem="TDto" Field="@(item => item.Name)" Caption="Name" />
                 <DataGridColumn TItem="TDto" Caption="Description">
-                    <Template Context="item">
+                    <DisplayTemplate Context="item">
                         @item.Description
-                    </Template>
+                    </DisplayTemplate>
                 </DataGridColumn>
                 <DataGridColumn TItem="TDto" Field="@(item => item.SortOrder)" Caption="Sort Order" />
                 <DataGridColumn TItem="TDto" Caption="Active">
-                    <Template Context="item">
+                    <DisplayTemplate Context="item">
                         @(item.IsActive ? "Yes" : "No")
-                    </Template>
+                    </DisplayTemplate>
                 </DataGridColumn>
                 <DataGridColumn TItem="TDto" Caption="Actions" Width="170px">
-                    <Template Context="item">
+                    <DisplayTemplate Context="item">
                         <div class="d-flex gap-2">
                             <Button Size="ButtonSize.Small" Color="Color.Secondary" Clicked="async () => await OpenEditModalAsync(item.Id)">Edit</Button>
                             <Button Size="ButtonSize.Small" Color="Color.Danger" Clicked="async () => await DeleteAsync(item.Id)">Delete</Button>
                         </div>
-                    </Template>
+                    </DisplayTemplate>
                 </DataGridColumn>
             </DataGridColumns>
         </DataGrid>
@@ -49,7 +52,7 @@
         <ModalBody>
             <EditForm Model="@EditingEntity" OnValidSubmit="SaveAsync">
                 <DataAnnotationsValidator />
-                <ValidationSummary />
+                <Blazorise.ValidationSummary />
                 <div class="row g-3">
                     <div class="col-md-6">
                         <Field>

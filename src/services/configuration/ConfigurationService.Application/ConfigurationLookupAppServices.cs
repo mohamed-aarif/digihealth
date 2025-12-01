@@ -9,7 +9,8 @@ using Volo.Abp.Domain.Repositories;
 namespace DigiHealth.ConfigurationService;
 
 [RemoteService(Name = ConfigurationServiceRemoteServiceConsts.RemoteServiceName)]
-public class AppointmentStatusAppService : CrudAppService<AppointmentStatus, AppointmentStatusDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateAppointmentStatusDto>, IAppointmentStatusAppService
+public class AppointmentStatusAppService : CrudAppService<AppointmentStatus, AppointmentStatusDto, Guid, PagedAndSortedResultRequestDto,
+    CreateUpdateAppointmentStatusDto, CreateUpdateAppointmentStatusDto>, IAppointmentStatusAppService
 {
     public AppointmentStatusAppService(IRepository<AppointmentStatus, Guid> repository) : base(repository)
     {
@@ -22,7 +23,8 @@ public class AppointmentStatusAppService : CrudAppService<AppointmentStatus, App
 }
 
 [RemoteService(Name = ConfigurationServiceRemoteServiceConsts.RemoteServiceName)]
-public class AppointmentChannelAppService : CrudAppService<AppointmentChannel, AppointmentChannelDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateAppointmentChannelDto>, IAppointmentChannelAppService
+public class AppointmentChannelAppService : CrudAppService<AppointmentChannel, AppointmentChannelDto, Guid, PagedAndSortedResultRequestDto,
+    CreateUpdateAppointmentChannelDto, CreateUpdateAppointmentChannelDto>, IAppointmentChannelAppService
 {
     public AppointmentChannelAppService(IRepository<AppointmentChannel, Guid> repository) : base(repository)
     {
@@ -35,7 +37,8 @@ public class AppointmentChannelAppService : CrudAppService<AppointmentChannel, A
 }
 
 [RemoteService(Name = ConfigurationServiceRemoteServiceConsts.RemoteServiceName)]
-public class ConsentPartyTypeAppService : CrudAppService<ConsentPartyType, ConsentPartyTypeDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateConsentPartyTypeDto>, IConsentPartyTypeAppService
+public class ConsentPartyTypeAppService : CrudAppService<ConsentPartyType, ConsentPartyTypeDto, Guid, PagedAndSortedResultRequestDto,
+    CreateUpdateConsentPartyTypeDto, CreateUpdateConsentPartyTypeDto>, IConsentPartyTypeAppService
 {
     public ConsentPartyTypeAppService(IRepository<ConsentPartyType, Guid> repository) : base(repository)
     {
@@ -48,7 +51,8 @@ public class ConsentPartyTypeAppService : CrudAppService<ConsentPartyType, Conse
 }
 
 [RemoteService(Name = ConfigurationServiceRemoteServiceConsts.RemoteServiceName)]
-public class ConsentStatusAppService : CrudAppService<ConsentStatus, ConsentStatusDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateConsentStatusDto>, IConsentStatusAppService
+public class ConsentStatusAppService : CrudAppService<ConsentStatus, ConsentStatusDto, Guid, PagedAndSortedResultRequestDto,
+    CreateUpdateConsentStatusDto, CreateUpdateConsentStatusDto>, IConsentStatusAppService
 {
     public ConsentStatusAppService(IRepository<ConsentStatus, Guid> repository) : base(repository)
     {
@@ -61,7 +65,8 @@ public class ConsentStatusAppService : CrudAppService<ConsentStatus, ConsentStat
 }
 
 [RemoteService(Name = ConfigurationServiceRemoteServiceConsts.RemoteServiceName)]
-public class DayOfWeekConfigAppService : CrudAppService<DayOfWeekConfig, DayOfWeekConfigDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateDayOfWeekConfigDto>, IDayOfWeekConfigAppService
+public class DayOfWeekConfigAppService : CrudAppService<DayOfWeekConfig, DayOfWeekConfigDto, Guid, PagedAndSortedResultRequestDto,
+    CreateUpdateDayOfWeekConfigDto, CreateUpdateDayOfWeekConfigDto>, IDayOfWeekConfigAppService
 {
     public DayOfWeekConfigAppService(IRepository<DayOfWeekConfig, Guid> repository) : base(repository)
     {
@@ -74,20 +79,22 @@ public class DayOfWeekConfigAppService : CrudAppService<DayOfWeekConfig, DayOfWe
 }
 
 [RemoteService(Name = ConfigurationServiceRemoteServiceConsts.RemoteServiceName)]
-public class DeviceTypeConfigAppService : CrudAppService<DeviceTypeConfig, DeviceTypeConfigDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateDeviceTypeConfigDto>, IDeviceTypeConfigAppService
+public class DeviceTypeAppService : CrudAppService<DeviceType, DeviceTypeDto, Guid, PagedAndSortedResultRequestDto,
+    CreateUpdateDeviceTypeDto, CreateUpdateDeviceTypeDto>, IDeviceTypeAppService
 {
-    public DeviceTypeConfigAppService(IRepository<DeviceTypeConfig, Guid> repository) : base(repository)
+    public DeviceTypeAppService(IRepository<DeviceType, Guid> repository) : base(repository)
     {
     }
 
-    protected override IQueryable<DeviceTypeConfig> ApplyDefaultSorting(IQueryable<DeviceTypeConfig> query)
+    protected override IQueryable<DeviceType> ApplyDefaultSorting(IQueryable<DeviceType> query)
     {
         return query.OrderBy(x => x.SortOrder).ThenBy(x => x.Name);
     }
 }
 
 [RemoteService(Name = ConfigurationServiceRemoteServiceConsts.RemoteServiceName)]
-public class MedicationIntakeStatusAppService : CrudAppService<MedicationIntakeStatus, MedicationIntakeStatusDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateMedicationIntakeStatusDto>, IMedicationIntakeStatusAppService
+public class MedicationIntakeStatusAppService : CrudAppService<MedicationIntakeStatus, MedicationIntakeStatusDto, Guid, PagedAndSortedResultRequestDto,
+    CreateUpdateMedicationIntakeStatusDto, CreateUpdateMedicationIntakeStatusDto>, IMedicationIntakeStatusAppService
 {
     public MedicationIntakeStatusAppService(IRepository<MedicationIntakeStatus, Guid> repository) : base(repository)
     {
@@ -100,39 +107,42 @@ public class MedicationIntakeStatusAppService : CrudAppService<MedicationIntakeS
 }
 
 [RemoteService(Name = ConfigurationServiceRemoteServiceConsts.RemoteServiceName)]
-public class NotificationChannelConfigAppService : CrudAppService<NotificationChannelConfig, NotificationChannelConfigDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateNotificationChannelConfigDto>, INotificationChannelConfigAppService
+public class NotificationChannelAppService : CrudAppService<NotificationChannel, NotificationChannelDto, Guid, PagedAndSortedResultRequestDto,
+    CreateUpdateNotificationChannelDto, CreateUpdateNotificationChannelDto>, INotificationChannelAppService
 {
-    public NotificationChannelConfigAppService(IRepository<NotificationChannelConfig, Guid> repository) : base(repository)
+    public NotificationChannelAppService(IRepository<NotificationChannel, Guid> repository) : base(repository)
     {
     }
 
-    protected override IQueryable<NotificationChannelConfig> ApplyDefaultSorting(IQueryable<NotificationChannelConfig> query)
+    protected override IQueryable<NotificationChannel> ApplyDefaultSorting(IQueryable<NotificationChannel> query)
     {
         return query.OrderBy(x => x.SortOrder).ThenBy(x => x.Name);
     }
 }
 
 [RemoteService(Name = ConfigurationServiceRemoteServiceConsts.RemoteServiceName)]
-public class NotificationStatusConfigAppService : CrudAppService<NotificationStatusConfig, NotificationStatusConfigDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateNotificationStatusConfigDto>, INotificationStatusConfigAppService
+public class NotificationStatusAppService : CrudAppService<NotificationStatus, NotificationStatusDto, Guid, PagedAndSortedResultRequestDto,
+    CreateUpdateNotificationStatusDto, CreateUpdateNotificationStatusDto>, INotificationStatusAppService
 {
-    public NotificationStatusConfigAppService(IRepository<NotificationStatusConfig, Guid> repository) : base(repository)
+    public NotificationStatusAppService(IRepository<NotificationStatus, Guid> repository) : base(repository)
     {
     }
 
-    protected override IQueryable<NotificationStatusConfig> ApplyDefaultSorting(IQueryable<NotificationStatusConfig> query)
+    protected override IQueryable<NotificationStatus> ApplyDefaultSorting(IQueryable<NotificationStatus> query)
     {
         return query.OrderBy(x => x.SortOrder).ThenBy(x => x.Name);
     }
 }
 
 [RemoteService(Name = ConfigurationServiceRemoteServiceConsts.RemoteServiceName)]
-public class VaultRecordTypeConfigAppService : CrudAppService<VaultRecordTypeConfig, VaultRecordTypeConfigDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateVaultRecordTypeConfigDto>, IVaultRecordTypeConfigAppService
+public class VaultRecordTypeAppService : CrudAppService<VaultRecordType, VaultRecordTypeDto, Guid, PagedAndSortedResultRequestDto,
+    CreateUpdateVaultRecordTypeDto, CreateUpdateVaultRecordTypeDto>, IVaultRecordTypeAppService
 {
-    public VaultRecordTypeConfigAppService(IRepository<VaultRecordTypeConfig, Guid> repository) : base(repository)
+    public VaultRecordTypeAppService(IRepository<VaultRecordType, Guid> repository) : base(repository)
     {
     }
 
-    protected override IQueryable<VaultRecordTypeConfig> ApplyDefaultSorting(IQueryable<VaultRecordTypeConfig> query)
+    protected override IQueryable<VaultRecordType> ApplyDefaultSorting(IQueryable<VaultRecordType> query)
     {
         return query.OrderBy(x => x.SortOrder).ThenBy(x => x.Name);
     }

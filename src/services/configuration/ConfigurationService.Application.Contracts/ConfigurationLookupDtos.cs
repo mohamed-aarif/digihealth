@@ -1,10 +1,12 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace DigiHealth.ConfigurationService;
 
 public class AppointmentStatusDto : ConfigurationLookupDtoBase
 {
 }
 
-public class CreateUpdateAppointmentStatusDto : ConfigurationLookupCreateUpdateDtoBase
+public class CreateUpdateAppointmentStatusDto : ConfigurationLookupCreateUpdateDto
 {
 }
 
@@ -12,7 +14,7 @@ public class AppointmentChannelDto : ConfigurationLookupDtoBase
 {
 }
 
-public class CreateUpdateAppointmentChannelDto : ConfigurationLookupCreateUpdateDtoBase
+public class CreateUpdateAppointmentChannelDto : ConfigurationLookupCreateUpdateDto
 {
 }
 
@@ -20,7 +22,7 @@ public class ConsentPartyTypeDto : ConfigurationLookupDtoBase
 {
 }
 
-public class CreateUpdateConsentPartyTypeDto : ConfigurationLookupCreateUpdateDtoBase
+public class CreateUpdateConsentPartyTypeDto : ConfigurationLookupCreateUpdateDto
 {
 }
 
@@ -28,7 +30,7 @@ public class ConsentStatusDto : ConfigurationLookupDtoBase
 {
 }
 
-public class CreateUpdateConsentStatusDto : ConfigurationLookupCreateUpdateDtoBase
+public class CreateUpdateConsentStatusDto : ConfigurationLookupCreateUpdateDto
 {
 }
 
@@ -36,15 +38,29 @@ public class DayOfWeekConfigDto : ConfigurationLookupDtoBase
 {
 }
 
-public class CreateUpdateDayOfWeekConfigDto : ConfigurationLookupCreateUpdateDtoBase
+public class CreateUpdateDayOfWeekConfigDto : IConfigurationLookupCreateUpdateDto
+{
+    [Required]
+    [StringLength(ConfigurationLookupConsts.DayOfWeekCodeMaxLength)]
+    public string Code { get; set; } = string.Empty;
+
+    [Required]
+    [StringLength(ConfigurationLookupConsts.DayOfWeekNameMaxLength)]
+    public string Name { get; set; } = string.Empty;
+
+    [StringLength(ConfigurationLookupConsts.MaxDescriptionLength)]
+    public string? Description { get; set; }
+
+    public int SortOrder { get; set; }
+
+    public bool IsActive { get; set; }
+}
+
+public class DeviceTypeDto : ConfigurationLookupDtoBase
 {
 }
 
-public class DeviceTypeConfigDto : ConfigurationLookupDtoBase
-{
-}
-
-public class CreateUpdateDeviceTypeConfigDto : ConfigurationLookupCreateUpdateDtoBase
+public class CreateUpdateDeviceTypeDto : ConfigurationLookupCreateUpdateDto
 {
 }
 
@@ -52,30 +68,30 @@ public class MedicationIntakeStatusDto : ConfigurationLookupDtoBase
 {
 }
 
-public class CreateUpdateMedicationIntakeStatusDto : ConfigurationLookupCreateUpdateDtoBase
+public class CreateUpdateMedicationIntakeStatusDto : ConfigurationLookupCreateUpdateDto
 {
 }
 
-public class NotificationChannelConfigDto : ConfigurationLookupDtoBase
+public class NotificationChannelDto : ConfigurationLookupDtoBase
 {
 }
 
-public class CreateUpdateNotificationChannelConfigDto : ConfigurationLookupCreateUpdateDtoBase
+public class CreateUpdateNotificationChannelDto : ConfigurationLookupCreateUpdateDto
 {
 }
 
-public class NotificationStatusConfigDto : ConfigurationLookupDtoBase
+public class NotificationStatusDto : ConfigurationLookupDtoBase
 {
 }
 
-public class CreateUpdateNotificationStatusConfigDto : ConfigurationLookupCreateUpdateDtoBase
+public class CreateUpdateNotificationStatusDto : ConfigurationLookupCreateUpdateDto
 {
 }
 
-public class VaultRecordTypeConfigDto : ConfigurationLookupDtoBase
+public class VaultRecordTypeDto : ConfigurationLookupDtoBase
 {
 }
 
-public class CreateUpdateVaultRecordTypeConfigDto : ConfigurationLookupCreateUpdateDtoBase
+public class CreateUpdateVaultRecordTypeDto : ConfigurationLookupCreateUpdateDto
 {
 }

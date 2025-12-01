@@ -24,7 +24,7 @@ public interface IDayOfWeekConfigRepository : IRepository<DayOfWeekConfig, Guid>
 {
 }
 
-public interface IDeviceTypeConfigRepository : IRepository<DeviceTypeConfig, Guid>
+public interface IDeviceTypeRepository : IRepository<DeviceType, Guid>
 {
 }
 
@@ -32,14 +32,14 @@ public interface IMedicationIntakeStatusRepository : IRepository<MedicationIntak
 {
 }
 
-public interface INotificationChannelConfigRepository : IRepository<NotificationChannelConfig, Guid>
+public interface INotificationChannelRepository : IRepository<NotificationChannel, Guid>
 {
 }
 
-public interface INotificationStatusConfigRepository : IRepository<NotificationStatusConfig, Guid>
+public interface INotificationStatusRepository : IRepository<NotificationStatus, Guid>
 {
 }
 
-public interface IVaultRecordTypeConfigRepository : IRepository<VaultRecordTypeConfig, Guid>
+public interface IVaultRecordTypeRepository : IRepository<VaultRecordType, Guid>
 {
 }

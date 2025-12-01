@@ -1,0 +1,92 @@
+@typeparam TAppService
+@typeparam TDto
+@typeparam TCreateUpdateDto
+@inherits ConfigurationLookupPageBase<TAppService, TDto, TCreateUpdateDto>
+
+<PageTitle>@EntityNamePlural</PageTitle>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">@EntityNamePlural</h3>
+    <Button Color="Color.Primary" Clicked="async () => await OpenCreateModalAsync()">New @EntityName</Button>
+</div>
+
+<Card>
+    <CardBody>
+        <DataGrid TItem="TDto" Data="@Items" Striped Hoverable Responsive ShowPager="false">
+            <DataGridColumns>
+                <DataGridColumn TItem="TDto" Field="@(item => item.Code)" Caption="Code" />
+                <DataGridColumn TItem="TDto" Field="@(item => item.Name)" Caption="Name" />
+                <DataGridColumn TItem="TDto" Caption="Description">
+                    <Template Context="item">
+                        @item.Description
+                    </Template>
+                </DataGridColumn>
+                <DataGridColumn TItem="TDto" Field="@(item => item.SortOrder)" Caption="Sort Order" />
+                <DataGridColumn TItem="TDto" Caption="Active">
+                    <Template Context="item">
+                        @(item.IsActive ? "Yes" : "No")
+                    </Template>
+                </DataGridColumn>
+                <DataGridColumn TItem="TDto" Caption="Actions" Width="170px">
+                    <Template Context="item">
+                        <div class="d-flex gap-2">
+                            <Button Size="ButtonSize.Small" Color="Color.Secondary" Clicked="async () => await OpenEditModalAsync(item.Id)">Edit</Button>
+                            <Button Size="ButtonSize.Small" Color="Color.Danger" Clicked="async () => await DeleteAsync(item.Id)">Delete</Button>
+                        </div>
+                    </Template>
+                </DataGridColumn>
+            </DataGridColumns>
+        </DataGrid>
+    </CardBody>
+</Card>
+
+<Modal @ref="EditModal" Size="ModalSize.Large">
+    <ModalContent>
+        <ModalHeader>
+            <h5 class="modal-title">@ModalTitle</h5>
+            <Button CloseButton Clicked="async () => await CloseModalAsync()" />
+        </ModalHeader>
+        <ModalBody>
+            <EditForm Model="@EditingEntity" OnValidSubmit="SaveAsync">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <Field>
+                            <Label>Code</Label>
+                            <TextEdit @bind-Text="EditingEntity.Code" />
+                        </Field>
+                    </div>
+                    <div class="col-md-6">
+                        <Field>
+                            <Label>Name</Label>
+                            <TextEdit @bind-Text="EditingEntity.Name" />
+                        </Field>
+                    </div>
+                    <div class="col-12">
+                        <Field>
+                            <Label>Description</Label>
+                            <TextEdit Role="TextEditRole.TextArea" @bind-Text="EditingEntity.Description" />
+                        </Field>
+                    </div>
+                    <div class="col-md-4">
+                        <Field>
+                            <Label>Sort Order</Label>
+                            <NumericEdit TValue="int" @bind-Value="EditingEntity.SortOrder" Min="0" />
+                        </Field>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <Field class="mb-0">
+                            <Label>Active</Label>
+                            <Switch @bind-Checked="EditingEntity.IsActive" />
+                        </Field>
+                    </div>
+                </div>
+                <div class="mt-4 d-flex justify-content-end gap-2">
+                    <Button Color="Color.Secondary" Clicked="async () => await CloseModalAsync()">Cancel</Button>
+                    <Button Color="Color.Primary" Type="ButtonType.Submit">Save</Button>
+                </div>
+            </EditForm>
+        </ModalBody>
+    </ModalContent>
+</Modal>

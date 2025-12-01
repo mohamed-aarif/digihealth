@@ -17,14 +17,14 @@
     <CardBody>
         <DataGrid TItem="TDto" Data="@Items" Striped Hoverable Responsive ShowPager="false">
             <DataGridColumns>
-                <DataGridColumn TItem="TDto" Field="@(item => item.Code)" Caption="Code" />
-                <DataGridColumn TItem="TDto" Field="@(item => item.Name)" Caption="Name" />
+                <DataGridColumn TItem="TDto" Field="@nameof(ConfigurationLookupDtoBase.Code)" Caption="Code" />
+                <DataGridColumn TItem="TDto" Field="@nameof(ConfigurationLookupDtoBase.Name)" Caption="Name" />
                 <DataGridColumn TItem="TDto" Caption="Description">
                     <DisplayTemplate Context="item">
                         @item.Description
                     </DisplayTemplate>
                 </DataGridColumn>
-                <DataGridColumn TItem="TDto" Field="@(item => item.SortOrder)" Caption="Sort Order" />
+                <DataGridColumn TItem="TDto" Field="@nameof(ConfigurationLookupDtoBase.SortOrder)" Caption="Sort Order" />
                 <DataGridColumn TItem="TDto" Caption="Active">
                     <DisplayTemplate Context="item">
                         @(item.IsActive ? "Yes" : "No")
@@ -33,8 +33,8 @@
                 <DataGridColumn TItem="TDto" Caption="Actions" Width="170px">
                     <DisplayTemplate Context="item">
                         <div class="d-flex gap-2">
-                            <Button Size="ButtonSize.Small" Color="Color.Secondary" Clicked="async () => await OpenEditModalAsync(item.Id)">Edit</Button>
-                            <Button Size="ButtonSize.Small" Color="Color.Danger" Clicked="async () => await DeleteAsync(item.Id)">Delete</Button>
+                            <Button Size="Blazorise.ButtonSize.Small" Color="Color.Secondary" Clicked="async () => await OpenEditModalAsync(item.Id)">Edit</Button>
+                            <Button Size="Blazorise.ButtonSize.Small" Color="Color.Danger" Clicked="async () => await DeleteAsync(item.Id)">Delete</Button>
                         </div>
                     </DisplayTemplate>
                 </DataGridColumn>
@@ -69,7 +69,7 @@
                     <div class="col-12">
                         <Field>
                             <Label>Description</Label>
-                            <TextEdit Role="TextEditRole.TextArea" @bind-Text="EditingEntity.Description" />
+                            <TextEdit Role="Blazorise.TextEditRole.TextArea" @bind-Text="EditingEntity.Description" />
                         </Field>
                     </div>
                     <div class="col-md-4">

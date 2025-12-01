@@ -15,6 +15,9 @@ public abstract class ConfigurationLookupPageBase<TAppService, TDto, TCreateUpda
     where TCreateUpdateDto : class, IConfigurationLookupCreateUpdateDto, new()
     where TAppService : ICrudAppService<TDto, Guid, PagedAndSortedResultRequestDto, TCreateUpdateDto, TCreateUpdateDto>
 {
+    [Inject]
+    protected IAbpLazyServiceProvider LazyServiceProvider { get; set; } = default!;
+
     protected IReadOnlyList<TDto> Items { get; set; } = Array.Empty<TDto>();
 
     protected bool IsLoading { get; set; }

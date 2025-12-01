@@ -121,6 +121,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v2", "v2", "{493CCB57-F776-
 		database\Mermaid\v2\schema.mmd = database\Mermaid\v2\schema.mmd
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v3", "v3", "{40DDB3E5-4D28-4C32-ADED-0BB8E22638C9}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\user\Downloads\digihealth-SQL-v4-OnlyData.sql = C:\Users\user\Downloads\digihealth-SQL-v4-OnlyData.sql
+		C:\Users\user\Downloads\digihealth-SQL-v4-OnlySchema.sql = C:\Users\user\Downloads\digihealth-SQL-v4-OnlySchema.sql
+		C:\Users\user\Downloads\digihealth-SQL-v4.sql = C:\Users\user\Downloads\digihealth-SQL-v4.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -326,6 +333,7 @@ Global
 		{14F9F121-5E99-4B52-8581-42CCA3084D1D} = {9EBDC66A-1E75-4D8A-B317-F0A545254DD1}
 		{A7F7D28B-28E1-4A73-AA44-72C8004A9F46} = {9EBDC66A-1E75-4D8A-B317-F0A545254DD1}
 		{493CCB57-F776-452E-8E9D-478CC7589661} = {0F2C3C0C-AF68-4639-A834-0B1EF720E66C}
+		{40DDB3E5-4D28-4C32-ADED-0BB8E22638C9} = {9EBDC66A-1E75-4D8A-B317-F0A545254DD1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}

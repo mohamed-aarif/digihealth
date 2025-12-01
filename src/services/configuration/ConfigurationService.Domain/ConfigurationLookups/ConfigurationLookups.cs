@@ -62,13 +62,13 @@ public class DayOfWeekConfig : ConfigurationLookupBase
     }
 }
 
-public class DeviceTypeConfig : ConfigurationLookupBase
+public class DeviceType : ConfigurationLookupBase
 {
-    protected DeviceTypeConfig()
+    protected DeviceType()
     {
     }
 
-    public DeviceTypeConfig(Guid id, string code, string name, string? description, int sortOrder, bool isActive)
+    public DeviceType(Guid id, string code, string name, string? description, int sortOrder, bool isActive)
         : base(id, code, name, description, sortOrder, isActive)
     {
     }
@@ -86,37 +86,37 @@ public class MedicationIntakeStatus : ConfigurationLookupBase
     }
 }
 
-public class NotificationChannelConfig : ConfigurationLookupBase
+public class NotificationChannel : ConfigurationLookupBase
 {
-    protected NotificationChannelConfig()
+    protected NotificationChannel()
     {
     }
 
-    public NotificationChannelConfig(Guid id, string code, string name, string? description, int sortOrder, bool isActive)
+    public NotificationChannel(Guid id, string code, string name, string? description, int sortOrder, bool isActive)
         : base(id, code, name, description, sortOrder, isActive)
     {
     }
 }
 
-public class NotificationStatusConfig : ConfigurationLookupBase
+public class NotificationStatus : ConfigurationLookupBase
 {
-    protected NotificationStatusConfig()
+    protected NotificationStatus()
     {
     }
 
-    public NotificationStatusConfig(Guid id, string code, string name, string? description, int sortOrder, bool isActive)
+    public NotificationStatus(Guid id, string code, string name, string? description, int sortOrder, bool isActive)
         : base(id, code, name, description, sortOrder, isActive)
     {
     }
 }
 
-public class VaultRecordTypeConfig : ConfigurationLookupBase
+public class VaultRecordType : ConfigurationLookupBase
 {
-    protected VaultRecordTypeConfig()
+    protected VaultRecordType()
     {
     }
 
-    public VaultRecordTypeConfig(Guid id, string code, string name, string? description, int sortOrder, bool isActive)
+    public VaultRecordType(Guid id, string code, string name, string? description, int sortOrder, bool isActive)
         : base(id, code, name, description, sortOrder, isActive)
     {
     }

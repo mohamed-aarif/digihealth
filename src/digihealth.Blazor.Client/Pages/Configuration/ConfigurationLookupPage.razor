@@ -1,0 +1,96 @@
+@using System
+@using System.Linq.Expressions
+@using Volo.Abp.Application.Dtos
+@using Volo.Abp.Application.Services
+@typeparam TAppService where TAppService : ICrudAppService<TDto, Guid, PagedAndSortedResultRequestDto, TCreateUpdateDto, TCreateUpdateDto>
+@typeparam TDto where TDto : ConfigurationLookupDtoBase, new()
+@typeparam TCreateUpdateDto where TCreateUpdateDto : class, IConfigurationLookupCreateUpdateDto, new()
+@inherits ConfigurationLookupPageBase<TAppService, TDto, TCreateUpdateDto>
+
+<PageTitle>@EntityNamePlural</PageTitle>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">@EntityNamePlural</h3>
+    <Button Color="Color.Primary" Clicked="async () => await OpenCreateModalAsync()">New @EntityName</Button>
+</div>
+
+<Card>
+    <CardBody>
+        <DataGrid TItem="TDto" Data="@Items" Striped Hoverable Responsive ShowPager="false">
+            <DataGridColumns>
+                <DataGridColumn TItem="TDto" Field="@nameof(ConfigurationLookupDtoBase.Code)" Caption="Code" />
+                <DataGridColumn TItem="TDto" Field="@nameof(ConfigurationLookupDtoBase.Name)" Caption="Name" />
+                <DataGridColumn TItem="TDto" Caption="Description">
+                    <DisplayTemplate Context="item">
+                        @item.Description
+                    </DisplayTemplate>
+                </DataGridColumn>
+                <DataGridColumn TItem="TDto" Field="@nameof(ConfigurationLookupDtoBase.SortOrder)" Caption="Sort Order" />
+                <DataGridColumn TItem="TDto" Caption="Active">
+                    <DisplayTemplate Context="item">
+                        @(item.IsActive ? "Yes" : "No")
+                    </DisplayTemplate>
+                </DataGridColumn>
+                <DataGridColumn TItem="TDto" Caption="Actions" Width="170px">
+                    <DisplayTemplate Context="item">
+                        <div class="d-flex gap-2">
+                            <Button Size="Size.Small" Color="Color.Secondary" Clicked="async () => await OpenEditModalAsync(item.Id)">Edit</Button>
+                            <Button Size="Size.Small" Color="Color.Danger" Clicked="async () => await DeleteAsync(item.Id)">Delete</Button>
+                        </div>
+                    </DisplayTemplate>
+                </DataGridColumn>
+            </DataGridColumns>
+        </DataGrid>
+    </CardBody>
+</Card>
+
+<Modal @ref="EditModal" Size="ModalSize.Large">
+    <ModalContent>
+        <ModalHeader>
+            <h5 class="modal-title">@ModalTitle</h5>
+            <Button CloseButton Clicked="async () => await CloseModalAsync()" />
+        </ModalHeader>
+        <ModalBody>
+            <EditForm Model="@EditingEntity" OnValidSubmit="SaveAsync">
+                <DataAnnotationsValidator />
+                <Blazorise.ValidationSummary />
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <Field>
+                            <Label>Code</Label>
+                            <TextEdit @bind-Text="EditingEntity.Code" />
+                        </Field>
+                    </div>
+                    <div class="col-md-6">
+                        <Field>
+                            <Label>Name</Label>
+                            <TextEdit @bind-Text="EditingEntity.Name" />
+                        </Field>
+                    </div>
+                    <div class="col-12">
+                        <Field>
+                            <Label>Description</Label>
+                            <TextEdit TextRole="TextRole.TextArea" @bind-Text="EditingEntity.Description" />
+                        </Field>
+                    </div>
+                    <div class="col-md-4">
+                        <Field>
+                            <Label>Sort Order</Label>
+                            <NumericEdit TValue="int" @bind-Value="EditingEntity.SortOrder" Min="0" />
+                        </Field>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <Field class="mb-0">
+                            <Label>Active</Label>
+                            <Switch @bind-Checked="EditingEntity.IsActive" />
+                        </Field>
+                    </div>
+                </div>
+                <div class="mt-4 d-flex justify-content-end gap-2">
+                    <Button Color="Color.Secondary" Clicked="async () => await CloseModalAsync()">Cancel</Button>
+                    <Button Color="Color.Primary" Type="ButtonType.Submit">Save</Button>
+                </div>
+            </EditForm>
+        </ModalBody>
+    </ModalContent>
+</Modal>

@@ -5,51 +5,60 @@ using Volo.Abp.Application.Services;
 namespace DigiHealth.ConfigurationService;
 
 public interface IAppointmentStatusAppService :
-    ICrudAppService<AppointmentStatusDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateAppointmentStatusDto>
+    ICrudAppService<AppointmentStatusDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateAppointmentStatusDto,
+        CreateUpdateAppointmentStatusDto>
 {
 }
 
 public interface IAppointmentChannelAppService :
-    ICrudAppService<AppointmentChannelDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateAppointmentChannelDto>
+    ICrudAppService<AppointmentChannelDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateAppointmentChannelDto,
+        CreateUpdateAppointmentChannelDto>
 {
 }
 
 public interface IConsentPartyTypeAppService :
-    ICrudAppService<ConsentPartyTypeDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateConsentPartyTypeDto>
+    ICrudAppService<ConsentPartyTypeDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateConsentPartyTypeDto,
+        CreateUpdateConsentPartyTypeDto>
 {
 }
 
 public interface IConsentStatusAppService :
-    ICrudAppService<ConsentStatusDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateConsentStatusDto>
+    ICrudAppService<ConsentStatusDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateConsentStatusDto,
+        CreateUpdateConsentStatusDto>
 {
 }
 
 public interface IDayOfWeekConfigAppService :
-    ICrudAppService<DayOfWeekConfigDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateDayOfWeekConfigDto>
+    ICrudAppService<DayOfWeekConfigDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateDayOfWeekConfigDto,
+        CreateUpdateDayOfWeekConfigDto>
 {
 }
 
-public interface IDeviceTypeConfigAppService :
-    ICrudAppService<DeviceTypeConfigDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateDeviceTypeConfigDto>
+public interface IDeviceTypeAppService :
+    ICrudAppService<DeviceTypeDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateDeviceTypeDto, CreateUpdateDeviceTypeDto>
 {
 }
 
 public interface IMedicationIntakeStatusAppService :
-    ICrudAppService<MedicationIntakeStatusDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateMedicationIntakeStatusDto>
+    ICrudAppService<MedicationIntakeStatusDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateMedicationIntakeStatusDto,
+        CreateUpdateMedicationIntakeStatusDto>
 {
 }
 
-public interface INotificationChannelConfigAppService :
-    ICrudAppService<NotificationChannelConfigDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateNotificationChannelConfigDto>
+public interface INotificationChannelAppService :
+    ICrudAppService<NotificationChannelDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateNotificationChannelDto,
+        CreateUpdateNotificationChannelDto>
 {
 }
 
-public interface INotificationStatusConfigAppService :
-    ICrudAppService<NotificationStatusConfigDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateNotificationStatusConfigDto>
+public interface INotificationStatusAppService :
+    ICrudAppService<NotificationStatusDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateNotificationStatusDto,
+        CreateUpdateNotificationStatusDto>
 {
 }
 
-public interface IVaultRecordTypeConfigAppService :
-    ICrudAppService<VaultRecordTypeConfigDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateVaultRecordTypeConfigDto>
+public interface IVaultRecordTypeAppService :
+    ICrudAppService<VaultRecordTypeDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateVaultRecordTypeDto,
+        CreateUpdateVaultRecordTypeDto>
 {
 }

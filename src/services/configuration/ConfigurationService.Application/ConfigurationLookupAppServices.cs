@@ -1,6 +1,9 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using DigiHealth.ConfigurationService.ConfigurationLookups;
+using DigiHealth.ConfigurationService.Permissions;
+using Microsoft.AspNetCore.Authorization;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -9,10 +12,30 @@ using Volo.Abp.Domain.Repositories;
 namespace DigiHealth.ConfigurationService;
 
 [RemoteService(Name = ConfigurationServiceRemoteServiceConsts.RemoteServiceName)]
-public class AppointmentStatusAppService : CrudAppService<AppointmentStatus, AppointmentStatusDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateAppointmentStatusDto>, IAppointmentStatusAppService
+[Authorize(ConfigurationPermissions.AppointmentStatuses.Default)]
+public class AppointmentStatusAppService : CrudAppService<AppointmentStatus, AppointmentStatusDto, Guid, PagedAndSortedResultRequestDto,
+    CreateUpdateAppointmentStatusDto, CreateUpdateAppointmentStatusDto>, IAppointmentStatusAppService
 {
     public AppointmentStatusAppService(IRepository<AppointmentStatus, Guid> repository) : base(repository)
     {
+    }
+
+    [Authorize(ConfigurationPermissions.AppointmentStatuses.Manage)]
+    public override Task<AppointmentStatusDto> CreateAsync(CreateUpdateAppointmentStatusDto input)
+    {
+        return base.CreateAsync(input);
+    }
+
+    [Authorize(ConfigurationPermissions.AppointmentStatuses.Manage)]
+    public override Task<AppointmentStatusDto> UpdateAsync(Guid id, CreateUpdateAppointmentStatusDto input)
+    {
+        return base.UpdateAsync(id, input);
+    }
+
+    [Authorize(ConfigurationPermissions.AppointmentStatuses.Manage)]
+    public override Task DeleteAsync(Guid id)
+    {
+        return base.DeleteAsync(id);
     }
 
     protected override IQueryable<AppointmentStatus> ApplyDefaultSorting(IQueryable<AppointmentStatus> query)
@@ -22,10 +45,30 @@ public class AppointmentStatusAppService : CrudAppService<AppointmentStatus, App
 }
 
 [RemoteService(Name = ConfigurationServiceRemoteServiceConsts.RemoteServiceName)]
-public class AppointmentChannelAppService : CrudAppService<AppointmentChannel, AppointmentChannelDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateAppointmentChannelDto>, IAppointmentChannelAppService
+[Authorize(ConfigurationPermissions.AppointmentChannels.Default)]
+public class AppointmentChannelAppService : CrudAppService<AppointmentChannel, AppointmentChannelDto, Guid, PagedAndSortedResultRequestDto,
+    CreateUpdateAppointmentChannelDto, CreateUpdateAppointmentChannelDto>, IAppointmentChannelAppService
 {
     public AppointmentChannelAppService(IRepository<AppointmentChannel, Guid> repository) : base(repository)
     {
+    }
+
+    [Authorize(ConfigurationPermissions.AppointmentChannels.Manage)]
+    public override Task<AppointmentChannelDto> CreateAsync(CreateUpdateAppointmentChannelDto input)
+    {
+        return base.CreateAsync(input);
+    }
+
+    [Authorize(ConfigurationPermissions.AppointmentChannels.Manage)]
+    public override Task<AppointmentChannelDto> UpdateAsync(Guid id, CreateUpdateAppointmentChannelDto input)
+    {
+        return base.UpdateAsync(id, input);
+    }
+
+    [Authorize(ConfigurationPermissions.AppointmentChannels.Manage)]
+    public override Task DeleteAsync(Guid id)
+    {
+        return base.DeleteAsync(id);
     }
 
     protected override IQueryable<AppointmentChannel> ApplyDefaultSorting(IQueryable<AppointmentChannel> query)
@@ -35,10 +78,30 @@ public class AppointmentChannelAppService : CrudAppService<AppointmentChannel, A
 }
 
 [RemoteService(Name = ConfigurationServiceRemoteServiceConsts.RemoteServiceName)]
-public class ConsentPartyTypeAppService : CrudAppService<ConsentPartyType, ConsentPartyTypeDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateConsentPartyTypeDto>, IConsentPartyTypeAppService
+[Authorize(ConfigurationPermissions.ConsentPartyTypes.Default)]
+public class ConsentPartyTypeAppService : CrudAppService<ConsentPartyType, ConsentPartyTypeDto, Guid, PagedAndSortedResultRequestDto,
+    CreateUpdateConsentPartyTypeDto, CreateUpdateConsentPartyTypeDto>, IConsentPartyTypeAppService
 {
     public ConsentPartyTypeAppService(IRepository<ConsentPartyType, Guid> repository) : base(repository)
     {
+    }
+
+    [Authorize(ConfigurationPermissions.ConsentPartyTypes.Manage)]
+    public override Task<ConsentPartyTypeDto> CreateAsync(CreateUpdateConsentPartyTypeDto input)
+    {
+        return base.CreateAsync(input);
+    }
+
+    [Authorize(ConfigurationPermissions.ConsentPartyTypes.Manage)]
+    public override Task<ConsentPartyTypeDto> UpdateAsync(Guid id, CreateUpdateConsentPartyTypeDto input)
+    {
+        return base.UpdateAsync(id, input);
+    }
+
+    [Authorize(ConfigurationPermissions.ConsentPartyTypes.Manage)]
+    public override Task DeleteAsync(Guid id)
+    {
+        return base.DeleteAsync(id);
     }
 
     protected override IQueryable<ConsentPartyType> ApplyDefaultSorting(IQueryable<ConsentPartyType> query)
@@ -48,10 +111,30 @@ public class ConsentPartyTypeAppService : CrudAppService<ConsentPartyType, Conse
 }
 
 [RemoteService(Name = ConfigurationServiceRemoteServiceConsts.RemoteServiceName)]
-public class ConsentStatusAppService : CrudAppService<ConsentStatus, ConsentStatusDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateConsentStatusDto>, IConsentStatusAppService
+[Authorize(ConfigurationPermissions.ConsentStatuses.Default)]
+public class ConsentStatusAppService : CrudAppService<ConsentStatus, ConsentStatusDto, Guid, PagedAndSortedResultRequestDto,
+    CreateUpdateConsentStatusDto, CreateUpdateConsentStatusDto>, IConsentStatusAppService
 {
     public ConsentStatusAppService(IRepository<ConsentStatus, Guid> repository) : base(repository)
     {
+    }
+
+    [Authorize(ConfigurationPermissions.ConsentStatuses.Manage)]
+    public override Task<ConsentStatusDto> CreateAsync(CreateUpdateConsentStatusDto input)
+    {
+        return base.CreateAsync(input);
+    }
+
+    [Authorize(ConfigurationPermissions.ConsentStatuses.Manage)]
+    public override Task<ConsentStatusDto> UpdateAsync(Guid id, CreateUpdateConsentStatusDto input)
+    {
+        return base.UpdateAsync(id, input);
+    }
+
+    [Authorize(ConfigurationPermissions.ConsentStatuses.Manage)]
+    public override Task DeleteAsync(Guid id)
+    {
+        return base.DeleteAsync(id);
     }
 
     protected override IQueryable<ConsentStatus> ApplyDefaultSorting(IQueryable<ConsentStatus> query)
@@ -61,10 +144,30 @@ public class ConsentStatusAppService : CrudAppService<ConsentStatus, ConsentStat
 }
 
 [RemoteService(Name = ConfigurationServiceRemoteServiceConsts.RemoteServiceName)]
-public class DayOfWeekConfigAppService : CrudAppService<DayOfWeekConfig, DayOfWeekConfigDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateDayOfWeekConfigDto>, IDayOfWeekConfigAppService
+[Authorize(ConfigurationPermissions.DaysOfWeek.Default)]
+public class DayOfWeekConfigAppService : CrudAppService<DayOfWeekConfig, DayOfWeekConfigDto, Guid, PagedAndSortedResultRequestDto,
+    CreateUpdateDayOfWeekConfigDto, CreateUpdateDayOfWeekConfigDto>, IDayOfWeekConfigAppService
 {
     public DayOfWeekConfigAppService(IRepository<DayOfWeekConfig, Guid> repository) : base(repository)
     {
+    }
+
+    [Authorize(ConfigurationPermissions.DaysOfWeek.Manage)]
+    public override Task<DayOfWeekConfigDto> CreateAsync(CreateUpdateDayOfWeekConfigDto input)
+    {
+        return base.CreateAsync(input);
+    }
+
+    [Authorize(ConfigurationPermissions.DaysOfWeek.Manage)]
+    public override Task<DayOfWeekConfigDto> UpdateAsync(Guid id, CreateUpdateDayOfWeekConfigDto input)
+    {
+        return base.UpdateAsync(id, input);
+    }
+
+    [Authorize(ConfigurationPermissions.DaysOfWeek.Manage)]
+    public override Task DeleteAsync(Guid id)
+    {
+        return base.DeleteAsync(id);
     }
 
     protected override IQueryable<DayOfWeekConfig> ApplyDefaultSorting(IQueryable<DayOfWeekConfig> query)
@@ -74,23 +177,63 @@ public class DayOfWeekConfigAppService : CrudAppService<DayOfWeekConfig, DayOfWe
 }
 
 [RemoteService(Name = ConfigurationServiceRemoteServiceConsts.RemoteServiceName)]
-public class DeviceTypeConfigAppService : CrudAppService<DeviceTypeConfig, DeviceTypeConfigDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateDeviceTypeConfigDto>, IDeviceTypeConfigAppService
+[Authorize(ConfigurationPermissions.DeviceTypes.Default)]
+public class DeviceTypeAppService : CrudAppService<DeviceType, DeviceTypeDto, Guid, PagedAndSortedResultRequestDto,
+    CreateUpdateDeviceTypeDto, CreateUpdateDeviceTypeDto>, IDeviceTypeAppService
 {
-    public DeviceTypeConfigAppService(IRepository<DeviceTypeConfig, Guid> repository) : base(repository)
+    public DeviceTypeAppService(IRepository<DeviceType, Guid> repository) : base(repository)
     {
     }
 
-    protected override IQueryable<DeviceTypeConfig> ApplyDefaultSorting(IQueryable<DeviceTypeConfig> query)
+    [Authorize(ConfigurationPermissions.DeviceTypes.Manage)]
+    public override Task<DeviceTypeDto> CreateAsync(CreateUpdateDeviceTypeDto input)
+    {
+        return base.CreateAsync(input);
+    }
+
+    [Authorize(ConfigurationPermissions.DeviceTypes.Manage)]
+    public override Task<DeviceTypeDto> UpdateAsync(Guid id, CreateUpdateDeviceTypeDto input)
+    {
+        return base.UpdateAsync(id, input);
+    }
+
+    [Authorize(ConfigurationPermissions.DeviceTypes.Manage)]
+    public override Task DeleteAsync(Guid id)
+    {
+        return base.DeleteAsync(id);
+    }
+
+    protected override IQueryable<DeviceType> ApplyDefaultSorting(IQueryable<DeviceType> query)
     {
         return query.OrderBy(x => x.SortOrder).ThenBy(x => x.Name);
     }
 }
 
 [RemoteService(Name = ConfigurationServiceRemoteServiceConsts.RemoteServiceName)]
-public class MedicationIntakeStatusAppService : CrudAppService<MedicationIntakeStatus, MedicationIntakeStatusDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateMedicationIntakeStatusDto>, IMedicationIntakeStatusAppService
+[Authorize(ConfigurationPermissions.MedicationIntakeStatuses.Default)]
+public class MedicationIntakeStatusAppService : CrudAppService<MedicationIntakeStatus, MedicationIntakeStatusDto, Guid, PagedAndSortedResultRequestDto,
+    CreateUpdateMedicationIntakeStatusDto, CreateUpdateMedicationIntakeStatusDto>, IMedicationIntakeStatusAppService
 {
     public MedicationIntakeStatusAppService(IRepository<MedicationIntakeStatus, Guid> repository) : base(repository)
     {
+    }
+
+    [Authorize(ConfigurationPermissions.MedicationIntakeStatuses.Manage)]
+    public override Task<MedicationIntakeStatusDto> CreateAsync(CreateUpdateMedicationIntakeStatusDto input)
+    {
+        return base.CreateAsync(input);
+    }
+
+    [Authorize(ConfigurationPermissions.MedicationIntakeStatuses.Manage)]
+    public override Task<MedicationIntakeStatusDto> UpdateAsync(Guid id, CreateUpdateMedicationIntakeStatusDto input)
+    {
+        return base.UpdateAsync(id, input);
+    }
+
+    [Authorize(ConfigurationPermissions.MedicationIntakeStatuses.Manage)]
+    public override Task DeleteAsync(Guid id)
+    {
+        return base.DeleteAsync(id);
     }
 
     protected override IQueryable<MedicationIntakeStatus> ApplyDefaultSorting(IQueryable<MedicationIntakeStatus> query)
@@ -100,39 +243,99 @@ public class MedicationIntakeStatusAppService : CrudAppService<MedicationIntakeS
 }
 
 [RemoteService(Name = ConfigurationServiceRemoteServiceConsts.RemoteServiceName)]
-public class NotificationChannelConfigAppService : CrudAppService<NotificationChannelConfig, NotificationChannelConfigDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateNotificationChannelConfigDto>, INotificationChannelConfigAppService
+[Authorize(ConfigurationPermissions.NotificationChannels.Default)]
+public class NotificationChannelAppService : CrudAppService<NotificationChannel, NotificationChannelDto, Guid, PagedAndSortedResultRequestDto,
+    CreateUpdateNotificationChannelDto, CreateUpdateNotificationChannelDto>, INotificationChannelAppService
 {
-    public NotificationChannelConfigAppService(IRepository<NotificationChannelConfig, Guid> repository) : base(repository)
+    public NotificationChannelAppService(IRepository<NotificationChannel, Guid> repository) : base(repository)
     {
     }
 
-    protected override IQueryable<NotificationChannelConfig> ApplyDefaultSorting(IQueryable<NotificationChannelConfig> query)
+    [Authorize(ConfigurationPermissions.NotificationChannels.Manage)]
+    public override Task<NotificationChannelDto> CreateAsync(CreateUpdateNotificationChannelDto input)
+    {
+        return base.CreateAsync(input);
+    }
+
+    [Authorize(ConfigurationPermissions.NotificationChannels.Manage)]
+    public override Task<NotificationChannelDto> UpdateAsync(Guid id, CreateUpdateNotificationChannelDto input)
+    {
+        return base.UpdateAsync(id, input);
+    }
+
+    [Authorize(ConfigurationPermissions.NotificationChannels.Manage)]
+    public override Task DeleteAsync(Guid id)
+    {
+        return base.DeleteAsync(id);
+    }
+
+    protected override IQueryable<NotificationChannel> ApplyDefaultSorting(IQueryable<NotificationChannel> query)
     {
         return query.OrderBy(x => x.SortOrder).ThenBy(x => x.Name);
     }
 }
 
 [RemoteService(Name = ConfigurationServiceRemoteServiceConsts.RemoteServiceName)]
-public class NotificationStatusConfigAppService : CrudAppService<NotificationStatusConfig, NotificationStatusConfigDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateNotificationStatusConfigDto>, INotificationStatusConfigAppService
+[Authorize(ConfigurationPermissions.NotificationStatuses.Default)]
+public class NotificationStatusAppService : CrudAppService<NotificationStatus, NotificationStatusDto, Guid, PagedAndSortedResultRequestDto,
+    CreateUpdateNotificationStatusDto, CreateUpdateNotificationStatusDto>, INotificationStatusAppService
 {
-    public NotificationStatusConfigAppService(IRepository<NotificationStatusConfig, Guid> repository) : base(repository)
+    public NotificationStatusAppService(IRepository<NotificationStatus, Guid> repository) : base(repository)
     {
     }
 
-    protected override IQueryable<NotificationStatusConfig> ApplyDefaultSorting(IQueryable<NotificationStatusConfig> query)
+    [Authorize(ConfigurationPermissions.NotificationStatuses.Manage)]
+    public override Task<NotificationStatusDto> CreateAsync(CreateUpdateNotificationStatusDto input)
+    {
+        return base.CreateAsync(input);
+    }
+
+    [Authorize(ConfigurationPermissions.NotificationStatuses.Manage)]
+    public override Task<NotificationStatusDto> UpdateAsync(Guid id, CreateUpdateNotificationStatusDto input)
+    {
+        return base.UpdateAsync(id, input);
+    }
+
+    [Authorize(ConfigurationPermissions.NotificationStatuses.Manage)]
+    public override Task DeleteAsync(Guid id)
+    {
+        return base.DeleteAsync(id);
+    }
+
+    protected override IQueryable<NotificationStatus> ApplyDefaultSorting(IQueryable<NotificationStatus> query)
     {
         return query.OrderBy(x => x.SortOrder).ThenBy(x => x.Name);
     }
 }
 
 [RemoteService(Name = ConfigurationServiceRemoteServiceConsts.RemoteServiceName)]
-public class VaultRecordTypeConfigAppService : CrudAppService<VaultRecordTypeConfig, VaultRecordTypeConfigDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateVaultRecordTypeConfigDto>, IVaultRecordTypeConfigAppService
+[Authorize(ConfigurationPermissions.VaultRecordTypes.Default)]
+public class VaultRecordTypeAppService : CrudAppService<VaultRecordType, VaultRecordTypeDto, Guid, PagedAndSortedResultRequestDto,
+    CreateUpdateVaultRecordTypeDto, CreateUpdateVaultRecordTypeDto>, IVaultRecordTypeAppService
 {
-    public VaultRecordTypeConfigAppService(IRepository<VaultRecordTypeConfig, Guid> repository) : base(repository)
+    public VaultRecordTypeAppService(IRepository<VaultRecordType, Guid> repository) : base(repository)
     {
     }
 
-    protected override IQueryable<VaultRecordTypeConfig> ApplyDefaultSorting(IQueryable<VaultRecordTypeConfig> query)
+    [Authorize(ConfigurationPermissions.VaultRecordTypes.Manage)]
+    public override Task<VaultRecordTypeDto> CreateAsync(CreateUpdateVaultRecordTypeDto input)
+    {
+        return base.CreateAsync(input);
+    }
+
+    [Authorize(ConfigurationPermissions.VaultRecordTypes.Manage)]
+    public override Task<VaultRecordTypeDto> UpdateAsync(Guid id, CreateUpdateVaultRecordTypeDto input)
+    {
+        return base.UpdateAsync(id, input);
+    }
+
+    [Authorize(ConfigurationPermissions.VaultRecordTypes.Manage)]
+    public override Task DeleteAsync(Guid id)
+    {
+        return base.DeleteAsync(id);
+    }
+
+    protected override IQueryable<VaultRecordType> ApplyDefaultSorting(IQueryable<VaultRecordType> query)
     {
         return query.OrderBy(x => x.SortOrder).ThenBy(x => x.Name);
     }

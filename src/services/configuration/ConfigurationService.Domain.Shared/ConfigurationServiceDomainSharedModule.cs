@@ -1,5 +1,10 @@
+using DigiHealth.ConfigurationService.Localization;
+using DigiHealth.ConfigurationService.Permissions;
+using Volo.Abp.Authorization.Permissions;
+using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.Domain;
+using Volo.Abp.Validation.Localization;
 
 namespace DigiHealth.ConfigurationService;
 
@@ -7,4 +12,19 @@ namespace DigiHealth.ConfigurationService;
     typeof(AbpDddDomainSharedModule))]
 public class ConfigurationServiceDomainSharedModule : AbpModule
 {
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        Configure<AbpLocalizationOptions>(options =>
+        {
+            options.Resources
+                .Add<ConfigurationServiceResource>("en")
+                .AddBaseTypes(typeof(AbpValidationResource))
+                .AddVirtualJson("/Localization/ConfigurationService");
+        });
+
+        Configure<AbpPermissionOptions>(options =>
+        {
+            options.DefinitionProviders.Add<ConfigurationPermissionDefinitionProvider>();
+        });
+    }
 }

@@ -18,14 +18,14 @@
     <CardBody>
         <DataGrid TItem="TDto" Data="@Items" Striped Hoverable Responsive ShowPager="false">
             <DataGridColumns>
-                <DataGridColumn TItem="TDto" Field="@((Expression<Func<TDto, object>>)(x => x.Code))" Caption="Code" />
-                <DataGridColumn TItem="TDto" Field="@((Expression<Func<TDto, object>>)(x => x.Name))" Caption="Name" />
+                <DataGridColumn TItem="TDto" Field="@nameof(ConfigurationLookupDtoBase.Code)" Caption="Code" />
+                <DataGridColumn TItem="TDto" Field="@nameof(ConfigurationLookupDtoBase.Name)" Caption="Name" />
                 <DataGridColumn TItem="TDto" Caption="Description">
                     <DisplayTemplate Context="item">
                         @item.Description
                     </DisplayTemplate>
                 </DataGridColumn>
-                <DataGridColumn TItem="TDto" Field="@((Expression<Func<TDto, object>>)(x => x.SortOrder))" Caption="Sort Order" />
+                <DataGridColumn TItem="TDto" Field="@nameof(ConfigurationLookupDtoBase.SortOrder)" Caption="Sort Order" />
                 <DataGridColumn TItem="TDto" Caption="Active">
                     <DisplayTemplate Context="item">
                         @(item.IsActive ? "Yes" : "No")

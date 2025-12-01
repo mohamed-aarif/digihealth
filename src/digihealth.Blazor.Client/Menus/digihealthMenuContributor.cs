@@ -47,6 +47,84 @@ public class digihealthMenuContributor : IMenuContributor
             )
         );
 
+        var configurationMenu = new ApplicationMenuItem(
+            "Configuration",
+            "Configuration",
+            icon: "fa fa-sliders-h"
+        );
+
+        configurationMenu.AddItem(new ApplicationMenuItem(
+            "Configuration.AppointmentStatuses",
+            "Appointment Statuses",
+            "/configuration/appointment-statuses",
+            icon: "fa fa-list"
+        ));
+
+        configurationMenu.AddItem(new ApplicationMenuItem(
+            "Configuration.AppointmentChannels",
+            "Appointment Channels",
+            "/configuration/appointment-channels",
+            icon: "fa fa-video"
+        ));
+
+        configurationMenu.AddItem(new ApplicationMenuItem(
+            "Configuration.ConsentPartyTypes",
+            "Consent Party Types",
+            "/configuration/consent-party-types",
+            icon: "fa fa-user-friends"
+        ));
+
+        configurationMenu.AddItem(new ApplicationMenuItem(
+            "Configuration.ConsentStatuses",
+            "Consent Statuses",
+            "/configuration/consent-statuses",
+            icon: "fa fa-check-square"
+        ));
+
+        configurationMenu.AddItem(new ApplicationMenuItem(
+            "Configuration.DaysOfWeek",
+            "Days of Week",
+            "/configuration/days-of-week",
+            icon: "fa fa-calendar"
+        ));
+
+        configurationMenu.AddItem(new ApplicationMenuItem(
+            "Configuration.DeviceTypes",
+            "Device Types",
+            "/configuration/device-types",
+            icon: "fa fa-stethoscope"
+        ));
+
+        configurationMenu.AddItem(new ApplicationMenuItem(
+            "Configuration.MedicationIntakeStatuses",
+            "Medication Intake Statuses",
+            "/configuration/medication-intake-statuses",
+            icon: "fa fa-pills"
+        ));
+
+        configurationMenu.AddItem(new ApplicationMenuItem(
+            "Configuration.NotificationChannels",
+            "Notification Channels",
+            "/configuration/notification-channels",
+            icon: "fa fa-bell"
+        ));
+
+        configurationMenu.AddItem(new ApplicationMenuItem(
+            "Configuration.NotificationStatuses",
+            "Notification Statuses",
+            "/configuration/notification-statuses",
+            icon: "fa fa-envelope-open"
+        ));
+
+        configurationMenu.AddItem(new ApplicationMenuItem(
+            "Configuration.VaultRecordTypes",
+            "Vault Record Types",
+            "/configuration/vault-record-types",
+            icon: "fa fa-database"
+        ));
+
+        context.Menu.AddItem(configurationMenu);
+
         var administration = context.Menu.GetAdministration();
         var isMultiTenancyEnabled = MultiTenancyConsts.IsEnabled;
 

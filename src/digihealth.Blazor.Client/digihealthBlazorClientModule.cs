@@ -2,6 +2,7 @@
 using System.Net.Http;
 using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
+using DigiHealth.ConfigurationService;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,7 @@ using Volo.Abp.Autofac.WebAssembly;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Identity.Blazor.WebAssembly;
 using Volo.Abp.Modularity;
+using Volo.Abp.Http.Client;
 using Volo.Abp.SettingManagement.Blazor.WebAssembly;
 using Volo.Abp.TenantManagement.Blazor.WebAssembly;
 using Volo.Abp.UI.Navigation;
@@ -22,6 +24,7 @@ namespace digihealth.Blazor.Client;
 [DependsOn(
     typeof(AbpAutofacWebAssemblyModule),
     typeof(digihealthHttpApiClientModule),
+    typeof(ConfigurationServiceHttpApiClientModule),
     typeof(AbpAspNetCoreComponentsWebAssemblyLeptonXLiteThemeModule),
     typeof(AbpIdentityBlazorWebAssemblyModule),
     typeof(AbpTenantManagementBlazorWebAssemblyModule),
@@ -40,6 +43,7 @@ public class digihealthBlazorClientModule : AbpModule
         ConfigureRouter(context);
         ConfigureMenu(context);
         ConfigureAutoMapper(context);
+        ConfigureRemoteServices(context);
     }
 
     private void ConfigureRouter(ServiceConfigurationContext context)
@@ -93,6 +97,29 @@ public class digihealthBlazorClientModule : AbpModule
         Configure<AbpAutoMapperOptions>(options =>
         {
             options.AddMaps<digihealthBlazorClientModule>();
+        });
+    }
+
+    private void ConfigureRemoteServices(ServiceConfigurationContext context)
+    {
+        var configuration = context.Services.GetConfiguration();
+
+        Configure<AbpRemoteServiceOptions>(options =>
+        {
+            var defaultBaseUrl = configuration["RemoteServices:Default:BaseUrl"];
+            if (!string.IsNullOrWhiteSpace(defaultBaseUrl))
+            {
+                options.RemoteServices.Default = new RemoteServiceConfiguration(defaultBaseUrl);
+            }
+
+            var configurationServiceBaseUrl =
+                configuration[$"RemoteServices:{ConfigurationServiceRemoteServiceConsts.RemoteServiceName}:BaseUrl"];
+
+            if (!string.IsNullOrWhiteSpace(configurationServiceBaseUrl))
+            {
+                options.RemoteServices[ConfigurationServiceRemoteServiceConsts.RemoteServiceName] =
+                    new RemoteServiceConfiguration(configurationServiceBaseUrl);
+            }
         });
     }
 }

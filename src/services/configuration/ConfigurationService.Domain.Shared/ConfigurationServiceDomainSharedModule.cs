@@ -6,6 +6,7 @@ using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.Validation;
 using Volo.Abp.Validation.Localization;
+using Volo.Abp.VirtualFileSystem;
 
 namespace DigiHealth.ConfigurationService;
 
@@ -13,11 +14,16 @@ namespace DigiHealth.ConfigurationService;
     typeof(AbpLocalizationModule),
     typeof(AbpAuthorizationModule),
     typeof(AbpValidationModule),
-    typeof(AbpDddDomainSharedModule))]
+    typeof(AbpVirtualFileSystemModule))]
 public class ConfigurationServiceDomainSharedModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
+        Configure<AbpVirtualFileSystemOptions>(options =>
+        {
+            options.FileSets.AddEmbedded<ConfigurationServiceDomainSharedModule>();
+        });
+
         Configure<AbpLocalizationOptions>(options =>
         {
             options.Resources

@@ -9,7 +9,8 @@ namespace DigiHealth.ConfigurationService.Permissions
     {
         public override void Define(IPermissionDefinitionContext context)
         {
-            var group = context.AddGroup(ConfigurationPermissions.GroupName, L("Permission:Configuration"));
+            var group = context.GetGroupOrNull(ConfigurationPermissions.GroupName)
+                        ?? context.AddGroup(ConfigurationPermissions.GroupName, L("Permission:Configuration"));
 
             var appointmentStatuses = group.AddPermission(ConfigurationPermissions.AppointmentStatuses.Default, L("Permission:AppointmentStatuses"));
             appointmentStatuses.AddChild(ConfigurationPermissions.AppointmentStatuses.Manage, L("Permission:AppointmentStatuses.Manage"));

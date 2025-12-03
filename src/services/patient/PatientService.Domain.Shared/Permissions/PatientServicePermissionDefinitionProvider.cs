@@ -9,7 +9,8 @@ public class PatientServicePermissionDefinitionProvider : PermissionDefinitionPr
 {
     public override void Define(IPermissionDefinitionContext context)
     {
-        var patientGroup = context.AddGroup(PatientServicePermissions.GroupName, L("Permission:PatientService"));
+        var patientGroup = context.GetGroupOrNull(PatientServicePermissions.GroupName)
+                          ?? context.AddGroup(PatientServicePermissions.GroupName, L("Permission:PatientService"));
 
         var profiles = patientGroup.AddPermission(PatientServicePermissions.PatientProfiles.Default, L("Permission:PatientProfiles"));
         profiles.AddChild(PatientServicePermissions.PatientProfiles.Create, L("Permission:Create"));

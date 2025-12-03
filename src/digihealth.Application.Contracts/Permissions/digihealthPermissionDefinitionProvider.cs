@@ -8,7 +8,8 @@ public class digihealthPermissionDefinitionProvider : PermissionDefinitionProvid
 {
     public override void Define(IPermissionDefinitionContext context)
     {
-        var myGroup = context.AddGroup(digihealthPermissions.GroupName);
+        var myGroup = context.GetGroupOrNull(digihealthPermissions.GroupName)
+                      ?? context.AddGroup(digihealthPermissions.GroupName);
         //Define your own permissions here. Example:
         //myGroup.AddPermission(digihealthPermissions.MyPermission1, L("Permission:MyPermission1"));
     }

@@ -18,6 +18,7 @@
     <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Bundling" Version="9.3.6" />
     <PackageReference Include="Volo.Abp.AspNetCore.Components.WebAssembly.LeptonXLiteTheme.Bundling" Version="4.1.0-preview*" />
     <ProjectReference Include="..\digihealth.Blazor.Client\digihealth.Blazor.Client.csproj" />
+    <ProjectReference Include="..\services\configuration\ConfigurationService.HttpApi.Client\ConfigurationService.HttpApi.Client.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using digihealth.Localization;
 using digihealth.MultiTenancy;
+using DigiHealth.ConfigurationService.Permissions;
 using Volo.Abp.Account.Localization;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Identity.Blazor;
@@ -33,7 +34,7 @@ public class digihealthMenuContributor : IMenuContributor
         }
     }
 
-    private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
+    private async Task ConfigureMainMenuAsync(MenuConfigurationContext context)
     {
         var l = context.GetLocalizer<digihealthResource>();
 
@@ -49,81 +50,35 @@ public class digihealthMenuContributor : IMenuContributor
 
         var configurationMenu = new ApplicationMenuItem(
             "Configuration",
-            "Configuration",
+            l["Menu:Configuration"],
             icon: "fa fa-sliders-h"
         );
 
-        configurationMenu.AddItem(new ApplicationMenuItem(
-            "Configuration.AppointmentStatuses",
-            "Appointment Statuses",
-            "/configuration/appointment-statuses",
-            icon: "fa fa-list"
-        ));
+        await AddConfigurationItemAsync(context, configurationMenu, ConfigurationPermissions.AppointmentStatuses.Default,
+            "Configuration.AppointmentStatuses", "Menu:Configuration.AppointmentStatuses", "/configuration/appointment-statuses", "fa fa-list");
+        await AddConfigurationItemAsync(context, configurationMenu, ConfigurationPermissions.AppointmentChannels.Default,
+            "Configuration.AppointmentChannels", "Menu:Configuration.AppointmentChannels", "/configuration/appointment-channels", "fa fa-video");
+        await AddConfigurationItemAsync(context, configurationMenu, ConfigurationPermissions.ConsentPartyTypes.Default,
+            "Configuration.ConsentPartyTypes", "Menu:Configuration.ConsentPartyTypes", "/configuration/consent-party-types", "fa fa-user-friends");
+        await AddConfigurationItemAsync(context, configurationMenu, ConfigurationPermissions.ConsentStatuses.Default,
+            "Configuration.ConsentStatuses", "Menu:Configuration.ConsentStatuses", "/configuration/consent-statuses", "fa fa-check-square");
+        await AddConfigurationItemAsync(context, configurationMenu, ConfigurationPermissions.DaysOfWeek.Default,
+            "Configuration.DaysOfWeek", "Menu:Configuration.DaysOfWeek", "/configuration/days-of-week", "fa fa-calendar");
+        await AddConfigurationItemAsync(context, configurationMenu, ConfigurationPermissions.DeviceTypes.Default,
+            "Configuration.DeviceTypes", "Menu:Configuration.DeviceTypes", "/configuration/device-types", "fa fa-stethoscope");
+        await AddConfigurationItemAsync(context, configurationMenu, ConfigurationPermissions.MedicationIntakeStatuses.Default,
+            "Configuration.MedicationIntakeStatuses", "Menu:Configuration.MedicationIntakeStatuses", "/configuration/medication-intake-statuses", "fa fa-pills");
+        await AddConfigurationItemAsync(context, configurationMenu, ConfigurationPermissions.NotificationChannels.Default,
+            "Configuration.NotificationChannels", "Menu:Configuration.NotificationChannels", "/configuration/notification-channels", "fa fa-bell");
+        await AddConfigurationItemAsync(context, configurationMenu, ConfigurationPermissions.NotificationStatuses.Default,
+            "Configuration.NotificationStatuses", "Menu:Configuration.NotificationStatuses", "/configuration/notification-statuses", "fa fa-envelope-open");
+        await AddConfigurationItemAsync(context, configurationMenu, ConfigurationPermissions.VaultRecordTypes.Default,
+            "Configuration.VaultRecordTypes", "Menu:Configuration.VaultRecordTypes", "/configuration/vault-record-types", "fa fa-database");
 
-        configurationMenu.AddItem(new ApplicationMenuItem(
-            "Configuration.AppointmentChannels",
-            "Appointment Channels",
-            "/configuration/appointment-channels",
-            icon: "fa fa-video"
-        ));
-
-        configurationMenu.AddItem(new ApplicationMenuItem(
-            "Configuration.ConsentPartyTypes",
-            "Consent Party Types",
-            "/configuration/consent-party-types",
-            icon: "fa fa-user-friends"
-        ));
-
-        configurationMenu.AddItem(new ApplicationMenuItem(
-            "Configuration.ConsentStatuses",
-            "Consent Statuses",
-            "/configuration/consent-statuses",
-            icon: "fa fa-check-square"
-        ));
-
-        configurationMenu.AddItem(new ApplicationMenuItem(
-            "Configuration.DaysOfWeek",
-            "Days of Week",
-            "/configuration/days-of-week",
-            icon: "fa fa-calendar"
-        ));
-
-        configurationMenu.AddItem(new ApplicationMenuItem(
-            "Configuration.DeviceTypes",
-            "Device Types",
-            "/configuration/device-types",
-            icon: "fa fa-stethoscope"
-        ));
-
-        configurationMenu.AddItem(new ApplicationMenuItem(
-            "Configuration.MedicationIntakeStatuses",
-            "Medication Intake Statuses",
-            "/configuration/medication-intake-statuses",
-            icon: "fa fa-pills"
-        ));
-
-        configurationMenu.AddItem(new ApplicationMenuItem(
-            "Configuration.NotificationChannels",
-            "Notification Channels",
-            "/configuration/notification-channels",
-            icon: "fa fa-bell"
-        ));
-
-        configurationMenu.AddItem(new ApplicationMenuItem(
-            "Configuration.NotificationStatuses",
-            "Notification Statuses",
-            "/configuration/notification-statuses",
-            icon: "fa fa-envelope-open"
-        ));
-
-        configurationMenu.AddItem(new ApplicationMenuItem(
-            "Configuration.VaultRecordTypes",
-            "Vault Record Types",
-            "/configuration/vault-record-types",
-            icon: "fa fa-database"
-        ));
-
-        context.Menu.AddItem(configurationMenu);
+        if (configurationMenu.Items.Count > 0)
+        {
+            context.Menu.AddItem(configurationMenu);
+        }
 
         var administration = context.Menu.GetAdministration();
         var isMultiTenancyEnabled = MultiTenancyConsts.IsEnabled;
@@ -140,7 +95,17 @@ public class digihealthMenuContributor : IMenuContributor
         administration.SetSubItemOrder(IdentityMenuNames.GroupName, 2);
         administration.SetSubItemOrder(SettingManagementMenus.GroupName, 3);
 
-        return Task.CompletedTask;
+        return;
+    }
+
+    private static async Task AddConfigurationItemAsync(MenuConfigurationContext context, ApplicationMenuItem configurationMenu,
+        string permission, string name, string displayName, string url, string? icon = null)
+    {
+        if (await context.IsGrantedAsync(permission))
+        {
+            configurationMenu.AddItem(new ApplicationMenuItem(name, context.GetLocalizer<digihealthResource>()[displayName], url,
+                icon: icon));
+        }
     }
 
     private Task ConfigureUserMenuAsync(MenuConfigurationContext context)

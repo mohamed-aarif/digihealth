@@ -1,0 +1,26 @@
+{
+  "culture": "en",
+  "texts": {
+    "Permission:Configuration": "Configuration",
+    "Permission:AppointmentStatuses": "Appointment Statuses",
+    "Permission:AppointmentStatuses.Manage": "Manage Appointment Statuses",
+    "Permission:AppointmentChannels": "Appointment Channels",
+    "Permission:AppointmentChannels.Manage": "Manage Appointment Channels",
+    "Permission:ConsentPartyTypes": "Consent Party Types",
+    "Permission:ConsentPartyTypes.Manage": "Manage Consent Party Types",
+    "Permission:ConsentStatuses": "Consent Statuses",
+    "Permission:ConsentStatuses.Manage": "Manage Consent Statuses",
+    "Permission:DaysOfWeek": "Days of Week",
+    "Permission:DaysOfWeek.Manage": "Manage Days of Week",
+    "Permission:DeviceTypes": "Device Types",
+    "Permission:DeviceTypes.Manage": "Manage Device Types",
+    "Permission:MedicationIntakeStatuses": "Medication Intake Statuses",
+    "Permission:MedicationIntakeStatuses.Manage": "Manage Medication Intake Statuses",
+    "Permission:NotificationChannels": "Notification Channels",
+    "Permission:NotificationChannels.Manage": "Manage Notification Channels",
+    "Permission:NotificationStatuses": "Notification Statuses",
+    "Permission:NotificationStatuses.Manage": "Manage Notification Statuses",
+    "Permission:VaultRecordTypes": "Vault Record Types",
+    "Permission:VaultRecordTypes.Manage": "Manage Vault Record Types"
+  }
+}

@@ -3,11 +3,13 @@ using System.Net.Http;
 using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
 using DigiHealth.ConfigurationService;
+using IdentityService;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using digihealth.Blazor.Client.Menus;
 using OpenIddict.Abstractions;
+using PatientService;
 using Volo.Abp.AspNetCore.Components.Web.Theming.Routing;
 using Volo.Abp.AspNetCore.Components.WebAssembly.LeptonXLiteTheme;
 using Volo.Abp.Autofac.WebAssembly;
@@ -112,14 +114,34 @@ public class digihealthBlazorClientModule : AbpModule
                 options.RemoteServices.Default = new RemoteServiceConfiguration(defaultBaseUrl);
             }
 
-            var configurationServiceBaseUrl =
-                configuration[$"RemoteServices:{ConfigurationServiceRemoteServiceConsts.RemoteServiceName}:BaseUrl"];
-
-            if (!string.IsNullOrWhiteSpace(configurationServiceBaseUrl))
-            {
-                options.RemoteServices[ConfigurationServiceRemoteServiceConsts.RemoteServiceName] =
-                    new RemoteServiceConfiguration(configurationServiceBaseUrl);
-            }
+            ConfigureRemoteService(options, configuration, ConfigurationServiceRemoteServiceConsts.RemoteServiceName);
+            ConfigureRemoteService(options, configuration, "IdentityService");
+            ConfigureRemoteService(options, configuration, "PatientService");
         });
+
+        context.Services.AddHttpClientProxies(
+            typeof(DigiHealthConfigurationApplicationContractsModule).Assembly,
+            remoteServiceName: ConfigurationServiceRemoteServiceConsts.RemoteServiceName
+        );
+
+        context.Services.AddHttpClientProxies(
+            typeof(IdentityServiceApplicationContractsModule).Assembly,
+            remoteServiceName: "IdentityService"
+        );
+
+        context.Services.AddHttpClientProxies(
+            typeof(PatientServiceApplicationContractsModule).Assembly,
+            remoteServiceName: "PatientService"
+        );
+    }
+
+    private static void ConfigureRemoteService(AbpRemoteServiceOptions options, IConfiguration configuration, string serviceName)
+    {
+        var baseUrl = configuration[$"RemoteServices:{serviceName}:BaseUrl"];
+
+        if (!string.IsNullOrWhiteSpace(baseUrl))
+        {
+            options.RemoteServices[serviceName] = new RemoteServiceConfiguration(baseUrl);
+        }
     }
 }

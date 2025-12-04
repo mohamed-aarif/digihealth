@@ -32,6 +32,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\digihealth.HttpApi.Client\digihealth.HttpApi.Client.csproj" />
     <ProjectReference Include="..\services\configuration\ConfigurationService.HttpApi.Client\ConfigurationService.HttpApi.Client.csproj" />
+    <ProjectReference Include="..\services\identity\IdentityService.Application.Contracts\IdentityService.Application.Contracts.csproj" />
+    <ProjectReference Include="..\services\patient\PatientService.Application.Contracts\PatientService.Application.Contracts.csproj" />
   </ItemGroup>
 
 

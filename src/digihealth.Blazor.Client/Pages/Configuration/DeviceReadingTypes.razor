@@ -1,0 +1,9 @@
+@page "/configuration/device-reading-types"
+
+<ConfigurationLookupPage TAppService="IDeviceReadingTypeAppService"
+                         TDto="DeviceReadingTypeDto"
+                         TCreateUpdateDto="CreateUpdateDeviceReadingTypeDto"
+                         EntityName="Device Reading Type"
+                         EntityNamePlural="Device Reading Types"
+                         AdditionalColumns="@<DataGridColumn TItem=\"DeviceReadingTypeDto\" Caption=\"Unit\">\n                            <DisplayTemplate Context=\"item\">\n                                @item.Unit\n                            </DisplayTemplate>\n                         </DataGridColumn>"
+                         AdditionalFields="@((CreateUpdateDeviceReadingTypeDto model) => \n                        @<div class=\"col-md-6\">\n                            <Field>\n                                <Label>Unit</Label>\n                                <TextEdit @bind-Text=\"model.Unit\" />\n                            </Field>\n                        </div>)" />

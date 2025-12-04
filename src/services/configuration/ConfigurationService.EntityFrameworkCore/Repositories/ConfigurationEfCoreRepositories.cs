@@ -41,9 +41,9 @@ public class DayOfWeekConfigRepository : EfCoreRepository<ConfigurationServiceDb
     }
 }
 
-public class DeviceTypeConfigRepository : EfCoreRepository<ConfigurationServiceDbContext, DeviceTypeConfig, Guid>, IDeviceTypeConfigRepository
+public class DeviceTypeRepository : EfCoreRepository<ConfigurationServiceDbContext, DeviceType, Guid>, IDeviceTypeRepository
 {
-    public DeviceTypeConfigRepository(IDbContextProvider<ConfigurationServiceDbContext> dbContextProvider) : base(dbContextProvider)
+    public DeviceTypeRepository(IDbContextProvider<ConfigurationServiceDbContext> dbContextProvider) : base(dbContextProvider)
     {
     }
 }
@@ -55,23 +55,23 @@ public class MedicationIntakeStatusRepository : EfCoreRepository<ConfigurationSe
     }
 }
 
-public class NotificationChannelConfigRepository : EfCoreRepository<ConfigurationServiceDbContext, NotificationChannelConfig, Guid>, INotificationChannelConfigRepository
+public class NotificationChannelRepository : EfCoreRepository<ConfigurationServiceDbContext, NotificationChannel, Guid>, INotificationChannelRepository
 {
-    public NotificationChannelConfigRepository(IDbContextProvider<ConfigurationServiceDbContext> dbContextProvider) : base(dbContextProvider)
+    public NotificationChannelRepository(IDbContextProvider<ConfigurationServiceDbContext> dbContextProvider) : base(dbContextProvider)
     {
     }
 }
 
-public class NotificationStatusConfigRepository : EfCoreRepository<ConfigurationServiceDbContext, NotificationStatusConfig, Guid>, INotificationStatusConfigRepository
+public class NotificationStatusRepository : EfCoreRepository<ConfigurationServiceDbContext, NotificationStatus, Guid>, INotificationStatusRepository
 {
-    public NotificationStatusConfigRepository(IDbContextProvider<ConfigurationServiceDbContext> dbContextProvider) : base(dbContextProvider)
+    public NotificationStatusRepository(IDbContextProvider<ConfigurationServiceDbContext> dbContextProvider) : base(dbContextProvider)
     {
     }
 }
 
-public class VaultRecordTypeConfigRepository : EfCoreRepository<ConfigurationServiceDbContext, VaultRecordTypeConfig, Guid>, IVaultRecordTypeConfigRepository
+public class VaultRecordTypeRepository : EfCoreRepository<ConfigurationServiceDbContext, VaultRecordType, Guid>, IVaultRecordTypeRepository
 {
-    public VaultRecordTypeConfigRepository(IDbContextProvider<ConfigurationServiceDbContext> dbContextProvider) : base(dbContextProvider)
+    public VaultRecordTypeRepository(IDbContextProvider<ConfigurationServiceDbContext> dbContextProvider) : base(dbContextProvider)
     {
     }
 }

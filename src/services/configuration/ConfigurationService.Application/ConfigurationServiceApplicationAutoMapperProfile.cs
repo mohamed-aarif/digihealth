@@ -22,19 +22,19 @@ public class ConfigurationServiceApplicationAutoMapperProfile : Profile
         CreateMap<DayOfWeekConfig, DayOfWeekConfigDto>();
         CreateMap<CreateUpdateDayOfWeekConfigDto, DayOfWeekConfig>();
 
-        CreateMap<DeviceTypeConfig, DeviceTypeConfigDto>();
-        CreateMap<CreateUpdateDeviceTypeConfigDto, DeviceTypeConfig>();
+        CreateMap<DeviceType, DeviceTypeDto>();
+        CreateMap<CreateUpdateDeviceTypeDto, DeviceType>();
 
         CreateMap<MedicationIntakeStatus, MedicationIntakeStatusDto>();
         CreateMap<CreateUpdateMedicationIntakeStatusDto, MedicationIntakeStatus>();
 
-        CreateMap<NotificationChannelConfig, NotificationChannelConfigDto>();
-        CreateMap<CreateUpdateNotificationChannelConfigDto, NotificationChannelConfig>();
+        CreateMap<NotificationChannel, NotificationChannelDto>();
+        CreateMap<CreateUpdateNotificationChannelDto, NotificationChannel>();
 
-        CreateMap<NotificationStatusConfig, NotificationStatusConfigDto>();
-        CreateMap<CreateUpdateNotificationStatusConfigDto, NotificationStatusConfig>();
+        CreateMap<NotificationStatus, NotificationStatusDto>();
+        CreateMap<CreateUpdateNotificationStatusDto, NotificationStatus>();
 
-        CreateMap<VaultRecordTypeConfig, VaultRecordTypeConfigDto>();
-        CreateMap<CreateUpdateVaultRecordTypeConfigDto, VaultRecordTypeConfig>();
+        CreateMap<VaultRecordType, VaultRecordTypeDto>();
+        CreateMap<CreateUpdateVaultRecordTypeDto, VaultRecordType>();
     }
 }

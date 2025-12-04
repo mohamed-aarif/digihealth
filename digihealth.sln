@@ -125,9 +125,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v2", "v2", "{493CCB57-F776-
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v3", "v3", "{40DDB3E5-4D28-4C32-ADED-0BB8E22638C9}"
 	ProjectSection(SolutionItems) = preProject
-		C:\Users\user\Downloads\digihealth-SQL-v4-OnlyData.sql = C:\Users\user\Downloads\digihealth-SQL-v4-OnlyData.sql
-		C:\Users\user\Downloads\digihealth-SQL-v4-OnlySchema.sql = C:\Users\user\Downloads\digihealth-SQL-v4-OnlySchema.sql
-		C:\Users\user\Downloads\digihealth-SQL-v4.sql = C:\Users\user\Downloads\digihealth-SQL-v4.sql
+		database\postgresql\v3\digihealth-SQL-v4-OnlyData.sql = database\postgresql\v3\digihealth-SQL-v4-OnlyData.sql
+		database\postgresql\v3\digihealth-SQL-v4-OnlySchema.sql = database\postgresql\v3\digihealth-SQL-v4-OnlySchema.sql
+		database\postgresql\v3\digihealth-SQL-v4.sql = database\postgresql\v3\digihealth-SQL-v4.sql
 	EndProjectSection
 EndProject
 Global

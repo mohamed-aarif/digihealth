@@ -14,4 +14,6 @@ public interface IPatientMedicalSummaryAppService :
         CreateUpdatePatientMedicalSummaryDto>
 {
     Task<PatientMedicalSummaryDto?> GetByIdentityPatientIdAsync(Guid identityPatientId);
+
+    Task<PatientMedicalSummaryDto> CreateOrUpdateForPatientAsync(CreateUpdatePatientMedicalSummaryDto input);
 }

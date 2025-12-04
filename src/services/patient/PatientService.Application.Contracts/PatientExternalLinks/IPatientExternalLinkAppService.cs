@@ -9,7 +9,7 @@ public interface IPatientExternalLinkAppService :
     ICrudAppService<
         PatientExternalLinkDto,
         Guid,
-        PagedAndSortedResultRequestDto,
+        PatientExternalLinkListRequestDto,
         CreateUpdatePatientExternalLinkDto,
         CreateUpdatePatientExternalLinkDto>
 {

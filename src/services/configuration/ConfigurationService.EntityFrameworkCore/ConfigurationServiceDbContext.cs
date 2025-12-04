@@ -1,3 +1,4 @@
+using System;
 using DigiHealth.ConfigurationService.ConfigurationLookups;
 using DigiHealth.ConfigurationService;
 using Microsoft.EntityFrameworkCore;
@@ -15,10 +16,12 @@ public class ConfigurationServiceDbContext : AbpDbContext<ConfigurationServiceDb
     public DbSet<ConsentPartyType> ConsentPartyTypes { get; set; } = null!;
     public DbSet<ConsentStatus> ConsentStatuses { get; set; } = null!;
     public DbSet<DayOfWeekConfig> DaysOfWeekConfigs { get; set; } = null!;
+    public DbSet<DeviceReadingType> DeviceReadingTypes { get; set; } = null!;
     public DbSet<DeviceType> DeviceTypes { get; set; } = null!;
     public DbSet<MedicationIntakeStatus> MedicationIntakeStatuses { get; set; } = null!;
     public DbSet<NotificationChannel> NotificationChannels { get; set; } = null!;
     public DbSet<NotificationStatus> NotificationStatuses { get; set; } = null!;
+    public DbSet<RelationshipType> RelationshipTypes { get; set; } = null!;
     public DbSet<VaultRecordType> VaultRecordTypes { get; set; } = null!;
 
     public ConfigurationServiceDbContext(DbContextOptions<ConfigurationServiceDbContext> options)
@@ -36,10 +39,15 @@ public class ConfigurationServiceDbContext : AbpDbContext<ConfigurationServiceDb
         ConfigureLookupEntity(builder.Entity<AppointmentChannel>(), "appointment_channels");
         ConfigureLookupEntity(builder.Entity<ConsentPartyType>(), "consent_party_types");
         ConfigureLookupEntity(builder.Entity<ConsentStatus>(), "consent_statuses");
+        ConfigureLookupEntity(builder.Entity<DeviceReadingType>(), "device_reading_types", b =>
+        {
+            b.Property(x => x.Unit).HasMaxLength(ConfigurationLookupConsts.UnitMaxLength).HasColumnName("unit");
+        });
         ConfigureLookupEntity(builder.Entity<DeviceType>(), "device_types");
         ConfigureLookupEntity(builder.Entity<MedicationIntakeStatus>(), "medication_intake_statuses");
         ConfigureLookupEntity(builder.Entity<NotificationChannel>(), "notification_channels");
         ConfigureLookupEntity(builder.Entity<NotificationStatus>(), "notification_statuses");
+        ConfigureLookupEntity(builder.Entity<RelationshipType>(), "relationship_types");
         ConfigureLookupEntity(builder.Entity<VaultRecordType>(), "vault_record_types");
 
         builder.Entity<DayOfWeekConfig>(b =>
@@ -58,7 +66,8 @@ public class ConfigurationServiceDbContext : AbpDbContext<ConfigurationServiceDb
         });
     }
 
-    private static void ConfigureLookupEntity<TEntity>(EntityTypeBuilder<TEntity> b, string tableName)
+    private static void ConfigureLookupEntity<TEntity>(EntityTypeBuilder<TEntity> b, string tableName,
+        Action<EntityTypeBuilder<TEntity>>? configureAdditionalProperties = null)
         where TEntity : ConfigurationLookupBase
     {
         b.ToTable(tableName, schema: ConfigurationServiceDbProperties.DbSchema);
@@ -70,5 +79,7 @@ public class ConfigurationServiceDbContext : AbpDbContext<ConfigurationServiceDb
         b.Property(x => x.Description).HasColumnName("description");
         b.Property(x => x.SortOrder).IsRequired().HasDefaultValue(0).HasColumnName("sort_order");
         b.Property(x => x.IsActive).IsRequired().HasDefaultValue(true).HasColumnName("is_active");
+
+        configureAdditionalProperties?.Invoke(b);
     }
 }

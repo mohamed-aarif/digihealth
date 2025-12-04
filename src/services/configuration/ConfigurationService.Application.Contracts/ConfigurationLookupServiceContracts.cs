@@ -39,6 +39,12 @@ public interface IDeviceTypeAppService :
 {
 }
 
+public interface IDeviceReadingTypeAppService :
+    ICrudAppService<DeviceReadingTypeDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateDeviceReadingTypeDto,
+        CreateUpdateDeviceReadingTypeDto>
+{
+}
+
 public interface IMedicationIntakeStatusAppService :
     ICrudAppService<MedicationIntakeStatusDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateMedicationIntakeStatusDto,
         CreateUpdateMedicationIntakeStatusDto>
@@ -54,6 +60,12 @@ public interface INotificationChannelAppService :
 public interface INotificationStatusAppService :
     ICrudAppService<NotificationStatusDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateNotificationStatusDto,
         CreateUpdateNotificationStatusDto>
+{
+}
+
+public interface IRelationshipTypeAppService :
+    ICrudAppService<RelationshipTypeDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateRelationshipTypeDto,
+        CreateUpdateRelationshipTypeDto>
 {
 }
 

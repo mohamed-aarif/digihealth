@@ -7,4 +7,5 @@ public static class ConfigurationLookupConsts
     public const int MaxDescriptionLength = 512;
     public const int DayOfWeekCodeMaxLength = 32;
     public const int DayOfWeekNameMaxLength = 64;
+    public const int UnitMaxLength = 32;
 }

@@ -28,6 +28,10 @@ public interface IDeviceTypeRepository : IRepository<DeviceType, Guid>
 {
 }
 
+public interface IDeviceReadingTypeRepository : IRepository<DeviceReadingType, Guid>
+{
+}
+
 public interface IMedicationIntakeStatusRepository : IRepository<MedicationIntakeStatus, Guid>
 {
 }
@@ -37,6 +41,10 @@ public interface INotificationChannelRepository : IRepository<NotificationChanne
 }
 
 public interface INotificationStatusRepository : IRepository<NotificationStatus, Guid>
+{
+}
+
+public interface IRelationshipTypeRepository : IRepository<RelationshipType, Guid>
 {
 }
 

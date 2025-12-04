@@ -48,6 +48,13 @@ public class DeviceTypeRepository : EfCoreRepository<ConfigurationServiceDbConte
     }
 }
 
+public class DeviceReadingTypeRepository : EfCoreRepository<ConfigurationServiceDbContext, DeviceReadingType, Guid>, IDeviceReadingTypeRepository
+{
+    public DeviceReadingTypeRepository(IDbContextProvider<ConfigurationServiceDbContext> dbContextProvider) : base(dbContextProvider)
+    {
+    }
+}
+
 public class MedicationIntakeStatusRepository : EfCoreRepository<ConfigurationServiceDbContext, MedicationIntakeStatus, Guid>, IMedicationIntakeStatusRepository
 {
     public MedicationIntakeStatusRepository(IDbContextProvider<ConfigurationServiceDbContext> dbContextProvider) : base(dbContextProvider)
@@ -65,6 +72,13 @@ public class NotificationChannelRepository : EfCoreRepository<ConfigurationServi
 public class NotificationStatusRepository : EfCoreRepository<ConfigurationServiceDbContext, NotificationStatus, Guid>, INotificationStatusRepository
 {
     public NotificationStatusRepository(IDbContextProvider<ConfigurationServiceDbContext> dbContextProvider) : base(dbContextProvider)
+    {
+    }
+}
+
+public class RelationshipTypeRepository : EfCoreRepository<ConfigurationServiceDbContext, RelationshipType, Guid>, IRelationshipTypeRepository
+{
+    public RelationshipTypeRepository(IDbContextProvider<ConfigurationServiceDbContext> dbContextProvider) : base(dbContextProvider)
     {
     }
 }

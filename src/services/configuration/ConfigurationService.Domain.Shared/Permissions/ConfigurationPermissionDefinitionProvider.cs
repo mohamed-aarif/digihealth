@@ -13,55 +13,34 @@ namespace DigiHealth.ConfigurationService.Permissions
             var group = context.GetGroupOrNull(ConfigurationPermissions.GroupName)
                         ?? context.AddGroup(ConfigurationPermissions.GroupName, L("Permission:Configuration"));
 
-            var appointmentStatuses = context.GetPermissionOrNull(ConfigurationPermissions.AppointmentStatuses.Default)
-                                   ?? group.AddPermission(ConfigurationPermissions.AppointmentStatuses.Default, L("Permission:AppointmentStatuses"));
-            _ = appointmentStatuses.Children.FirstOrDefault(child => child.Name == ConfigurationPermissions.AppointmentStatuses.Manage)
-                ?? appointmentStatuses.AddChild(ConfigurationPermissions.AppointmentStatuses.Manage, L("Permission:AppointmentStatuses.Manage"));
+            AddCrudPermissions(group, ConfigurationPermissions.AppointmentChannels.Default, "Permission:AppointmentChannels");
+            AddCrudPermissions(group, ConfigurationPermissions.AppointmentStatuses.Default, "Permission:AppointmentStatuses");
+            AddCrudPermissions(group, ConfigurationPermissions.ConsentPartyTypes.Default, "Permission:ConsentPartyTypes");
+            AddCrudPermissions(group, ConfigurationPermissions.ConsentStatuses.Default, "Permission:ConsentStatuses");
+            AddCrudPermissions(group, ConfigurationPermissions.DaysOfWeek.Default, "Permission:DaysOfWeek");
+            AddCrudPermissions(group, ConfigurationPermissions.DeviceReadingTypes.Default, "Permission:DeviceReadingTypes");
+            AddCrudPermissions(group, ConfigurationPermissions.DeviceTypes.Default, "Permission:DeviceTypes");
+            AddCrudPermissions(group, ConfigurationPermissions.MedicationIntakeStatuses.Default, "Permission:MedicationIntakeStatuses");
+            AddCrudPermissions(group, ConfigurationPermissions.NotificationChannels.Default, "Permission:NotificationChannels");
+            AddCrudPermissions(group, ConfigurationPermissions.NotificationStatuses.Default, "Permission:NotificationStatuses");
+            AddCrudPermissions(group, ConfigurationPermissions.RelationshipTypes.Default, "Permission:RelationshipTypes");
+            AddCrudPermissions(group, ConfigurationPermissions.VaultRecordTypes.Default, "Permission:VaultRecordTypes");
+        }
 
-            var appointmentChannels = context.GetPermissionOrNull(ConfigurationPermissions.AppointmentChannels.Default)
-                                     ?? group.AddPermission(ConfigurationPermissions.AppointmentChannels.Default, L("Permission:AppointmentChannels"));
-            _ = appointmentChannels.Children.FirstOrDefault(child => child.Name == ConfigurationPermissions.AppointmentChannels.Manage)
-                ?? appointmentChannels.AddChild(ConfigurationPermissions.AppointmentChannels.Manage, L("Permission:AppointmentChannels.Manage"));
+        private void AddCrudPermissions(IPermissionDefinitionGroupDefinition group, string defaultPermissionName, string displayNameKey)
+        {
+            var permission = group.GetPermissionOrNull(defaultPermissionName)
+                             ?? group.AddPermission(defaultPermissionName, L(displayNameKey));
 
-            var consentPartyTypes = context.GetPermissionOrNull(ConfigurationPermissions.ConsentPartyTypes.Default)
-                                    ?? group.AddPermission(ConfigurationPermissions.ConsentPartyTypes.Default, L("Permission:ConsentPartyTypes"));
-            _ = consentPartyTypes.Children.FirstOrDefault(child => child.Name == ConfigurationPermissions.ConsentPartyTypes.Manage)
-                ?? consentPartyTypes.AddChild(ConfigurationPermissions.ConsentPartyTypes.Manage, L("Permission:ConsentPartyTypes.Manage"));
+            AddChildIfNotExists(permission, defaultPermissionName + ".Create", L(displayNameKey + ".Create"));
+            AddChildIfNotExists(permission, defaultPermissionName + ".Edit", L(displayNameKey + ".Edit"));
+            AddChildIfNotExists(permission, defaultPermissionName + ".Delete", L(displayNameKey + ".Delete"));
+        }
 
-            var consentStatuses = context.GetPermissionOrNull(ConfigurationPermissions.ConsentStatuses.Default)
-                                  ?? group.AddPermission(ConfigurationPermissions.ConsentStatuses.Default, L("Permission:ConsentStatuses"));
-            _ = consentStatuses.Children.FirstOrDefault(child => child.Name == ConfigurationPermissions.ConsentStatuses.Manage)
-                ?? consentStatuses.AddChild(ConfigurationPermissions.ConsentStatuses.Manage, L("Permission:ConsentStatuses.Manage"));
-
-            var daysOfWeek = context.GetPermissionOrNull(ConfigurationPermissions.DaysOfWeek.Default)
-                              ?? group.AddPermission(ConfigurationPermissions.DaysOfWeek.Default, L("Permission:DaysOfWeek"));
-            _ = daysOfWeek.Children.FirstOrDefault(child => child.Name == ConfigurationPermissions.DaysOfWeek.Manage)
-                ?? daysOfWeek.AddChild(ConfigurationPermissions.DaysOfWeek.Manage, L("Permission:DaysOfWeek.Manage"));
-
-            var deviceTypes = context.GetPermissionOrNull(ConfigurationPermissions.DeviceTypes.Default)
-                              ?? group.AddPermission(ConfigurationPermissions.DeviceTypes.Default, L("Permission:DeviceTypes"));
-            _ = deviceTypes.Children.FirstOrDefault(child => child.Name == ConfigurationPermissions.DeviceTypes.Manage)
-                ?? deviceTypes.AddChild(ConfigurationPermissions.DeviceTypes.Manage, L("Permission:DeviceTypes.Manage"));
-
-            var medicationIntakeStatuses = context.GetPermissionOrNull(ConfigurationPermissions.MedicationIntakeStatuses.Default)
-                                          ?? group.AddPermission(ConfigurationPermissions.MedicationIntakeStatuses.Default, L("Permission:MedicationIntakeStatuses"));
-            _ = medicationIntakeStatuses.Children.FirstOrDefault(child => child.Name == ConfigurationPermissions.MedicationIntakeStatuses.Manage)
-                ?? medicationIntakeStatuses.AddChild(ConfigurationPermissions.MedicationIntakeStatuses.Manage, L("Permission:MedicationIntakeStatuses.Manage"));
-
-            var notificationChannels = context.GetPermissionOrNull(ConfigurationPermissions.NotificationChannels.Default)
-                                        ?? group.AddPermission(ConfigurationPermissions.NotificationChannels.Default, L("Permission:NotificationChannels"));
-            _ = notificationChannels.Children.FirstOrDefault(child => child.Name == ConfigurationPermissions.NotificationChannels.Manage)
-                ?? notificationChannels.AddChild(ConfigurationPermissions.NotificationChannels.Manage, L("Permission:NotificationChannels.Manage"));
-
-            var notificationStatuses = context.GetPermissionOrNull(ConfigurationPermissions.NotificationStatuses.Default)
-                                        ?? group.AddPermission(ConfigurationPermissions.NotificationStatuses.Default, L("Permission:NotificationStatuses"));
-            _ = notificationStatuses.Children.FirstOrDefault(child => child.Name == ConfigurationPermissions.NotificationStatuses.Manage)
-                ?? notificationStatuses.AddChild(ConfigurationPermissions.NotificationStatuses.Manage, L("Permission:NotificationStatuses.Manage"));
-
-            var vaultRecordTypes = context.GetPermissionOrNull(ConfigurationPermissions.VaultRecordTypes.Default)
-                                   ?? group.AddPermission(ConfigurationPermissions.VaultRecordTypes.Default, L("Permission:VaultRecordTypes"));
-            _ = vaultRecordTypes.Children.FirstOrDefault(child => child.Name == ConfigurationPermissions.VaultRecordTypes.Manage)
-                ?? vaultRecordTypes.AddChild(ConfigurationPermissions.VaultRecordTypes.Manage, L("Permission:VaultRecordTypes.Manage"));
+        private static void AddChildIfNotExists(PermissionDefinition permission, string childName, LocalizableString displayName)
+        {
+            _ = permission.Children.FirstOrDefault(child => child.Name == childName)
+                ?? permission.AddChild(childName, displayName);
         }
 
         private static LocalizableString L(string name)

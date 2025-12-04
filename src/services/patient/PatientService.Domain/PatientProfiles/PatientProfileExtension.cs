@@ -1,9 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
 namespace PatientService.PatientProfiles;
 
+[Table("patient_profile_extensions", Schema = PatientServiceDbProperties.DbSchema)]
 public class PatientProfileExtension : FullAuditedAggregateRoot<Guid>, IMultiTenant
 {
     public Guid IdentityPatientId { get; protected set; }

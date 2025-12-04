@@ -1,4 +1,5 @@
 using AutoMapper;
+using PatientService.Meals;
 using PatientService.PatientExternalLinks;
 using PatientService.PatientMedicalSummaries;
 using PatientService.PatientProfiles;
@@ -17,5 +18,11 @@ public class PatientServiceApplicationAutoMapperProfile : Profile
 
         CreateMap<PatientExternalLink, PatientExternalLinkDto>();
         CreateMap<CreateUpdatePatientExternalLinkDto, PatientExternalLink>();
+
+        CreateMap<Meal, MealDto>();
+        CreateMap<CreateUpdateMealDto, Meal>();
+
+        CreateMap<MealItem, MealItemDto>();
+        CreateMap<CreateUpdateMealItemDto, MealItem>();
     }
 }

@@ -1,18 +1,21 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using PatientService.Permissions;
+using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
-using Volo.Abp;
 
 namespace PatientService.PatientExternalLinks;
 
+[Authorize(DigiHealthPatientPermissions.PatientExternalLinks.Default)]
 public class PatientExternalLinkAppService : CrudAppService<
     PatientExternalLink,
     PatientExternalLinkDto,
     Guid,
-    PagedAndSortedResultRequestDto,
+    PatientExternalLinkListRequestDto,
     CreateUpdatePatientExternalLinkDto,
     CreateUpdatePatientExternalLinkDto>, IPatientExternalLinkAppService
 {
@@ -23,18 +26,36 @@ public class PatientExternalLinkAppService : CrudAppService<
         IPatientIdentityLookupAppService identityLookupAppService) : base(repository)
     {
         _identityLookupAppService = identityLookupAppService;
-        GetPolicyName = PatientServicePermissions.PatientExternalLinks.Default;
-        GetListPolicyName = PatientServicePermissions.PatientExternalLinks.Default;
-        CreatePolicyName = PatientServicePermissions.PatientExternalLinks.Create;
-        UpdatePolicyName = PatientServicePermissions.PatientExternalLinks.Update;
-        DeletePolicyName = PatientServicePermissions.PatientExternalLinks.Delete;
+        GetPolicyName = DigiHealthPatientPermissions.PatientExternalLinks.Default;
+        GetListPolicyName = DigiHealthPatientPermissions.PatientExternalLinks.Default;
+        CreatePolicyName = DigiHealthPatientPermissions.PatientExternalLinks.Create;
+        UpdatePolicyName = DigiHealthPatientPermissions.PatientExternalLinks.Edit;
+        DeletePolicyName = DigiHealthPatientPermissions.PatientExternalLinks.Delete;
     }
 
     public async Task<PagedResultDto<PatientExternalLinkDto>> GetBySystemAsync(string systemName, Guid? identityPatientId)
     {
-        var list = await Repository.GetListAsync(
-            x => x.SystemName == systemName && (!identityPatientId.HasValue || x.IdentityPatientId == identityPatientId));
+        await CheckGetListPolicyAsync();
+        var queryable = await Repository.GetQueryableAsync();
+        var filtered = queryable.Where(x => x.SystemName == systemName && (!identityPatientId.HasValue || x.IdentityPatientId == identityPatientId));
+        var list = filtered.ToList();
         return new PagedResultDto<PatientExternalLinkDto>(list.Count, ObjectMapper.Map<System.Collections.Generic.List<PatientExternalLink>, System.Collections.Generic.List<PatientExternalLinkDto>>(list));
+    }
+
+    protected override async Task<IQueryable<PatientExternalLink>> CreateFilteredQueryAsync(PatientExternalLinkListRequestDto input)
+    {
+        var query = await base.CreateFilteredQueryAsync(input);
+        if (input.IdentityPatientId.HasValue)
+        {
+            query = query.Where(x => x.IdentityPatientId == input.IdentityPatientId);
+        }
+
+        if (!input.SystemName.IsNullOrWhiteSpace())
+        {
+            query = query.Where(x => x.SystemName == input.SystemName);
+        }
+
+        return query;
     }
 
     protected override async Task<PatientExternalLink> MapToEntityAsync(CreateUpdatePatientExternalLinkDto createInput)

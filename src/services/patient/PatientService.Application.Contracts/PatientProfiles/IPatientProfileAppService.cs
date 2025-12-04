@@ -14,4 +14,6 @@ public interface IPatientProfileAppService :
         CreateUpdatePatientProfileExtensionDto>
 {
     Task<PatientProfileExtensionDto?> GetByIdentityPatientIdAsync(Guid identityPatientId);
+
+    Task<PatientProfileExtensionDto> CreateOrUpdateForPatientAsync(CreateUpdatePatientProfileExtensionDto input);
 }

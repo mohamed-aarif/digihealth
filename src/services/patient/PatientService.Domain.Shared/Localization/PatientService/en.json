@@ -6,6 +6,11 @@
     "Permission:PatientMedicalSummaries": "Patient medical summaries",
     "Permission:PatientExternalLinks": "Patient external links",
     "Permission:PatientLookups": "Patient identity lookups",
-    "Permission:PatientSummaries": "Patient summaries"
+    "Permission:PatientSummaries": "Patient summaries",
+    "Permission:Meals": "Meals",
+    "Permission:MealItems": "Meal items",
+    "Permission:Create": "Create",
+    "Permission:Edit": "Edit",
+    "Permission:Delete": "Delete"
   }
 }

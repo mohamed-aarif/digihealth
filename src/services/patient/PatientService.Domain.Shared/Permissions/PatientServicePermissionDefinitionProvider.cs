@@ -2,7 +2,6 @@ using System.Linq;
 using PatientService.Localization;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Localization;
-using Volo.Abp.MultiTenancy;
 
 namespace PatientService.Permissions;
 
@@ -10,40 +9,62 @@ public class PatientServicePermissionDefinitionProvider : PermissionDefinitionPr
 {
     public override void Define(IPermissionDefinitionContext context)
     {
-        var patientGroup = context.GetGroupOrNull(PatientServicePermissions.GroupName)
-                          ?? context.AddGroup(PatientServicePermissions.GroupName, L("Permission:PatientService"));
+        var patientGroup = context.GetGroupOrNull(DigiHealthPatientPermissions.GroupName)
+                          ?? context.AddGroup(DigiHealthPatientPermissions.GroupName, L("Permission:PatientService"));
 
-        var profiles = patientGroup.GetPermissionOrNull(PatientServicePermissions.PatientProfiles.Default)
-                      ?? patientGroup.AddPermission(PatientServicePermissions.PatientProfiles.Default, L("Permission:PatientProfiles"));
-        _ = profiles.Children.FirstOrDefault(child => child.Name == PatientServicePermissions.PatientProfiles.Create)
-            ?? profiles.AddChild(PatientServicePermissions.PatientProfiles.Create, L("Permission:Create"));
-        _ = profiles.Children.FirstOrDefault(child => child.Name == PatientServicePermissions.PatientProfiles.Update)
-            ?? profiles.AddChild(PatientServicePermissions.PatientProfiles.Update, L("Permission:Update"));
-        _ = profiles.Children.FirstOrDefault(child => child.Name == PatientServicePermissions.PatientProfiles.Delete)
-            ?? profiles.AddChild(PatientServicePermissions.PatientProfiles.Delete, L("Permission:Delete"));
+        AddChildPermissions(
+            patientGroup.GetPermissionOrNull(DigiHealthPatientPermissions.PatientProfileExtensions.Default)
+            ?? patientGroup.AddPermission(DigiHealthPatientPermissions.PatientProfileExtensions.Default, L("Permission:PatientProfiles")),
+            DigiHealthPatientPermissions.PatientProfileExtensions.Create,
+            DigiHealthPatientPermissions.PatientProfileExtensions.Edit,
+            DigiHealthPatientPermissions.PatientProfileExtensions.Delete);
 
-        var summaries = patientGroup.GetPermissionOrNull(PatientServicePermissions.PatientMedicalSummaries.Default)
-                       ?? patientGroup.AddPermission(PatientServicePermissions.PatientMedicalSummaries.Default, L("Permission:PatientMedicalSummaries"));
-        _ = summaries.Children.FirstOrDefault(child => child.Name == PatientServicePermissions.PatientMedicalSummaries.Create)
-            ?? summaries.AddChild(PatientServicePermissions.PatientMedicalSummaries.Create, L("Permission:Create"));
-        _ = summaries.Children.FirstOrDefault(child => child.Name == PatientServicePermissions.PatientMedicalSummaries.Update)
-            ?? summaries.AddChild(PatientServicePermissions.PatientMedicalSummaries.Update, L("Permission:Update"));
-        _ = summaries.Children.FirstOrDefault(child => child.Name == PatientServicePermissions.PatientMedicalSummaries.Delete)
-            ?? summaries.AddChild(PatientServicePermissions.PatientMedicalSummaries.Delete, L("Permission:Delete"));
+        AddChildPermissions(
+            patientGroup.GetPermissionOrNull(DigiHealthPatientPermissions.PatientMedicalSummaries.Default)
+            ?? patientGroup.AddPermission(DigiHealthPatientPermissions.PatientMedicalSummaries.Default, L("Permission:PatientMedicalSummaries")),
+            DigiHealthPatientPermissions.PatientMedicalSummaries.Create,
+            DigiHealthPatientPermissions.PatientMedicalSummaries.Edit,
+            DigiHealthPatientPermissions.PatientMedicalSummaries.Delete);
 
-        var links = patientGroup.GetPermissionOrNull(PatientServicePermissions.PatientExternalLinks.Default)
-                   ?? patientGroup.AddPermission(PatientServicePermissions.PatientExternalLinks.Default, L("Permission:PatientExternalLinks"));
-        _ = links.Children.FirstOrDefault(child => child.Name == PatientServicePermissions.PatientExternalLinks.Create)
-            ?? links.AddChild(PatientServicePermissions.PatientExternalLinks.Create, L("Permission:Create"));
-        _ = links.Children.FirstOrDefault(child => child.Name == PatientServicePermissions.PatientExternalLinks.Update)
-            ?? links.AddChild(PatientServicePermissions.PatientExternalLinks.Update, L("Permission:Update"));
-        _ = links.Children.FirstOrDefault(child => child.Name == PatientServicePermissions.PatientExternalLinks.Delete)
-            ?? links.AddChild(PatientServicePermissions.PatientExternalLinks.Delete, L("Permission:Delete"));
+        AddChildPermissions(
+            patientGroup.GetPermissionOrNull(DigiHealthPatientPermissions.PatientExternalLinks.Default)
+            ?? patientGroup.AddPermission(DigiHealthPatientPermissions.PatientExternalLinks.Default, L("Permission:PatientExternalLinks")),
+            DigiHealthPatientPermissions.PatientExternalLinks.Create,
+            DigiHealthPatientPermissions.PatientExternalLinks.Edit,
+            DigiHealthPatientPermissions.PatientExternalLinks.Delete);
+
+        AddChildPermissions(
+            patientGroup.GetPermissionOrNull(DigiHealthPatientPermissions.Meals.Default)
+            ?? patientGroup.AddPermission(DigiHealthPatientPermissions.Meals.Default, L("Permission:Meals")),
+            DigiHealthPatientPermissions.Meals.Create,
+            DigiHealthPatientPermissions.Meals.Edit,
+            DigiHealthPatientPermissions.Meals.Delete);
+
+        AddChildPermissions(
+            patientGroup.GetPermissionOrNull(DigiHealthPatientPermissions.MealItems.Default)
+            ?? patientGroup.AddPermission(DigiHealthPatientPermissions.MealItems.Default, L("Permission:MealItems")),
+            DigiHealthPatientPermissions.MealItems.Create,
+            DigiHealthPatientPermissions.MealItems.Edit,
+            DigiHealthPatientPermissions.MealItems.Delete);
 
         _ = patientGroup.GetPermissionOrNull(PatientServicePermissions.PatientLookups.Default)
             ?? patientGroup.AddPermission(PatientServicePermissions.PatientLookups.Default, L("Permission:PatientLookups"));
         _ = patientGroup.GetPermissionOrNull(PatientServicePermissions.PatientSummaries.Default)
             ?? patientGroup.AddPermission(PatientServicePermissions.PatientSummaries.Default, L("Permission:PatientSummaries"));
+    }
+
+    private static void AddChildPermissions(PermissionDefinition parent, params string[] children)
+    {
+        foreach (var child in children)
+        {
+            _ = parent.Children.FirstOrDefault(c => c.Name == child) ?? parent.AddChild(child, LocalizeChild(child));
+        }
+    }
+
+    private static LocalizableString LocalizeChild(string name)
+    {
+        var suffix = name.Split('.').Last();
+        return L($"Permission:{suffix}");
     }
 
     private static LocalizableString L(string name)

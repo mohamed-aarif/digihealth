@@ -1,13 +1,15 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using PatientService.Permissions;
+using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
-using Volo.Abp;
 
 namespace PatientService.PatientMedicalSummaries;
 
+[Authorize(DigiHealthPatientPermissions.PatientMedicalSummaries.Default)]
 public class PatientMedicalSummaryAppService : CrudAppService<
     PatientMedicalSummary,
     PatientMedicalSummaryDto,
@@ -23,17 +25,32 @@ public class PatientMedicalSummaryAppService : CrudAppService<
         IPatientIdentityLookupAppService identityLookupAppService) : base(repository)
     {
         _identityLookupAppService = identityLookupAppService;
-        GetPolicyName = PatientServicePermissions.PatientMedicalSummaries.Default;
-        GetListPolicyName = PatientServicePermissions.PatientMedicalSummaries.Default;
-        CreatePolicyName = PatientServicePermissions.PatientMedicalSummaries.Create;
-        UpdatePolicyName = PatientServicePermissions.PatientMedicalSummaries.Update;
-        DeletePolicyName = PatientServicePermissions.PatientMedicalSummaries.Delete;
+        GetPolicyName = DigiHealthPatientPermissions.PatientMedicalSummaries.Default;
+        GetListPolicyName = DigiHealthPatientPermissions.PatientMedicalSummaries.Default;
+        CreatePolicyName = DigiHealthPatientPermissions.PatientMedicalSummaries.Create;
+        UpdatePolicyName = DigiHealthPatientPermissions.PatientMedicalSummaries.Edit;
+        DeletePolicyName = DigiHealthPatientPermissions.PatientMedicalSummaries.Delete;
     }
 
     public async Task<PatientMedicalSummaryDto?> GetByIdentityPatientIdAsync(Guid identityPatientId)
     {
         var entity = await Repository.FirstOrDefaultAsync(x => x.IdentityPatientId == identityPatientId);
         return entity == null ? null : await MapToGetOutputDtoAsync(entity);
+    }
+
+    public async Task<PatientMedicalSummaryDto> CreateOrUpdateForPatientAsync(CreateUpdatePatientMedicalSummaryDto input)
+    {
+        var existing = await Repository.FirstOrDefaultAsync(x => x.IdentityPatientId == input.IdentityPatientId);
+        if (existing == null)
+        {
+            await CheckCreatePolicyAsync();
+            return await CreateAsync(input);
+        }
+
+        await CheckUpdatePolicyAsync();
+        await MapToEntityAsync(input, existing);
+        await Repository.UpdateAsync(existing, autoSave: true);
+        return await MapToGetOutputDtoAsync(existing);
     }
 
     protected override async Task<PatientMedicalSummary> MapToEntityAsync(CreateUpdatePatientMedicalSummaryDto createInput)

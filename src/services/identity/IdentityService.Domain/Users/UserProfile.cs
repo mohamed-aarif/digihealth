@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using Volo.Abp.Data;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities;
@@ -8,6 +9,7 @@ using Volo.Abp.ObjectExtending;
 
 namespace IdentityService.Users;
 
+[Table("users", Schema = "identity")]
 public class UserProfile : FullAuditedAggregateRoot<Guid>, IMultiTenant, IHasConcurrencyStamp, IHasExtraProperties
 {
     public Guid? TenantId { get; private set; }

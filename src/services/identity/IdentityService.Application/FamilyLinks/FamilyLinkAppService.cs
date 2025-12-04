@@ -10,7 +10,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace IdentityService.FamilyLinks;
 
-[Authorize(IdentityServicePermissions.FamilyLinks.Default)]
+[Authorize(DigiHealthIdentityPermissions.FamilyLinks.Default)]
 public class FamilyLinkAppService : CrudAppService<FamilyLink, FamilyLinkDto, Guid, PagedAndSortedResultRequestDto, CreateFamilyLinkDto, UpdateFamilyLinkDto>,
     IFamilyLinkAppService
 {
@@ -21,19 +21,19 @@ public class FamilyLinkAppService : CrudAppService<FamilyLink, FamilyLinkDto, Gu
         ObjectMapperContext = typeof(IdentityServiceApplicationModule);
     }
 
-    [Authorize(IdentityServicePermissions.FamilyLinks.Manage)]
+    [Authorize(DigiHealthIdentityPermissions.FamilyLinks.Create)]
     public override Task<FamilyLinkDto> CreateAsync(CreateFamilyLinkDto input)
     {
         return base.CreateAsync(input);
     }
 
-    [Authorize(IdentityServicePermissions.FamilyLinks.Manage)]
+    [Authorize(DigiHealthIdentityPermissions.FamilyLinks.Edit)]
     public override Task<FamilyLinkDto> UpdateAsync(Guid id, UpdateFamilyLinkDto input)
     {
         return base.UpdateAsync(id, input);
     }
 
-    [Authorize(IdentityServicePermissions.FamilyLinks.Manage)]
+    [Authorize(DigiHealthIdentityPermissions.FamilyLinks.Delete)]
     public override Task DeleteAsync(Guid id)
     {
         return base.DeleteAsync(id);

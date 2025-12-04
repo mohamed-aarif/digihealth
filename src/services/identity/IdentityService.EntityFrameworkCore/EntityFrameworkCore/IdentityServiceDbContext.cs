@@ -1,6 +1,10 @@
 using IdentityService.Doctors;
+using IdentityService.DoctorPatientLinks;
 using IdentityService.FamilyLinks;
+using IdentityService.HealthPassports;
 using IdentityService.Patients;
+using IdentityService.SubscriptionPlans;
+using IdentityService.UserSubscriptions;
 using IdentityService.Users;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -42,6 +46,10 @@ public class IdentityServiceDbContext
     public DbSet<Doctor> Doctors { get; set; } = default!;
     public DbSet<FamilyLink> FamilyLinks { get; set; } = default!;
     public DbSet<UserProfile> UserProfiles { get; set; } = default!;
+    public DbSet<DoctorPatientLink> DoctorPatientLinks { get; set; } = default!;
+    public DbSet<HealthPassport> HealthPassports { get; set; } = default!;
+    public DbSet<SubscriptionPlan> SubscriptionPlans { get; set; } = default!;
+    public DbSet<UserSubscription> UserSubscriptions { get; set; } = default!;
 
     public DbSet<PermissionGroupDefinitionRecord> PermissionGroups { get; set; } = default!;
     public DbSet<PermissionDefinitionRecord> Permissions { get; set; } = default!;

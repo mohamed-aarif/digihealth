@@ -1,6 +1,10 @@
+using IdentityService.DoctorPatientLinks;
 using IdentityService.Doctors;
 using IdentityService.FamilyLinks;
+using IdentityService.HealthPassports;
 using IdentityService.Patients;
+using IdentityService.SubscriptionPlans;
+using IdentityService.UserSubscriptions;
 using IdentityService.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -20,6 +24,10 @@ public static class IdentityServiceDbContextModelCreatingExtensions
         builder.Entity<Doctor>(ConfigureDoctor);
         builder.Entity<FamilyLink>(ConfigureFamilyLink);
         builder.Entity<UserProfile>(ConfigureUserProfile);
+        builder.Entity<DoctorPatientLink>(ConfigureDoctorPatientLink);
+        builder.Entity<HealthPassport>(ConfigureHealthPassport);
+        builder.Entity<SubscriptionPlan>(ConfigureSubscriptionPlan);
+        builder.Entity<UserSubscription>(ConfigureUserSubscription);
     }
 
     private static void ConfigurePatient(EntityTypeBuilder<Patient> b)
@@ -244,6 +252,155 @@ public static class IdentityServiceDbContextModelCreatingExtensions
         b.HasOne<IdentityUser>()
             .WithOne()
             .HasForeignKey<UserProfile>(x => x.Id)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
+
+    private static void ConfigureDoctorPatientLink(EntityTypeBuilder<DoctorPatientLink> b)
+    {
+        b.ToTable("doctor_patient_links", IdentityServiceDbProperties.DbSchema);
+        b.ConfigureByConvention();
+
+        b.Property(x => x.Id).HasColumnName("id");
+        b.Property(x => x.TenantId).HasColumnName("tenant_id");
+        b.Property(x => x.DoctorId).HasColumnName("doctor_id").IsRequired();
+        b.Property(x => x.PatientId).HasColumnName("patient_id").IsRequired();
+        b.Property(x => x.RelationshipTypeId).HasColumnName("relationship_type_id");
+        b.Property(x => x.IsPrimary).HasColumnName("is_primary").HasDefaultValue(false);
+        b.Property(x => x.Notes).HasColumnName("notes").HasMaxLength(DoctorPatientLinkConsts.MaxNotesLength);
+        b.Property(x => x.CreationTime).HasColumnName("creation_time").IsRequired().HasDefaultValueSql("now()");
+        b.Property(x => x.LastModificationTime).HasColumnName("LastModificationTime");
+        b.Property(x => x.LastModifierId).HasColumnName("LastModifierId");
+        b.Property(x => x.CreatorId).HasColumnName("CreatorId");
+        b.Property(x => x.IsDeleted).HasColumnName("IsDeleted");
+        b.Property(x => x.DeleterId).HasColumnName("DeleterId");
+        b.Property(x => x.DeletionTime).HasColumnName("DeletionTime");
+        b.Property(x => x.ConcurrencyStamp).HasColumnName("ConcurrencyStamp").HasMaxLength(40).IsConcurrencyToken();
+        b.Property(x => x.ExtraProperties).HasColumnName("ExtraProperties");
+
+        b.HasIndex(x => new { x.TenantId, x.DoctorId, x.PatientId })
+            .IsUnique()
+            .HasDatabaseName("ux_doctor_patient_links_unique")
+            .HasFilter("\"IsDeleted\" = false");
+
+        b.HasOne<Doctor>()
+            .WithMany(d => d.PatientLinks)
+            .HasForeignKey(x => x.DoctorId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        b.HasOne<Patient>()
+            .WithMany(p => p.DoctorLinks)
+            .HasForeignKey(x => x.PatientId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
+
+    private static void ConfigureHealthPassport(EntityTypeBuilder<HealthPassport> b)
+    {
+        b.ToTable("health_passports", IdentityServiceDbProperties.DbSchema);
+        b.ConfigureByConvention();
+
+        b.Property(x => x.Id).HasColumnName("id");
+        b.Property(x => x.TenantId).HasColumnName("tenant_id");
+        b.Property(x => x.PatientId).HasColumnName("patient_id").IsRequired();
+        b.Property(x => x.PassportNumber).HasColumnName("passport_number").HasMaxLength(HealthPassportConsts.MaxPassportNumberLength);
+        b.Property(x => x.PassportType).HasColumnName("passport_type").HasMaxLength(HealthPassportConsts.MaxPassportTypeLength);
+        b.Property(x => x.IssuedBy).HasColumnName("issued_by").HasMaxLength(HealthPassportConsts.MaxIssuedByLength);
+        b.Property(x => x.IssuedAt).HasColumnName("issued_at").IsRequired().HasDefaultValueSql("now()");
+        b.Property(x => x.ExpiresAt).HasColumnName("expires_at");
+        b.Property(x => x.Status).HasColumnName("status").IsRequired().HasMaxLength(HealthPassportConsts.MaxStatusLength);
+        b.Property(x => x.QrCodePayload).HasColumnName("qr_code_payload");
+        b.Property(x => x.MetadataJson).HasColumnName("metadata_json");
+        b.Property(x => x.CreationTime).HasColumnName("creation_time").IsRequired().HasDefaultValueSql("now()");
+        b.Property(x => x.LastModificationTime).HasColumnName("LastModificationTime");
+        b.Property(x => x.LastModifierId).HasColumnName("LastModifierId");
+        b.Property(x => x.CreatorId).HasColumnName("CreatorId");
+        b.Property(x => x.IsDeleted).HasColumnName("IsDeleted");
+        b.Property(x => x.DeleterId).HasColumnName("DeleterId");
+        b.Property(x => x.DeletionTime).HasColumnName("DeletionTime");
+        b.Property(x => x.ConcurrencyStamp).HasColumnName("ConcurrencyStamp").HasMaxLength(40).IsConcurrencyToken();
+        b.Property(x => x.ExtraProperties).HasColumnName("ExtraProperties");
+
+        b.HasIndex(x => new { x.TenantId, x.PatientId, x.PassportType })
+            .IsUnique()
+            .HasDatabaseName("ux_health_passports_tenant_patient_type")
+            .HasFilter("\"IsDeleted\" = false");
+
+        b.HasOne<Patient>()
+            .WithMany(p => p.HealthPassports)
+            .HasForeignKey(x => x.PatientId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
+
+    private static void ConfigureSubscriptionPlan(EntityTypeBuilder<SubscriptionPlan> b)
+    {
+        b.ToTable("subscription_plans", IdentityServiceDbProperties.DbSchema);
+        b.ConfigureByConvention();
+
+        b.Property(x => x.Id).HasColumnName("id");
+        b.Property(x => x.TenantId).HasColumnName("tenant_id");
+        b.Property(x => x.Code).HasColumnName("code").IsRequired().HasMaxLength(SubscriptionPlanConsts.MaxCodeLength);
+        b.Property(x => x.Name).HasColumnName("name").IsRequired().HasMaxLength(SubscriptionPlanConsts.MaxNameLength);
+        b.Property(x => x.Description).HasColumnName("description");
+        b.Property(x => x.BillingPeriod).HasColumnName("billing_period").IsRequired().HasMaxLength(SubscriptionPlanConsts.MaxBillingPeriodLength);
+        b.Property(x => x.PriceAmount).HasColumnName("price_amount").IsRequired();
+        b.Property(x => x.PriceCurrency).HasColumnName("price_currency").IsRequired().HasMaxLength(SubscriptionPlanConsts.MaxPriceCurrencyLength);
+        b.Property(x => x.IsFree).HasColumnName("is_free").HasDefaultValue(false);
+        b.Property(x => x.IsActive).HasColumnName("is_active").HasDefaultValue(true);
+        b.Property(x => x.SortOrder).HasColumnName("sort_order").HasDefaultValue(0);
+        b.Property(x => x.MaxDevices).HasColumnName("max_devices");
+        b.Property(x => x.MaxVaultRecords).HasColumnName("max_vault_records");
+        b.Property(x => x.MaxAiMessagesPerMonth).HasColumnName("max_ai_messages_per_month");
+        b.Property(x => x.MetadataJson).HasColumnName("metadata_json");
+        b.Property(x => x.CreationTime).HasColumnName("creation_time").IsRequired().HasDefaultValueSql("now()");
+        b.Property(x => x.LastModificationTime).HasColumnName("LastModificationTime");
+        b.Property(x => x.LastModifierId).HasColumnName("LastModifierId");
+        b.Property(x => x.CreatorId).HasColumnName("CreatorId");
+        b.Property(x => x.IsDeleted).HasColumnName("IsDeleted");
+        b.Property(x => x.DeleterId).HasColumnName("DeleterId");
+        b.Property(x => x.DeletionTime).HasColumnName("DeletionTime");
+        b.Property(x => x.ConcurrencyStamp).HasColumnName("ConcurrencyStamp").HasMaxLength(40).IsConcurrencyToken();
+        b.Property(x => x.ExtraProperties).HasColumnName("ExtraProperties");
+
+        b.HasIndex(x => new { x.TenantId, x.Code }).IsUnique();
+    }
+
+    private static void ConfigureUserSubscription(EntityTypeBuilder<UserSubscription> b)
+    {
+        b.ToTable("user_subscriptions", IdentityServiceDbProperties.DbSchema);
+        b.ConfigureByConvention();
+
+        b.Property(x => x.Id).HasColumnName("id");
+        b.Property(x => x.TenantId).HasColumnName("tenant_id");
+        b.Property(x => x.UserId).HasColumnName("user_id").IsRequired();
+        b.Property(x => x.SubscriptionPlanId).HasColumnName("subscription_plan_id").IsRequired();
+        b.Property(x => x.StartDate).HasColumnName("start_date").IsRequired();
+        b.Property(x => x.EndDate).HasColumnName("end_date");
+        b.Property(x => x.AutoRenew).HasColumnName("auto_renew").HasDefaultValue(true);
+        b.Property(x => x.Status).HasColumnName("status").IsRequired().HasMaxLength(UserSubscriptionConsts.MaxStatusLength);
+        b.Property(x => x.ExternalReference).HasColumnName("external_reference").HasMaxLength(UserSubscriptionConsts.MaxExternalReferenceLength);
+        b.Property(x => x.PaymentGateway).HasColumnName("payment_gateway").HasMaxLength(UserSubscriptionConsts.MaxPaymentGatewayLength);
+        b.Property(x => x.MetadataJson).HasColumnName("metadata_json");
+        b.Property(x => x.CancelledAt).HasColumnName("cancelled_at");
+        b.Property(x => x.CreationTime).HasColumnName("creation_time").IsRequired().HasDefaultValueSql("now()");
+        b.Property(x => x.LastModificationTime).HasColumnName("LastModificationTime");
+        b.Property(x => x.LastModifierId).HasColumnName("LastModifierId");
+        b.Property(x => x.CreatorId).HasColumnName("CreatorId");
+        b.Property(x => x.IsDeleted).HasColumnName("IsDeleted");
+        b.Property(x => x.DeleterId).HasColumnName("DeleterId");
+        b.Property(x => x.DeletionTime).HasColumnName("DeletionTime");
+        b.Property(x => x.ConcurrencyStamp).HasColumnName("ConcurrencyStamp").HasMaxLength(40).IsConcurrencyToken();
+        b.Property(x => x.ExtraProperties).HasColumnName("ExtraProperties");
+
+        b.HasIndex(x => new { x.TenantId, x.SubscriptionPlanId, x.Status });
+        b.HasIndex(x => new { x.TenantId, x.UserId, x.Status });
+
+        b.HasOne<IdentityUser>()
+            .WithMany()
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        b.HasOne<SubscriptionPlan>()
+            .WithMany()
+            .HasForeignKey(x => x.SubscriptionPlanId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

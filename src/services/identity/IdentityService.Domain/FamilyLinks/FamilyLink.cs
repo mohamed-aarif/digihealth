@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using Volo.Abp.Data;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities;
@@ -8,6 +9,7 @@ using Volo.Abp.ObjectExtending;
 
 namespace IdentityService.FamilyLinks;
 
+[Table("family_links", Schema = "identity")]
 public class FamilyLink : FullAuditedAggregateRoot<Guid>, IMultiTenant, IHasConcurrencyStamp, IHasExtraProperties
 {
     public Guid? TenantId { get; private set; }

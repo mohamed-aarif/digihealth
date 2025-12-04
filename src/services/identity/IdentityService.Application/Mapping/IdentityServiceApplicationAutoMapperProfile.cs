@@ -1,7 +1,11 @@
 using AutoMapper;
 using IdentityService.Doctors.Dtos;
+using IdentityService.DoctorPatientLinks.Dtos;
 using IdentityService.FamilyLinks.Dtos;
+using IdentityService.HealthPassports.Dtos;
 using IdentityService.Patients.Dtos;
+using IdentityService.SubscriptionPlans.Dtos;
+using IdentityService.UserSubscriptions.Dtos;
 using IdentityService.Users.Dtos;
 using Volo.Abp.AutoMapper;
 
@@ -30,6 +34,22 @@ public class IdentityServiceApplicationAutoMapperProfile : Profile
         CreateMap<FamilyLinks.FamilyLink, FamilyLinkDto>();
         CreateMap<CreateFamilyLinkDto, FamilyLinks.FamilyLink>(MemberList.Source);
         CreateMap<UpdateFamilyLinkDto, FamilyLinks.FamilyLink>(MemberList.Source);
+
+        CreateMap<DoctorPatientLinks.DoctorPatientLink, DoctorPatientLinkDto>();
+        CreateMap<CreateDoctorPatientLinkDto, DoctorPatientLinks.DoctorPatientLink>(MemberList.Source);
+        CreateMap<UpdateDoctorPatientLinkDto, DoctorPatientLinks.DoctorPatientLink>(MemberList.Source);
+
+        CreateMap<HealthPassports.HealthPassport, HealthPassportDto>();
+        CreateMap<CreateHealthPassportDto, HealthPassports.HealthPassport>(MemberList.Source);
+        CreateMap<UpdateHealthPassportDto, HealthPassports.HealthPassport>(MemberList.Source);
+
+        CreateMap<SubscriptionPlans.SubscriptionPlan, SubscriptionPlanDto>();
+        CreateMap<CreateSubscriptionPlanDto, SubscriptionPlans.SubscriptionPlan>(MemberList.Source);
+        CreateMap<UpdateSubscriptionPlanDto, SubscriptionPlans.SubscriptionPlan>(MemberList.Source);
+
+        CreateMap<UserSubscriptions.UserSubscription, UserSubscriptionDto>();
+        CreateMap<CreateUserSubscriptionDto, UserSubscriptions.UserSubscription>(MemberList.Source);
+        CreateMap<UpdateUserSubscriptionDto, UserSubscriptions.UserSubscription>(MemberList.Source);
 
         CreateMap<Users.UserProfile, UserProfileDto>();
         CreateMap<CreateUserProfileDto, Users.UserProfile>(MemberList.Source);

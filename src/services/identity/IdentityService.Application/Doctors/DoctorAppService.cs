@@ -15,7 +15,7 @@ using Volo.Abp.Identity;
 
 namespace IdentityService.Doctors;
 
-[Authorize(IdentityServicePermissions.Doctors.Default)]
+[Authorize(DigiHealthIdentityPermissions.Doctors.Default)]
 public class DoctorAppService : CrudAppService<Doctor, DoctorDto, Guid, DoctorPagedAndSortedResultRequestDto, CreateDoctorDto, UpdateDoctorDto>,
     IDoctorAppService
 {
@@ -31,19 +31,19 @@ public class DoctorAppService : CrudAppService<Doctor, DoctorDto, Guid, DoctorPa
         ObjectMapperContext = typeof(IdentityServiceApplicationModule);
     }
 
-    [Authorize(IdentityServicePermissions.Doctors.Manage)]
+    [Authorize(DigiHealthIdentityPermissions.Doctors.Create)]
     public override Task<DoctorDto> CreateAsync(CreateDoctorDto input)
     {
         return base.CreateAsync(input);
     }
 
-    [Authorize(IdentityServicePermissions.Doctors.Manage)]
+    [Authorize(DigiHealthIdentityPermissions.Doctors.Edit)]
     public override Task<DoctorDto> UpdateAsync(Guid id, UpdateDoctorDto input)
     {
         return base.UpdateAsync(id, input);
     }
 
-    [Authorize(IdentityServicePermissions.Doctors.Manage)]
+    [Authorize(DigiHealthIdentityPermissions.Doctors.Delete)]
     public override Task DeleteAsync(Guid id)
     {
         return base.DeleteAsync(id);

@@ -15,7 +15,7 @@ using Volo.Abp.Identity;
 
 namespace IdentityService.Patients;
 
-[Authorize(IdentityServicePermissions.Patients.Default)]
+[Authorize(DigiHealthIdentityPermissions.Patients.Default)]
 public class PatientAppService : CrudAppService<Patient, PatientDto, Guid, PatientPagedAndSortedResultRequestDto, CreatePatientDto, UpdatePatientDto>,
     IPatientAppService
 {
@@ -31,19 +31,19 @@ public class PatientAppService : CrudAppService<Patient, PatientDto, Guid, Patie
         ObjectMapperContext = typeof(IdentityServiceApplicationModule);
     }
 
-    [Authorize(IdentityServicePermissions.Patients.Manage)]
+    [Authorize(DigiHealthIdentityPermissions.Patients.Create)]
     public override Task<PatientDto> CreateAsync(CreatePatientDto input)
     {
         return base.CreateAsync(input);
     }
 
-    [Authorize(IdentityServicePermissions.Patients.Manage)]
+    [Authorize(DigiHealthIdentityPermissions.Patients.Edit)]
     public override Task<PatientDto> UpdateAsync(Guid id, UpdatePatientDto input)
     {
         return base.UpdateAsync(id, input);
     }
 
-    [Authorize(IdentityServicePermissions.Patients.Manage)]
+    [Authorize(DigiHealthIdentityPermissions.Patients.Delete)]
     public override Task DeleteAsync(Guid id)
     {
         return base.DeleteAsync(id);

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Volo.Abp;
 using Volo.Abp.Data;
 using Volo.Abp.Domain.Entities;
@@ -8,6 +10,7 @@ using Volo.Abp.ObjectExtending;
 
 namespace IdentityService.Doctors;
 
+[Table("doctors", Schema = "identity")]
 public class Doctor : FullAuditedAggregateRoot<Guid>, IMultiTenant, IHasConcurrencyStamp, IHasExtraProperties
 {
     public Guid UserId { get; private set; }
@@ -16,6 +19,8 @@ public class Doctor : FullAuditedAggregateRoot<Guid>, IMultiTenant, IHasConcurre
     public string? Gender { get; private set; }
     public string? Specialization { get; private set; }
     public string? RegistrationNumber { get; private set; }
+
+    public ICollection<DoctorPatientLinks.DoctorPatientLink> PatientLinks { get; private set; } = new List<DoctorPatientLinks.DoctorPatientLink>();
 
     protected Doctor()
     {

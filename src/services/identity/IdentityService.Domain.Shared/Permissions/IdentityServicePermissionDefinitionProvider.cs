@@ -12,27 +12,59 @@ public class IdentityServicePermissionDefinitionProvider : PermissionDefinitionP
         var group = context.GetGroupOrNull(IdentityServicePermissions.GroupName)
                     ?? context.AddGroup(IdentityServicePermissions.GroupName, L("Permission:IdentityService"));
 
-        var doctors = group.GetPermissionOrNull(IdentityServicePermissions.Doctors.Default)
-                      ?? group.AddPermission(IdentityServicePermissions.Doctors.Default, L("Permission:Doctors"));
-        _ = doctors.Children.FirstOrDefault(child => child.Name == IdentityServicePermissions.Doctors.Manage)
-            ?? doctors.AddChild(IdentityServicePermissions.Doctors.Manage, L("Permission:Doctors.Manage"));
+        AddCrudPermissions(group, IdentityServicePermissions.Doctors.Default, "Permission:Doctors",
+            IdentityServicePermissions.Doctors.Create,
+            IdentityServicePermissions.Doctors.Edit,
+            IdentityServicePermissions.Doctors.Delete);
 
-        var patients = group.GetPermissionOrNull(IdentityServicePermissions.Patients.Default)
-                       ?? group.AddPermission(IdentityServicePermissions.Patients.Default, L("Permission:Patients"));
-        _ = patients.Children.FirstOrDefault(child => child.Name == IdentityServicePermissions.Patients.Manage)
-            ?? patients.AddChild(IdentityServicePermissions.Patients.Manage, L("Permission:Patients.Manage"));
+        AddCrudPermissions(group, IdentityServicePermissions.Patients.Default, "Permission:Patients",
+            IdentityServicePermissions.Patients.Create,
+            IdentityServicePermissions.Patients.Edit,
+            IdentityServicePermissions.Patients.Delete);
 
-        var familyLinks = group.GetPermissionOrNull(IdentityServicePermissions.FamilyLinks.Default)
-                         ?? group.AddPermission(IdentityServicePermissions.FamilyLinks.Default, L("Permission:FamilyLinks"));
-        _ = familyLinks.Children.FirstOrDefault(child => child.Name == IdentityServicePermissions.FamilyLinks.Manage)
-            ?? familyLinks.AddChild(IdentityServicePermissions.FamilyLinks.Manage, L("Permission:FamilyLinks.Manage"));
+        AddCrudPermissions(group, IdentityServicePermissions.FamilyLinks.Default, "Permission:FamilyLinks",
+            IdentityServicePermissions.FamilyLinks.Create,
+            IdentityServicePermissions.FamilyLinks.Edit,
+            IdentityServicePermissions.FamilyLinks.Delete);
 
-        _ = context.GetPermissionOrNull(IdentityServicePermissions.Profile.Default)
+        AddCrudPermissions(group, IdentityServicePermissions.DoctorPatientLinks.Default, "Permission:DoctorPatientLinks",
+            IdentityServicePermissions.DoctorPatientLinks.Create,
+            IdentityServicePermissions.DoctorPatientLinks.Edit,
+            IdentityServicePermissions.DoctorPatientLinks.Delete);
+
+        AddCrudPermissions(group, IdentityServicePermissions.HealthPassports.Default, "Permission:HealthPassports",
+            IdentityServicePermissions.HealthPassports.Create,
+            IdentityServicePermissions.HealthPassports.Edit,
+            IdentityServicePermissions.HealthPassports.Delete);
+
+        AddCrudPermissions(group, IdentityServicePermissions.SubscriptionPlans.Default, "Permission:SubscriptionPlans",
+            IdentityServicePermissions.SubscriptionPlans.Create,
+            IdentityServicePermissions.SubscriptionPlans.Edit,
+            IdentityServicePermissions.SubscriptionPlans.Delete);
+
+        AddCrudPermissions(group, IdentityServicePermissions.UserSubscriptions.Default, "Permission:UserSubscriptions",
+            IdentityServicePermissions.UserSubscriptions.Create,
+            IdentityServicePermissions.UserSubscriptions.Edit,
+            IdentityServicePermissions.UserSubscriptions.Delete);
+
+        _ = group.GetPermissionOrNull(IdentityServicePermissions.Users.Default)
+            ?? group.AddPermission(IdentityServicePermissions.Users.Default, L("Permission:Users"));
+
+        _ = group.GetPermissionOrNull(IdentityServicePermissions.Profile.Default)
             ?? group.AddPermission(IdentityServicePermissions.Profile.Default, L("Permission:Profile"));
     }
 
     private static LocalizableString L(string name)
     {
         return LocalizableString.Create<IdentityServiceResource>(name);
+    }
+
+    private static void AddCrudPermissions(PermissionGroupDefinition group, string defaultName, string displayNameKey,
+        string create, string edit, string delete)
+    {
+        var permission = group.GetPermissionOrNull(defaultName) ?? group.AddPermission(defaultName, L(displayNameKey));
+        _ = permission.Children.FirstOrDefault(child => child.Name == create) ?? permission.AddChild(create, L(displayNameKey + ".Create"));
+        _ = permission.Children.FirstOrDefault(child => child.Name == edit) ?? permission.AddChild(edit, L(displayNameKey + ".Edit"));
+        _ = permission.Children.FirstOrDefault(child => child.Name == delete) ?? permission.AddChild(delete, L(displayNameKey + ".Delete"));
     }
 }

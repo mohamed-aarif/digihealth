@@ -5,6 +5,7 @@ using DigiHealth.ConfigurationService.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp;
 using Volo.Abp.Domain.Repositories;
 
 namespace DigiHealth.ConfigurationService;

@@ -27,7 +27,7 @@ namespace DigiHealth.ConfigurationService.Permissions
             AddCrudPermissions(group, ConfigurationPermissions.VaultRecordTypes.Default, "Permission:VaultRecordTypes");
         }
 
-        private void AddCrudPermissions(IPermissionDefinitionGroupDefinition group, string defaultPermissionName, string displayNameKey)
+        private void AddCrudPermissions(PermissionGroupDefinition group, string defaultPermissionName, string displayNameKey)
         {
             var permission = group.GetPermissionOrNull(defaultPermissionName)
                              ?? group.AddPermission(defaultPermissionName, L(displayNameKey));

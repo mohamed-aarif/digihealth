@@ -120,18 +120,18 @@ public class digihealthBlazorClientModule : AbpModule
         });
 
         context.Services.AddHttpClientProxies(
-            typeof(DigiHealthConfigurationApplicationContractsModule).Assembly,
-            remoteServiceName: ConfigurationServiceRemoteServiceConsts.RemoteServiceName
+            typeof(ConfigurationServiceApplicationContractsModule).Assembly,
+            ConfigurationServiceRemoteServiceConsts.RemoteServiceName
         );
 
         context.Services.AddHttpClientProxies(
             typeof(IdentityServiceApplicationContractsModule).Assembly,
-            remoteServiceName: "IdentityService"
+            "IdentityService"
         );
 
         context.Services.AddHttpClientProxies(
             typeof(PatientServiceApplicationContractsModule).Assembly,
-            remoteServiceName: "PatientService"
+            "PatientService"
         );
     }
 

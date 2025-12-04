@@ -64,6 +64,17 @@ public class CreateUpdateDeviceTypeDto : ConfigurationLookupCreateUpdateDto
 {
 }
 
+public class DeviceReadingTypeDto : ConfigurationLookupDtoBase
+{
+    public string? Unit { get; set; }
+}
+
+public class CreateUpdateDeviceReadingTypeDto : ConfigurationLookupCreateUpdateDto
+{
+    [StringLength(ConfigurationLookupConsts.UnitMaxLength)]
+    public string? Unit { get; set; }
+}
+
 public class MedicationIntakeStatusDto : ConfigurationLookupDtoBase
 {
 }
@@ -85,6 +96,14 @@ public class NotificationStatusDto : ConfigurationLookupDtoBase
 }
 
 public class CreateUpdateNotificationStatusDto : ConfigurationLookupCreateUpdateDto
+{
+}
+
+public class RelationshipTypeDto : ConfigurationLookupDtoBase
+{
+}
+
+public class CreateUpdateRelationshipTypeDto : ConfigurationLookupCreateUpdateDto
 {
 }
 

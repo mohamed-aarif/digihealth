@@ -22,6 +22,9 @@ public class ConfigurationServiceApplicationAutoMapperProfile : Profile
         CreateMap<DayOfWeekConfig, DayOfWeekConfigDto>();
         CreateMap<CreateUpdateDayOfWeekConfigDto, DayOfWeekConfig>();
 
+        CreateMap<DeviceReadingType, DeviceReadingTypeDto>();
+        CreateMap<CreateUpdateDeviceReadingTypeDto, DeviceReadingType>();
+
         CreateMap<DeviceType, DeviceTypeDto>();
         CreateMap<CreateUpdateDeviceTypeDto, DeviceType>();
 
@@ -33,6 +36,9 @@ public class ConfigurationServiceApplicationAutoMapperProfile : Profile
 
         CreateMap<NotificationStatus, NotificationStatusDto>();
         CreateMap<CreateUpdateNotificationStatusDto, NotificationStatus>();
+
+        CreateMap<RelationshipType, RelationshipTypeDto>();
+        CreateMap<CreateUpdateRelationshipTypeDto, RelationshipType>();
 
         CreateMap<VaultRecordType, VaultRecordTypeDto>();
         CreateMap<CreateUpdateVaultRecordTypeDto, VaultRecordType>();

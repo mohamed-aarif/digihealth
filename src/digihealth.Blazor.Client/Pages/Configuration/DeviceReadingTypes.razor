@@ -4,15 +4,20 @@
                          TDto="DeviceReadingTypeDto"
                          TCreateUpdateDto="CreateUpdateDeviceReadingTypeDto"
                          EntityName="Device Reading Type"
-                         EntityNamePlural="Device Reading Types"
-                         AdditionalColumns=@<DataGridColumn TItem="DeviceReadingTypeDto" Caption="Unit">
-    <DisplayTemplate Context="item">
-        @item.Unit
-    </DisplayTemplate>
-</DataGridColumn>
-                         AdditionalFields="context => @<div class='col-md-6'>
-    <Field>
-        <Label>Unit</Label>
-        <TextEdit @bind-Text='context.Unit' />
-    </Field>
-</div>" />
+                         EntityNamePlural="Device Reading Types">
+    <AdditionalColumns>
+        <DataGridColumn TItem="DeviceReadingTypeDto" Caption="Unit">
+            <DisplayTemplate Context="item">
+                @item.Unit
+            </DisplayTemplate>
+        </DataGridColumn>
+    </AdditionalColumns>
+    <AdditionalFields Context="context">
+        <div class="col-md-6">
+            <Field>
+                <Label>Unit</Label>
+                <TextEdit @bind-Text="context.Unit" />
+            </Field>
+        </div>
+    </AdditionalFields>
+</ConfigurationLookupPage>

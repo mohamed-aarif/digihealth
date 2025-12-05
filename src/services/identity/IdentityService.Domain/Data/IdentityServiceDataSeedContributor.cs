@@ -7,6 +7,7 @@ using IdentityService.Doctors;
 using IdentityService.Patients;
 using IdentityService.Users;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
 using Volo.Abp;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
@@ -92,7 +93,7 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
                     IsStatic = true
                 };
 
-                (await _roleManager.CreateAsync(adminRole)).CheckErrors();
+                CheckErrors(await _roleManager.CreateAsync(adminRole));
             }
 
             return adminRole;
@@ -124,7 +125,7 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
     {
         if (!await _userManager.IsInRoleAsync(user, roleName))
         {
-            (await _userManager.AddToRoleAsync(user, roleName)).CheckErrors();
+            CheckErrors(await _userManager.AddToRoleAsync(user, roleName));
         }
     }
 
@@ -302,5 +303,14 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
             user.IsActive);
 
         await _userProfileRepository.InsertAsync(profile, autoSave: true);
+    }
+
+    private static void CheckErrors(IdentityResult identityResult)
+    {
+        if (!identityResult.Succeeded)
+        {
+            var errors = string.Join("; ", identityResult.Errors.Select(e => $"{e.Code}: {e.Description}"));
+            throw new BusinessException("IdentityOperationFailed").WithData("Errors", errors);
+        }
     }
 }

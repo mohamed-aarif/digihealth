@@ -9,7 +9,7 @@ using Volo.Abp.AspNetCore.Components.WebAssembly.LeptonXLiteTheme.Bundling;
 using Volo.Abp.AspNetCore.Components.WebAssembly.WebApp;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.Autofac;
-using Volo.Abp.Http.Client.IdentityModel;
+using Volo.Abp.IdentityModel;
 using Volo.Abp.Modularity;
 
 namespace digihealth.Blazor;
@@ -31,7 +31,7 @@ public class digihealthBlazorModule : AbpModule
             options.SuppressCheckForUnhandledSecurityMetadata = true;
         });
 
-        Configure<AbpHttpClientIdentityModelOptions>(options =>
+        Configure<AbpIdentityModelOptions>(options =>
         {
             options.IdentityClients.TryAdd("AbpMvcClient", new IdentityClientConfiguration
             {

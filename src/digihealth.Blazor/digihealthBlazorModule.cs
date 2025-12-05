@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using digihealth.Blazor.Client;
@@ -8,6 +9,8 @@ using Volo.Abp.AspNetCore.Components.WebAssembly.LeptonXLiteTheme.Bundling;
 using Volo.Abp.AspNetCore.Components.WebAssembly.WebApp;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.Autofac;
+using Volo.Abp.IdentityModel;
+using Volo.Abp.IdentityModel.Clients;
 using Volo.Abp.Modularity;
 
 namespace digihealth.Blazor;
@@ -21,10 +24,32 @@ public class digihealthBlazorModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
+        var configuration = context.Services.GetConfiguration();
+
         //https://github.com/dotnet/aspnetcore/issues/52530
         Configure<RouteOptions>(options =>
         {
             options.SuppressCheckForUnhandledSecurityMetadata = true;
+        });
+
+        Configure<AbpIdentityModelOptions>(options =>
+        {
+            options.IdentityClients.TryAdd("AbpMvcClient", new IdentityClientConfiguration
+            {
+                Authority = configuration["IdentityClients:AbpMvcClient:Authority"]
+                           ?? configuration["AuthServer:Authority"],
+                ClientId = configuration["IdentityClients:AbpMvcClient:ClientId"]
+                           ?? configuration["AuthServer:ClientId"],
+                ClientSecret = configuration["IdentityClients:AbpMvcClient:ClientSecret"]
+                              ?? configuration["AuthServer:ClientSecret"],
+                Scope = configuration["IdentityClients:AbpMvcClient:Scope"]
+                        ?? configuration["AuthServer:Scope"]
+                        ?? "digihealth",
+                GrantType = configuration["IdentityClients:AbpMvcClient:GrantType"]
+                            ?? "client_credentials"
+            });
+
+            options.IdentityClients.Default = options.IdentityClients["AbpMvcClient"];
         });
 
         // Add services to the container.

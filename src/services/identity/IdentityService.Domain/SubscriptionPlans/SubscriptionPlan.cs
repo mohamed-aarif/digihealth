@@ -69,12 +69,12 @@ public class SubscriptionPlan : FullAuditedAggregateRoot<Guid>, IMultiTenant, IH
         int? maxAiMessagesPerMonth,
         string? metadataJson)
     {
-        Code = Check.Length(Check.NotNullOrWhiteSpace(code, nameof(code)), nameof(code), SubscriptionPlanConsts.MaxCodeLength);
-        Name = Check.Length(Check.NotNullOrWhiteSpace(name, nameof(name)), nameof(name), SubscriptionPlanConsts.MaxNameLength);
+        Code = Check.Length(Check.NotNullOrWhiteSpace(code, nameof(code)), nameof(code), SubscriptionPlanConsts.MaxCodeLength)!;
+        Name = Check.Length(Check.NotNullOrWhiteSpace(name, nameof(name)), nameof(name), SubscriptionPlanConsts.MaxNameLength)!;
         Description = description;
-        BillingPeriod = Check.Length(Check.NotNullOrWhiteSpace(billingPeriod, nameof(billingPeriod)), nameof(billingPeriod), SubscriptionPlanConsts.MaxBillingPeriodLength);
+        BillingPeriod = Check.Length(Check.NotNullOrWhiteSpace(billingPeriod, nameof(billingPeriod)), nameof(billingPeriod), SubscriptionPlanConsts.MaxBillingPeriodLength)!;
         PriceAmount = priceAmount;
-        PriceCurrency = Check.Length(Check.NotNullOrWhiteSpace(priceCurrency, nameof(priceCurrency)), nameof(priceCurrency), SubscriptionPlanConsts.MaxPriceCurrencyLength);
+        PriceCurrency = Check.Length(Check.NotNullOrWhiteSpace(priceCurrency, nameof(priceCurrency)), nameof(priceCurrency), SubscriptionPlanConsts.MaxPriceCurrencyLength)!;
         IsFree = isFree;
         IsActive = isActive;
         SortOrder = sortOrder;

@@ -63,7 +63,7 @@ public class UserSubscription : FullAuditedAggregateRoot<Guid>, IMultiTenant, IH
         StartDate = startDate;
         EndDate = endDate;
         AutoRenew = autoRenew;
-        Status = Check.Length(Check.NotNullOrWhiteSpace(status, nameof(status)), nameof(status), UserSubscriptionConsts.MaxStatusLength);
+        Status = Check.Length(Check.NotNullOrWhiteSpace(status, nameof(status)), nameof(status), UserSubscriptionConsts.MaxStatusLength)!;
         ExternalReference = externalReference.IsNullOrWhiteSpace()
             ? null
             : Check.Length(externalReference, nameof(externalReference), UserSubscriptionConsts.MaxExternalReferenceLength);
@@ -83,7 +83,7 @@ public class UserSubscription : FullAuditedAggregateRoot<Guid>, IMultiTenant, IH
     {
         CancelledAt = cancelledAtUtc;
         EndDate = endDate;
-        Status = Check.Length(Check.NotNullOrWhiteSpace(status, nameof(status)), nameof(status), UserSubscriptionConsts.MaxStatusLength);
+        Status = Check.Length(Check.NotNullOrWhiteSpace(status, nameof(status)), nameof(status), UserSubscriptionConsts.MaxStatusLength)!;
     }
 
     public void ChangeTenant(Guid? tenantId)

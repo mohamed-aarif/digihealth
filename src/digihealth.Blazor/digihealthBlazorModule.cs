@@ -32,7 +32,7 @@ public class digihealthBlazorModule : AbpModule
             options.SuppressCheckForUnhandledSecurityMetadata = true;
         });
 
-        Configure<AbpHttpClientIdentityModelOptions>(options =>
+        Configure<AbpIdentityModelOptions>(options =>
         {
             options.IdentityClients.TryAdd("AbpMvcClient", new IdentityClientConfiguration
             {

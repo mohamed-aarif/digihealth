@@ -101,6 +101,21 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
             );
         }
 
+        await CreateApplicationAsync(
+            name: "digihealth_AbpMvcClient",
+            type: OpenIddictConstants.ClientTypes.Confidential,
+            consentType: OpenIddictConstants.ConsentTypes.Implicit,
+            displayName: "digihealth MVC / Blazor backend client",
+            secret: "digihealth_AbpMvcClient_DevSecret_123!",
+            grantTypes: new List<string>
+            {
+                OpenIddictConstants.GrantTypes.ClientCredentials
+            },
+            scopes: commonScopes,
+            redirectUri: null,
+            clientUri: null
+        );
+
         await CreateSwaggerClientAsync(commonScopes, configurationSection);
 
     }

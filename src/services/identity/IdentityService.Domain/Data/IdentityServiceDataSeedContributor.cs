@@ -16,6 +16,7 @@ using Volo.Abp.Identity;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.Authorization.Permissions;
+using IdentityPermissions = Volo.Abp.Identity.IdentityPermissions;
 
 namespace IdentityService.Data;
 

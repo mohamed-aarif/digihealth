@@ -10,10 +10,12 @@
   <ItemGroup>
     <PackageReference Include="Volo.Abp.Ddd.Domain" Version="9.3.6" />
     <PackageReference Include="Volo.Abp.Identity.Domain" Version="9.3.6" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Identity" Version="9.3.6" />
     <PackageReference Include="Volo.Abp.TenantManagement.Domain" Version="9.3.6" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="../IdentityService.Domain.Shared/IdentityService.Domain.Shared.csproj" />
+    <ProjectReference Include="../../configuration/ConfigurationService.Domain.Shared/ConfigurationService.Domain.Shared.csproj" />
   </ItemGroup>
 </Project>

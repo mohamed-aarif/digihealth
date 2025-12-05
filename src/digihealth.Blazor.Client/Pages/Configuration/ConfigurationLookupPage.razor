@@ -25,6 +25,10 @@
                         @item.Description
                     </DisplayTemplate>
                 </DataGridColumn>
+                @if (AdditionalColumns != null)
+                {
+                    @AdditionalColumns
+                }
                 <DataGridColumn TItem="TDto" Field="@nameof(ConfigurationLookupDtoBase.SortOrder)" Caption="Sort Order" />
                 <DataGridColumn TItem="TDto" Caption="Active">
                     <DisplayTemplate Context="item">
@@ -73,6 +77,10 @@
                             <TextEdit TextRole="TextRole.TextArea" @bind-Text="EditingEntity.Description" />
                         </Field>
                     </div>
+                    @if (AdditionalFields != null)
+                    {
+                        @AdditionalFields(EditingEntity)
+                    }
                     <div class="col-md-4">
                         <Field>
                             <Label>Sort Order</Label>
@@ -94,3 +102,11 @@
         </ModalBody>
     </ModalContent>
 </Modal>
+
+@code {
+    [Parameter]
+    public RenderFragment? AdditionalColumns { get; set; }
+
+    [Parameter]
+    public RenderFragment<TCreateUpdateDto>? AdditionalFields { get; set; }
+}

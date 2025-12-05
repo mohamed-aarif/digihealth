@@ -1,6 +1,6 @@
 using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
-using Volo.Abp.PermissionManagement.Domain.Identity;
+using Volo.Abp.PermissionManagement.Identity;
 using Volo.Abp.TenantManagement;
 
 namespace IdentityService;

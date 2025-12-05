@@ -32,6 +32,7 @@ namespace DigiHealth.ConfigurationService.Permissions
             var permission = group.GetPermissionOrNull(defaultPermissionName)
                              ?? group.AddPermission(defaultPermissionName, L(displayNameKey));
 
+            AddChildIfNotExists(permission, defaultPermissionName + ".Manage", L(displayNameKey + ".Manage"));
             AddChildIfNotExists(permission, defaultPermissionName + ".Create", L(displayNameKey + ".Create"));
             AddChildIfNotExists(permission, defaultPermissionName + ".Edit", L(displayNameKey + ".Edit"));
             AddChildIfNotExists(permission, defaultPermissionName + ".Delete", L(displayNameKey + ".Delete"));

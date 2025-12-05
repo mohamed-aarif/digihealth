@@ -1,6 +1,7 @@
 using System;
 using IdentityService.Localization;
 using IdentityService.Permissions;
+using DigiHealth.ConfigurationService;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Identity;
 using Volo.Abp.Localization;
@@ -14,7 +15,8 @@ namespace IdentityService;
 [DependsOn(
     typeof(AbpLocalizationModule),
     typeof(AbpIdentityDomainSharedModule),
-    typeof(AbpTenantManagementDomainSharedModule))]
+    typeof(AbpTenantManagementDomainSharedModule),
+    typeof(ConfigurationServiceDomainSharedModule))]
 public class IdentityServiceDomainSharedModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)

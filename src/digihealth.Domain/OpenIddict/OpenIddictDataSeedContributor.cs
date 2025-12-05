@@ -102,6 +102,7 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
         }
 
         await CreateSwaggerClientAsync(commonScopes, configurationSection);
+        await CreateAbpMvcClientAsync(commonScopes, configurationSection);
 
     }
 
@@ -131,6 +132,30 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
             scopes: commonScopes,
             redirectUri: $"{swaggerRootUrl}/swagger/oauth2-redirect.html",
             clientUri: swaggerRootUrl
+        );
+    }
+
+    private async Task CreateAbpMvcClientAsync(List<string> commonScopes, IConfigurationSection configurationSection)
+    {
+        const string defaultClientId = "AbpMvcClient";
+        const string defaultSecret = "AbpMvcSecret";
+
+        var clientId = configurationSection[$"{defaultClientId}:ClientId"] ?? defaultClientId;
+        var clientSecret = configurationSection[$"{defaultClientId}:ClientSecret"] ?? defaultSecret;
+
+        if (clientId.IsNullOrWhiteSpace())
+        {
+            return;
+        }
+
+        await CreateApplicationAsync(
+            name: clientId!,
+            type: OpenIddictConstants.ClientTypes.Confidential,
+            consentType: OpenIddictConstants.ConsentTypes.Explicit,
+            displayName: "ABP MVC Client",
+            secret: clientSecret,
+            grantTypes: new List<string> { OpenIddictConstants.GrantTypes.ClientCredentials },
+            scopes: commonScopes
         );
     }
 

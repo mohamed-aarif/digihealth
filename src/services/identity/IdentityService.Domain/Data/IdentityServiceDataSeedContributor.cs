@@ -1,9 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using DigiHealth.ConfigurationService.Permissions;
 using IdentityService.Doctors;
 using IdentityService.Patients;
 using IdentityService.Users;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
 using Volo.Abp;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
@@ -11,6 +15,9 @@ using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Guids;
 using Volo.Abp.Identity;
 using Volo.Abp.MultiTenancy;
+using Volo.Abp.PermissionManagement;
+using Volo.Abp.Authorization.Permissions;
+using IdentityPermissions = Volo.Abp.Identity.IdentityPermissions;
 
 namespace IdentityService.Data;
 
@@ -18,27 +25,35 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
 {
     private readonly IGuidGenerator _guidGenerator;
     private readonly IdentityUserManager _userManager;
+    private readonly IdentityRoleManager _roleManager;
     private readonly IRepository<Doctor, Guid> _doctorRepository;
     private readonly IRepository<Patient, Guid> _patientRepository;
     private readonly IRepository<UserProfile, Guid> _userProfileRepository;
     private readonly ICurrentTenant _currentTenant;
+    private readonly IPermissionDataSeeder _permissionDataSeeder;
     private readonly ILogger<IdentityServiceDataSeedContributor> _logger;
+
+    private const string AdminRoleName = "admin";
 
     public IdentityServiceDataSeedContributor(
         IGuidGenerator guidGenerator,
         IdentityUserManager userManager,
+        IdentityRoleManager roleManager,
         IRepository<Doctor, Guid> doctorRepository,
         IRepository<Patient, Guid> patientRepository,
         IRepository<UserProfile, Guid> userProfileRepository,
         ICurrentTenant currentTenant,
+        IPermissionDataSeeder permissionDataSeeder,
         ILogger<IdentityServiceDataSeedContributor> logger)
     {
         _guidGenerator = guidGenerator;
         _userManager = userManager;
+        _roleManager = roleManager;
         _doctorRepository = doctorRepository;
         _patientRepository = patientRepository;
         _userProfileRepository = userProfileRepository;
         _currentTenant = currentTenant;
+        _permissionDataSeeder = permissionDataSeeder;
         _logger = logger;
     }
 
@@ -53,7 +68,10 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
 
         try
         {
-            await EnsureHostAdminAsync();
+            var adminRole = await EnsureHostAdminRoleAsync();
+            var adminUser = await EnsureHostAdminAsync();
+            await AddUserToRoleAsync(adminUser, adminRole.Name);
+            await SeedAdminPermissionsAsync(adminRole, context.TenantId);
             await EnsureHostDoctorAsync();
             await EnsureHostPatientAsync();
         }
@@ -63,7 +81,26 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
         }
     }
 
-    private async Task EnsureHostAdminAsync()
+    private async Task<IdentityRole> EnsureHostAdminRoleAsync()
+    {
+        using (_currentTenant.Change(null))
+        {
+            var adminRole = await _roleManager.FindByNameAsync(AdminRoleName);
+            if (adminRole == null)
+            {
+                adminRole = new IdentityRole(_guidGenerator.Create(), AdminRoleName, null)
+                {
+                    IsStatic = true
+                };
+
+                CheckErrors(await _roleManager.CreateAsync(adminRole));
+            }
+
+            return adminRole;
+        }
+    }
+
+    private async Task<IdentityUser> EnsureHostAdminAsync()
     {
         using (_currentTenant.Change(null))
         {
@@ -80,7 +117,103 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
             }
 
             await EnsureUserProfileAsync(user);
+            return user;
         }
+    }
+
+    private async Task AddUserToRoleAsync(IdentityUser user, string roleName)
+    {
+        if (!await _userManager.IsInRoleAsync(user, roleName))
+        {
+            CheckErrors(await _userManager.AddToRoleAsync(user, roleName));
+        }
+    }
+
+    private async Task SeedAdminPermissionsAsync(IdentityRole adminRole, Guid? tenantId)
+    {
+        var permissions = new List<string>
+        {
+            IdentityPermissions.Roles.Default,
+            IdentityPermissions.Roles.Create,
+            IdentityPermissions.Roles.Update,
+            IdentityPermissions.Roles.Delete,
+            IdentityPermissions.Roles.ManagePermissions,
+            IdentityPermissions.Users.Default,
+            IdentityPermissions.Users.Create,
+            IdentityPermissions.Users.Update,
+            IdentityPermissions.Users.Delete,
+            IdentityPermissions.Users.ManagePermissions
+        };
+
+        permissions.AddRange(new[]
+        {
+            ConfigurationPermissions.AppointmentChannels.Default,
+            ConfigurationPermissions.AppointmentChannels.Manage,
+            ConfigurationPermissions.AppointmentChannels.Create,
+            ConfigurationPermissions.AppointmentChannels.Edit,
+            ConfigurationPermissions.AppointmentChannels.Delete,
+            ConfigurationPermissions.AppointmentStatuses.Default,
+            ConfigurationPermissions.AppointmentStatuses.Manage,
+            ConfigurationPermissions.AppointmentStatuses.Create,
+            ConfigurationPermissions.AppointmentStatuses.Edit,
+            ConfigurationPermissions.AppointmentStatuses.Delete,
+            ConfigurationPermissions.ConsentPartyTypes.Default,
+            ConfigurationPermissions.ConsentPartyTypes.Manage,
+            ConfigurationPermissions.ConsentPartyTypes.Create,
+            ConfigurationPermissions.ConsentPartyTypes.Edit,
+            ConfigurationPermissions.ConsentPartyTypes.Delete,
+            ConfigurationPermissions.ConsentStatuses.Default,
+            ConfigurationPermissions.ConsentStatuses.Manage,
+            ConfigurationPermissions.ConsentStatuses.Create,
+            ConfigurationPermissions.ConsentStatuses.Edit,
+            ConfigurationPermissions.ConsentStatuses.Delete,
+            ConfigurationPermissions.DaysOfWeek.Default,
+            ConfigurationPermissions.DaysOfWeek.Manage,
+            ConfigurationPermissions.DaysOfWeek.Create,
+            ConfigurationPermissions.DaysOfWeek.Edit,
+            ConfigurationPermissions.DaysOfWeek.Delete,
+            ConfigurationPermissions.DeviceReadingTypes.Default,
+            ConfigurationPermissions.DeviceReadingTypes.Manage,
+            ConfigurationPermissions.DeviceReadingTypes.Create,
+            ConfigurationPermissions.DeviceReadingTypes.Edit,
+            ConfigurationPermissions.DeviceReadingTypes.Delete,
+            ConfigurationPermissions.DeviceTypes.Default,
+            ConfigurationPermissions.DeviceTypes.Manage,
+            ConfigurationPermissions.DeviceTypes.Create,
+            ConfigurationPermissions.DeviceTypes.Edit,
+            ConfigurationPermissions.DeviceTypes.Delete,
+            ConfigurationPermissions.MedicationIntakeStatuses.Default,
+            ConfigurationPermissions.MedicationIntakeStatuses.Manage,
+            ConfigurationPermissions.MedicationIntakeStatuses.Create,
+            ConfigurationPermissions.MedicationIntakeStatuses.Edit,
+            ConfigurationPermissions.MedicationIntakeStatuses.Delete,
+            ConfigurationPermissions.NotificationChannels.Default,
+            ConfigurationPermissions.NotificationChannels.Manage,
+            ConfigurationPermissions.NotificationChannels.Create,
+            ConfigurationPermissions.NotificationChannels.Edit,
+            ConfigurationPermissions.NotificationChannels.Delete,
+            ConfigurationPermissions.NotificationStatuses.Default,
+            ConfigurationPermissions.NotificationStatuses.Manage,
+            ConfigurationPermissions.NotificationStatuses.Create,
+            ConfigurationPermissions.NotificationStatuses.Edit,
+            ConfigurationPermissions.NotificationStatuses.Delete,
+            ConfigurationPermissions.RelationshipTypes.Default,
+            ConfigurationPermissions.RelationshipTypes.Manage,
+            ConfigurationPermissions.RelationshipTypes.Create,
+            ConfigurationPermissions.RelationshipTypes.Edit,
+            ConfigurationPermissions.RelationshipTypes.Delete,
+            ConfigurationPermissions.VaultRecordTypes.Default,
+            ConfigurationPermissions.VaultRecordTypes.Manage,
+            ConfigurationPermissions.VaultRecordTypes.Create,
+            ConfigurationPermissions.VaultRecordTypes.Edit,
+            ConfigurationPermissions.VaultRecordTypes.Delete
+        });
+
+        await _permissionDataSeeder.SeedAsync(
+            RolePermissionValueProvider.ProviderName,
+            adminRole.Name,
+            permissions.Distinct().ToArray(),
+            tenantId);
     }
 
     private async Task EnsureHostDoctorAsync()
@@ -170,5 +303,14 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
             user.IsActive);
 
         await _userProfileRepository.InsertAsync(profile, autoSave: true);
+    }
+
+    private static void CheckErrors(IdentityResult identityResult)
+    {
+        if (!identityResult.Succeeded)
+        {
+            var errors = string.Join("; ", identityResult.Errors.Select(e => $"{e.Code}: {e.Description}"));
+            throw new BusinessException("IdentityOperationFailed").WithData("Errors", errors);
+        }
     }
 }

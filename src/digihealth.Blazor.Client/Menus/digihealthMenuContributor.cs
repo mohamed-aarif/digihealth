@@ -66,12 +66,16 @@ public class digihealthMenuContributor : IMenuContributor
             "Configuration.DaysOfWeek", "Menu:Configuration.DaysOfWeek", "/configuration/days-of-week", "fa fa-calendar");
         await AddConfigurationItemAsync(context, configurationMenu, ConfigurationPermissions.DeviceTypes.Default,
             "Configuration.DeviceTypes", "Menu:Configuration.DeviceTypes", "/configuration/device-types", "fa fa-stethoscope");
+        await AddConfigurationItemAsync(context, configurationMenu, ConfigurationPermissions.DeviceReadingTypes.Default,
+            "Configuration.DeviceReadingTypes", "Menu:Configuration.DeviceReadingTypes", "/configuration/device-reading-types", "fa fa-heartbeat");
         await AddConfigurationItemAsync(context, configurationMenu, ConfigurationPermissions.MedicationIntakeStatuses.Default,
             "Configuration.MedicationIntakeStatuses", "Menu:Configuration.MedicationIntakeStatuses", "/configuration/medication-intake-statuses", "fa fa-pills");
         await AddConfigurationItemAsync(context, configurationMenu, ConfigurationPermissions.NotificationChannels.Default,
             "Configuration.NotificationChannels", "Menu:Configuration.NotificationChannels", "/configuration/notification-channels", "fa fa-bell");
         await AddConfigurationItemAsync(context, configurationMenu, ConfigurationPermissions.NotificationStatuses.Default,
             "Configuration.NotificationStatuses", "Menu:Configuration.NotificationStatuses", "/configuration/notification-statuses", "fa fa-envelope-open");
+        await AddConfigurationItemAsync(context, configurationMenu, ConfigurationPermissions.RelationshipTypes.Default,
+            "Configuration.RelationshipTypes", "Menu:Configuration.RelationshipTypes", "/configuration/relationship-types", "fa fa-users");
         await AddConfigurationItemAsync(context, configurationMenu, ConfigurationPermissions.VaultRecordTypes.Default,
             "Configuration.VaultRecordTypes", "Menu:Configuration.VaultRecordTypes", "/configuration/vault-record-types", "fa fa-database");
 

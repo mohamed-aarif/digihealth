@@ -18,7 +18,8 @@ namespace digihealth.Blazor;
 [DependsOn(
     typeof(AbpAutofacModule),
     typeof(AbpAspNetCoreMvcUiBundlingModule),
-    typeof(AbpAspNetCoreComponentsWebAssemblyLeptonXLiteThemeBundlingModule)
+    typeof(AbpAspNetCoreComponentsWebAssemblyLeptonXLiteThemeBundlingModule),
+    typeof(AbpHttpClientIdentityModelModule)
 )]
 public class digihealthBlazorModule : AbpModule
 {
@@ -32,7 +33,7 @@ public class digihealthBlazorModule : AbpModule
             options.SuppressCheckForUnhandledSecurityMetadata = true;
         });
 
-        Configure<AbpHttpClientIdentityModelOptions>(options =>
+        Configure<AbpIdentityModelOptions>(options =>
         {
             options.IdentityClients.TryAdd("AbpMvcClient", new IdentityClientConfiguration
             {

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using digihealth.MultiTenancy;
 using IdentityService.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -57,7 +58,10 @@ public class IdentityServiceHttpApiHostModule : AbpModule
 
         app.UseCorrelationId();
         app.UseRouting();
-        app.UseMultiTenancy();
+        if (MultiTenancyConsts.IsEnabled)
+        {
+            app.UseMultiTenancy();
+        }
         app.UseAuthentication();
         app.UseAbpSerilogEnrichers();
         app.UseAuthorization();

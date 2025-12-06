@@ -68,7 +68,7 @@ public class HealthPassport : FullAuditedAggregateRoot<Guid>, IMultiTenant, IHas
             : Check.Length(issuedBy, nameof(issuedBy), HealthPassportConsts.MaxIssuedByLength);
         IssuedAt = issuedAt;
         ExpiresAt = expiresAt;
-        Status = Check.Length(Check.NotNullOrWhiteSpace(status, nameof(status)), nameof(status), HealthPassportConsts.MaxStatusLength);
+        Status = Check.Length(Check.NotNullOrWhiteSpace(status, nameof(status)), nameof(status), HealthPassportConsts.MaxStatusLength)!;
         QrCodePayload = qrCodePayload;
         MetadataJson = metadataJson;
     }

@@ -29,6 +29,8 @@ using Volo.Abp.Security.Claims;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
+using Volo.Abp.IdentityModel;
+using Volo.Abp.Http.Client.IdentityModel;
 
 namespace digihealth;
 
@@ -41,7 +43,8 @@ namespace digihealth;
     typeof(AbpAspNetCoreMvcUiLeptonXLiteThemeModule),
     typeof(AbpAccountWebOpenIddictModule),
     typeof(AbpAspNetCoreSerilogModule),
-    typeof(AbpSwashbuckleModule)
+    typeof(AbpSwashbuckleModule),
+    typeof(AbpIdentityModelModule)
 )]
 public class digihealthHttpApiHostModule : AbpModule
 {

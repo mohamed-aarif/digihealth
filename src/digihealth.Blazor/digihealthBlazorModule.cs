@@ -10,6 +10,7 @@ using Volo.Abp.AspNetCore.Components.WebAssembly.WebApp;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.Autofac;
 using Volo.Abp.Http.Client.IdentityModel;
+using Volo.Abp.IdentityModel;
 using Volo.Abp.Modularity;
 
 namespace digihealth.Blazor;
@@ -17,7 +18,9 @@ namespace digihealth.Blazor;
 [DependsOn(
     typeof(AbpAutofacModule),
     typeof(AbpAspNetCoreMvcUiBundlingModule),
-    typeof(AbpAspNetCoreComponentsWebAssemblyLeptonXLiteThemeBundlingModule)
+    typeof(AbpAspNetCoreComponentsWebAssemblyLeptonXLiteThemeBundlingModule),
+    typeof(AbpHttpClientIdentityModelModule),
+    typeof(AbpIdentityModelModule)
 )]
 public class digihealthBlazorModule : AbpModule
 {
@@ -29,26 +32,6 @@ public class digihealthBlazorModule : AbpModule
         Configure<RouteOptions>(options =>
         {
             options.SuppressCheckForUnhandledSecurityMetadata = true;
-        });
-
-        Configure<AbpIdentityModelOptions>(options =>
-        {
-            options.IdentityClients.TryAdd("AbpMvcClient", new IdentityClientConfiguration
-            {
-                Authority = configuration["IdentityClients:AbpMvcClient:Authority"]
-                           ?? configuration["AuthServer:Authority"],
-                ClientId = configuration["IdentityClients:AbpMvcClient:ClientId"]
-                           ?? configuration["AuthServer:ClientId"],
-                ClientSecret = configuration["IdentityClients:AbpMvcClient:ClientSecret"]
-                              ?? configuration["AuthServer:ClientSecret"],
-                Scope = configuration["IdentityClients:AbpMvcClient:Scope"]
-                        ?? configuration["AuthServer:Scope"]
-                        ?? "digihealth",
-                GrantType = configuration["IdentityClients:AbpMvcClient:GrantType"]
-                            ?? "client_credentials"
-            });
-
-            options.IdentityClients.Default = options.IdentityClients["AbpMvcClient"];
         });
 
         // Add services to the container.

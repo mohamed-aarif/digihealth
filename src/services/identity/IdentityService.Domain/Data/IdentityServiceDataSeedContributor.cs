@@ -17,6 +17,7 @@ using Volo.Abp.Identity;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.Authorization.Permissions;
+using Volo.Abp.Uow;
 using IdentityPermissions = Volo.Abp.Identity.IdentityPermissions;
 
 namespace IdentityService.Data;
@@ -34,6 +35,10 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
     private readonly ILogger<IdentityServiceDataSeedContributor> _logger;
 
     private const string AdminRoleName = "admin";
+
+    // Shared demo patient Id used by PatientServiceDataSeedContributor as well
+    private static readonly Guid DemoPatientId =
+        Guid.Parse("11111111-1111-1111-1111-111111111111");
 
     public IdentityServiceDataSeedContributor(
         IGuidGenerator guidGenerator,
@@ -57,28 +62,21 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
         _logger = logger;
     }
 
+    [UnitOfWork]
     public async Task SeedAsync(DataSeedContext context)
     {
-        // IdentityService should only seed host-level sample data. Skip tenant-specific seeding
-        // to avoid touching tenant management tables when they are not available.
+        // IdentityService should only seed host-level sample data.
         if (context.TenantId.HasValue)
         {
             return;
         }
 
-        try
-        {
-            var adminRole = await EnsureHostAdminRoleAsync();
-            var adminUser = await EnsureHostAdminAsync();
-            await AddUserToRoleAsync(adminUser, adminRole.Name);
-            await SeedAdminPermissionsAsync(adminRole, context.TenantId);
-            await EnsureHostDoctorAsync();
-            await EnsureHostPatientAsync();
-        }
-        catch (BusinessException ex)
-        {
-            _logger.LogWarning(ex, "Skipping identity seed because tenant prerequisites are not available.");
-        }
+        var adminRole = await EnsureHostAdminRoleAsync();
+        var adminUser = await EnsureHostAdminAsync();
+        await AddUserToRoleAsync(adminUser, adminRole.Name);
+        await SeedAdminPermissionsAsync(adminRole, context.TenantId);
+        await EnsureHostDoctorAsync();
+        await EnsureHostPatientAsync();
     }
 
     private async Task<IdentityRole> EnsureHostAdminRoleAsync()
@@ -107,13 +105,17 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
             var user = await _userManager.FindByEmailAsync("host.admin@digihealth.local");
             if (user == null)
             {
-                user = new IdentityUser(_guidGenerator.Create(), "hostadmin", "host.admin@digihealth.local", null)
+                user = new IdentityUser(
+                    _guidGenerator.Create(),
+                    "hostadmin",
+                    "host.admin@digihealth.local",
+                    null)
                 {
                     Name = "Host",
                     Surname = "Admin"
                 };
                 user.SetSalutation("Mr");
-                await _userManager.CreateAsync(user, "HostAdmin123!");
+                CheckErrors(await _userManager.CreateAsync(user, "HostAdmin123!"));
             }
 
             await EnsureUserProfileAsync(user);
@@ -223,13 +225,17 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
             var user = await _userManager.FindByEmailAsync("host.doctor@digihealth.local");
             if (user == null)
             {
-                user = new IdentityUser(_guidGenerator.Create(), "hostdoctor", "host.doctor@digihealth.local", null)
+                user = new IdentityUser(
+                    _guidGenerator.Create(),
+                    "hostdoctor",
+                    "host.doctor@digihealth.local",
+                    null)
                 {
                     Name = "Host",
                     Surname = "Doctor"
                 };
                 user.SetSalutation("Dr");
-                await _userManager.CreateAsync(user, "HostDoctor123!");
+                CheckErrors(await _userManager.CreateAsync(user, "HostDoctor123!"));
             }
 
             await EnsureUserProfileAsync(user);
@@ -257,22 +263,26 @@ public class IdentityServiceDataSeedContributor : IDataSeedContributor, ITransie
             var user = await _userManager.FindByEmailAsync("patient1@digihealth.local");
             if (user == null)
             {
-                user = new IdentityUser(_guidGenerator.Create(), "patient1", "patient1@digihealth.local", null)
+                user = new IdentityUser(
+                    _guidGenerator.Create(),
+                    "patient1",
+                    "patient1@digihealth.local",
+                    null)
                 {
                     Name = "Sample",
                     Surname = "Patient"
                 };
                 user.SetSalutation("Ms");
-                await _userManager.CreateAsync(user, "Patient123!");
+                CheckErrors(await _userManager.CreateAsync(user, "Patient123!"));
             }
 
             await EnsureUserProfileAsync(user);
 
-            if (!await _patientRepository.AnyAsync(x => x.UserId == user.Id))
+            if (!await _patientRepository.AnyAsync(x => x.Id == DemoPatientId))
             {
                 await _patientRepository.InsertAsync(
                     new Patient(
-                        _guidGenerator.Create(),
+                        DemoPatientId,
                         user.Id,
                         null,
                         user.GetSalutation(),

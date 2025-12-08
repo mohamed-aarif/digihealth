@@ -41,9 +41,20 @@ public class IdentityServiceHttpApiHostModule : AbpModule
             authority = configuration["App:SelfUrl"] ?? "https://localhost:44345";
         }
 
+        //context.Services.AddAbpSwaggerGenWithOAuth(
+        //    authority: authority,
+        //    scopes: new Dictionary<string, string> { { "IdentityService", "Identity Service API" } },
+        //    options =>
+        //    {
+        //        options.SwaggerDoc("v1", new OpenApiInfo { Title = "Identity Service API", Version = "v1" });
+        //        options.DocInclusionPredicate((docName, description) => true);
+        //        options.CustomSchemaIds(type => type.FullName);
+        //    });
+
+        // Use "digihealth" as the scope name to be consistent across services
         context.Services.AddAbpSwaggerGenWithOAuth(
             authority: authority,
-            scopes: new Dictionary<string, string> { { "IdentityService", "Identity Service API" } },
+            scopes: new Dictionary<string, string> { { "digihealth", "DigiHealth API" } },
             options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Identity Service API", Version = "v1" });
@@ -70,7 +81,14 @@ public class IdentityServiceHttpApiHostModule : AbpModule
         {
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity Service API");
             options.RoutePrefix = string.Empty;
+
+            var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
+            options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+            options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+            options.OAuthScopes("digihealth");
+            // options.OAuthUsePkce(); // optional; only if your client is configured that way
         });
+
         app.UseAuditing();
         app.UseConfiguredEndpoints();
     }

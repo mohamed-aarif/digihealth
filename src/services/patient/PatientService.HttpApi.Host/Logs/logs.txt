@@ -4189,3 +4189,462 @@ Npgsql.PostgresException (0x80004005): 28P01: password authentication failed for
 2025-12-06 23:05:51.724 +04:00 [INF] Application started. Press Ctrl+C to shut down.
 2025-12-06 23:05:51.727 +04:00 [INF] Hosting environment: Development
 2025-12-06 23:05:51.766 +04:00 [INF] Content root path: E:\Project\digihealth\src\services\patient\PatientService.HttpApi.Host
+2025-12-08 14:41:59.254 +04:00 [INF] Starting PatientService.HttpApi.Host.
+2025-12-08 14:42:34.370 +04:00 [INF] Database migration is skipped because App:SkipDbMigrations is true.
+2025-12-08 14:42:34.458 +04:00 [DBG] Loaded ABP modules:
+2025-12-08 14:42:34.566 +04:00 [DBG] - PatientService.PatientServiceHttpApiHostModule
+2025-12-08 14:42:34.655 +04:00 [DBG]   - PatientService.PatientServiceHttpApiModule
+2025-12-08 14:42:34.777 +04:00 [DBG]     - PatientService.PatientServiceApplicationModule
+2025-12-08 14:42:34.872 +04:00 [DBG]       - PatientService.PatientServiceDomainModule
+2025-12-08 14:42:34.967 +04:00 [DBG]         - Volo.Abp.Domain.AbpDddDomainModule
+2025-12-08 14:42:35.078 +04:00 [DBG]           - Volo.Abp.Auditing.AbpAuditingModule
+2025-12-08 14:42:35.212 +04:00 [DBG]             - Volo.Abp.Data.AbpDataModule
+2025-12-08 14:42:35.329 +04:00 [DBG]               - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2025-12-08 14:42:35.392 +04:00 [DBG]                 - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2025-12-08 14:42:35.494 +04:00 [DBG]                 - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2025-12-08 14:42:35.496 +04:00 [DBG]               - Volo.Abp.Uow.AbpUnitOfWorkModule
+2025-12-08 14:42:35.497 +04:00 [DBG]               - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2025-12-08 14:42:35.498 +04:00 [DBG]             - Volo.Abp.Json.AbpJsonModule
+2025-12-08 14:42:35.499 +04:00 [DBG]               - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2025-12-08 14:42:35.500 +04:00 [DBG]                 - Volo.Abp.Json.AbpJsonAbstractionsModule
+2025-12-08 14:42:35.501 +04:00 [DBG]                 - Volo.Abp.Timing.AbpTimingModule
+2025-12-08 14:42:35.502 +04:00 [DBG]                   - Volo.Abp.Localization.AbpLocalizationModule
+2025-12-08 14:42:35.503 +04:00 [DBG]                     - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2025-12-08 14:42:35.504 +04:00 [DBG]                     - Volo.Abp.Settings.AbpSettingsModule
+2025-12-08 14:42:35.505 +04:00 [DBG]                       - Volo.Abp.Security.AbpSecurityModule
+2025-12-08 14:42:35.506 +04:00 [DBG]                     - Volo.Abp.Threading.AbpThreadingModule
+2025-12-08 14:42:35.511 +04:00 [DBG]             - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2025-12-08 14:42:35.513 +04:00 [DBG]               - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2025-12-08 14:42:35.514 +04:00 [DBG]             - Volo.Abp.Auditing.AbpAuditingContractsModule
+2025-12-08 14:42:35.515 +04:00 [DBG]           - Volo.Abp.EventBus.AbpEventBusModule
+2025-12-08 14:42:35.519 +04:00 [DBG]             - Volo.Abp.Guids.AbpGuidsModule
+2025-12-08 14:42:35.521 +04:00 [DBG]             - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2025-12-08 14:42:35.522 +04:00 [DBG]             - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2025-12-08 14:42:35.528 +04:00 [DBG]           - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2025-12-08 14:42:35.529 +04:00 [DBG]           - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2025-12-08 14:42:35.530 +04:00 [DBG]           - Volo.Abp.Specifications.AbpSpecificationsModule
+2025-12-08 14:42:35.531 +04:00 [DBG]           - Volo.Abp.Caching.AbpCachingModule
+2025-12-08 14:42:35.535 +04:00 [DBG]             - Volo.Abp.Serialization.AbpSerializationModule
+2025-12-08 14:42:35.536 +04:00 [DBG]           - Volo.Abp.Domain.AbpDddDomainSharedModule
+2025-12-08 14:42:35.546 +04:00 [DBG]         - PatientService.PatientServiceDomainSharedModule
+2025-12-08 14:42:35.585 +04:00 [DBG]           - Volo.Abp.Authorization.AbpAuthorizationModule
+2025-12-08 14:42:35.586 +04:00 [DBG]             - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2025-12-08 14:42:35.589 +04:00 [DBG]       - PatientService.PatientServiceApplicationContractsModule
+2025-12-08 14:42:35.597 +04:00 [DBG]         - IdentityService.IdentityServiceApplicationContractsModule
+2025-12-08 14:42:35.608 +04:00 [DBG]           - IdentityService.IdentityServiceDomainSharedModule
+2025-12-08 14:42:35.697 +04:00 [DBG]             - Volo.Abp.Identity.AbpIdentityDomainSharedModule
+2025-12-08 14:42:35.722 +04:00 [DBG]               - Volo.Abp.Users.AbpUsersDomainSharedModule
+2025-12-08 14:42:35.727 +04:00 [DBG]               - Volo.Abp.Validation.AbpValidationModule
+2025-12-08 14:42:35.729 +04:00 [DBG]               - Volo.Abp.Features.AbpFeaturesModule
+2025-12-08 14:42:35.735 +04:00 [DBG]             - Volo.Abp.TenantManagement.AbpTenantManagementDomainSharedModule
+2025-12-08 14:42:35.746 +04:00 [DBG]             - DigiHealth.ConfigurationService.ConfigurationServiceDomainSharedModule
+2025-12-08 14:42:35.783 +04:00 [DBG]           - Volo.Abp.Application.AbpDddApplicationContractsModule
+2025-12-08 14:42:35.798 +04:00 [DBG]           - Volo.Abp.Application.AbpDddApplicationModule
+2025-12-08 14:42:35.803 +04:00 [DBG]             - Volo.Abp.Http.AbpHttpAbstractionsModule
+2025-12-08 14:42:35.805 +04:00 [DBG]             - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2025-12-08 14:42:35.842 +04:00 [DBG]           - Volo.Abp.Identity.AbpIdentityApplicationContractsModule
+2025-12-08 14:42:35.936 +04:00 [DBG]             - Volo.Abp.Users.AbpUsersAbstractionModule
+2025-12-08 14:42:36.162 +04:00 [DBG]             - Volo.Abp.PermissionManagement.AbpPermissionManagementApplicationContractsModule
+2025-12-08 14:42:36.467 +04:00 [DBG]               - Volo.Abp.PermissionManagement.AbpPermissionManagementDomainSharedModule
+2025-12-08 14:42:36.637 +04:00 [DBG]           - Volo.Abp.TenantManagement.AbpTenantManagementApplicationContractsModule
+2025-12-08 14:42:36.750 +04:00 [DBG]       - Volo.Abp.AutoMapper.AbpAutoMapperModule
+2025-12-08 14:42:36.778 +04:00 [DBG]       - Volo.Abp.Http.Client.AbpHttpClientModule
+2025-12-08 14:42:36.800 +04:00 [DBG]         - Volo.Abp.Http.AbpHttpModule
+2025-12-08 14:42:36.802 +04:00 [DBG]           - Volo.Abp.Minify.AbpMinifyModule
+2025-12-08 14:42:36.834 +04:00 [DBG]         - Volo.Abp.Castle.AbpCastleCoreModule
+2025-12-08 14:42:36.933 +04:00 [DBG]         - Volo.Abp.RemoteServices.AbpRemoteServicesModule
+2025-12-08 14:42:36.977 +04:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2025-12-08 14:42:37.034 +04:00 [DBG]       - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2025-12-08 14:42:37.082 +04:00 [DBG]         - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2025-12-08 14:42:37.126 +04:00 [DBG]       - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2025-12-08 14:42:37.148 +04:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2025-12-08 14:42:37.177 +04:00 [DBG]       - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2025-12-08 14:42:37.181 +04:00 [DBG]         - Volo.Abp.UI.AbpUiModule
+2025-12-08 14:42:37.182 +04:00 [DBG]   - PatientService.EntityFrameworkCore.PatientServiceEntityFrameworkCoreModule
+2025-12-08 14:42:37.187 +04:00 [DBG]     - Volo.Abp.EntityFrameworkCore.PostgreSql.AbpEntityFrameworkCorePostgreSqlModule
+2025-12-08 14:42:37.190 +04:00 [DBG]       - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2025-12-08 14:42:37.260 +04:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2025-12-08 14:42:37.273 +04:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2025-12-08 14:42:37.386 +04:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2025-12-08 14:42:37.517 +04:00 [DBG]   - Volo.Abp.AspNetCore.MultiTenancy.AbpAspNetCoreMultiTenancyModule
+2025-12-08 14:42:37.655 +04:00 [DBG]   - Volo.Abp.AspNetCore.Authentication.JwtBearer.AbpAspNetCoreAuthenticationJwtBearerModule
+2025-12-08 14:42:42.396 +04:00 [INF] User profile is available. Using 'C:\Users\user\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-12-08 14:42:42.666 +04:00 [INF] Initialized all ABP modules.
+2025-12-08 14:42:43.167 +04:00 [INF] Now listening on: https://localhost:54516
+2025-12-08 14:42:43.399 +04:00 [INF] Now listening on: http://localhost:54517
+2025-12-08 14:42:43.886 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-08 14:42:44.087 +04:00 [INF] Hosting environment: Development
+2025-12-08 14:42:44.294 +04:00 [INF] Content root path: E:\Project\digihealth\src\services\patient\PatientService.HttpApi.Host
+2025-12-08 14:42:45.041 +04:00 [INF] Request starting HTTP/2 GET https://localhost:54516/_framework/aspnetcore-browser-refresh.js - null null
+2025-12-08 14:42:45.040 +04:00 [INF] Request starting HTTP/2 GET https://localhost:54516/_vs/browserLink - null null
+2025-12-08 14:42:45.325 +04:00 [INF] Request finished HTTP/2 GET https://localhost:54516/_framework/aspnetcore-browser-refresh.js - 200 16539 application/javascript; charset=utf-8 274.1793ms
+2025-12-08 14:42:45.449 +04:00 [INF] Request finished HTTP/2 GET https://localhost:54516/_vs/browserLink - 200 null text/javascript; charset=UTF-8 410.5166ms
+2025-12-08 14:42:45.568 +04:00 [INF] Request starting HTTP/2 GET https://localhost:54516/swagger/v1/swagger.json - null null
+2025-12-08 14:42:48.062 +04:00 [INF] Request finished HTTP/2 GET https://localhost:54516/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 2493.7223ms
+2025-12-08 21:23:45.941 +04:00 [INF] Starting PatientService.HttpApi.Host.
+2025-12-08 21:24:04.405 +04:00 [INF] Database migration is skipped because App:SkipDbMigrations is true.
+2025-12-08 21:24:04.420 +04:00 [DBG] Loaded ABP modules:
+2025-12-08 21:24:04.424 +04:00 [DBG] - PatientService.PatientServiceHttpApiHostModule
+2025-12-08 21:24:04.426 +04:00 [DBG]   - PatientService.PatientServiceHttpApiModule
+2025-12-08 21:24:04.427 +04:00 [DBG]     - PatientService.PatientServiceApplicationModule
+2025-12-08 21:24:04.430 +04:00 [DBG]       - PatientService.PatientServiceDomainModule
+2025-12-08 21:24:04.434 +04:00 [DBG]         - Volo.Abp.Domain.AbpDddDomainModule
+2025-12-08 21:24:04.437 +04:00 [DBG]           - Volo.Abp.Auditing.AbpAuditingModule
+2025-12-08 21:24:04.440 +04:00 [DBG]             - Volo.Abp.Data.AbpDataModule
+2025-12-08 21:24:04.442 +04:00 [DBG]               - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2025-12-08 21:24:04.444 +04:00 [DBG]                 - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2025-12-08 21:24:04.446 +04:00 [DBG]                 - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2025-12-08 21:24:04.451 +04:00 [DBG]               - Volo.Abp.Uow.AbpUnitOfWorkModule
+2025-12-08 21:24:04.453 +04:00 [DBG]               - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2025-12-08 21:24:04.455 +04:00 [DBG]             - Volo.Abp.Json.AbpJsonModule
+2025-12-08 21:24:04.457 +04:00 [DBG]               - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2025-12-08 21:24:04.459 +04:00 [DBG]                 - Volo.Abp.Json.AbpJsonAbstractionsModule
+2025-12-08 21:24:04.461 +04:00 [DBG]                 - Volo.Abp.Timing.AbpTimingModule
+2025-12-08 21:24:04.463 +04:00 [DBG]                   - Volo.Abp.Localization.AbpLocalizationModule
+2025-12-08 21:24:04.470 +04:00 [DBG]                     - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2025-12-08 21:24:04.472 +04:00 [DBG]                     - Volo.Abp.Settings.AbpSettingsModule
+2025-12-08 21:24:04.474 +04:00 [DBG]                       - Volo.Abp.Security.AbpSecurityModule
+2025-12-08 21:24:04.476 +04:00 [DBG]                     - Volo.Abp.Threading.AbpThreadingModule
+2025-12-08 21:24:04.479 +04:00 [DBG]             - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2025-12-08 21:24:04.490 +04:00 [DBG]               - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2025-12-08 21:24:04.496 +04:00 [DBG]             - Volo.Abp.Auditing.AbpAuditingContractsModule
+2025-12-08 21:24:04.499 +04:00 [DBG]           - Volo.Abp.EventBus.AbpEventBusModule
+2025-12-08 21:24:04.502 +04:00 [DBG]             - Volo.Abp.Guids.AbpGuidsModule
+2025-12-08 21:24:04.504 +04:00 [DBG]             - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2025-12-08 21:24:04.506 +04:00 [DBG]             - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2025-12-08 21:24:04.508 +04:00 [DBG]           - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2025-12-08 21:24:04.510 +04:00 [DBG]           - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2025-12-08 21:24:04.512 +04:00 [DBG]           - Volo.Abp.Specifications.AbpSpecificationsModule
+2025-12-08 21:24:04.516 +04:00 [DBG]           - Volo.Abp.Caching.AbpCachingModule
+2025-12-08 21:24:04.518 +04:00 [DBG]             - Volo.Abp.Serialization.AbpSerializationModule
+2025-12-08 21:24:04.520 +04:00 [DBG]           - Volo.Abp.Domain.AbpDddDomainSharedModule
+2025-12-08 21:24:04.522 +04:00 [DBG]         - PatientService.PatientServiceDomainSharedModule
+2025-12-08 21:24:04.524 +04:00 [DBG]           - Volo.Abp.Authorization.AbpAuthorizationModule
+2025-12-08 21:24:04.527 +04:00 [DBG]             - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2025-12-08 21:24:04.529 +04:00 [DBG]       - PatientService.PatientServiceApplicationContractsModule
+2025-12-08 21:24:04.533 +04:00 [DBG]         - IdentityService.IdentityServiceApplicationContractsModule
+2025-12-08 21:24:04.536 +04:00 [DBG]           - IdentityService.IdentityServiceDomainSharedModule
+2025-12-08 21:24:04.537 +04:00 [DBG]             - Volo.Abp.Identity.AbpIdentityDomainSharedModule
+2025-12-08 21:24:04.539 +04:00 [DBG]               - Volo.Abp.Users.AbpUsersDomainSharedModule
+2025-12-08 21:24:04.541 +04:00 [DBG]               - Volo.Abp.Validation.AbpValidationModule
+2025-12-08 21:24:04.543 +04:00 [DBG]               - Volo.Abp.Features.AbpFeaturesModule
+2025-12-08 21:24:04.546 +04:00 [DBG]             - Volo.Abp.TenantManagement.AbpTenantManagementDomainSharedModule
+2025-12-08 21:24:04.551 +04:00 [DBG]             - DigiHealth.ConfigurationService.ConfigurationServiceDomainSharedModule
+2025-12-08 21:24:04.554 +04:00 [DBG]           - Volo.Abp.Application.AbpDddApplicationContractsModule
+2025-12-08 21:24:04.556 +04:00 [DBG]           - Volo.Abp.Application.AbpDddApplicationModule
+2025-12-08 21:24:04.557 +04:00 [DBG]             - Volo.Abp.Http.AbpHttpAbstractionsModule
+2025-12-08 21:24:04.559 +04:00 [DBG]             - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2025-12-08 21:24:04.562 +04:00 [DBG]           - Volo.Abp.Identity.AbpIdentityApplicationContractsModule
+2025-12-08 21:24:04.566 +04:00 [DBG]             - Volo.Abp.Users.AbpUsersAbstractionModule
+2025-12-08 21:24:04.568 +04:00 [DBG]             - Volo.Abp.PermissionManagement.AbpPermissionManagementApplicationContractsModule
+2025-12-08 21:24:04.571 +04:00 [DBG]               - Volo.Abp.PermissionManagement.AbpPermissionManagementDomainSharedModule
+2025-12-08 21:24:04.573 +04:00 [DBG]           - Volo.Abp.TenantManagement.AbpTenantManagementApplicationContractsModule
+2025-12-08 21:24:04.574 +04:00 [DBG]       - Volo.Abp.AutoMapper.AbpAutoMapperModule
+2025-12-08 21:24:04.577 +04:00 [DBG]       - Volo.Abp.Http.Client.AbpHttpClientModule
+2025-12-08 21:24:04.579 +04:00 [DBG]         - Volo.Abp.Http.AbpHttpModule
+2025-12-08 21:24:04.584 +04:00 [DBG]           - Volo.Abp.Minify.AbpMinifyModule
+2025-12-08 21:24:04.586 +04:00 [DBG]         - Volo.Abp.Castle.AbpCastleCoreModule
+2025-12-08 21:24:04.588 +04:00 [DBG]         - Volo.Abp.RemoteServices.AbpRemoteServicesModule
+2025-12-08 21:24:04.589 +04:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2025-12-08 21:24:04.591 +04:00 [DBG]       - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2025-12-08 21:24:04.617 +04:00 [DBG]         - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2025-12-08 21:24:04.635 +04:00 [DBG]       - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2025-12-08 21:24:04.637 +04:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2025-12-08 21:24:04.639 +04:00 [DBG]       - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2025-12-08 21:24:04.642 +04:00 [DBG]         - Volo.Abp.UI.AbpUiModule
+2025-12-08 21:24:04.644 +04:00 [DBG]   - PatientService.EntityFrameworkCore.PatientServiceEntityFrameworkCoreModule
+2025-12-08 21:24:04.646 +04:00 [DBG]     - Volo.Abp.EntityFrameworkCore.PostgreSql.AbpEntityFrameworkCorePostgreSqlModule
+2025-12-08 21:24:04.649 +04:00 [DBG]       - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2025-12-08 21:24:04.651 +04:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2025-12-08 21:24:04.654 +04:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2025-12-08 21:24:04.658 +04:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2025-12-08 21:24:04.659 +04:00 [DBG]   - Volo.Abp.AspNetCore.MultiTenancy.AbpAspNetCoreMultiTenancyModule
+2025-12-08 21:24:04.661 +04:00 [DBG]   - Volo.Abp.AspNetCore.Authentication.JwtBearer.AbpAspNetCoreAuthenticationJwtBearerModule
+2025-12-08 21:24:06.951 +04:00 [INF] User profile is available. Using 'C:\Users\user\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-12-08 21:24:07.090 +04:00 [INF] Initialized all ABP modules.
+2025-12-08 21:24:07.327 +04:00 [INF] Now listening on: https://localhost:54516
+2025-12-08 21:24:07.330 +04:00 [INF] Now listening on: http://localhost:54517
+2025-12-08 21:24:07.465 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-08 21:24:07.820 +04:00 [INF] Hosting environment: Development
+2025-12-08 21:24:07.922 +04:00 [INF] Content root path: E:\Project\digihealth\src\services\patient\PatientService.HttpApi.Host
+2025-12-08 21:24:07.929 +04:00 [INF] Request starting HTTP/2 GET https://localhost:54516/_framework/aspnetcore-browser-refresh.js - null null
+2025-12-08 21:24:07.929 +04:00 [INF] Request starting HTTP/2 GET https://localhost:54516/_vs/browserLink - null null
+2025-12-08 21:24:08.118 +04:00 [INF] Request finished HTTP/2 GET https://localhost:54516/_framework/aspnetcore-browser-refresh.js - 200 16539 application/javascript; charset=utf-8 190.1157ms
+2025-12-08 21:24:08.184 +04:00 [INF] Request finished HTTP/2 GET https://localhost:54516/_vs/browserLink - 200 null text/javascript; charset=UTF-8 256.4565ms
+2025-12-08 21:24:08.272 +04:00 [INF] Request starting HTTP/2 GET https://localhost:54516/swagger/v1/swagger.json - null null
+2025-12-08 21:24:10.407 +04:00 [INF] Request finished HTTP/2 GET https://localhost:54516/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 2134.8322ms
+2025-12-08 21:40:06.837 +04:00 [INF] Starting PatientService.HttpApi.Host.
+2025-12-08 21:40:34.370 +04:00 [INF] Database migration is skipped because App:SkipDbMigrations is true.
+2025-12-08 21:40:34.409 +04:00 [DBG] Loaded ABP modules:
+2025-12-08 21:40:34.465 +04:00 [DBG] - PatientService.PatientServiceHttpApiHostModule
+2025-12-08 21:40:34.533 +04:00 [DBG]   - PatientService.PatientServiceHttpApiModule
+2025-12-08 21:40:34.611 +04:00 [DBG]     - PatientService.PatientServiceApplicationModule
+2025-12-08 21:40:34.702 +04:00 [DBG]       - PatientService.PatientServiceDomainModule
+2025-12-08 21:40:34.810 +04:00 [DBG]         - Volo.Abp.Domain.AbpDddDomainModule
+2025-12-08 21:40:34.917 +04:00 [DBG]           - Volo.Abp.Auditing.AbpAuditingModule
+2025-12-08 21:40:35.063 +04:00 [DBG]             - Volo.Abp.Data.AbpDataModule
+2025-12-08 21:40:35.139 +04:00 [DBG]               - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2025-12-08 21:40:35.237 +04:00 [DBG]                 - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2025-12-08 21:40:35.339 +04:00 [DBG]                 - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2025-12-08 21:40:35.427 +04:00 [DBG]               - Volo.Abp.Uow.AbpUnitOfWorkModule
+2025-12-08 21:40:35.493 +04:00 [DBG]               - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2025-12-08 21:40:35.581 +04:00 [DBG]             - Volo.Abp.Json.AbpJsonModule
+2025-12-08 21:40:35.666 +04:00 [DBG]               - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2025-12-08 21:40:35.669 +04:00 [DBG]                 - Volo.Abp.Json.AbpJsonAbstractionsModule
+2025-12-08 21:40:35.673 +04:00 [DBG]                 - Volo.Abp.Timing.AbpTimingModule
+2025-12-08 21:40:35.676 +04:00 [DBG]                   - Volo.Abp.Localization.AbpLocalizationModule
+2025-12-08 21:40:35.690 +04:00 [DBG]                     - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2025-12-08 21:40:35.770 +04:00 [DBG]                     - Volo.Abp.Settings.AbpSettingsModule
+2025-12-08 21:40:35.857 +04:00 [DBG]                       - Volo.Abp.Security.AbpSecurityModule
+2025-12-08 21:40:35.884 +04:00 [DBG]                     - Volo.Abp.Threading.AbpThreadingModule
+2025-12-08 21:40:35.913 +04:00 [DBG]             - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2025-12-08 21:40:35.926 +04:00 [DBG]               - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2025-12-08 21:40:35.945 +04:00 [DBG]             - Volo.Abp.Auditing.AbpAuditingContractsModule
+2025-12-08 21:40:36.009 +04:00 [DBG]           - Volo.Abp.EventBus.AbpEventBusModule
+2025-12-08 21:40:36.089 +04:00 [DBG]             - Volo.Abp.Guids.AbpGuidsModule
+2025-12-08 21:40:36.144 +04:00 [DBG]             - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2025-12-08 21:40:36.151 +04:00 [DBG]             - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2025-12-08 21:40:36.159 +04:00 [DBG]           - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2025-12-08 21:40:36.167 +04:00 [DBG]           - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2025-12-08 21:40:36.264 +04:00 [DBG]           - Volo.Abp.Specifications.AbpSpecificationsModule
+2025-12-08 21:40:36.273 +04:00 [DBG]           - Volo.Abp.Caching.AbpCachingModule
+2025-12-08 21:40:36.276 +04:00 [DBG]             - Volo.Abp.Serialization.AbpSerializationModule
+2025-12-08 21:40:36.304 +04:00 [DBG]           - Volo.Abp.Domain.AbpDddDomainSharedModule
+2025-12-08 21:40:36.307 +04:00 [DBG]         - PatientService.PatientServiceDomainSharedModule
+2025-12-08 21:40:36.336 +04:00 [DBG]           - Volo.Abp.Authorization.AbpAuthorizationModule
+2025-12-08 21:40:36.370 +04:00 [DBG]             - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2025-12-08 21:40:36.372 +04:00 [DBG]       - PatientService.PatientServiceApplicationContractsModule
+2025-12-08 21:40:36.377 +04:00 [DBG]         - IdentityService.IdentityServiceApplicationContractsModule
+2025-12-08 21:40:36.382 +04:00 [DBG]           - IdentityService.IdentityServiceDomainSharedModule
+2025-12-08 21:40:36.408 +04:00 [DBG]             - Volo.Abp.Identity.AbpIdentityDomainSharedModule
+2025-12-08 21:40:36.417 +04:00 [DBG]               - Volo.Abp.Users.AbpUsersDomainSharedModule
+2025-12-08 21:40:36.419 +04:00 [DBG]               - Volo.Abp.Validation.AbpValidationModule
+2025-12-08 21:40:36.420 +04:00 [DBG]               - Volo.Abp.Features.AbpFeaturesModule
+2025-12-08 21:40:36.423 +04:00 [DBG]             - Volo.Abp.TenantManagement.AbpTenantManagementDomainSharedModule
+2025-12-08 21:40:36.425 +04:00 [DBG]             - DigiHealth.ConfigurationService.ConfigurationServiceDomainSharedModule
+2025-12-08 21:40:36.426 +04:00 [DBG]           - Volo.Abp.Application.AbpDddApplicationContractsModule
+2025-12-08 21:40:36.434 +04:00 [DBG]           - Volo.Abp.Application.AbpDddApplicationModule
+2025-12-08 21:40:36.437 +04:00 [DBG]             - Volo.Abp.Http.AbpHttpAbstractionsModule
+2025-12-08 21:40:36.439 +04:00 [DBG]             - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2025-12-08 21:40:36.440 +04:00 [DBG]           - Volo.Abp.Identity.AbpIdentityApplicationContractsModule
+2025-12-08 21:40:36.442 +04:00 [DBG]             - Volo.Abp.Users.AbpUsersAbstractionModule
+2025-12-08 21:40:36.445 +04:00 [DBG]             - Volo.Abp.PermissionManagement.AbpPermissionManagementApplicationContractsModule
+2025-12-08 21:40:36.453 +04:00 [DBG]               - Volo.Abp.PermissionManagement.AbpPermissionManagementDomainSharedModule
+2025-12-08 21:40:36.461 +04:00 [DBG]           - Volo.Abp.TenantManagement.AbpTenantManagementApplicationContractsModule
+2025-12-08 21:40:36.488 +04:00 [DBG]       - Volo.Abp.AutoMapper.AbpAutoMapperModule
+2025-12-08 21:40:36.490 +04:00 [DBG]       - Volo.Abp.Http.Client.AbpHttpClientModule
+2025-12-08 21:40:36.491 +04:00 [DBG]         - Volo.Abp.Http.AbpHttpModule
+2025-12-08 21:40:36.493 +04:00 [DBG]           - Volo.Abp.Minify.AbpMinifyModule
+2025-12-08 21:40:36.494 +04:00 [DBG]         - Volo.Abp.Castle.AbpCastleCoreModule
+2025-12-08 21:40:36.498 +04:00 [DBG]         - Volo.Abp.RemoteServices.AbpRemoteServicesModule
+2025-12-08 21:40:36.500 +04:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2025-12-08 21:40:36.501 +04:00 [DBG]       - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2025-12-08 21:40:36.503 +04:00 [DBG]         - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2025-12-08 21:40:36.505 +04:00 [DBG]       - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2025-12-08 21:40:36.507 +04:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2025-12-08 21:40:36.516 +04:00 [DBG]       - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2025-12-08 21:40:36.521 +04:00 [DBG]         - Volo.Abp.UI.AbpUiModule
+2025-12-08 21:40:36.522 +04:00 [DBG]   - PatientService.EntityFrameworkCore.PatientServiceEntityFrameworkCoreModule
+2025-12-08 21:40:36.523 +04:00 [DBG]     - Volo.Abp.EntityFrameworkCore.PostgreSql.AbpEntityFrameworkCorePostgreSqlModule
+2025-12-08 21:40:36.524 +04:00 [DBG]       - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2025-12-08 21:40:36.526 +04:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2025-12-08 21:40:36.533 +04:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2025-12-08 21:40:36.535 +04:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2025-12-08 21:40:36.543 +04:00 [DBG]   - Volo.Abp.AspNetCore.MultiTenancy.AbpAspNetCoreMultiTenancyModule
+2025-12-08 21:40:36.545 +04:00 [DBG]   - Volo.Abp.AspNetCore.Authentication.JwtBearer.AbpAspNetCoreAuthenticationJwtBearerModule
+2025-12-08 21:40:40.652 +04:00 [INF] User profile is available. Using 'C:\Users\user\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-12-08 21:40:40.835 +04:00 [INF] Initialized all ABP modules.
+2025-12-08 21:40:41.118 +04:00 [INF] Now listening on: https://localhost:54516
+2025-12-08 21:40:41.193 +04:00 [INF] Now listening on: http://localhost:54517
+2025-12-08 21:40:41.666 +04:00 [INF] Request starting HTTP/2 GET https://localhost:54516/_framework/aspnetcore-browser-refresh.js - null null
+2025-12-08 21:40:41.661 +04:00 [INF] Request starting HTTP/2 GET https://localhost:54516/_vs/browserLink - null null
+2025-12-08 21:40:41.680 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-08 21:40:42.107 +04:00 [INF] Request finished HTTP/2 GET https://localhost:54516/_framework/aspnetcore-browser-refresh.js - 200 16539 application/javascript; charset=utf-8 441.0899ms
+2025-12-08 21:40:42.188 +04:00 [INF] Hosting environment: Development
+2025-12-08 21:40:42.309 +04:00 [INF] Request finished HTTP/2 GET https://localhost:54516/_vs/browserLink - 200 null text/javascript; charset=UTF-8 648.8298ms
+2025-12-08 21:40:42.359 +04:00 [INF] Content root path: E:\Project\digihealth\src\services\patient\PatientService.HttpApi.Host
+2025-12-08 21:40:42.388 +04:00 [INF] Request starting HTTP/2 GET https://localhost:54516/swagger/v1/swagger.json - null null
+2025-12-08 21:40:44.791 +04:00 [INF] Request finished HTTP/2 GET https://localhost:54516/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 2402.049ms
+2025-12-08 21:50:14.520 +04:00 [INF] Starting PatientService.HttpApi.Host.
+2025-12-08 21:50:15.139 +04:00 [FTL] Host terminated unexpectedly!
+Volo.Abp.AbpInitializationException: An error occurred during ConfigureServices phase of the module PatientService.PatientServiceHttpApiHostModule, PatientService.HttpApi.Host, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null. See the inner exception for details.
+ ---> System.UriFormatException: Invalid URI: The format of the URI could not be determined.
+   at System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind, UriCreationOptions& creationOptions)
+   at System.Uri..ctor(String uriString)
+   at Microsoft.Extensions.DependencyInjection.AbpSwaggerGenServiceCollectionExtensions.AddAbpSwaggerGenWithOAuth(IServiceCollection services, String authority, Dictionary`2 scopes, Action`1 setupAction, String authorizationEndpoint, String tokenEndpoint)
+   at PatientService.PatientServiceHttpApiHostModule.ConfigureServices(ServiceConfigurationContext context) in E:\Project\digihealth\src\services\patient\PatientService.HttpApi.Host\PatientServiceHttpApiHostModule.cs:line 40
+   at Volo.Abp.AbpApplicationBase.ConfigureServices()
+   --- End of inner exception stack trace ---
+   at Volo.Abp.AbpApplicationBase.ConfigureServices()
+   at Volo.Abp.AbpApplicationBase..ctor(Type startupModuleType, IServiceCollection services, Action`1 optionsAction)
+   at Volo.Abp.AbpApplicationWithExternalServiceProvider..ctor(Type startupModuleType, IServiceCollection services, Action`1 optionsAction)
+   at Volo.Abp.AbpApplicationFactory.Create(Type startupModuleType, IServiceCollection services, Action`1 optionsAction)
+   at Volo.Abp.AbpApplicationFactory.Create[TStartupModule](IServiceCollection services, Action`1 optionsAction)
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionApplicationExtensions.AddApplication[TStartupModule](IServiceCollection services, Action`1 optionsAction)
+   at PatientService.Program.Main(String[] args) in E:\Project\digihealth\src\services\patient\PatientService.HttpApi.Host\Program.cs:line 50
+2025-12-08 21:52:39.941 +04:00 [INF] Starting PatientService.HttpApi.Host.
+2025-12-08 21:53:03.763 +04:00 [FTL] Host terminated unexpectedly!
+Volo.Abp.AbpInitializationException: An error occurred during ConfigureServices phase of the module PatientService.PatientServiceHttpApiHostModule, PatientService.HttpApi.Host, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null. See the inner exception for details.
+ ---> System.UriFormatException: Invalid URI: The format of the URI could not be determined.
+   at System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind, UriCreationOptions& creationOptions)
+   at System.Uri..ctor(String uriString)
+   at Microsoft.Extensions.DependencyInjection.AbpSwaggerGenServiceCollectionExtensions.AddAbpSwaggerGenWithOAuth(IServiceCollection services, String authority, Dictionary`2 scopes, Action`1 setupAction, String authorizationEndpoint, String tokenEndpoint)
+   at PatientService.PatientServiceHttpApiHostModule.ConfigureServices(ServiceConfigurationContext context) in E:\Project\digihealth\src\services\patient\PatientService.HttpApi.Host\PatientServiceHttpApiHostModule.cs:line 40
+   at Volo.Abp.AbpApplicationBase.ConfigureServices()
+   --- End of inner exception stack trace ---
+   at Volo.Abp.AbpApplicationBase.ConfigureServices()
+   at Volo.Abp.AbpApplicationBase..ctor(Type startupModuleType, IServiceCollection services, Action`1 optionsAction)
+   at Volo.Abp.AbpApplicationWithExternalServiceProvider..ctor(Type startupModuleType, IServiceCollection services, Action`1 optionsAction)
+   at Volo.Abp.AbpApplicationFactory.Create(Type startupModuleType, IServiceCollection services, Action`1 optionsAction)
+   at Volo.Abp.AbpApplicationFactory.Create[TStartupModule](IServiceCollection services, Action`1 optionsAction)
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionApplicationExtensions.AddApplication[TStartupModule](IServiceCollection services, Action`1 optionsAction)
+   at PatientService.Program.Main(String[] args) in E:\Project\digihealth\src\services\patient\PatientService.HttpApi.Host\Program.cs:line 50
+2025-12-08 21:58:39.671 +04:00 [INF] Starting PatientService.HttpApi.Host.
+2025-12-08 21:59:02.355 +04:00 [FTL] Host terminated unexpectedly!
+Volo.Abp.AbpInitializationException: An error occurred during ConfigureServices phase of the module PatientService.PatientServiceHttpApiHostModule, PatientService.HttpApi.Host, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null. See the inner exception for details.
+ ---> System.Exception: AuthServer:Authority is not configured for PatientService. Set it to https://localhost:44322 in appsettings.json.
+   at PatientService.PatientServiceHttpApiHostModule.ConfigureServices(ServiceConfigurationContext context) in E:\Project\digihealth\src\services\patient\PatientService.HttpApi.Host\PatientServiceHttpApiHostModule.cs:line 44
+   at Volo.Abp.AbpApplicationBase.ConfigureServices()
+   --- End of inner exception stack trace ---
+   at Volo.Abp.AbpApplicationBase.ConfigureServices()
+   at Volo.Abp.AbpApplicationBase..ctor(Type startupModuleType, IServiceCollection services, Action`1 optionsAction)
+   at Volo.Abp.AbpApplicationWithExternalServiceProvider..ctor(Type startupModuleType, IServiceCollection services, Action`1 optionsAction)
+   at Volo.Abp.AbpApplicationFactory.Create(Type startupModuleType, IServiceCollection services, Action`1 optionsAction)
+   at Volo.Abp.AbpApplicationFactory.Create[TStartupModule](IServiceCollection services, Action`1 optionsAction)
+   at Microsoft.Extensions.DependencyInjection.ServiceCollectionApplicationExtensions.AddApplication[TStartupModule](IServiceCollection services, Action`1 optionsAction)
+   at PatientService.Program.Main(String[] args) in E:\Project\digihealth\src\services\patient\PatientService.HttpApi.Host\Program.cs:line 50
+2025-12-08 22:03:34.340 +04:00 [INF] Starting PatientService.HttpApi.Host.
+2025-12-08 22:04:52.690 +04:00 [INF] Starting PatientService.HttpApi.Host.
+2025-12-08 22:06:50.776 +04:00 [INF] Starting PatientService.HttpApi.Host.
+2025-12-08 22:06:54.755 +04:00 [INF] Applying database migrations...
+2025-12-08 22:06:57.377 +04:00 [ERR] Failed executing DbCommand (35ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM patient."__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2025-12-08 22:07:02.370 +04:00 [ERR] Failed executing DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT p."Id", p."AddressLine1", p."AddressLine2", p."City", p."ConcurrencyStamp", p."Country", p."CreationTime", p."CreatorId", p."DeleterId", p."DeletionTime", p."Email", p."EmergencyContactName", p."EmergencyContactNumber", p."ExtraProperties", p."IdentityPatientId", p."IsDeleted", p."LastModificationTime", p."LastModifierId", p."PreferredLanguage", p."PrimaryContactNumber", p."SecondaryContactNumber", p."State", p."TenantId", p."ZipCode"
+FROM patient.patient_profile_extensions AS p
+WHERE NOT (p."IsDeleted") AND p."TenantId" IS NULL AND p."IdentityPatientId" = '11111111-1111-1111-1111-111111111111'
+ORDER BY p."Id"
+LIMIT 1
+2025-12-08 22:07:02.783 +04:00 [ERR] An exception occurred while iterating over the results of a query for context type 'PatientService.EntityFrameworkCore.PatientServiceDbContext'.
+Npgsql.PostgresException (0x80004005): 42703: column p.Id does not exist
+
+POSITION: 8
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+  Exception data:
+    Severity: ERROR
+    SqlState: 42703
+    MessageText: column p.Id does not exist
+    Hint: Perhaps you meant to reference the column "p.id".
+    Position: 8
+    File: parse_relation.c
+    Line: 3838
+    Routine: errorMissingColumn
+Npgsql.PostgresException (0x80004005): 42703: column p.Id does not exist
+
+POSITION: 8
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+  Exception data:
+    Severity: ERROR
+    SqlState: 42703
+    MessageText: column p.Id does not exist
+    Hint: Perhaps you meant to reference the column "p.id".
+    Position: 8
+    File: parse_relation.c
+    Line: 3838
+    Routine: errorMissingColumn
+2025-12-08 22:07:03.754 +04:00 [FTL] Failed to connect to PostgreSQL using ConnectionStrings:Default = Host=localhost;Port=5432;Database=digihealthv2;User ID=postgres;Password=admin$123;Include Error Detail=true. Ensure the credentials are correct or set App:SkipDbMigrations to true.
+Npgsql.PostgresException (0x80004005): 42703: column p.Id does not exist
+
+POSITION: 8
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Volo.Abp.Domain.Repositories.RepositoryAsyncExtensions.FirstOrDefaultAsync[T](IReadOnlyRepository`1 repository, Expression`1 predicate, CancellationToken cancellationToken)
+   at PatientService.Data.PatientServiceDataSeedContributor.SeedAsync(DataSeedContext context) in E:\Project\digihealth\src\services\patient\PatientService.Domain\Data\PatientServiceDataSeedContributor.cs:line 42
+   at Volo.Abp.Data.DataSeeder.SeedAsync(DataSeedContext context)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Uow.UnitOfWorkInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at PatientService.Program.MigrateAndSeedDatabaseAsync(IServiceProvider serviceProvider, String connectionString) in E:\Project\digihealth\src\services\patient\PatientService.HttpApi.Host\Program.cs:line 99
+  Exception data:
+    Severity: ERROR
+    SqlState: 42703
+    MessageText: column p.Id does not exist
+    Hint: Perhaps you meant to reference the column "p.id".
+    Position: 8
+    File: parse_relation.c
+    Line: 3838
+    Routine: errorMissingColumn
+2025-12-08 22:07:04.281 +04:00 [FTL] Host terminated unexpectedly!
+Npgsql.PostgresException (0x80004005): 42703: column p.Id does not exist
+
+POSITION: 8
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Volo.Abp.Domain.Repositories.RepositoryAsyncExtensions.FirstOrDefaultAsync[T](IReadOnlyRepository`1 repository, Expression`1 predicate, CancellationToken cancellationToken)
+   at PatientService.Data.PatientServiceDataSeedContributor.SeedAsync(DataSeedContext context) in E:\Project\digihealth\src\services\patient\PatientService.Domain\Data\PatientServiceDataSeedContributor.cs:line 42
+   at Volo.Abp.Data.DataSeeder.SeedAsync(DataSeedContext context)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Uow.UnitOfWorkInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at PatientService.Program.MigrateAndSeedDatabaseAsync(IServiceProvider serviceProvider, String connectionString) in E:\Project\digihealth\src\services\patient\PatientService.HttpApi.Host\Program.cs:line 99
+   at PatientService.Program.MigrateAndSeedDatabaseAsync(IServiceProvider serviceProvider, String connectionString) in E:\Project\digihealth\src\services\patient\PatientService.HttpApi.Host\Program.cs:line 106
+   at PatientService.Program.Main(String[] args) in E:\Project\digihealth\src\services\patient\PatientService.HttpApi.Host\Program.cs:line 62
+  Exception data:
+    Severity: ERROR
+    SqlState: 42703
+    MessageText: column p.Id does not exist
+    Hint: Perhaps you meant to reference the column "p.id".
+    Position: 8
+    File: parse_relation.c
+    Line: 3838
+    Routine: errorMissingColumn

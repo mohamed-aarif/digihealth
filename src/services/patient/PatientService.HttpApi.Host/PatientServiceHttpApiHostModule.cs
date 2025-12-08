@@ -42,9 +42,20 @@ public class PatientServiceHttpApiHostModule : AbpModule
             authority = configuration["App:SelfUrl"] ?? "https://localhost:5004";
         }
 
+        //context.Services.AddAbpSwaggerGenWithOAuth(
+        //    authority: authority,
+        //    scopes: new Dictionary<string, string> { { "PatientService", "Patient Service API" } },
+        //    options =>
+        //    {
+        //        options.SwaggerDoc("v1", new OpenApiInfo { Title = "Patient Service API", Version = "v1" });
+        //        options.DocInclusionPredicate((docName, description) => true);
+        //        options.CustomSchemaIds(type => type.FullName);
+        //    });
+
+        // Use "digihealth" as the scope name to be consistent across services
         context.Services.AddAbpSwaggerGenWithOAuth(
             authority: authority,
-            scopes: new Dictionary<string, string> { { "PatientService", "Patient Service API" } },
+            scopes: new Dictionary<string, string> { { "digihealth", "DigiHealth API" } },
             options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Patient Service API", Version = "v1" });
@@ -68,7 +79,13 @@ public class PatientServiceHttpApiHostModule : AbpModule
         {
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "Patient Service API");
             options.RoutePrefix = string.Empty;
+
+            var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
+            options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+            options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+            options.OAuthScopes("digihealth");
         });
+
         app.UseAuditing();
         app.UseConfiguredEndpoints();
     }

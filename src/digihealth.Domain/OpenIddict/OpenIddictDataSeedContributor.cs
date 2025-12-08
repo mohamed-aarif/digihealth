@@ -38,7 +38,7 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
         IOpenIddictScopeRepository openIddictScopeRepository,
         IOpenIddictScopeManager scopeManager,
         IPermissionDataSeeder permissionDataSeeder,
-        IStringLocalizer<OpenIddictResponse> l )
+        IStringLocalizer<OpenIddictResponse> l)
     {
         _configuration = configuration;
         _openIddictApplicationRepository = openIddictApplicationRepository;
@@ -60,15 +60,20 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
     {
         if (await _openIddictScopeRepository.FindByNameAsync("digihealth") == null)
         {
-            await _scopeManager.CreateAsync(new OpenIddictScopeDescriptor {
-                Name = "digihealth", DisplayName = "digihealth API", Resources = { "digihealth" }
+            await _scopeManager.CreateAsync(new OpenIddictScopeDescriptor
+            {
+                Name = "digihealth",
+                DisplayName = "digihealth API",
+                Resources = { "digihealth" }
             });
         }
     }
 
     private async Task CreateApplicationsAsync()
     {
-        var commonScopes = new List<string> {
+        // Keep using permission strings for built-in scopes
+        var commonScopes = new List<string>
+        {
             OpenIddictConstants.Permissions.Scopes.Address,
             OpenIddictConstants.Permissions.Scopes.Email,
             OpenIddictConstants.Permissions.Scopes.Phone,
@@ -79,8 +84,6 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
 
         var configurationSection = _configuration.GetSection("OpenIddict:Applications");
 
-
-
         // Blazor Client
         var blazorClientId = configurationSection["digihealth_Blazor:ClientId"];
         if (!blazorClientId.IsNullOrWhiteSpace())
@@ -90,21 +93,28 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
             await CreateApplicationAsync(
                 name: blazorClientId!,
                 type: OpenIddictConstants.ClientTypes.Public,
-                consentType: OpenIddictConstants.ConsentTypes.Implicit,
+                consentType: OpenIddictConstants.ConsentTypes.Explicit,
                 displayName: "Blazor Application",
                 secret: null,
-                grantTypes: new List<string> { OpenIddictConstants.GrantTypes.AuthorizationCode, },
+                grantTypes: new List<string>
+                {
+                    OpenIddictConstants.GrantTypes.AuthorizationCode
+                },
                 scopes: commonScopes,
-                redirectUri: $"{blazorRootUrl}/authentication/login-callback",
+                redirectUris: new List<string>
+                {
+                    $"{blazorRootUrl}/authentication/login-callback"
+                },
                 clientUri: blazorRootUrl,
                 postLogoutRedirectUri: $"{blazorRootUrl}/authentication/logout-callback"
             );
         }
 
+        // MVC / backend client for server-to-server calls
         await CreateApplicationAsync(
             name: "digihealth_AbpMvcClient",
             type: OpenIddictConstants.ClientTypes.Confidential,
-            consentType: OpenIddictConstants.ConsentTypes.Implicit,
+            consentType: OpenIddictConstants.ConsentTypes.Explicit,
             displayName: "digihealth MVC / Blazor backend client",
             secret: "digihealth_AbpMvcClient_DevSecret_123!",
             grantTypes: new List<string>
@@ -112,39 +122,50 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
                 OpenIddictConstants.GrantTypes.ClientCredentials
             },
             scopes: commonScopes,
-            redirectUri: null,
+            redirectUris: null,
             clientUri: null
         );
 
         await CreateSwaggerClientAsync(commonScopes, configurationSection);
-
     }
 
     private async Task CreateSwaggerClientAsync(List<string> commonScopes, IConfigurationSection configurationSection)
     {
         const string swaggerClientId = "digihealth_Swagger";
-        var swaggerRootUrl = configurationSection[$"{swaggerClientId}:RootUrl"]?.TrimEnd('/') ??
-                             _configuration["App:SelfUrl"]?.TrimEnd('/');
+
+        var swaggerRootUrl = configurationSection[$"{swaggerClientId}:RootUrl"]?.TrimEnd('/')
+                             ?? _configuration["App:SelfUrl"]?.TrimEnd('/');
 
         if (swaggerRootUrl.IsNullOrWhiteSpace())
         {
             return;
         }
 
-        // Swagger UI client for local development. Replace the hard-coded secret with a secure store for production use.
+        var redirectUris = new List<string>
+        {
+            // Main host
+            $"{swaggerRootUrl}/swagger/oauth2-redirect.html",
+            // IdentityService
+            "https://localhost:44385/swagger/oauth2-redirect.html",
+            // PatientService
+            "https://localhost:5004/swagger/oauth2-redirect.html",
+            // ConfigurationService
+            "https://localhost:5005/swagger/oauth2-redirect.html"
+        };
+
+        // Swagger UI client for local development.
         await CreateApplicationAsync(
             name: swaggerClientId,
             type: OpenIddictConstants.ClientTypes.Confidential,
-            consentType: OpenIddictConstants.ConsentTypes.Implicit,
+            consentType: OpenIddictConstants.ConsentTypes.Explicit,
             displayName: "digihealth Swagger UI",
-            secret: "digihealth_Swagger_DevSecret_123!",
+            secret: "digihealth_Swagger_DevSecret_123",
             grantTypes: new List<string>
             {
-                OpenIddictConstants.GrantTypes.AuthorizationCode,
-                OpenIddictConstants.GrantTypes.RefreshToken
+                OpenIddictConstants.GrantTypes.AuthorizationCode
             },
             scopes: commonScopes,
-            redirectUri: $"{swaggerRootUrl}/swagger/oauth2-redirect.html",
+            redirectUris: redirectUris,
             clientUri: swaggerRootUrl
         );
     }
@@ -157,26 +178,27 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
         string? secret,
         List<string> grantTypes,
         List<string> scopes,
+        List<string>? redirectUris = null,
         string? clientUri = null,
-        string? redirectUri = null,
         string? postLogoutRedirectUri = null,
         List<string>? permissions = null)
     {
-        if (!string.IsNullOrEmpty(secret) && string.Equals(type, OpenIddictConstants.ClientTypes.Public,
-                StringComparison.OrdinalIgnoreCase))
+        if (!string.IsNullOrEmpty(secret) &&
+            string.Equals(type, OpenIddictConstants.ClientTypes.Public, StringComparison.OrdinalIgnoreCase))
         {
             throw new BusinessException(L["NoClientSecretCanBeSetForPublicApplications"]);
         }
 
-        if (string.IsNullOrEmpty(secret) && string.Equals(type, OpenIddictConstants.ClientTypes.Confidential,
-                StringComparison.OrdinalIgnoreCase))
+        if (string.IsNullOrEmpty(secret) &&
+            string.Equals(type, OpenIddictConstants.ClientTypes.Confidential, StringComparison.OrdinalIgnoreCase))
         {
             throw new BusinessException(L["TheClientSecretIsRequiredForConfidentialApplications"]);
         }
 
         var client = await _openIddictApplicationRepository.FindByClientIdAsync(name);
 
-        var application = new AbpApplicationDescriptor {
+        var application = new AbpApplicationDescriptor
+        {
             ClientId = name,
             ClientType = type,
             ClientSecret = secret,
@@ -188,8 +210,11 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
         Check.NotNullOrEmpty(grantTypes, nameof(grantTypes));
         Check.NotNullOrEmpty(scopes, nameof(scopes));
 
-        if (new[] { OpenIddictConstants.GrantTypes.AuthorizationCode, OpenIddictConstants.GrantTypes.Implicit }.All(
-                grantTypes.Contains))
+        if (new[]
+            {
+                OpenIddictConstants.GrantTypes.AuthorizationCode,
+                OpenIddictConstants.GrantTypes.Implicit
+            }.All(grantTypes.Contains))
         {
             application.Permissions.Add(OpenIddictConstants.Permissions.ResponseTypes.CodeIdToken);
 
@@ -200,15 +225,20 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
             }
         }
 
-        if (!redirectUri.IsNullOrWhiteSpace() || !postLogoutRedirectUri.IsNullOrWhiteSpace())
+        if (redirectUris != null && redirectUris.Count > 0 ||
+            !postLogoutRedirectUri.IsNullOrWhiteSpace())
         {
             application.Permissions.Add(OpenIddictConstants.Permissions.Endpoints.EndSession);
         }
 
-        var buildInGrantTypes = new[] {
-            OpenIddictConstants.GrantTypes.Implicit, OpenIddictConstants.GrantTypes.Password,
-            OpenIddictConstants.GrantTypes.AuthorizationCode, OpenIddictConstants.GrantTypes.ClientCredentials,
-            OpenIddictConstants.GrantTypes.DeviceCode, OpenIddictConstants.GrantTypes.RefreshToken
+        var buildInGrantTypes = new[]
+        {
+            OpenIddictConstants.GrantTypes.Implicit,
+            OpenIddictConstants.GrantTypes.Password,
+            OpenIddictConstants.GrantTypes.AuthorizationCode,
+            OpenIddictConstants.GrantTypes.ClientCredentials,
+            OpenIddictConstants.GrantTypes.DeviceCode,
+            OpenIddictConstants.GrantTypes.RefreshToken
         };
 
         foreach (var grantType in grantTypes)
@@ -278,9 +308,12 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
             }
         }
 
-        var buildInScopes = new[] {
-            OpenIddictConstants.Permissions.Scopes.Address, OpenIddictConstants.Permissions.Scopes.Email,
-            OpenIddictConstants.Permissions.Scopes.Phone, OpenIddictConstants.Permissions.Scopes.Profile,
+        var buildInScopes = new[]
+        {
+            OpenIddictConstants.Permissions.Scopes.Address,
+            OpenIddictConstants.Permissions.Scopes.Email,
+            OpenIddictConstants.Permissions.Scopes.Phone,
+            OpenIddictConstants.Permissions.Scopes.Profile,
             OpenIddictConstants.Permissions.Scopes.Roles
         };
 
@@ -296,11 +329,17 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
             }
         }
 
-        if (redirectUri != null)
+        if (redirectUris != null)
         {
-            if (!redirectUri.IsNullOrEmpty())
+            foreach (var redirectUri in redirectUris)
             {
-                if (!Uri.TryCreate(redirectUri, UriKind.Absolute, out var uri) || !uri.IsWellFormedOriginalString())
+                if (redirectUri.IsNullOrWhiteSpace())
+                {
+                    continue;
+                }
+
+                if (!Uri.TryCreate(redirectUri, UriKind.Absolute, out var uri) ||
+                    !uri.IsWellFormedOriginalString())
                 {
                     throw new BusinessException(L["InvalidRedirectUri", redirectUri]);
                 }
@@ -312,20 +351,17 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
             }
         }
 
-        if (postLogoutRedirectUri != null)
+        if (postLogoutRedirectUri != null && !postLogoutRedirectUri.IsNullOrWhiteSpace())
         {
-            if (!postLogoutRedirectUri.IsNullOrEmpty())
+            if (!Uri.TryCreate(postLogoutRedirectUri, UriKind.Absolute, out var uri) ||
+                !uri.IsWellFormedOriginalString())
             {
-                if (!Uri.TryCreate(postLogoutRedirectUri, UriKind.Absolute, out var uri) ||
-                    !uri.IsWellFormedOriginalString())
-                {
-                    throw new BusinessException(L["InvalidPostLogoutRedirectUri", postLogoutRedirectUri]);
-                }
+                throw new BusinessException(L["InvalidPostLogoutRedirectUri", postLogoutRedirectUri]);
+            }
 
-                if (application.PostLogoutRedirectUris.All(x => x != uri))
-                {
-                    application.PostLogoutRedirectUris.Add(uri);
-                }
+            if (application.PostLogoutRedirectUris.All(x => x != uri))
+            {
+                application.PostLogoutRedirectUris.Add(uri);
             }
         }
 
@@ -379,15 +415,18 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
 
         if (!HasSameRedirectUris(client, application))
         {
-            client.RedirectUris = JsonSerializer.Serialize(application.RedirectUris.Select(q => q.ToString().TrimEnd('/')));
-            client.PostLogoutRedirectUris = JsonSerializer.Serialize(application.PostLogoutRedirectUris.Select(q => q.ToString().TrimEnd('/')));
+            client.RedirectUris = JsonSerializer.Serialize(
+                application.RedirectUris.Select(q => q.ToString().TrimEnd('/')));
+            client.PostLogoutRedirectUris = JsonSerializer.Serialize(
+                application.PostLogoutRedirectUris.Select(q => q.ToString().TrimEnd('/')));
 
             requiresUpdate = true;
         }
 
         if (!HasSameScopes(client, application))
         {
-            client.Permissions = JsonSerializer.Serialize(application.Permissions.Select(q => q.ToString()));
+            client.Permissions = JsonSerializer.Serialize(
+                application.Permissions.Select(q => q.ToString()));
             requiresUpdate = true;
         }
 
@@ -399,11 +438,13 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
 
     private bool HasSameRedirectUris(OpenIddictApplication existingClient, AbpApplicationDescriptor application)
     {
-        return existingClient.RedirectUris == JsonSerializer.Serialize(application.RedirectUris.Select(q => q.ToString().TrimEnd('/')));
+        return existingClient.RedirectUris ==
+               JsonSerializer.Serialize(application.RedirectUris.Select(q => q.ToString().TrimEnd('/')));
     }
 
     private bool HasSameScopes(OpenIddictApplication existingClient, AbpApplicationDescriptor application)
     {
-        return existingClient.Permissions == JsonSerializer.Serialize(application.Permissions.Select(q => q.ToString().TrimEnd('/')));
+        return existingClient.Permissions ==
+               JsonSerializer.Serialize(application.Permissions.Select(q => q.ToString().TrimEnd('/')));
     }
 }

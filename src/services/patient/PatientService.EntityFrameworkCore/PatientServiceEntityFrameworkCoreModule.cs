@@ -2,6 +2,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Volo.Abp;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
@@ -59,7 +60,8 @@ public class PatientServiceEntityFrameworkCoreModule : AbpModule
                     npgsqlOptions =>
                     {
                         npgsqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", PatientServiceDbProperties.DbSchema);
-                    });
+                    })
+                    .UseSnakeCaseNamingConvention();
             });
         });
     }

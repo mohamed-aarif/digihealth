@@ -1,8 +1,10 @@
 using System;
 using EFCore.NamingConventions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Volo.Abp;
 using Volo.Abp.Data;
@@ -65,5 +67,7 @@ public class PatientServiceEntityFrameworkCoreModule : AbpModule
                     .UseSnakeCaseNamingConvention();
             });
         });
+
+        context.Services.Replace(ServiceDescriptor.Singleton<IHistoryRepository, PatientHistoryRepository>());
     }
 }

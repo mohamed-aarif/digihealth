@@ -75,20 +75,28 @@ public class PatientServiceHttpApiHostModule : AbpModule
         app.UseAbpSerilogEnrichers();
         app.UseAuthorization();
         app.UseSwagger();
+
         app.UseSwaggerUI(options =>
         {
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "Patient Service API");
             options.RoutePrefix = string.Empty;
 
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
+            var selfUrl = configuration["App:SelfUrl"] ?? "https://localhost:54516";
+
+            // **The critical line: make redirect_uri match what you register in OpenIddict**
+            options.OAuth2RedirectUrl(selfUrl.TrimEnd('/') + "/swagger/oauth2-redirect.html");
+
             options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
             options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
-            options.OAuthScopes("digihealth");
+            options.OAuthScopes("digihealth", "openid", "profile", "email", "phone", "roles");
+            options.OAuthUsePkce();
         });
 
         app.UseAuditing();
         app.UseConfiguredEndpoints();
     }
+
 
     private static void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
     {

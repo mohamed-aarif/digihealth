@@ -146,7 +146,7 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
             ClientId = swaggerClientId,
             DisplayName = "DigiHealth Swagger UI",
             ConsentType = OpenIddictConstants.ConsentTypes.Explicit,
-            Type = OpenIddictConstants.ClientTypes.Public,
+            ClientType = OpenIddictConstants.ClientTypes.Public,
             RedirectUris =
             {
                 new Uri($"{rootUrl}/swagger/oauth2-redirect.html")
@@ -157,11 +157,11 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
                 OpenIddictConstants.Permissions.Endpoints.Token,
                 OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
                 OpenIddictConstants.Permissions.GrantTypes.RefreshToken,
-                OpenIddictConstants.Permissions.Scopes.OpenId,
+                OpenIddictConstants.Permissions.Prefixes.Scope + OpenIddictConstants.Scopes.OpenId,
                 OpenIddictConstants.Permissions.Scopes.Profile,
                 OpenIddictConstants.Permissions.Scopes.Email,
                 OpenIddictConstants.Permissions.Scopes.Roles,
-                OpenIddictConstants.Permissions.Scopes.OfflineAccess,
+                OpenIddictConstants.Permissions.Prefixes.Scope + OpenIddictConstants.Scopes.OfflineAccess,
                 OpenIddictConstants.Permissions.Prefixes.Scope + "digihealth"
             },
             Requirements =
@@ -177,7 +177,28 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
         }
         else
         {
-            await _openIddictApplicationManager.UpdateAsync(client, descriptor);
+            var updateDescriptor = new OpenIddictApplicationDescriptor();
+            await _openIddictApplicationManager.PopulateAsync(client, updateDescriptor);
+
+            updateDescriptor.ClientType = OpenIddictConstants.ClientTypes.Public;
+
+            updateDescriptor.RedirectUris.Clear();
+            updateDescriptor.RedirectUris.Add(new Uri($"{rootUrl}/swagger/oauth2-redirect.html"));
+
+            updateDescriptor.Permissions.Add(OpenIddictConstants.Permissions.Endpoints.Authorization);
+            updateDescriptor.Permissions.Add(OpenIddictConstants.Permissions.Endpoints.Token);
+            updateDescriptor.Permissions.Add(OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode);
+            updateDescriptor.Permissions.Add(OpenIddictConstants.Permissions.GrantTypes.RefreshToken);
+            updateDescriptor.Permissions.Add(OpenIddictConstants.Permissions.Prefixes.Scope + OpenIddictConstants.Scopes.OpenId);
+            updateDescriptor.Permissions.Add(OpenIddictConstants.Permissions.Scopes.Profile);
+            updateDescriptor.Permissions.Add(OpenIddictConstants.Permissions.Scopes.Email);
+            updateDescriptor.Permissions.Add(OpenIddictConstants.Permissions.Scopes.Roles);
+            updateDescriptor.Permissions.Add(OpenIddictConstants.Permissions.Prefixes.Scope + OpenIddictConstants.Scopes.OfflineAccess);
+            updateDescriptor.Permissions.Add(OpenIddictConstants.Permissions.Prefixes.Scope + "digihealth");
+
+            updateDescriptor.Requirements.Add(OpenIddictConstants.Requirements.Features.ProofKeyForCodeExchange);
+
+            await _openIddictApplicationManager.UpdateAsync(client, updateDescriptor);
         }
     }
 

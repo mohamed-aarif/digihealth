@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
 namespace PatientService.Meals;
 
-[Table("meals", Schema = PatientServiceDbProperties.DbSchema)]
 public class Meal : FullAuditedAggregateRoot<Guid>, IMultiTenant
 {
     public Guid IdentityPatientId { get; protected set; }

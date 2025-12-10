@@ -1,11 +1,9 @@
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 
 namespace PatientService.PatientExternalLinks;
 
-[Table("patient_external_links", Schema = PatientServiceDbProperties.DbSchema)]
 public class PatientExternalLink : FullAuditedAggregateRoot<Guid>, IMultiTenant
 {
     public Guid IdentityPatientId { get; protected set; }

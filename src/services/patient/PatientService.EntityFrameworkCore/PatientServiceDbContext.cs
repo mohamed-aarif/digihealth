@@ -35,6 +35,7 @@ public class PatientServiceDbContext : AbpDbContext<PatientServiceDbContext>
         builder.Entity<HistoryRow>(b =>
         {
             b.ToTable(HistoryRepository.DefaultTableName, PatientServiceDbProperties.DbSchema);
+            b.HasKey(r => r.MigrationId);
             b.Property(r => r.MigrationId).HasColumnName("MigrationId");
             b.Property(r => r.ProductVersion).HasColumnName("ProductVersion");
         });

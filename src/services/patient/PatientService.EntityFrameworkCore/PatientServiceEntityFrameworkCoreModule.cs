@@ -1,6 +1,7 @@
 using System;
 using EFCore.NamingConventions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -58,16 +59,18 @@ public class PatientServiceEntityFrameworkCoreModule : AbpModule
                     throw new InvalidOperationException("The database connection string could not be resolved for PatientServiceDbContext.");
                 }
 
-                configurationContext.DbContextOptions.UseNpgsql(
-                    connectionString,
-                    npgsqlOptions =>
-                    {
-                        npgsqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", PatientServiceDbProperties.DbSchema);
-                    })
+                configurationContext.DbContextOptions
+                    .ReplaceService<IHistoryRepository, PatientHistoryRepository>()
+                    .UseNpgsql(
+                        connectionString,
+                        npgsqlOptions =>
+                        {
+                            npgsqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", PatientServiceDbProperties.DbSchema);
+                        })
                     .UseSnakeCaseNamingConvention();
             });
         });
 
-        context.Services.Replace(ServiceDescriptor.Singleton<IHistoryRepository, PatientHistoryRepository>());
+        context.Services.Replace(ServiceDescriptor.Scoped<IHistoryRepository, PatientHistoryRepository>());
     }
 }

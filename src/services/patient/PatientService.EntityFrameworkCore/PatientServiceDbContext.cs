@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using PatientService.Meals;
 using PatientService.PatientExternalLinks;
 using PatientService.PatientMedicalSummaries;
@@ -30,6 +31,13 @@ public class PatientServiceDbContext : AbpDbContext<PatientServiceDbContext>
         base.OnModelCreating(builder);
 
         ConfigurePatientService(builder);
+
+        builder.Entity<HistoryRow>(b =>
+        {
+            b.ToTable(HistoryRepository.DefaultTableName, PatientServiceDbProperties.DbSchema);
+            b.Property(r => r.MigrationId).HasColumnName(HistoryRepository.DefaultMigrationIdColumnName);
+            b.Property(r => r.ProductVersion).HasColumnName(HistoryRepository.DefaultProductVersionColumnName);
+        });
     }
 
     private static void ConfigurePatientService(ModelBuilder builder)

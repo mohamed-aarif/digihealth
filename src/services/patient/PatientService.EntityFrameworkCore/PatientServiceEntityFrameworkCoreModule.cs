@@ -1,12 +1,7 @@
 using System;
-using EFCore.NamingConventions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Volo.Abp;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
@@ -59,18 +54,13 @@ public class PatientServiceEntityFrameworkCoreModule : AbpModule
                     throw new InvalidOperationException("The database connection string could not be resolved for PatientServiceDbContext.");
                 }
 
-                configurationContext.DbContextOptions
-                    .ReplaceService<IHistoryRepository, PatientHistoryRepository>()
-                    .UseNpgsql(
-                        connectionString,
-                        npgsqlOptions =>
-                        {
-                            npgsqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", PatientServiceDbProperties.DbSchema);
-                        })
-                    .UseSnakeCaseNamingConvention();
+                configurationContext.DbContextOptions.UseNpgsql(
+                    connectionString,
+                    npgsqlOptions =>
+                    {
+                        npgsqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", PatientServiceDbProperties.DbSchema);
+                    });
             });
         });
-
-        context.Services.Replace(ServiceDescriptor.Scoped<IHistoryRepository, PatientHistoryRepository>());
     }
 }

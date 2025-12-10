@@ -33,6 +33,8 @@ public class PatientServiceDbContext : AbpDbContext<PatientServiceDbContext>
 
         ConfigurePatientService(builder);
 
+        builder.Ignore<ExtraPropertyDictionary>();
+
         builder.Entity<HistoryRow>(b =>
         {
             b.ToTable(HistoryRepository.DefaultTableName, PatientServiceDbProperties.DbSchema);

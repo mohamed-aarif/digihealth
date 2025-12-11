@@ -135,11 +135,16 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
     {
         const string swaggerClientId = "digihealth_Swagger";
         var rootUrl = _configuration["App:SelfUrl"]?.TrimEnd('/');
+        var patientSwaggerRootUrl = _configuration["SwaggerClients:PatientService:RootUrl"]?.TrimEnd('/')
+                                   ?? "https://localhost:54516";
 
         if (rootUrl.IsNullOrWhiteSpace())
         {
             return;
         }
+
+        var patientSwaggerRedirectUri = new Uri($"{patientSwaggerRootUrl}/oauth2-redirect.html");
+        var patientSwaggerPostLogoutUri = new Uri($"{patientSwaggerRootUrl}/");
 
         var descriptor = new OpenIddictApplicationDescriptor
         {
@@ -149,7 +154,8 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
             ClientType = OpenIddictConstants.ClientTypes.Public,
             RedirectUris =
             {
-                new Uri($"{rootUrl}/swagger/oauth2-redirect.html")
+                new Uri($"{rootUrl}/swagger/oauth2-redirect.html"),
+                patientSwaggerRedirectUri
             },
             Permissions =
             {
@@ -163,6 +169,10 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
                 OpenIddictConstants.Permissions.Scopes.Roles,
                 OpenIddictConstants.Permissions.Prefixes.Scope + OpenIddictConstants.Scopes.OfflineAccess,
                 OpenIddictConstants.Permissions.Prefixes.Scope + "digihealth"
+            },
+            PostLogoutRedirectUris =
+            {
+                patientSwaggerPostLogoutUri
             },
             Requirements =
             {
@@ -182,8 +192,22 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
 
             updateDescriptor.ClientType = OpenIddictConstants.ClientTypes.Public;
 
-            updateDescriptor.RedirectUris.Clear();
-            updateDescriptor.RedirectUris.Add(new Uri($"{rootUrl}/swagger/oauth2-redirect.html"));
+            var swaggerRedirectUri = new Uri($"{rootUrl}/swagger/oauth2-redirect.html");
+
+            if (updateDescriptor.RedirectUris.All(uri => uri != swaggerRedirectUri))
+            {
+                updateDescriptor.RedirectUris.Add(swaggerRedirectUri);
+            }
+
+            if (updateDescriptor.RedirectUris.All(uri => uri != patientSwaggerRedirectUri))
+            {
+                updateDescriptor.RedirectUris.Add(patientSwaggerRedirectUri);
+            }
+
+            if (updateDescriptor.PostLogoutRedirectUris.All(uri => uri != patientSwaggerPostLogoutUri))
+            {
+                updateDescriptor.PostLogoutRedirectUris.Add(patientSwaggerPostLogoutUri);
+            }
 
             updateDescriptor.Permissions.Add(OpenIddictConstants.Permissions.Endpoints.Authorization);
             updateDescriptor.Permissions.Add(OpenIddictConstants.Permissions.Endpoints.Token);

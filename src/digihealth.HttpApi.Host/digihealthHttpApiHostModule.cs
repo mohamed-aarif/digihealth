@@ -148,7 +148,12 @@ public class digihealthHttpApiHostModule : AbpModule
             configuration["AuthServer:Authority"]!,
             new Dictionary<string, string>
             {
-                    {"digihealth", "digihealth API"}
+                    {"digihealth", "digihealth API"},
+                    {"openid", "OpenID"},
+                    {"profile", "User profile"},
+                    {"email", "User email"},
+                    {"phone", "User phone"},
+                    {"roles", "User roles"}
             },
             options =>
             {
@@ -217,8 +222,8 @@ public class digihealthHttpApiHostModule : AbpModule
 
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             c.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-            c.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
-            c.OAuthScopes("digihealth");
+            c.OAuthScopes("digihealth", "openid", "profile", "email", "phone", "roles");
+            c.OAuthUsePkce();
         });
 
         app.UseAuditing();

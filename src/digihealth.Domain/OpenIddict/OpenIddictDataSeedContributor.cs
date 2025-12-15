@@ -134,50 +134,78 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
     private async Task CreateSwaggerClientAsync()
     {
         const string swaggerClientId = "digihealth_Swagger";
-        var swaggerRootUrl = "https://localhost:54516".TrimEnd('/');
-        var swaggerRedirectUri = new Uri($"{swaggerRootUrl}/oauth2-redirect.html");
-        var swaggerPostLogoutRedirectUri = new Uri($"{swaggerRootUrl}/");
+        var redirectUris = new[]
+        {
+            new Uri("https://localhost:44322/swagger/oauth2-redirect.html"),
+            new Uri("https://localhost:54516/swagger/oauth2-redirect.html"),
+            new Uri("https://localhost:5005/swagger/oauth2-redirect.html"),
+            new Uri("https://localhost:44385/swagger/oauth2-redirect.html")
+        };
+
+        var postLogoutUris = new[]
+        {
+            new Uri("https://localhost:44322/"),
+            new Uri("https://localhost:54516/"),
+            new Uri("https://localhost:5005/"),
+            new Uri("https://localhost:44385/")
+        };
 
         var existingClient = await _openIddictApplicationManager.FindByClientIdAsync(swaggerClientId);
-        if (existingClient != null)
-        {
-            await _openIddictApplicationManager.DeleteAsync(existingClient);
-        }
 
         var descriptor = new OpenIddictApplicationDescriptor
         {
             ClientId = swaggerClientId,
-            DisplayName = "DigiHealth Swagger UI",
-            ConsentType = OpenIddictConstants.ConsentTypes.Explicit,
-            ClientType = OpenIddictConstants.ClientTypes.Public,
-            RedirectUris =
-            {
-                swaggerRedirectUri
-            },
-            PostLogoutRedirectUris =
-            {
-                swaggerPostLogoutRedirectUri
-            },
-            Permissions =
-            {
-                OpenIddictConstants.Permissions.Endpoints.Authorization,
-                OpenIddictConstants.Permissions.Endpoints.EndSession,
-                OpenIddictConstants.Permissions.Endpoints.Token,
-                OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
-                OpenIddictConstants.Permissions.ResponseTypes.Code,
-                OpenIddictConstants.Permissions.Prefixes.Scope + OpenIddictConstants.Scopes.OpenId,
-                OpenIddictConstants.Permissions.Scopes.Profile,
-                OpenIddictConstants.Permissions.Scopes.Email,
-                OpenIddictConstants.Permissions.Scopes.Roles,
-                OpenIddictConstants.Permissions.Prefixes.Scope + "digihealth"
-            },
-            Requirements =
-            {
-                OpenIddictConstants.Requirements.Features.ProofKeyForCodeExchange
-            }
+            DisplayName = "DigiHealth Swagger UI"
         };
 
-        await _openIddictApplicationManager.CreateAsync(descriptor);
+        if (existingClient != null)
+        {
+            await _openIddictApplicationManager.PopulateAsync(descriptor, existingClient);
+        }
+
+        descriptor.ClientId = swaggerClientId;
+        descriptor.DisplayName = "DigiHealth Swagger UI";
+        descriptor.ClientType = OpenIddictConstants.ClientTypes.Public;
+        descriptor.ConsentType = OpenIddictConstants.ConsentTypes.Explicit;
+        descriptor.ClientSecret = null;
+
+        descriptor.RedirectUris.Clear();
+        foreach (var uri in redirectUris)
+        {
+            descriptor.RedirectUris.Add(uri);
+        }
+
+        descriptor.PostLogoutRedirectUris.Clear();
+        foreach (var uri in postLogoutUris)
+        {
+            descriptor.PostLogoutRedirectUris.Add(uri);
+        }
+
+        descriptor.Requirements.Clear();
+        descriptor.Requirements.Add(OpenIddictConstants.Requirements.Features.ProofKeyForCodeExchange);
+
+        descriptor.Permissions.Clear();
+        descriptor.Permissions.Add(OpenIddictConstants.Permissions.Endpoints.Authorization);
+        descriptor.Permissions.Add(OpenIddictConstants.Permissions.Endpoints.EndSession);
+        descriptor.Permissions.Add(OpenIddictConstants.Permissions.Endpoints.Token);
+        descriptor.Permissions.Add(OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode);
+        descriptor.Permissions.Add(OpenIddictConstants.Permissions.GrantTypes.RefreshToken);
+        descriptor.Permissions.Add(OpenIddictConstants.Permissions.ResponseTypes.Code);
+        descriptor.Permissions.Add(OpenIddictConstants.Permissions.Prefixes.Scope + OpenIddictConstants.Scopes.OpenId);
+        descriptor.Permissions.Add(OpenIddictConstants.Permissions.Scopes.Profile);
+        descriptor.Permissions.Add(OpenIddictConstants.Permissions.Scopes.Email);
+        descriptor.Permissions.Add(OpenIddictConstants.Permissions.Scopes.Phone);
+        descriptor.Permissions.Add(OpenIddictConstants.Permissions.Scopes.Roles);
+        descriptor.Permissions.Add(OpenIddictConstants.Permissions.Prefixes.Scope + "digihealth");
+
+        if (existingClient == null)
+        {
+            await _openIddictApplicationManager.CreateAsync(descriptor);
+        }
+        else
+        {
+            await _openIddictApplicationManager.UpdateAsync(existingClient, descriptor);
+        }
     }
 
     private async Task CreateApplicationAsync(

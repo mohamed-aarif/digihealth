@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using IdentityService.Patients;
+using Microsoft.EntityFrameworkCore.Migrations;
 using PatientService.Meals;
 using PatientService.PatientExternalLinks;
 using PatientService.PatientMedicalSummaries;
@@ -30,6 +32,16 @@ public class PatientServiceDbContext : AbpDbContext<PatientServiceDbContext>
         base.OnModelCreating(builder);
 
         ConfigurePatientService(builder);
+
+        builder.Ignore<ExtraPropertyDictionary>();
+
+        builder.Entity<HistoryRow>(b =>
+        {
+            b.ToTable(HistoryRepository.DefaultTableName, PatientServiceDbProperties.DbSchema);
+            b.HasKey(r => r.MigrationId);
+            b.Property(r => r.MigrationId).HasColumnName("MigrationId");
+            b.Property(r => r.ProductVersion).HasColumnName("ProductVersion");
+        });
     }
 
     private static void ConfigurePatientService(ModelBuilder builder)
@@ -37,47 +49,112 @@ public class PatientServiceDbContext : AbpDbContext<PatientServiceDbContext>
         builder.Entity<PatientProfileExtension>(b =>
         {
             b.ToTable("patient_profile_extensions", PatientServiceDbProperties.DbSchema);
+
             b.ConfigureByConvention();
-            b.Property(x => x.IdentityPatientId).IsRequired();
-            b.Property(x => x.PrimaryContactNumber).HasMaxLength(32);
-            b.Property(x => x.SecondaryContactNumber).HasMaxLength(32);
-            b.Property(x => x.Email).HasMaxLength(256);
-            b.Property(x => x.AddressLine1).HasMaxLength(256);
-            b.Property(x => x.AddressLine2).HasMaxLength(256);
-            b.Property(x => x.City).HasMaxLength(128);
-            b.Property(x => x.State).HasMaxLength(128);
-            b.Property(x => x.ZipCode).HasMaxLength(32);
-            b.Property(x => x.Country).HasMaxLength(128);
-            b.Property(x => x.EmergencyContactName).HasMaxLength(256);
-            b.Property(x => x.EmergencyContactNumber).HasMaxLength(32);
-            b.Property(x => x.PreferredLanguage).HasMaxLength(64);
+
+            b.HasKey(x => x.Id);
+            b.Property(x => x.Id).HasColumnName("id");
+            b.Property(x => x.TenantId).HasColumnName("tenant_id");
+            b.Property(x => x.IdentityPatientId).HasColumnName("identity_patient_id").IsRequired();
+            b.Property(x => x.PrimaryContactNumber).HasColumnName("primary_contact_number").HasMaxLength(32);
+            b.Property(x => x.SecondaryContactNumber).HasColumnName("secondary_contact_number").HasMaxLength(32);
+            b.Property(x => x.Email).HasColumnName("email").HasMaxLength(256);
+            b.Property(x => x.AddressLine1).HasColumnName("address_line1").HasMaxLength(256);
+            b.Property(x => x.AddressLine2).HasColumnName("address_line2").HasMaxLength(256);
+            b.Property(x => x.City).HasColumnName("city").HasMaxLength(128);
+            b.Property(x => x.State).HasColumnName("state").HasMaxLength(128);
+            b.Property(x => x.ZipCode).HasColumnName("zipcode").HasMaxLength(32);
+            b.Property(x => x.Country).HasColumnName("country").HasMaxLength(128);
+            b.Property(x => x.EmergencyContactName).HasColumnName("emergency_contact_name").HasMaxLength(256);
+            b.Property(x => x.EmergencyContactNumber).HasColumnName("emergency_contact_number").HasMaxLength(32);
+            b.Property(x => x.PreferredLanguage).HasColumnName("preferred_language").HasMaxLength(64);
+
+            b.Property(x => x.CreationTime).HasColumnName("creation_time");
+            b.Property(x => x.CreatorId).HasColumnName("CreatorId");
+            b.Property(x => x.LastModificationTime).HasColumnName("LastModificationTime");
+            b.Property(x => x.LastModifierId).HasColumnName("LastModifierId");
+            b.Property(x => x.IsDeleted).HasColumnName("IsDeleted");
+            b.Property(x => x.DeleterId).HasColumnName("DeleterId");
+            b.Property(x => x.DeletionTime).HasColumnName("DeletionTime");
+            b.Property(x => x.ExtraProperties).HasColumnName("ExtraProperties");
+            b.Property(x => x.ConcurrencyStamp).HasColumnName("ConcurrencyStamp");
+
             b.HasIndex(x => x.IdentityPatientId).HasDatabaseName("ix_patient_profile_ext_identity_patient");
             b.HasIndex(x => x.TenantId).HasDatabaseName("ix_patient_profile_ext_tenant");
+
+            b.HasOne<Patient>()
+                .WithMany()
+                .HasForeignKey(x => x.IdentityPatientId)
+                .OnDelete(DeleteBehavior.NoAction)
+                .HasConstraintName("fk_patient_profile_ext_patient");
         });
 
         builder.Entity<PatientMedicalSummary>(b =>
         {
             b.ToTable("patient_medical_summaries", PatientServiceDbProperties.DbSchema);
             b.ConfigureByConvention();
-            b.Property(x => x.IdentityPatientId).IsRequired();
-            b.Property(x => x.BloodGroup).HasMaxLength(8);
-            b.Property(x => x.Allergies).HasColumnType("text");
-            b.Property(x => x.ChronicConditions).HasColumnType("text");
-            b.Property(x => x.Notes).HasColumnType("text");
+
+            b.HasKey(x => x.Id);
+            b.Property(x => x.Id).HasColumnName("id");
+            b.Property(x => x.TenantId).HasColumnName("tenant_id");
+            b.Property(x => x.IdentityPatientId).HasColumnName("identity_patient_id").IsRequired();
+            b.Property(x => x.BloodGroup).HasColumnName("blood_group").HasMaxLength(8);
+            b.Property(x => x.Allergies).HasColumnName("allergies").HasColumnType("text");
+            b.Property(x => x.ChronicConditions).HasColumnName("chronic_conditions").HasColumnType("text");
+            b.Property(x => x.Notes).HasColumnName("notes").HasColumnType("text");
+
+            b.Property(x => x.CreationTime).HasColumnName("creation_time");
+            b.Property(x => x.CreatorId).HasColumnName("CreatorId");
+            b.Property(x => x.LastModificationTime).HasColumnName("LastModificationTime");
+            b.Property(x => x.LastModifierId).HasColumnName("LastModifierId");
+            b.Property(x => x.IsDeleted).HasColumnName("IsDeleted");
+            b.Property(x => x.DeleterId).HasColumnName("DeleterId");
+            b.Property(x => x.DeletionTime).HasColumnName("DeletionTime");
+            b.Property(x => x.ExtraProperties).HasColumnName("ExtraProperties");
+            b.Property(x => x.ConcurrencyStamp).HasColumnName("ConcurrencyStamp");
+
             b.HasIndex(x => x.IdentityPatientId).HasDatabaseName("ix_patient_med_summaries_identity_patient");
             b.HasIndex(x => x.TenantId).HasDatabaseName("ix_patient_med_summaries_tenant");
+
+            b.HasOne<Patient>()
+                .WithMany()
+                .HasForeignKey(x => x.IdentityPatientId)
+                .OnDelete(DeleteBehavior.NoAction)
+                .HasConstraintName("fk_patient_med_summaries_patient");
         });
 
         builder.Entity<PatientExternalLink>(b =>
         {
             b.ToTable("patient_external_links", PatientServiceDbProperties.DbSchema);
+
             b.ConfigureByConvention();
-            b.Property(x => x.IdentityPatientId).IsRequired();
-            b.Property(x => x.SystemName).IsRequired().HasMaxLength(128);
-            b.Property(x => x.ExternalReference).IsRequired().HasMaxLength(256);
+
+            b.HasKey(x => x.Id);
+            b.Property(x => x.Id).HasColumnName("id");
+            b.Property(x => x.TenantId).HasColumnName("tenant_id");
+            b.Property(x => x.IdentityPatientId).HasColumnName("identity_patient_id").IsRequired();
+            b.Property(x => x.SystemName).HasColumnName("system_name").IsRequired().HasMaxLength(128);
+            b.Property(x => x.ExternalReference).HasColumnName("external_reference").IsRequired().HasMaxLength(256);
+
+            b.Property(x => x.CreationTime).HasColumnName("creation_time");
+            b.Property(x => x.CreatorId).HasColumnName("CreatorId");
+            b.Property(x => x.LastModificationTime).HasColumnName("LastModificationTime");
+            b.Property(x => x.LastModifierId).HasColumnName("LastModifierId");
+            b.Property(x => x.IsDeleted).HasColumnName("IsDeleted");
+            b.Property(x => x.DeleterId).HasColumnName("DeleterId");
+            b.Property(x => x.DeletionTime).HasColumnName("DeletionTime");
+            b.Property(x => x.ExtraProperties).HasColumnName("ExtraProperties");
+            b.Property(x => x.ConcurrencyStamp).HasColumnName("ConcurrencyStamp");
+
             b.HasIndex(x => x.IdentityPatientId).HasDatabaseName("ix_patient_ext_links_identity_patient");
             b.HasIndex(x => x.TenantId).HasDatabaseName("ix_patient_ext_links_tenant");
             b.HasIndex(x => x.SystemName).HasDatabaseName("ix_patient_ext_links_system");
+
+            b.HasOne<Patient>()
+                .WithMany()
+                .HasForeignKey(x => x.IdentityPatientId)
+                .OnDelete(DeleteBehavior.NoAction)
+                .HasConstraintName("fk_patient_ext_links_patient");
         });
 
         builder.Entity<Meal>(b =>

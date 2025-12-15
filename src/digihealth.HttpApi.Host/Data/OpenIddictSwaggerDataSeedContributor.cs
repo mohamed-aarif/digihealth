@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,31 +30,55 @@ public class OpenIddictSwaggerDataSeedContributor : IDataSeedContributor, ITrans
     private async Task CreateOrUpdateSwaggerClientAsync()
     {
         const string clientId = "digihealth_Swagger";
-        var redirectUri = new Uri("https://localhost:54516/oauth2-redirect.html");
-        var postLogoutUri = new Uri("https://localhost:54516/");
+
+        // ✅ All Swagger redirect URIs that should be valid for this client
+        var redirectUris = new[]
+        {
+            new Uri("https://localhost:44322/swagger/oauth2-redirect.html"), // digihealth.HttpApi.Host Swagger
+            new Uri("https://localhost:54516/swagger/oauth2-redirect.html")  // PatientService Swagger
+        };
+
+        var postLogoutUris = new[]
+        {
+            new Uri("https://localhost:44322/"),
+            new Uri("https://localhost:54516/")
+        };
 
         var existing = await _applicationManager.FindByClientIdAsync(clientId);
         if (existing == null)
         {
-            var descriptor = CreateDescriptor(clientId, redirectUri, postLogoutUri);
+            var descriptor = CreateDescriptor(clientId, redirectUris, postLogoutUris);
             await _applicationManager.CreateAsync(descriptor);
-            _logger.LogInformation("Created OpenIddict application {ClientId} for Swagger with redirect {RedirectUri}", clientId, redirectUri);
+
+            _logger.LogInformation(
+                "Created OpenIddict application {ClientId} for Swagger with redirect URIs: {RedirectUris}",
+                clientId,
+                string.Join(", ", redirectUris.Select(x => x.ToString()))
+            );
+
             return;
         }
 
         var descriptorToUpdate = new OpenIddictApplicationDescriptor();
         await _applicationManager.PopulateAsync(descriptorToUpdate, existing);
 
-        var updated = EnsureSwaggerSettings(descriptorToUpdate, redirectUri, postLogoutUri);
+        var updated = EnsureSwaggerSettings(descriptorToUpdate, redirectUris, postLogoutUris);
 
         if (updated)
         {
             await _applicationManager.UpdateAsync(existing, descriptorToUpdate);
-            _logger.LogInformation("Updated OpenIddict application {ClientId} to include PatientService Swagger redirect URIs", clientId);
+            _logger.LogInformation(
+                "Updated OpenIddict application {ClientId} to include Swagger redirect URIs: {RedirectUris}",
+                clientId,
+                string.Join(", ", redirectUris.Select(x => x.ToString()))
+            );
         }
     }
 
-    private static OpenIddictApplicationDescriptor CreateDescriptor(string clientId, Uri redirectUri, Uri postLogoutUri)
+    private static OpenIddictApplicationDescriptor CreateDescriptor(
+        string clientId,
+        IEnumerable<Uri> redirectUris,
+        IEnumerable<Uri> postLogoutUris)
     {
         var descriptor = new OpenIddictApplicationDescriptor
         {
@@ -64,21 +88,38 @@ public class OpenIddictSwaggerDataSeedContributor : IDataSeedContributor, ITrans
             ClientType = OpenIddictConstants.ClientTypes.Public
         };
 
-        descriptor.RedirectUris.Add(redirectUri);
-        descriptor.PostLogoutRedirectUris.Add(postLogoutUri);
+        foreach (var uri in redirectUris)
+        {
+            descriptor.RedirectUris.Add(uri);
+        }
+
+        foreach (var uri in postLogoutUris)
+        {
+            descriptor.PostLogoutRedirectUris.Add(uri);
+        }
 
         descriptor.Permissions.Add(OpenIddictConstants.Permissions.Endpoints.Authorization);
         descriptor.Permissions.Add(OpenIddictConstants.Permissions.Endpoints.Token);
         descriptor.Permissions.Add(OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode);
         descriptor.Permissions.Add(OpenIddictConstants.Permissions.ResponseTypes.Code);
+
+        // scopes
         descriptor.Permissions.Add(OpenIddictConstants.Permissions.Prefixes.Scope + "digihealth");
+        descriptor.Permissions.Add(OpenIddictConstants.Permissions.Prefixes.Scope + "openid");
+        descriptor.Permissions.Add(OpenIddictConstants.Permissions.Prefixes.Scope + "profile");
+        descriptor.Permissions.Add(OpenIddictConstants.Permissions.Prefixes.Scope + "email");
+        descriptor.Permissions.Add(OpenIddictConstants.Permissions.Prefixes.Scope + "phone");
+        descriptor.Permissions.Add(OpenIddictConstants.Permissions.Prefixes.Scope + "roles");
 
         descriptor.Requirements.Add(OpenIddictConstants.Requirements.Features.ProofKeyForCodeExchange);
 
         return descriptor;
     }
 
-    private static bool EnsureSwaggerSettings(OpenIddictApplicationDescriptor descriptor, Uri redirectUri, Uri postLogoutUri)
+    private static bool EnsureSwaggerSettings(
+        OpenIddictApplicationDescriptor descriptor,
+        IEnumerable<Uri> redirectUris,
+        IEnumerable<Uri> postLogoutUris)
     {
         var hasChanges = false;
 
@@ -94,8 +135,17 @@ public class OpenIddictSwaggerDataSeedContributor : IDataSeedContributor, ITrans
             hasChanges = true;
         }
 
-        hasChanges |= EnsureUri(descriptor.RedirectUris, redirectUri);
-        hasChanges |= EnsureUri(descriptor.PostLogoutRedirectUris, postLogoutUri);
+        // Ensure redirect URIs
+        foreach (var uri in redirectUris)
+        {
+            hasChanges |= EnsureUri(descriptor.RedirectUris, uri);
+        }
+
+        // Ensure post-logout URIs
+        foreach (var uri in postLogoutUris)
+        {
+            hasChanges |= EnsureUri(descriptor.PostLogoutRedirectUris, uri);
+        }
 
         var requiredPermissions = new HashSet<string>
         {
@@ -103,7 +153,12 @@ public class OpenIddictSwaggerDataSeedContributor : IDataSeedContributor, ITrans
             OpenIddictConstants.Permissions.Endpoints.Token,
             OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
             OpenIddictConstants.Permissions.ResponseTypes.Code,
-            OpenIddictConstants.Permissions.Prefixes.Scope + "digihealth"
+            OpenIddictConstants.Permissions.Prefixes.Scope + "digihealth",
+            OpenIddictConstants.Permissions.Prefixes.Scope + "openid",
+            OpenIddictConstants.Permissions.Prefixes.Scope + "profile",
+            OpenIddictConstants.Permissions.Prefixes.Scope + "email",
+            OpenIddictConstants.Permissions.Prefixes.Scope + "phone",
+            OpenIddictConstants.Permissions.Prefixes.Scope + "roles"
         };
 
         foreach (var permission in requiredPermissions)

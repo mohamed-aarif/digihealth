@@ -53,7 +53,15 @@ public class ConfigurationServiceHttpApiHostModule : AbpModule
         // Use "digihealth" as the scope name to be consistent across services
         context.Services.AddAbpSwaggerGenWithOAuth(
             authority: authority!,
-            scopes: new Dictionary<string, string> { { "digihealth", "DigiHealth API" } },
+            scopes: new Dictionary<string, string>
+            {
+                { "digihealth", "DigiHealth API" },
+                { "openid", "OpenID" },
+                { "profile", "User profile" },
+                { "email", "User email" },
+                { "phone", "User phone" },
+                { "roles", "User roles" }
+            },
             options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Configuration Service API", Version = "v1" });
@@ -80,8 +88,8 @@ public class ConfigurationServiceHttpApiHostModule : AbpModule
 
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-            options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
-            options.OAuthScopes("digihealth");
+            options.OAuthScopes("digihealth", "openid", "profile", "email", "phone", "roles");
+            options.OAuthUsePkce();
         });
 
         app.UseAuditing();

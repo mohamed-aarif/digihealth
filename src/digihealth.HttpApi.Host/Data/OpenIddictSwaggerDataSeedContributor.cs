@@ -35,13 +35,17 @@ public class OpenIddictSwaggerDataSeedContributor : IDataSeedContributor, ITrans
         var redirectUris = new[]
         {
             new Uri("https://localhost:44322/swagger/oauth2-redirect.html"), // digihealth.HttpApi.Host Swagger
-            new Uri("https://localhost:54516/swagger/oauth2-redirect.html")  // PatientService Swagger
+            new Uri("https://localhost:54516/swagger/oauth2-redirect.html"), // PatientService Swagger
+            new Uri("https://localhost:5005/swagger/oauth2-redirect.html"),  // ConfigurationService Swagger
+            new Uri("https://localhost:44385/swagger/oauth2-redirect.html")  // IdentityService Swagger
         };
 
         var postLogoutUris = new[]
         {
             new Uri("https://localhost:44322/"),
-            new Uri("https://localhost:54516/")
+            new Uri("https://localhost:54516/"),
+            new Uri("https://localhost:5005/"),
+            new Uri("https://localhost:44385/")
         };
 
         var existing = await _applicationManager.FindByClientIdAsync(clientId);
@@ -88,6 +92,8 @@ public class OpenIddictSwaggerDataSeedContributor : IDataSeedContributor, ITrans
             ClientType = OpenIddictConstants.ClientTypes.Public
         };
 
+        descriptor.ClientSecret = null;
+
         foreach (var uri in redirectUris)
         {
             descriptor.RedirectUris.Add(uri);
@@ -101,6 +107,7 @@ public class OpenIddictSwaggerDataSeedContributor : IDataSeedContributor, ITrans
         descriptor.Permissions.Add(OpenIddictConstants.Permissions.Endpoints.Authorization);
         descriptor.Permissions.Add(OpenIddictConstants.Permissions.Endpoints.Token);
         descriptor.Permissions.Add(OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode);
+        descriptor.Permissions.Add(OpenIddictConstants.Permissions.GrantTypes.RefreshToken);
         descriptor.Permissions.Add(OpenIddictConstants.Permissions.ResponseTypes.Code);
 
         // scopes
@@ -135,16 +142,28 @@ public class OpenIddictSwaggerDataSeedContributor : IDataSeedContributor, ITrans
             hasChanges = true;
         }
 
-        // Ensure redirect URIs
-        foreach (var uri in redirectUris)
+        // Ensure we have only the expected redirect URIs
+        if (!HasExactUris(descriptor.RedirectUris, redirectUris))
         {
-            hasChanges |= EnsureUri(descriptor.RedirectUris, uri);
+            descriptor.RedirectUris.Clear();
+            foreach (var uri in redirectUris)
+            {
+                descriptor.RedirectUris.Add(uri);
+            }
+
+            hasChanges = true;
         }
 
         // Ensure post-logout URIs
-        foreach (var uri in postLogoutUris)
+        if (!HasExactUris(descriptor.PostLogoutRedirectUris, postLogoutUris))
         {
-            hasChanges |= EnsureUri(descriptor.PostLogoutRedirectUris, uri);
+            descriptor.PostLogoutRedirectUris.Clear();
+            foreach (var uri in postLogoutUris)
+            {
+                descriptor.PostLogoutRedirectUris.Add(uri);
+            }
+
+            hasChanges = true;
         }
 
         var requiredPermissions = new HashSet<string>
@@ -152,6 +171,7 @@ public class OpenIddictSwaggerDataSeedContributor : IDataSeedContributor, ITrans
             OpenIddictConstants.Permissions.Endpoints.Authorization,
             OpenIddictConstants.Permissions.Endpoints.Token,
             OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
+            OpenIddictConstants.Permissions.GrantTypes.RefreshToken,
             OpenIddictConstants.Permissions.ResponseTypes.Code,
             OpenIddictConstants.Permissions.Prefixes.Scope + "digihealth",
             OpenIddictConstants.Permissions.Prefixes.Scope + "openid",
@@ -176,6 +196,12 @@ public class OpenIddictSwaggerDataSeedContributor : IDataSeedContributor, ITrans
             hasChanges = true;
         }
 
+        if (descriptor.ClientSecret != null)
+        {
+            descriptor.ClientSecret = null;
+            hasChanges = true;
+        }
+
         if (descriptor.DisplayName != "DigiHealth Swagger UI")
         {
             descriptor.DisplayName = "DigiHealth Swagger UI";
@@ -185,14 +211,11 @@ public class OpenIddictSwaggerDataSeedContributor : IDataSeedContributor, ITrans
         return hasChanges;
     }
 
-    private static bool EnsureUri(ICollection<Uri> collection, Uri uri)
+    private static bool HasExactUris(ICollection<Uri> existingUris, IEnumerable<Uri> expectedUris)
     {
-        if (collection.Any(existing => existing == uri))
-        {
-            return false;
-        }
+        var existingSet = new HashSet<Uri>(existingUris);
+        var expectedSet = new HashSet<Uri>(expectedUris);
 
-        collection.Add(uri);
-        return true;
+        return existingSet.SetEquals(expectedSet);
     }
 }

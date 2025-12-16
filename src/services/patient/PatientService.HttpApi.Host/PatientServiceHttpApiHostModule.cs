@@ -1,11 +1,12 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using PatientService.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
+using System.Collections.Generic;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Authentication.JwtBearer;
 using Volo.Abp.AspNetCore.MultiTenancy;
@@ -13,8 +14,8 @@ using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
 using Volo.Abp.Http.Client;
 using Volo.Abp.Modularity;
+using Volo.Abp.Security.Claims;
 using Volo.Abp.Swashbuckle;
-using PatientService.EntityFrameworkCore;
 
 namespace PatientService;
 
@@ -35,34 +36,21 @@ public class PatientServiceHttpApiHostModule : AbpModule
 
         ConfigureAuthentication(context, configuration);
         ConfigureRemoteServices(configuration);
-
-        var authority = configuration["AuthServer:Authority"];
-        if (string.IsNullOrWhiteSpace(authority))
-        {
-            authority = configuration["App:SelfUrl"] ?? "https://localhost:5004";
-        }
-
-        //context.Services.AddAbpSwaggerGenWithOAuth(
-        //    authority: authority,
-        //    scopes: new Dictionary<string, string> { { "PatientService", "Patient Service API" } },
-        //    options =>
-        //    {
-        //        options.SwaggerDoc("v1", new OpenApiInfo { Title = "Patient Service API", Version = "v1" });
-        //        options.DocInclusionPredicate((docName, description) => true);
-        //        options.CustomSchemaIds(type => type.FullName);
-        //    });
-
-        // Use "digihealth" as the scope name to be consistent across services
+        ConfigureSwaggerServices(context, configuration);
+    }
+    
+    private static void ConfigureSwaggerServices(ServiceConfigurationContext context, IConfiguration configuration)
+    {
         context.Services.AddAbpSwaggerGenWithOAuth(
-            authority: authority,
-            scopes: new Dictionary<string, string>
+            configuration["AuthServer:Authority"]!,
+            new Dictionary<string, string>
             {
-                { "digihealth", "DigiHealth API" },
-                { "openid", "OpenID" },
-                { "profile", "User profile" },
-                { "email", "User email" },
-                { "phone", "User phone" },
-                { "roles", "User roles" }
+                    {"digihealth", "digihealth API"},
+                    {"openid", "OpenID"},
+                    {"profile", "User profile"},
+                    {"email", "User email"},
+                    {"phone", "User phone"},
+                    {"roles", "User roles"}
             },
             options =>
             {
@@ -87,7 +75,7 @@ public class PatientServiceHttpApiHostModule : AbpModule
         app.UseSwaggerUI(options =>
         {
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "Patient Service API");
-            options.RoutePrefix = string.Empty;
+            options.RoutePrefix = "swagger";
 
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             var selfUrl = configuration["App:SelfUrl"] ?? "https://localhost:54516";

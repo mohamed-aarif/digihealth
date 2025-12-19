@@ -17,7 +17,10 @@
     <PackageReference Include="Serilog.Sinks.Async" Version="2.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
     <PackageReference Include="OpenIddict.Validation.AspNetCore" Version="5.6.0" />
+    <PackageReference Include="Volo.Abp.Account.Web.OpenIddict" Version="9.3.6" />
     <PackageReference Include="Volo.Abp.AspNetCore" Version="9.3.6" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Authentication.JwtBearer" Version="9.3.6" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared" Version="9.3.6" />
     <PackageReference Include="Volo.Abp.AspNetCore.MultiTenancy" Version="9.3.6" />
     <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="9.3.6" />
     <PackageReference Include="Volo.Abp.Http.Client" Version="9.3.6" />

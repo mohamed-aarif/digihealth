@@ -265,4 +265,3 @@ src/digihealth.Blazor.Server.Tiered/Logs/*
 **/wwwroot/libs/*
 /src/services/identity/IdentityService.HttpApi.Host/Logs/logs.txt
 /.gitignore
-/src/services/patient/PatientService.HttpApi.Host/Properties/launchSettings.json

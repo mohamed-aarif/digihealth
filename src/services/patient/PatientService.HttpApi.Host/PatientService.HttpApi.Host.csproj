@@ -16,6 +16,7 @@
     <PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="2.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="OpenIddict.Validation.AspNetCore" Version="5.6.0" />
     <PackageReference Include="Volo.Abp.AspNetCore" Version="9.3.6" />
     <PackageReference Include="Volo.Abp.AspNetCore.MultiTenancy" Version="9.3.6" />
     <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="9.3.6" />
@@ -31,5 +32,6 @@
     <ProjectReference Include="../PatientService.Application/PatientService.Application.csproj" />
     <ProjectReference Include="../PatientService.EntityFrameworkCore/PatientService.EntityFrameworkCore.csproj" />
     <ProjectReference Include="../PatientService.HttpApi/PatientService.HttpApi.csproj" />
+    <ProjectReference Include="..\..\..\digihealth.Domain.Shared\digihealth.Domain.Shared.csproj" />
   </ItemGroup>
 </Project>

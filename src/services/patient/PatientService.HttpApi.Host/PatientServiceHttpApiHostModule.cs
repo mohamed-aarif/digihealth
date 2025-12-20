@@ -47,13 +47,18 @@ public class PatientServiceHttpApiHostModule : AbpModule
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
         var configuration = context.Services.GetConfiguration();
+        var authority = configuration["AuthServer:Authority"]?.TrimEnd('/');
+        var issuer = authority is null ? null : new Uri($"{authority}/");
 
         PreConfigure<OpenIddictBuilder>(builder =>
         {
             builder.AddValidation(options =>
             {
                 options.AddAudiences("digihealth");
-                options.SetIssuer(new Uri(configuration["AuthServer:Authority"]!));
+                if (issuer is not null)
+                {
+                    options.SetIssuer(issuer);
+                }
                 options.UseSystemNetHttp();
                 options.UseAspNetCore();
             });
@@ -157,7 +162,7 @@ public class PatientServiceHttpApiHostModule : AbpModule
         app.UseAbpSwaggerUI(c =>
         {
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "Patient Service API");
-            c.RoutePrefix = string.Empty;
+            c.RoutePrefix = "swagger";
 
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             c.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);

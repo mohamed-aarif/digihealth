@@ -47,13 +47,18 @@ public class ConfigurationServiceHttpApiHostModule : AbpModule
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
         var configuration = context.Services.GetConfiguration();
+        var authority = configuration["AuthServer:Authority"]?.TrimEnd('/');
+        var issuer = authority is null ? null : new Uri($"{authority}/");
 
         PreConfigure<OpenIddictBuilder>(builder =>
         {
             builder.AddValidation(options =>
             {
                 options.AddAudiences("digihealth");
-                options.SetIssuer(new Uri(configuration["AuthServer:Authority"]!));
+                if (issuer is not null)
+                {
+                    options.SetIssuer(issuer);
+                }
                 options.UseSystemNetHttp();
                 options.UseAspNetCore();
             });

@@ -45,12 +45,15 @@ public class PatientServiceHttpApiHostModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
+        var configuration = context.Services.GetConfiguration();
+
         PreConfigure<OpenIddictBuilder>(builder =>
         {
             builder.AddValidation(options =>
             {
                 options.AddAudiences("digihealth");
-                options.UseLocalServer();
+                options.SetIssuer(new Uri(configuration["AuthServer:Authority"]!));
+                options.UseSystemNetHttp();
                 options.UseAspNetCore();
             });
         });

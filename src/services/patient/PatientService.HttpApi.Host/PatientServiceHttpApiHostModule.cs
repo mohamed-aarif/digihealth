@@ -19,10 +19,12 @@ using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
+using Volo.Abp.Localization;
 using Volo.Abp.Http.Client;
 using Volo.Abp.Modularity;
 using Volo.Abp.Security.Claims;
 using Volo.Abp.Swashbuckle;
+using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.IdentityModel;
 using PatientService.EntityFrameworkCore;
 using digihealth.MultiTenancy;
@@ -70,7 +72,6 @@ public class PatientServiceHttpApiHostModule : AbpModule
         var configuration = context.Services.GetConfiguration();
 
         ConfigureAuthentication(context);
-        ConfigureRemoteServices(configuration);
         ConfigureCors(context, configuration);
         ConfigureSwaggerServices(context, configuration);
     }
@@ -162,7 +163,6 @@ public class PatientServiceHttpApiHostModule : AbpModule
         app.UseAbpSwaggerUI(c =>
         {
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "Patient Service API");
-            c.RoutePrefix = "swagger";
 
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             c.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
@@ -173,19 +173,5 @@ public class PatientServiceHttpApiHostModule : AbpModule
         app.UseAuditing();
         app.UseAbpSerilogEnrichers();
         app.UseConfiguredEndpoints();
-    }
-
-    private void ConfigureRemoteServices(IConfiguration configuration)
-    {
-        var baseUrl = configuration["RemoteServices:IdentityService:BaseUrl"];
-
-        if (!string.IsNullOrWhiteSpace(baseUrl))
-        {
-            Configure<AbpRemoteServiceOptions>(options =>
-            {
-                options.RemoteServices[PatientServiceRemoteServiceConsts.IdentityService] =
-                    new RemoteServiceConfiguration(baseUrl);
-            });
-        }
     }
 }

@@ -162,7 +162,7 @@ public class ConfigurationServiceHttpApiHostModule : AbpModule
         app.UseAbpSwaggerUI(c =>
         {
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "Configuration Service API");
-            c.RoutePrefix = string.Empty;
+            c.RoutePrefix = "swagger";
 
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             c.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);

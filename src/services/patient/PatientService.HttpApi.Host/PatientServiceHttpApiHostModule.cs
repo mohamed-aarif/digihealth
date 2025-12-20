@@ -153,6 +153,7 @@ public class PatientServiceHttpApiHostModule : AbpModule
         app.UseAbpSwaggerUI(c =>
         {
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "Patient Service API");
+            c.RoutePrefix = string.Empty;
 
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             c.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);

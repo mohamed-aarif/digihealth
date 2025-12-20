@@ -1,19 +1,32 @@
 using System;
 using System.Collections.Generic;
-using digihealth.MultiTenancy;
-using IdentityService.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using OpenIddict.Validation;
+using OpenIddict.Validation.AspNetCore;
+using OpenIddict.Validation.SystemNetHttp;
 using Volo.Abp;
+using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.Authentication.JwtBearer;
 using Volo.Abp.AspNetCore.MultiTenancy;
+using Volo.Abp.AspNetCore.Mvc;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
+using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
+using Volo.Abp.Security.Claims;
 using Volo.Abp.Swashbuckle;
+using Volo.Abp.UI.Navigation.Urls;
+using Volo.Abp.IdentityModel;
+using IdentityService.EntityFrameworkCore;
+using digihealth.MultiTenancy;
 
 namespace IdentityService;
 
@@ -22,46 +35,67 @@ namespace IdentityService;
     typeof(IdentityServiceApplicationModule),
     typeof(IdentityServiceEntityFrameworkCoreModule),
     typeof(AbpAutofacModule),
-    typeof(AbpSwashbuckleModule),
-    typeof(AbpAspNetCoreSerilogModule),
+    typeof(AbpAccountWebOpenIddictModule),
+    typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
     typeof(AbpAspNetCoreMultiTenancyModule),
-    typeof(AbpAspNetCoreAuthenticationJwtBearerModule)
+    typeof(AbpAspNetCoreMvcUiThemeSharedModule),
+    typeof(AbpAspNetCoreSerilogModule),
+    typeof(AbpSwashbuckleModule),
+    typeof(AbpIdentityModelModule)
 )]
 public class IdentityServiceHttpApiHostModule : AbpModule
 {
+    public override void PreConfigureServices(ServiceConfigurationContext context)
+    {
+        var configuration = context.Services.GetConfiguration();
+        var authority = configuration["AuthServer:Authority"]?.TrimEnd('/');
+        var issuer = authority is null ? null : new Uri($"{authority}/");
+
+        PreConfigure<OpenIddictBuilder>(builder =>
+        {
+            builder.AddValidation(options =>
+            {
+                options.AddAudiences("digihealth");
+                if (issuer is not null)
+                {
+                    options.SetIssuer(issuer);
+                }
+                options.UseSystemNetHttp();
+                options.UseAspNetCore();
+            });
+        });
+    }
+
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         var configuration = context.Services.GetConfiguration();
 
-        ConfigureAuthentication(context, configuration);
+        ConfigureAuthentication(context);
+        ConfigureCors(context, configuration);
+        ConfigureSwaggerServices(context, configuration);
+    }
 
-        var authority = configuration["AuthServer:Authority"];
-        if (string.IsNullOrWhiteSpace(authority))
+    private void ConfigureAuthentication(ServiceConfigurationContext context)
+    {
+        context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
+        context.Services.Configure<AbpClaimsPrincipalFactoryOptions>(options =>
         {
-            authority = configuration["App:SelfUrl"] ?? "https://localhost:44345";
-        }
+            options.IsDynamicClaimsEnabled = true;
+        });
+    }
 
-        //context.Services.AddAbpSwaggerGenWithOAuth(
-        //    authority: authority,
-        //    scopes: new Dictionary<string, string> { { "IdentityService", "Identity Service API" } },
-        //    options =>
-        //    {
-        //        options.SwaggerDoc("v1", new OpenApiInfo { Title = "Identity Service API", Version = "v1" });
-        //        options.DocInclusionPredicate((docName, description) => true);
-        //        options.CustomSchemaIds(type => type.FullName);
-        //    });
-
-        // Use "digihealth" as the scope name to be consistent across services
+    private static void ConfigureSwaggerServices(ServiceConfigurationContext context, IConfiguration configuration)
+    {
         context.Services.AddAbpSwaggerGenWithOAuth(
-            authority: authority,
-            scopes: new Dictionary<string, string>
+            configuration["AuthServer:Authority"]!,
+            new Dictionary<string, string>
             {
-                { "digihealth", "DigiHealth API" },
-                { "openid", "OpenID" },
-                { "profile", "User profile" },
-                { "email", "User email" },
-                { "phone", "User phone" },
-                { "roles", "User roles" }
+                {"digihealth", "digihealth API"},
+                {"openid", "OpenID"},
+                {"profile", "User profile"},
+                {"email", "User email"},
+                {"phone", "User phone"},
+                {"roles", "User roles"}
             },
             options =>
             {
@@ -71,67 +105,72 @@ public class IdentityServiceHttpApiHostModule : AbpModule
             });
     }
 
+    private void ConfigureCors(ServiceConfigurationContext context, IConfiguration configuration)
+    {
+        context.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(builder =>
+            {
+                builder
+                    .WithOrigins(configuration["App:CorsOrigins"]?
+                        .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                        .Select(o => o.RemovePostFix("/"))
+                        .ToArray() ?? Array.Empty<string>())
+                    .WithAbpExposedHeaders()
+                    .SetIsOriginAllowedToAllowWildcardSubdomains()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
+        });
+    }
+
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
     {
         var app = context.GetApplicationBuilder();
+        var env = context.GetEnvironment();
+
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+
+        app.UseAbpRequestLocalization();
+
+        if (!env.IsDevelopment())
+        {
+            app.UseErrorPage();
+        }
 
         app.UseCorrelationId();
+        app.MapAbpStaticAssets();
         app.UseRouting();
+        app.UseCors();
+        app.UseAuthentication();
+        app.UseAbpOpenIddictValidation();
+
         if (MultiTenancyConsts.IsEnabled)
         {
             app.UseMultiTenancy();
         }
-        app.UseAuthentication();
-        app.UseAbpSerilogEnrichers();
+
+        app.UseUnitOfWork();
+        app.UseDynamicClaims();
         app.UseAuthorization();
+
         app.UseSwagger();
-        app.UseSwaggerUI(options =>
+        app.UseAbpSwaggerUI(c =>
         {
-            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity Service API");
-            options.RoutePrefix = string.Empty;
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity Service API");
 
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
-            options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-            options.OAuthScopes("digihealth", "openid", "profile", "email", "phone", "roles");
-            options.OAuthUsePkce();
+            c.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+            c.OAuthScopes("digihealth", "openid", "profile", "email", "phone", "roles");
+            c.OAuthUsePkce();
         });
 
         app.UseAuditing();
+        app.UseAbpSerilogEnrichers();
         app.UseConfiguredEndpoints();
-    }
-
-    private static void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
-    {
-        var authority = configuration["AuthServer:Authority"];
-        var requireHttps = bool.TryParse(configuration["AuthServer:RequireHttpsMetadata"], out var parsedRequireHttps)
-            ? parsedRequireHttps
-            : true;
-        var audience = configuration["AuthServer:Audience"];
-
-        context.Services
-            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                if (!string.IsNullOrWhiteSpace(authority))
-                {
-                    options.Authority = authority;
-                    options.RequireHttpsMetadata = requireHttps;
-                }
-                else
-                {
-                    options.RequireHttpsMetadata = false;
-                    options.TokenValidationParameters.ValidateIssuer = false;
-                    options.TokenValidationParameters.ValidateIssuerSigningKey = false;
-                }
-
-                if (!string.IsNullOrWhiteSpace(audience))
-                {
-                    options.Audience = audience;
-                }
-                else
-                {
-                    options.TokenValidationParameters.ValidateAudience = false;
-                }
-            });
     }
 }
